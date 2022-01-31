@@ -5,7 +5,7 @@ import Card from "../components/card.svelte";
 
 const card = {
     title: "Web is under construction",
-    img: "../static/information.png",
+    img: "%svelte.assets%/information.png",
     img_alt: "information",
     text: "We are working on it"
 };
