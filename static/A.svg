@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="512"
+   height="512"
+   version="1.1"
+   viewBox="0 0 512 512"
+   id="svg16"
+   sodipodi:docname="A.svg"
+   inkscape:export-filename="/home/matus/Projects/personal-web/static/favicon.png"
+   inkscape:export-xdpi="24"
+   inkscape:export-ydpi="24"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs20">
+    <inkscape:path-effect
+       effect="fillet_chamfer"
+       id="path-effect987"
+       is_visible="true"
+       lpeversion="1"
+       satellites_param="F,0,0,1,0,70,0,1 @ F,0,0,1,0,70,0,1 @ F,0,0,1,0,70,0,1 @ F,0,0,1,0,70,0,1"
+       unit="px"
+       method="auto"
+       mode="F"
+       radius="70"
+       chamfer_steps="1"
+       flexible="false"
+       use_knot_distance="true"
+       apply_no_radius="true"
+       apply_with_radius="true"
+       only_selected="false"
+       hide_knots="false" />
+  </defs>
+  <sodipodi:namedview
+     id="namedview18"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="1.7050781"
+     inkscape:cx="118.46964"
+     inkscape:cy="255.70676"
+     inkscape:window-width="2560"
+     inkscape:window-height="1301"
+     inkscape:window-x="1920"
+     inkscape:window-y="344"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg16" />
+  <path
+     style="fill:#ffffff;stroke-width:0.383567"
+     id="rect881"
+     width="512"
+     height="512"
+     x="0"
+     y="0"
+     inkscape:path-effect="#path-effect987"
+     d="m 70,0 h 372 a 70,70 45 0 1 70,70 v 372 a 70,70 135 0 1 -70,70 H 70 A 70,70 45 0 1 0,442 V 70 A 70,70 135 0 1 70,0 Z"
+     sodipodi:type="rect" />
+  <path
+     d="m75.043 368.31-47.618 86.503 88.263 0.17703c128.44-19.312 31.469-184.09-40.645-86.68z"
+     stroke="#000"
+     stroke-width="1.2655px"
+     id="path2" />
+  <g
+     id="g14">
+    <path
+       transform="matrix(1.237 0 0 1.2946 -54.624 -18.321)"
+       d="m429.21 368.04-121.42-0.8278 61.425-104.74 29.995 52.781z"
+       fill="#5fd"
+       id="path4" />
+    <path
+       transform="matrix(.61797 1.1215 -1.0716 .64675 429.07 -104.31)"
+       d="m334.07 288.71-121.42-0.82781 61.425-104.74 29.995 52.781z"
+       fill="#2ad4ff"
+       id="path6" />
+    <path
+       transform="matrix(1.237 0 0 1.2946 -54.624 -18.321)"
+       d="m369.21 262.47-121.42-0.82781 61.425-104.74 29.995 52.781z"
+       fill="#37abc8"
+       id="path8" />
+    <path
+       transform="matrix(.61797 1.1215 -1.0716 .64675 354.8 -241.02)"
+       d="m334.07 288.71-121.42-0.82781 61.425-104.74 29.995 52.781z"
+       fill="#2a7fff"
+       id="path10" />
+    <path
+       transform="matrix(1.237 0 0 1.2946 -54.624 -18.321)"
+       d="m309.22 156.91-121.42-0.82781 61.425-104.74 29.995 52.781z"
+       fill="#0055d4"
+       id="path12" />
+  </g>
+</svg>
