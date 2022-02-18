@@ -6,7 +6,7 @@
 
 <div class="flex flex-col h-screen justify-between">
   <Nav/>
-  <div class="mb-auto p-8 md:w-3/4 w-full mx-auto">
+  <div class="mb-auto p-8 pt-24 md:w-3/4 w-full mx-auto">
       <slot />
   </div>
   <Footer/>

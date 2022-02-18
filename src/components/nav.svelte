@@ -1,4 +1,4 @@
-<nav class="bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 border-b border-emerald-500">
+<nav class="bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 w-screen border-b border-emerald-500 fixed">
   <div class="max-w-6xl mx-auto px-4">
     <div class="flex items-center justify-between h-16">
       <a href="/">
