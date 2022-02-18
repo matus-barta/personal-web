@@ -18,7 +18,7 @@
 
 <h1>Feel free to contact me</h1>
 
-<form name="contact-form" method="post" netlify data-netlify-recaptcha="true" class="bg-gray-700 rounded-xl shadow-md px-8 pt-6 pb-6 flex justify-center">
+<form name="contact-form" method="post" data-netlify-recaptcha="true" data-netlify="true" class="bg-gray-700 rounded-xl shadow-md px-8 pt-6 pb-6 flex justify-center">
     <div class="w-full md:w-3/4">
         <input type="hidden" name="form-name" value="contact-form" />
         <p>
