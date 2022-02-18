@@ -15,6 +15,6 @@ const card = {
     <title>Anonymus09</title>
 </svelte:head>
 
-<div class="flex items-center justify-center">
+<div class="flex justify-center">
     <Card card={card}></Card>
 </div>
