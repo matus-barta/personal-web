@@ -18,7 +18,7 @@
 
 <h1>Feel free to contact me</h1>
 
-<form name="contact-form" method="POST" data-netlify-recaptcha="true" data-netlify="true" action="/success" class="bg-gray-700 rounded-xl shadow-md px-8 pt-6 pb-6 flex justify-center">
+<form name="contact-form" method="POST" data-netlify="true" action="/success" class="bg-gray-700 rounded-xl shadow-md px-8 pt-6 pb-6 flex justify-center">
     <div class="w-full md:w-3/4">
         <input type="hidden" name="form-name" value="contact-form" />
         <p>
@@ -30,7 +30,6 @@
         <p>
             <label>Message: <textarea name="message" /></label>
         </p>
-        <div data-netlify-recaptcha="true"></div>
         <p>
             <button class="bg-emerald-500" type="submit">Send</button>
         </p>
