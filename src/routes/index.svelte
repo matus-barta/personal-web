@@ -12,9 +12,9 @@
             Matúš
             <span class="relative ml-2 inline-block before:absolute before:-inset-1 before:block before:-skew-y-3 before:bg-sky-500">
                 <span class="relative skew-y-3">
-                     <a class="hover:text-white hover:underline" href=https://twitter.com/anonymus64>@anonymus64</a>
+                     <a class="hover:text-white hover:underline" href=https://twitter.com/anonymus64>@anonymus09</a>
                 </span>                
-            </span>            
+            </span>         
             Barta
         </h1>
         <p>IT support, hobby developer, homelab enthusiast, gamer, space nerd.</p>
