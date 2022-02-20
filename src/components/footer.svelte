@@ -6,30 +6,30 @@
 
 <script lang="ts">
     var greyTwitter = false;
-    var tw = "/twitter-grey.svg";
+    var tw = "/media/twitter-grey.svg";
     function toggleTwitter(){
-        if (greyTwitter) tw = "/twitter-grey.svg"; else tw = "/twitter.svg";
+        if (greyTwitter) tw = "/media/twitter-grey.svg"; else tw = "/media/twitter.svg";
         greyTwitter = !greyTwitter;
     }
 
     var greyIg = false;
-    var ig = "/ig-grey.svg";
+    var ig = "/media/ig-grey.svg";
     function toggleIg(){
-        if (greyIg) ig = "/ig-grey.svg"; else ig = "/ig.svg";
+        if (greyIg) ig = "/media/ig-grey.svg"; else ig = "/media/ig.svg";
         greyIg = !greyIg;
     }
 
     var greyYt = false;
-    var yt = "/yt-grey.svg";
+    var yt = "/media/yt-grey.svg";
     function toggleYt(){
-        if (greyYt) yt = "/yt-grey.svg"; else yt = "/yt.svg";
+        if (greyYt) yt = "/media/yt-grey.svg"; else yt = "/media/yt.svg";
         greyYt = !greyYt;
     }
 
     var greyGh = false;
-    var gh = "/github-grey.svg";
+    var gh = "/media/github-grey.svg";
     function toggleGh(){
-        if (greyGh) gh = "/github-grey.svg"; else gh = "/github.svg";
+        if (greyGh) gh = "/media/github-grey.svg"; else gh = "/media/github.svg";
         greyGh = !greyGh;
     }
 </script>
