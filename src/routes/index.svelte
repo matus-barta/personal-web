@@ -20,7 +20,7 @@
         <p>IT support, hobby developer, homelab enthusiast, gamer, space nerd.</p>
         <a class="text-gray-500 hover:underline mt-2" href="/about">More on About page</a>
         </div>
-        <img class="w-32 h-32 ml-2 rounded-full md:w-40 md:h-40" src="/media/A.svg" alt="logo">
+        <img class="w-32 h-32 ml-2 rounded-full md:w-40 md:h-40" src="/media/logo.svg" alt="logo">
     </div>
     <div class="pt-6 pb-6">
         <h1 class="text-2xl md:text-4xl font-bold mb-1 text-white tracking-tight">Latest Blog Posts</h1>
