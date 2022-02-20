@@ -8,10 +8,10 @@
 <div class="bg-gray-700 rounded-xl shadow-md px-3 md:px-6 pt-6 pb-6 flex flex-col">
     <div class="flex justify-between">
         <div class="flex flex-col">
-        <h1 class="text-2xl md:text-4xl font-bold mb-1 text-white tracking-tight">
+        <h1>
             Matúš
             <span class="relative ml-2 inline-block before:absolute before:-inset-1 before:block before:-skew-y-3 before:bg-sky-500">
-                <span class="relative skew-y-3">
+                <span class="relative skew-y-3 text-sky-100">
                      @anonymus09
                 </span>
             </span>         
