@@ -39,7 +39,7 @@ Tech stack (not everything is set in stone):
         img="/media/projects/powershell.svg"
         img_alt="Powershell logo"
         title="Video File Coverter ffmpeg conversion to Cineform"
-        perex="Script to convert videos to Cineform - may be useful som someone"
+        perex="Script to convert videos to Cineform - may be useful for someone"
         text="Powershell script to convert of all videos in folder to Cineform codec for easier editing in Premere etc."
         github="https://github.com/matus-barta/Video-File-Coverter-ffmpeg-conversion-to-Cineform"
     />
