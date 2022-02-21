@@ -14,7 +14,7 @@
         <p>{perex}</p>
         <a href="{github}">
             <div class="flex space-x-1  hover:underline hover:text-slate-300">
-                <p>Git-Hub page</p>
+                <p>GitHub page</p>
                 <img src="/media/social/gh-grey.svg" alt="github logo" class="h-4 w-4"/></div>
         </a>
     </div>
