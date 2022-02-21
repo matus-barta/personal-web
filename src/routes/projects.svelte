@@ -12,8 +12,10 @@
         img_alt="Personal Web logo"
         title="Personal Web"
         perex="This personal web"
-        text="This web. Tech stack: Svelte, Tailwind, Typescript. Hosted on Netlify. For now leaving the repo private.
-        This needs formatting, needs to add Markdown parser..."
+        text="
+Tech stack: **Svelte**, **Tailwind**, **Typescript**.
+
+Hosted on *Netlify*. For now I am leaving the repo private."
         github="https://github.com/matus-barta/personal-web"
     />
     <Post 
@@ -21,9 +23,16 @@
         img_alt="OpenRMM logo"
         title="Open RMM"
         perex="Open source Remote Managment"
-        text="I hope this will be self-hosted service for Management and Monitoring of Windows or Linux servers and computers.
-        Tech stack (not everything is set in stone): API: Typescript, MongoDB, Node, Express / Frontend: Svelte, 
-        Tailwind, Typescript / Client: Electron, Typescript, Scripts (shell/powershell)"
+        text="
+I hope this will be self-hosted service for Management and Monitoring of Windows or Linux servers and computers.
+
+Tech stack (not everything is set in stone):
+
+**API**: *Typescript*, *MongoDB*, *Node*, *Express*
+
+**Frontend**: *Svelte*, *Tailwind*, *Typescript*
+
+**Client**: *Electron*, *Typescript*, *Scripts (shell/powershell)*"
         github="https://github.com/matus-barta/Open_RMM"
     />    
     <Post 
