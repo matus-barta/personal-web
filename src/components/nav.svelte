@@ -1,3 +1,9 @@
+<style>
+  a{
+    @apply font-bold;
+  }
+</style>
+
 <nav class="bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 w-screen border-b border-emerald-500 fixed min-w-[450px] z-10">
   <div class="max-w-6xl mx-auto px-4">
     <div class="flex items-center justify-between h-16">
