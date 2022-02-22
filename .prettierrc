@@ -4,7 +4,9 @@
 	"trailingComma": "none",
 	"printWidth": 100,
 	"jsxSingleQuote": false,
-  	"svelteSortOrder": "styles-scripts-markup",
-  	"svelteStrictMode": true,
-  	"svelteAllowShorthand": false
+  	"svelteSortOrder" : "options-styles-scripts-markup",
+	"svelteStrictMode": true,
+	"svelteBracketNewLine": false,
+	"svelteAllowShorthand": false,
+	"svelteIndentScriptAndStyle": false
 }
