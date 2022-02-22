@@ -1,7 +1,5 @@
 <script lang="ts">
-    export var title;
-    export var date;
-    export var img;
+    export var title:string, date:string, img:string;
 </script>
 
 <svelte:head>

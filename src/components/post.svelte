@@ -1,5 +1,5 @@
 <script lang="ts">
-    export let img, img_alt, text, title, excerpt, github;
+    export let img:string, img_alt:string, text:string, title:string, excerpt:string, github:string;
     import SvelteMarkdown from "svelte-markdown";
 </script>
 <div>
