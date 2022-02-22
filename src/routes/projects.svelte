@@ -6,7 +6,10 @@
     import Post from "../components/post.svelte";
 </script>
 
-<div class="bg-gray-700 rounded-xl shadow-md px-3 md:px-6 pt-6 pb-6 flex flex-col">
+<h1>Projects</h1>
+<h3>Some of my personal projects</h3>
+
+<div class="bg-gray-700 rounded-xl shadow-md px-3 md:px-6 pt-6 pb-6 flex flex-col mt-5">
     <Post 
         img="/media/projects/personalweb.png"
         img_alt="Personal Web logo"
