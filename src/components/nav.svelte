@@ -11,10 +11,10 @@
         <img src="/media/logo.svg" class="w-12 h-12" alt="logo"/>
       </a>
       <div class="flex space-x-4 text-white">
-        <a href="/blog">Blog</a>        
-        <a href="/projects">Projects</a>
-        <a href="/about">About</a>
-        <a href="/contact">Contact</a>
+        <a class="text-white hover:text-emerald-500" href="/blog">Blog</a>        
+        <a class="text-white hover:text-emerald-500" href="/projects">Projects</a>
+        <a class="text-white hover:text-emerald-500" href="/about">About</a>
+        <a class="text-white hover:text-emerald-500" href="/contact">Contact</a>
     </div>
   </div>
 </nav>

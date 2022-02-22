@@ -24,8 +24,8 @@
         <div class="flex flex-col">
         <h1>
             Matúš
-            <span class="relative ml-2 inline-block before:absolute before:-inset-1 before:block before:-skew-y-3 before:bg-sky-500">
-                <span class="relative skew-y-3 text-sky-100">
+            <span class="relative ml-2 inline-block before:absolute before:-inset-1 before:block before:-skew-y-3 before:bg-emerald-500">
+                <span class="relative skew-y-3 text-lime-300">
                      @anonymus09
                 </span>
             </span>         
@@ -41,7 +41,7 @@
         <div class="flex flex-col mb-5">
             {#each posts as post}
                 <div class="flex space-x-2 items-center">
-                    <a class="text-emerald-500 hover:underline hover:text-emerald-400" href="{post.path}">{post.meta.title}</a>
+                    <a class="hover:underline" href="{post.path}">{post.meta.title}</a>
                     <h4 class="text-xs align-bottom">{post.meta.date}</h4>
                 </div>
             {/each}
