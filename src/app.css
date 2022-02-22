@@ -23,6 +23,9 @@ h3 {
 h4 {
 	@apply tracking-tight text-slate-300 italic;
 }
+pre {
+	@apply bg-neutral-800 rounded-xl my-2 mx-8 p-4 border-l-4 border-cyan-500 text-sm;
+}
 
 input {
 	@apply mt-1 w-full px-3 py-2 bg-gray-600 border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
