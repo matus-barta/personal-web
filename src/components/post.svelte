@@ -10,11 +10,11 @@
         </div>
     </div>
     <div class="h-1 mb-3 mt-3 bg-gradient-to-r from-emerald-500 via-sky-500 to-blue-700 w-full rounded-xl"></div>
-    <div class="flex justify-between tracking-tight text-sm text-slate-300">
-        <p>{perex}</p>
+    <div class="flex justify-between">
+        <h3>{perex}</h3>
         <a href="{github}">
             <div class="flex space-x-1  hover:underline hover:text-slate-300">
-                <p>GitHub page</p>
+                <h3>GitHub page</h3>
                 <img src="/media/social/gh-grey.svg" alt="github logo" class="h-4 w-4"/></div>
         </a>
     </div>
