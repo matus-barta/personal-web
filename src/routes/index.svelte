@@ -2,6 +2,23 @@
     <title>Anonymus09</title>
 </svelte:head>
 
+<script lang="ts" context="module">
+    export const load = async ({ fetch }) => {
+        const posts = await fetch('/api/posts.json');
+        const allPosts = await posts.json();
+        return {
+            props: {
+                posts: allPosts
+            }
+        }
+    }
+</script>
+
+<script lang="ts">
+    export var posts;
+    if (posts.length > 10) posts = posts.slice(0,10);
+</script>
+
 <div class="bg-gray-700 rounded-xl shadow-md px-3 md:px-6 pt-6 pb-6 flex flex-col">
     <div class="flex justify-between">
         <div class="flex flex-col">
@@ -21,8 +38,14 @@
     </div>
     <div class="pt-6 pb-6">
         <h1 class="text-2xl md:text-4xl font-bold mb-1 text-white tracking-tight">Latest Blog Posts</h1>
-        <p>Well there is none... for now</p>
-        <a class="text-gray-500 hover:underline mt-2" href="/blog">See All Posts</a>
+        <div class="flex flex-col mb-5">
+            {#each posts as post}
+                <div class="flex space-x-2 items-center">
+                    <a class="text-emerald-500 hover:underline hover:text-emerald-400" href="{post.path}">{post.meta.title}</a>
+                    <h4 class="text-xs align-bottom">{post.meta.date}</h4>
+                </div>
+            {/each}
+        </div>
+        <a class="text-gray-500 hover:underline" href="/blog">See All Posts</a>
     </div>
 </div>
-
