@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-    <title>Anonymus09 - {title}</title>
+    <title>{title}</title>
 </svelte:head>
 
 <div class="bg-gray-700 rounded-xl flex flex-col">

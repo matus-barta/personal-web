@@ -25,7 +25,7 @@
     <div class="flex flex-col space-y-5">
         {#each posts as post}
          <div class="flex">
-            <img src="{post.meta.img}" alt="blog post logo" class="object-cover w-48 h-28 md:w-96 md:h-56 rounded-xl mr-5 md:mr-10"/>
+            <img src="{post.meta.img}" alt="blog post logo" class="object-cover w-48 h-26 md:w-96 md:h-52 rounded-xl mr-4 md:mr-8"/>
             <div class="flex flex-col justify-between py-1 rounded-xl w-full">
                 <div class="flex flex-col">
                     <h2 class="mb-5">
