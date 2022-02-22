@@ -1,5 +1,5 @@
 <script lang="ts">
-    export let img, img_alt, text, title, perex, github;
+    export let img, img_alt, text, title, excerpt, github;
     import SvelteMarkdown from "svelte-markdown";
 </script>
 <div>
@@ -11,7 +11,7 @@
     </div>
     <div class="h-1 mb-3 mt-3 bg-gradient-to-r from-emerald-500 via-sky-500 to-blue-700 w-full rounded-xl"></div>
     <div class="flex justify-between">
-        <h3>{perex}</h3>
+        <h3>{excerpt}</h3>
         <a href="{github}">
             <div class="flex space-x-1  hover:underline hover:text-slate-300">
                 <h3>GitHub page</h3>
