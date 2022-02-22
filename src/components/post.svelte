@@ -15,7 +15,8 @@
         <a href="{github}">
             <div class="flex space-x-1  hover:underline hover:text-slate-300">
                 <h3>GitHub page</h3>
-                <img src="/media/social/gh-grey.svg" alt="github logo" class="h-4 w-4"/></div>
+                <img src="/media/social/gh-grey.svg" alt="github logo" class="h-4 w-4"/>
+            </div>
         </a>
     </div>
     <div class="pt-5">
