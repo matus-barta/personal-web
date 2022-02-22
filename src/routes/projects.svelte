@@ -22,7 +22,7 @@ Hosted on *Netlify*. For now I am leaving the repo private."
         img="/media/projects/openrmm.png"
         img_alt="OpenRMM logo"
         title="Open RMM"
-        perex="Open source Remote Managment"
+        perex="Open source Remote Management"
         text="
 I hope this will be self-hosted service for Management and Monitoring of Windows or Linux servers and computers.
 
@@ -38,9 +38,9 @@ Tech stack (not everything is set in stone):
     <Post 
         img="/media/projects/powershell.svg"
         img_alt="Powershell logo"
-        title="Video File Coverter ffmpeg conversion to Cineform"
+        title="Video File Converter ffmpeg conversion to Cineform"
         perex="Script to convert videos to Cineform - may be useful for someone"
-        text="Powershell script to convert of all videos in folder to Cineform codec for easier editing in Premere etc."
+        text="Powershell script to convert of all videos in folder to Cineform codec for easier editing in Premiere etc."
         github="https://github.com/matus-barta/Video-File-Coverter-ffmpeg-conversion-to-Cineform"
     />
     <Post 
