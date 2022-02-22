@@ -19,7 +19,7 @@
 </script>
 
 <h1>Personal Blog</h1>
-<h3>List of all blog posts.</h3>
+<h3>Here are all blog posts</h3>
 
 <div class="bg-gray-700 rounded-xl shadow-md px-3 md:px-6 md:py-6 py-3 flex flex-col mt-5">
     <div class="flex flex-col space-y-5">
