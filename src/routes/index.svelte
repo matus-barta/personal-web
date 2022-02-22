@@ -31,8 +31,8 @@
             </span>         
             Barta
         </h1>
-        <p>IT support, hobby developer, homelab enthusiast, gamer, space nerd.</p>
-        <a class="text-gray-500 hover:underline mt-2" href="/about">More on About page</a>
+        <p>IT guy, hobby developer, homelab enthusiast, gamer, space nerd.</p>
+        <a class="text-gray-500 hover:underline mt-5 hover:text-gray-400 text-sm" href="/about">More on About page</a>
         </div>
         <img class="w-32 h-32 ml-2 rounded-full md:w-40 md:h-40" src="/media/ksp.jpg" alt="logo">
     </div>
@@ -46,6 +46,6 @@
                 </div>
             {/each}
         </div>
-        <a class="text-gray-500 hover:underline" href="/blog">See All Posts</a>
+        <a class="text-gray-500 hover:underline hover:text-gray-400 text-sm" href="/blog">See All Posts</a>
     </div>
 </div>
