@@ -16,9 +16,8 @@
         title="Personal Web"
         excerpt="This personal web"
         text="
-Tech stack: **Svelte**, **Tailwind**, **Typescript**.
-
-Hosted on *Netlify*. For now I am leaving the repo private."
+- Tech stack: **Svelte**, **Tailwind**, **Typescript**.
+- Hosted on *Netlify*. For now I am leaving the repo private."
         github="https://github.com/matus-barta/personal-web"
     />
     <Post 
@@ -29,13 +28,10 @@ Hosted on *Netlify*. For now I am leaving the repo private."
         text="
 I hope this will be self-hosted service for Management and Monitoring of Windows or Linux servers and computers.
 
-Tech stack (not everything is set in stone):
-
-**API**: *Typescript*, *MongoDB*, *Node*, *Express*
-
-**Frontend**: *Svelte*, *Tailwind*, *Typescript*
-
-**Client**: *Electron*, *Typescript*, *Scripts (shell/powershell)*"
+- **Tech stack (not everything is set in stone):**
+- **API**: *Typescript*, *MongoDB*, *Node*, *Express*
+- **Frontend**: *Svelte*, *Tailwind*, *Typescript*
+- **Client**: *Electron*, *Typescript*, *Scripts (shell/powershell)*"
         github="https://github.com/matus-barta/Open_RMM"
     />    
     <Post 
