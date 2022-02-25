@@ -12,7 +12,7 @@
 </script>
 
 <footer class="w-full h-10 bg-neutral-700 text-slate-400 p-2 flex justify-center space-x-2">
-    <p>Matúš Barta • {new Date().getFullYear()} • All Rights Reserved •</p>
+    <p class="text-gray-400">Matúš Barta • {new Date().getFullYear()} • All Rights Reserved •</p>
     <a href="https://twitter.com/anonymus64">
         <img src="{tw}" alt=twitter on:mouseenter="{()=>{tw="/media/social/tw.svg"}}" on:mouseleave="{()=>{tw="/media/social/tw-grey.svg"}}"/>
     </a>
