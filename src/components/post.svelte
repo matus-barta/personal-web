@@ -19,7 +19,7 @@
             </div>
         </a>
     </div>
-    <div class="pt-5 text-white">
+    <div class="text-white">
         <SvelteMarkdown source="{text}"/>
     </div>
     <div class="h-0.5 mt-3 bg-slate-500 rounded-xl mb-10"></div>

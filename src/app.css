@@ -15,7 +15,7 @@ h1 {
 	@apply text-2xl md:text-4xl font-bold pb-3 text-white tracking-tight;
 }
 h2 {
-	@apply tracking-tight font-bold text-xl md:text-2xl;
+	@apply tracking-tight font-bold text-white text-xl md:text-2xl mt-5;
 }
 h3 {
 	@apply tracking-tight text-sm text-slate-300;
@@ -24,10 +24,14 @@ h4 {
 	@apply tracking-tight text-slate-300 italic;
 }
 pre {
-	@apply bg-neutral-800 rounded-xl my-2 mx-8 p-4 border-l-4 border-cyan-500 text-sm;
+	@apply bg-neutral-800 rounded-xl mx-8 p-4 border-l-4 border-cyan-500 text-sm;
 }
 p {
-	@apply mb-5 text-white;
+	@apply mt-4 text-white;
+}
+
+ul {
+	@apply mt-4;
 }
 
 input {
