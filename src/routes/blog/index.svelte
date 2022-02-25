@@ -22,10 +22,14 @@
 <h3>Here are all blog posts</h3>
 
 <div class="bg-gray-700 rounded-xl shadow-md px-3 md:px-6 md:py-6 py-3 flex flex-col mt-5">
-    <div class="flex flex-col space-y-5">
+    <div class="flex flex-col space-y-10">
         {#each posts as post}
          <div class="flex">
-            <img src="{post.meta.img}" alt="blog post logo" class="object-cover w-48 h-26 md:w-96 md:h-52 rounded-xl mr-4 md:mr-8"/>
+            {#if post.meta.img_transparent}
+                <img src="{post.meta.img}" alt="blog post logo" class="object-cover p-3 w-48 md:w-96 rounded-xl mr-4 md:mr-8 bg-slate-100"/>
+            {:else}
+                <img src="{post.meta.img}" alt="blog post logo" class="object-cover w-48 md:w-96 rounded-xl mr-4 md:mr-8"/>
+            {/if}
             <div class="flex flex-col justify-between py-1 rounded-xl w-full">
                 <div class="flex flex-col">
                     <h2 class="mb-5">
