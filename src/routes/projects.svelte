@@ -1,5 +1,5 @@
 <svelte:head>
-    <title>Anonymus09 - Projects</title>
+    <title>Projects - Matus Barta | Anonymus09</title>
 </svelte:head>
 
 <script lang="ts">
