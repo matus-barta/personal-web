@@ -9,4 +9,4 @@ This is repository for my personal web [anonymus09.com](https://anonymus09.com)
 
 ## Building
 
-Run: `npm run build`
+- Run: `npm run build`
