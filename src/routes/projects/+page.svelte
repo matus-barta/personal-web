@@ -1,5 +1,5 @@
 <script lang="ts">
-import Post from '../components/post.svelte';
+import Post from '../../components/post.svelte';
 </script>
 
 <svelte:head>

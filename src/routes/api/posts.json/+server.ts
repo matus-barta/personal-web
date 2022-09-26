@@ -1,3 +1,5 @@
+throw new Error("@migration task: Update +server.js (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292701)");
+
 export const get = async () => {
 	const allPostFiles = import.meta.glob('../blog/*.md');
 	const iterablePostFiles = Object.entries(allPostFiles);

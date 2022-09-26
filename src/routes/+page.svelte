@@ -2,19 +2,9 @@
     <title>Matus Barta | Anonymus09</title>
 </svelte:head>
 
-<script lang="ts" context="module">
-    export const load = async ({ fetch }) => {
-        const posts = await fetch('/api/posts.json');
-        const allPosts = await posts.json();
-        return {
-            props: {
-                posts: allPosts
-            }
-        }
-    }
-</script>
-
 <script lang="ts">
+    throw new Error("@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)");
+
     export var posts;
     if (posts.length > 10) posts = posts.slice(0,10);
 </script>
