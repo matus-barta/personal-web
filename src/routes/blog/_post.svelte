@@ -1,5 +1,5 @@
 <script lang="ts">
-    export var title, date, img, img_transparent;
+    export var title: string, date: string, img: string, img_transparent: boolean;
     import {} from "../../../static/prism/prism";
 </script>
 

@@ -1,12 +1,12 @@
-throw new Error("@migration task: Update +server.js (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292701)");
+import type { RequestHandler } from './$types';
 
-export const get = async () => {
+export const GET: RequestHandler = async () => {
 	const allPostFiles = import.meta.glob('../blog/*.md');
 	const iterablePostFiles = Object.entries(allPostFiles);
 
 	const allPosts = await Promise.all(
-		iterablePostFiles.map(async ([path, resolver]) => {
-			const { metadata } = await resolver();
+		iterablePostFiles.map(([path, resolver]) => {
+			const { metadata } = resolver();
 			const postPath = path.slice(2, -3);
 
 			return {
@@ -20,7 +20,7 @@ export const get = async () => {
 		return new Date(b.meta.date).getDate() - new Date(a.meta.date).getDate();
 	});
 
-	return {
-		body: sortedPosts
-	};
+	return new Response(JSON.stringify({ body: sortedPosts }), {
+		headers: { 'content-type': 'application/json; charset=utf-8' }
+	});
 };
