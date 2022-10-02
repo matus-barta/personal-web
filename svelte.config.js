@@ -10,10 +10,7 @@ const config = {
 	preprocess: [
 		preprocess(),
 		mdsvex({
-		extensions: ['.md'],
-		layout: {
-			blog: 'src/routes/blog/_post.svelte'
-		}
+		extensions: ['.md']
 		})
 	],
 	kit: {
@@ -33,7 +30,7 @@ const config = {
             enabled: true,
             onError: "continue",
             entries: ['*'],
-        },
+        }
 	}
 };
 
