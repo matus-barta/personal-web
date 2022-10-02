@@ -1,8 +1,12 @@
 import type { PageLoad } from './$types';
+
 export const load: PageLoad = async ({ fetch }) => {
-	const posts = await fetch('/api/posts.json');
-	const allPosts = await posts.json();
+	const response = await fetch(`/api/posts`);
+	let posts = await response.json();
+
+	if (posts.length > 10) posts = posts.slice(0, 10);
+
 	return {
-		posts: allPosts
+		posts
 	};
 };

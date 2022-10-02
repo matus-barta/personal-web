@@ -3,17 +3,17 @@
 </svelte:head>
 
 <script lang="ts">
-    throw new Error("@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)");
-
-    export var posts;
+    import type { PageData } from "./$types"
+	
+    export let data: PageData;
 </script>
 
 <h1>Personal Blog</h1>
-<h3>Here are all blog posts</h3>
+<h3>Here are all the blog posts</h3>
 
 <div class="bg-gray-700 rounded-xl shadow-md px-3 md:px-6 md:py-6 py-3 flex flex-col mt-5">
     <div class="flex flex-col space-y-10">
-        {#each posts as post}
+        {#each data.posts as post}
          <div class="flex">
             {#if post.meta.img_transparent}
                 <img src="{post.meta.img}" alt="blog post logo" class="object-cover p-3 w-48 md:w-96 rounded-xl mr-4 md:mr-8 bg-slate-100"/>
