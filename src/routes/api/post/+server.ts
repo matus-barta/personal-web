@@ -2,10 +2,7 @@ import { fetchMarkdownPosts } from '$lib/utils';
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
-export const GET: RequestHandler = async (event) => {
+export const GET: RequestHandler = async () => {
 	const allPosts = await fetchMarkdownPosts();
-
-	console.log(event.url);
-
 	return json(allPosts);
 };
