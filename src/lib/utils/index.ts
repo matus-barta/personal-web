@@ -16,3 +16,22 @@ export const fetchMarkdownPosts = async () => {
 
 	return allPosts;
 };
+
+export const fetchMarkdownPostsContent = async (post: string) => {
+	const allPostFiles = import.meta.glob('/blogposts/*.md');
+
+	//http://localhost:5173/api/post/best-way-to-manage-nodejs
+
+	const posts = Object.entries(allPostFiles).map(async ([path, resolver]) => {
+		if (path.includes(post)) {
+			const { metadata } = await resolver();
+			const { html } = await resolver().default.render;
+			return {
+				html,
+				meta: metadata
+			};
+		}
+	});
+
+	return posts;
+};
