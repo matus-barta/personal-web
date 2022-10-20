@@ -18,7 +18,9 @@
         <h3 class="w-full text-right align-text-bottom">{data.meta.date}</h3>
         <div class="h-1 my-1 bg-gradient-to-r from-emerald-500 via-sky-500 to-blue-700 w-full rounded-xl"/>
         <div class="my-5">
-            <svelte:component this={data.html} />
+            <div>
+                {@html data.html}
+            </div>
         </div>
     </div>
 </div>

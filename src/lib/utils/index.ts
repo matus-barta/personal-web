@@ -1,3 +1,5 @@
+import type { SvelteComponent } from 'svelte';
+
 export const fetchMarkdownPosts = async () => {
 	const allPostFiles = import.meta.glob('/blogposts/*.md');
 	const iterablePostFiles = Object.entries(allPostFiles);
@@ -18,20 +20,44 @@ export const fetchMarkdownPosts = async () => {
 };
 
 export const fetchMarkdownPostsContent = async (post: string) => {
-	const allPostFiles = import.meta.glob('/blogposts/*.md');
+	const allPostFiles = import.meta.glob<{
+		default: SvelteComponent;
+		metadata: Record<string, any>;
+	}>('/blogposts/*.md', {
+		eager: true
+	});
 
 	//http://localhost:5173/api/post/best-way-to-manage-nodejs
 
-	const posts = Object.entries(allPostFiles).map(async ([path, resolver]) => {
-		if (path.includes(post)) {
-			const { metadata } = await resolver();
-			const { html } = await resolver().default.render;
-			return {
-				html,
-				meta: metadata
-			};
-		}
+	const posts = Object.entries(allPostFiles).map(([path, resolver]) => {
+		const { metadata } = resolver;
+		const html: string = resolver.default.render().html;
+
+		//console.log(resolver.default.render());
+
+		return {
+			path,
+			html,
+			meta: metadata
+		};
 	});
 
-	return posts;
+	if (posts.length > 1) {
+		//bad mojo - no clue how to handle errors
+		console.log('fetchMarkdownPostsContent : found more posts than 1 - returning first');
+	} else if (posts.length <= 0) {
+		//very bad mojo
+		console.log('fetchMarkdownPostsContent : found no posts or negative?! - returning empty');
+		return;
+	}
+
+	let result;
+	posts.forEach((tmp) => {
+		if (tmp.path.includes(post)) {
+			result = tmp;
+			return;
+		}
+	});
+	return result;
+	//const posts = Object.entries(allPostFiles);
 };
