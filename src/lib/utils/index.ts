@@ -1,7 +1,9 @@
 import type { SvelteComponent } from 'svelte';
 
 export const fetchMarkdownPosts = async () => {
-	const allPostFiles = import.meta.glob('/blogposts/*.md');
+	const allPostFiles = import.meta.glob<{
+		metadata: Record<string, any>;
+	}>('/blogposts/*.md');
 	const iterablePostFiles = Object.entries(allPostFiles);
 
 	const allPosts = await Promise.all(
@@ -42,15 +44,13 @@ export const fetchMarkdownPostsContent = async (post: string) => {
 		};
 	});
 
-	if (posts.length > 1) {
-		//bad mojo - no clue how to handle errors
-		console.log('fetchMarkdownPostsContent : found more posts than 1 - returning first');
-	} else if (posts.length <= 0) {
+	if (posts.length <= 0) {
 		//very bad mojo
 		console.log('fetchMarkdownPostsContent : found no posts or negative?! - returning empty');
 		return;
 	}
 
+	// read all the posts loaded and check for name, the first find we store and return
 	let result;
 	posts.forEach((tmp) => {
 		if (tmp.path.includes(post)) {
@@ -59,5 +59,4 @@ export const fetchMarkdownPostsContent = async (post: string) => {
 		}
 	});
 	return result;
-	//const posts = Object.entries(allPostFiles);
 };
