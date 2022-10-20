@@ -1,10 +1,12 @@
 <script lang="ts">
+    //import {} from "../../../../static/prism/prism"
     import type { PageData } from "./$types"
     export let data: PageData;
 </script>
 
 <svelte:head>
     <title>{data.meta.title}</title>
+    <link href="/prism/prism.css" rel="stylesheet" />
 </svelte:head>
 
 <div class="bg-gray-700 rounded-xl flex flex-col">
