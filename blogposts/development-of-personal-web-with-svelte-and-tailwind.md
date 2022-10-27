@@ -1,17 +1,17 @@
 ---
 title: Development of personal web with SvelteKit and Tailwind
-date: '2022-09-27'
-excerpt: My development experience and how-to with SvelteKit and Tailwind CSS integration and usefulness of Typescript in frontend project.
-img: /media/blog/development-of-personal-web-with-svelte-and-tailwind/1.jpg
+date: '2022-10-27'
+excerpt: My development experience and little bit of how-to with SvelteKit and Tailwind CSS integration. And my take on usefulness of Typescript in frontend project.
+img: /media/blog/development-of-personal-web-with-svelte-and-tailwind/1.png
 img_transparent: false
 ---
 
 ## My choices
 
-This web was build with SvelteKit with Typescript and Tailwind CSS. The easiest choice was [Tailwind CSS](https://tailwindcss.com/) it is just awesome and easy to use CSS framework with really nice [documentation](https://tailwindcss.com/docs/).
-The choice of [Typescript](https://www.typescriptlang.org/) was based on that I am using Typescript on backend on my other project [OpenRMM](/projects) and I don't like JS (who does?...) but right now, Typescript in small frontend project looks more like chore.
+This web was build with SvelteKit, Typescript and Tailwind CSS. The easiest choice was [Tailwind CSS](https://tailwindcss.com/) it is just awesome and easy to use CSS framework with really nice [documentation](https://tailwindcss.com/docs/).
+The choice of [Typescript](https://www.typescriptlang.org/) was based on that I am using Typescript on backend on my other project [OpenRMM](/projects) and I don't like JS (who does?...right?...) but right now, Typescript in small frontend project looks more like chore.
 
-Now to he hardest choice was the frontend framework. I chose [SvelteKit](https://kit.svelte.dev/). You asking why not [React](https://reactjs.org/)/[Next.js](https://nextjs.org/) or other bigger frameworks? Well, I am no web dev I am just hobbyist, I did some research about the most popular frameworks, React and [Vue.js](https://vuejs.org/) come really often but they are huge and kinda complicated. Then I found Svelte and SvelteKit ([check this if you want to know the difference](https://www.youtube.com/watch?v=IKhtnhQKjxQ)), It has really nice enthusiastic community and it was often described as "easier" framework to work with. So I checked few tutorials on YT and I really liked it. So I started with instructions bellow.
+Now the hardest choice was the frontend framework. I chose [SvelteKit](https://kit.svelte.dev/). You asking why not [React](https://reactjs.org/)/[Next.js](https://nextjs.org/) or other bigger frameworks? Well, I am no web dev I am just hobbyist, I did some research about the most popular frameworks, React and [Vue.js](https://vuejs.org/) come really often but they are huge and kinda complicated. Then I found Svelte and SvelteKit ([check this if you want to know the difference](https://www.youtube.com/watch?v=IKhtnhQKjxQ)), It has really nice enthusiastic community and it was often described as "easier" framework to work with. So I checked few tutorials on YT and I really liked it. So I started with instructions bellow.
 
 ## SvelteKit, Typescript, Tailwind combo setup
 
@@ -49,18 +49,18 @@ module.exports = {
 
 ## My first impressions of Svelte Kit
 
-Svelte Kit was simple to begin use, just update your index.svelte and create your components in `src/components/` folder.
+Svelte Kit was simple to begin use, just update your index.svelte and create your components in `src/lib/components/` folder.
 
 There are a lot of tutorials and how to start with SvelteKit but also there is two big buts.
 
 1. When searching for SvelteKit you wil find you a lot of tutorial and articles about Svelte. _So there is a lot of confusion._
-2. SvelteKit is still in development and there are warning to not use it in other than testing environment but still was expecting little more stability whe updating the package and hoping nothing will explode during build. _I had a lot of issues during local builds and when building on Netlify._
+2. SvelteKit is still in development and there are warnings to not use it in other than testing environment but still was expecting little more stability whe updating the package and hoping nothing will explode during build. _I had a lot of issues during local builds and when [building on Netlify](/blog/svelte-kit-migration-experience)._
 
 So SvelteKit is one awesome framework to build webpages in but is still in development so be warned.
 
 ## Usage of Typescript in simple personal web
 
-Typescript is JavaScript with types (well a little more but that is the important part). I like TS, it is somewhat familiar to C# that I used a lot for my "fun" projects, It doesn't have the weird stuff from JS so it was must for me.
+Typescript is JavaScript with types (well a little more but that is the important part). I like TS, it is somewhat familiar to C# that I used a lot for my "fun" projects and it doesn't have the weird stuff from JS so it was must for me.
 
 But then I found for this little project that has minimum of code the strongly typed nature of TS is for frontend work is more burden than blessing. So yea, I am going with it but I am still questioning it's usefulness.
 
@@ -69,7 +69,9 @@ But then I found for this little project that has minimum of code the strongly t
 My goal when building the blog for the web was to use Markdown for the posts so I won't have to write all the time html or svelte code.
 So now I just create new .md file to create new blog post.
 
-All of that is using [mdsvex](https://mdsvex.pngwn.io) preprocessor to automagically converts .md files to Svelte to be compiled by SvelteKit itself. It works flawlessly.
+All of that is using [mdsvex](https://mdsvex.pngwn.io) preprocessor to automagically convert .md files to Svelte to be compiled by SvelteKit itself. It works flawlessly.
+
+_Disclaimer: code below is just quick overview. Not how this page is implemented. for a really nice (and updated) tutorial checkout [Josh Collinsworth blog](https://joshcollinsworth.com/blog/build-static-sveltekit-markdown-blog)._
 
 **To install mdsvex run**
 
@@ -85,27 +87,36 @@ import { mdsvex } from 'mdsvex';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-	kit: {
-		//...kit stuff
-	},
 	extensions: ['.svelte', '.md'],
 	preprocess: [
 		preprocess(),
 		mdsvex({
 			extensions: ['.md'],
 			layout: {
-				blog: 'src/routes/blog/_post.svelte'
+				blog: 'src/routes/blog/post.svelte'
 			}
 		})
-	]
+	],
+	kit: {
+		// hydrate the <div id="svelte"> element in src/app.html
+		prerender: {
+			crawl: true,
+			enabled: true,
+			onError: 'continue',
+			entries: ['*']
+		}
+	}
 };
 
 export default config;
 ```
 
-This config should let you build your blog with .md files in `src/routes/blog/` where the `_post.svelte` is template where the content of your blogpost will go.
+This config will use `post.svelte` as a template for our posts that have structure like this:
+`/src/blog/<name-of-the-first-post>/+post.md`
+`/src/blog/<name-of-the-second-post>/+post.md`
+`etc...`
 
-**The \_post.svelte can look something like this**
+**The post.svelte can look something like this**
 
 ```html
 <script lang="ts">
