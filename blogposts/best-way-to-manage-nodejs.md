@@ -1,7 +1,7 @@
 ---
 title: Best way to manage Node.JS
-date: '2022-2-25'
-excerpt: Quick how to manage Node installation
+date: '2022-02-25'
+excerpt: Quick how-to, to manage Node installation.
 img: /media/blog/best-way-to-manage-nodejs/nodejs-logo-flat.svg
 img_transparent: true
 ---

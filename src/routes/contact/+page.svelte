@@ -2,10 +2,6 @@
     <title>Contact - Matus Barta | Anonymus09</title>
 </svelte:head>
 
-<script context="module">
-    export const prerender = true;
-</script>
-
 <style>
     p{
         @apply text-sm font-medium;
