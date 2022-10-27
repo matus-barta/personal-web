@@ -2,10 +2,6 @@
     <title>Success - Matus Barta | Anonymus09</title>
 </svelte:head>
 
-<script context="module">
-    export const prerender = true;
-</script>
-
 <script>
     import {onMount} from "svelte";
 

@@ -2,21 +2,9 @@
     <title>Matus Barta | Anonymus09</title>
 </svelte:head>
 
-<script lang="ts" context="module">
-    export const load = async ({ fetch }) => {
-        const posts = await fetch('/api/posts.json');
-        const allPosts = await posts.json();
-        return {
-            props: {
-                posts: allPosts
-            }
-        }
-    }
-</script>
-
 <script lang="ts">
-    export var posts;
-    if (posts.length > 10) posts = posts.slice(0,10);
+    import type { PageData } from "./$types"
+    export let data: PageData;
 </script>
 
 <div class="bg-gray-700 rounded-xl shadow-md px-3 md:px-6 pt-6 pb-6 flex flex-col">
@@ -39,7 +27,7 @@
     <div class="pt-6 pb-6">
         <h1 class="text-2xl md:text-4xl font-bold mb-1 text-white tracking-tight">Latest Blog Posts</h1>
         <div class="flex flex-col mb-5">
-            {#each posts as post}
+            {#each data.posts as post}
                 <div class="flex space-x-2 items-center">
                     <a class="hover:underline" href="{post.path}">{post.meta.title}</a>
                     <h4 class="text-xs align-bottom">{post.meta.date}</h4>
