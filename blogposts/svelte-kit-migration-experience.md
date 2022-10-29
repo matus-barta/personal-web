@@ -1,5 +1,5 @@
 ---
-title: SvelteKit migration experience
+title: Svelte Kit migration experience
 date: '2022-10-29'
 excerpt: 'How hard it can be? -Jeremy Clarkson'
 img: /media/blog/svelte-kit-migration-experience/1.jpg
@@ -39,14 +39,18 @@ Then I find [this](https://github.com/pngwn/MDsveX/discussions/220#discussioncom
 This was the part of the code I was stuck for so long (relatively speaking). This answer described the types I needed to know what I can call and what to return (I don't know how you JS guys doing this). Then I just changed it to return raw html so I can easily pass it in API call.
 
 ```ts
-const allPostFiles = import.meta.glob<{default: SvelteComponent, metadata: Record<string, any>}>('/blogposts/*.md', { eager: true });
+const allPostFiles = import.meta.glob<{
+    default: SvelteComponent;
+    metadata: Record<string, any>}>('/blogposts/*.md'{
+        eager: true
+    });
 
 const posts = Object.entries(allPostFiles).map(([path, resolver]) => {
 	const { metadata } = resolver;
 	const html: string = resolver.default.render().html;
 ```
 
-## Netlify why you doing this to me?!
+## Netlify why you doing this to me?
 
 Imagine this:
 
@@ -61,7 +65,7 @@ After who knows how long search, I found the solution. It was simple (as always 
 
 Drumroll please... the solution was to use edge functions with Netlify, [source](https://github.com/sveltejs/kit/issues/6462#issuecomment-1234893057). I could't belie that this was _it_.
 
-![Screenshot of the solution](/media/blog/svelte-kit-migration-experience/issue-6463-sveltekit.png)
+![Screenshot of the solution](/media/blog/svelte-kit-migration-experience/issue-6462-sveltekit.png)
 
 ## Finale
 
