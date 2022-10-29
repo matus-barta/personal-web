@@ -53,8 +53,8 @@ Svelte Kit was simple to begin use, just update your index.svelte and create you
 
 There are a lot of tutorials and how to start with SvelteKit but also there is two big buts.
 
-1. When searching for SvelteKit you wil find you a lot of tutorial and articles about Svelte. _So there is a lot of confusion._
-2. SvelteKit is still in development and there are warnings to not use it in other than testing environment but still was expecting little more stability whe updating the package and hoping nothing will explode during build. _I had a lot of issues during local builds and when [building on Netlify](/blog/svelte-kit-migration-experience)._
+- When searching for SvelteKit you wil find you a lot of tutorial and articles about Svelte. _So there is a lot of confusion._
+- SvelteKit is still in development and there are warnings to not use it in other than testing environment but still was expecting little more stability whe updating the package and hoping nothing will explode during build. _I had a lot of issues during local builds and when [building on Netlify](/blog/svelte-kit-migration-experience)._
 
 So SvelteKit is one awesome framework to build webpages in but is still in development so be warned.
 
