@@ -5,6 +5,7 @@ import Post from '$lib/components/post.svelte';
 <svelte:head>
 	<title>Projects - Matus Barta | Anonymus09</title>
 </svelte:head>
+
 <h1>Projects</h1>
 <h3>Some of my personal projects</h3>
 
