@@ -18,6 +18,10 @@ export const fetchMarkdownPosts = async () => {
 		})
 	);
 
+	allPosts.sort((a, b) => {
+		return Date.parse(b.meta['date']) - Date.parse(a.meta['date']);
+	});
+
 	return allPosts;
 };
 
