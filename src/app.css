@@ -31,7 +31,7 @@ p {
 }
 
 ul {
-	@apply mt-4;
+	@apply mt-4 list-disc ml-10 text-white;
 }
 
 input {
