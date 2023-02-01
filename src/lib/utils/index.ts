@@ -2,7 +2,7 @@ import type { SvelteComponent } from 'svelte';
 
 export const fetchMarkdownPosts = async () => {
 	const allPostFiles = import.meta.glob<{
-		metadata: Record<string, any>;
+		metadata: Record<string, string>;
 	}>('/blogposts/*.md');
 	const iterablePostFiles = Object.entries(allPostFiles);
 
@@ -24,7 +24,7 @@ export const fetchMarkdownPosts = async () => {
 export const fetchMarkdownPostsContent = async (post: string) => {
 	const allPostFiles = import.meta.glob<{
 		default: SvelteComponent;
-		metadata: Record<string, any>;
+		metadata: Record<string, string>;
 	}>('/blogposts/*.md', {
 		eager: true
 	});
