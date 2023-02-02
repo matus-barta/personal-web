@@ -11,7 +11,7 @@
 <h1>Personal Blog</h1>
 <h3>Here are all the blog posts</h3>
 
-<div class="bg-gray-700 rounded-xl shadow-md px-3 md:px-6 md:py-6 py-3 flex flex-col mt-5">
+<div class="window shadow-md px-3 md:px-6 md:py-6 py-3 mt-5">
 	<div class="flex flex-col space-y-10">
 		{#each data.posts as post}
 			<div class="flex">

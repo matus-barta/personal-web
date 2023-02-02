@@ -10,7 +10,7 @@
 	method="POST"
 	data-netlify="true"
 	action="/success"
-	class="bg-gray-700 rounded-xl shadow-md px-8 pt-6 pb-6 flex justify-center mt-5"
+	class="bg-window-gray rounded-xl shadow-md px-8 pt-6 pb-6 flex justify-center mt-5"
 >
 	<div class="w-full md:w-3/4">
 		<input type="hidden" name="form-name" value="contact-form" />
