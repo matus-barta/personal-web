@@ -9,23 +9,17 @@
 	<link href="/prism/prism.css" rel="stylesheet" />
 </svelte:head>
 
-<div class="bg-gray-700 rounded-xl flex flex-col">
+<div class="window">
 	{#if data.meta.img_transparent}
-		<img
-			src={data.meta.img}
-			alt="blog title"
-			class="w-full h-44 rounded-xl rounded-b-none object-cover bg-slate-100 px-3"
-		/>
+		<img src={data.meta.img} alt="blog title" class="bg-slate-100 px-3" />
 	{:else}
-		<img
-			src={data.meta.img}
-			alt="blog title"
-			class="w-full h-44 rounded-xl rounded-b-none object-cover"
-		/>
+		<img src={data.meta.img} alt="blog title" />
 	{/if}
 	<div class="px-3 md:px-6 pt-2 flex flex-col">
-		<h1 class="p-0 mt-1 mb-5">{data.meta.title}</h1>
-		<h3 class="w-full text-right align-text-bottom">{data.meta.date}</h3>
+		<div class="flex flex-row justify-between items-end">
+			<h1 class="p-0 mt-1 mb-5 w-fit">{data.meta.title}</h1>
+			<h3 class="w-fit mb-5 align-text-bottom whitespace-nowrap">{data.meta.date}</h3>
+		</div>
 		<div
 			class="h-1 my-1 bg-gradient-to-r from-emerald-500 via-sky-500 to-blue-700 w-full rounded-xl"
 		/>
@@ -39,9 +33,6 @@
 
 <style>
 	img {
-		@apply rounded-xl;
-	}
-	code {
-		@apply text-rose-300;
+		@apply w-full h-44 rounded-xl rounded-b-none object-cover;
 	}
 </style>

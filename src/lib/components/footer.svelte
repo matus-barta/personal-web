@@ -5,7 +5,7 @@
 	var gh = '/media/social/gh-grey.svg';
 </script>
 
-<footer class="w-full h-10 bg-neutral-700 text-slate-400 p-2 flex justify-center space-x-2">
+<footer class="w-full h-10 bg-window-gray text-slate-400 p-2 flex justify-center space-x-2">
 	<p class="text-gray-400 m-0">Matúš Barta • {new Date().getFullYear()} • All Rights Reserved •</p>
 	<a href="https://twitter.com/anonymus64">
 		<img
@@ -59,6 +59,6 @@
 
 <style>
 	img {
-		@apply h-6 w-6;
+		@apply h-6 w-6 rounded-none fill-slate-400;
 	}
 </style>

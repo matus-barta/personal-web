@@ -3,22 +3,22 @@
 @tailwind utilities;
 
 html {
-	@apply bg-neutral-800;
+	@apply bg-background text-slate-100;
 }
 a {
-	@apply text-emerald-500 hover:text-lime-300;
+	@apply text-accent-color hover:text-accent-color-lighter;
 }
 body {
 	@apply min-w-[450px];
 }
 h1 {
-	@apply text-2xl md:text-4xl font-bold pb-3 text-white tracking-tight;
+	@apply text-2xl md:text-4xl font-bold pb-3  tracking-tight;
 }
 h2 {
-	@apply tracking-tight font-bold text-white text-xl md:text-2xl mt-5;
+	@apply tracking-tight font-bold  text-xl md:text-2xl mt-5;
 }
 h3 {
-	@apply tracking-tight text-sm text-slate-300;
+	@apply tracking-tight text-slate-300 text-sm;
 }
 h4 {
 	@apply tracking-tight text-slate-300 italic;
@@ -27,11 +27,11 @@ pre {
 	@apply bg-neutral-800 rounded-xl mx-8 p-4 border-l-4 border-cyan-500 text-sm;
 }
 p {
-	@apply mt-4 text-white;
+	@apply mt-4;
 }
 
 ul {
-	@apply mt-4 list-disc ml-10 text-white;
+	@apply mt-4 list-disc ml-10;
 }
 
 input {
@@ -49,4 +49,11 @@ textarea {
 
 button {
 	@apply px-6 py-2 text-base bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 focus:outline-none rounded-full;
+}
+img {
+	@apply rounded-lg;
+}
+
+.window {
+	@apply bg-window-gray rounded-xl flex flex-col;
 }

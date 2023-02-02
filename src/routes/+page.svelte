@@ -7,7 +7,7 @@
 	<title>Matus Barta | Anonymus09</title>
 </svelte:head>
 
-<div class="bg-gray-700 rounded-xl shadow-md px-3 md:px-6 pt-6 pb-6 flex flex-col">
+<div class="window shadow-md px-3 md:px-6 pt-6 pb-6">
 	<div class="flex justify-between">
 		<div class="flex flex-col">
 			<h1>
@@ -15,7 +15,7 @@
 				<span
 					class="relative ml-2 inline-block before:absolute before:-inset-1 before:block before:-skew-y-3 before:bg-emerald-500"
 				>
-					<span class="relative skew-y-3 text-lime-300"> @anonymus09 </span>
+					<span class="relative skew-y-3 text-accent-color-lighter"> @anonymus09 </span>
 				</span>
 				Barta
 			</h1>
@@ -27,12 +27,12 @@
 		<img class="w-32 h-32 ml-2 rounded-full md:w-40 md:h-40" src="/media/ksp.jpg" alt="logo" />
 	</div>
 	<div class="pt-6 pb-6">
-		<h1 class="text-2xl md:text-4xl font-bold mb-1 text-white tracking-tight">Latest Blog Posts</h1>
+		<h1 class="text-2xl md:text-4xl font-bold mb-1 tracking-tight">Latest Blog Posts</h1>
 		<div class="flex flex-col mb-5">
 			{#each data.posts as post}
 				<div class="flex space-x-2 items-center">
 					<a class="hover:underline" href={post.path}>{post.meta.title}</a>
-					<h4 class="text-xs align-bottom">{post.meta.date}</h4>
+					<h4 class="text-xs align-bottom whitespace-nowrap">{post.meta.date}</h4>
 				</div>
 			{/each}
 		</div>
