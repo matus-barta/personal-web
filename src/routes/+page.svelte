@@ -7,7 +7,9 @@
 	<title>Matus Barta | Anonymus09</title>
 </svelte:head>
 
+
 <div class="window shadow-md px-3 md:px-6 pt-6 pb-6">
+
 	<div class="flex justify-between">
 		<div class="flex flex-col">
 			<h1>
