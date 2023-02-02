@@ -6,6 +6,8 @@
 		excerpt: string,
 		github: string;
 	import SvelteMarkdown from 'svelte-markdown';
+
+	let gh = '/media/social/gh-grey.svg';
 </script>
 
 <div>
@@ -21,13 +23,22 @@
 	<div class="flex justify-between">
 		<h3>{excerpt}</h3>
 		<a href={github}>
-			<div class="flex space-x-1  hover:underline hover:text-slate-300">
-				<h3>GitHub page</h3>
-				<img src="/media/social/gh-grey.svg" alt="github logo" class="h-4 w-4" />
+			<div class="flex space-x-1 hover:underline hover:text-slate-300">
+				<img
+					src={gh}
+					alt="github"
+					on:mouseenter={() => {
+						gh = '/media/social/gh.svg';
+					}}
+					on:mouseleave={() => {
+						gh = '/media/social/gh-grey.svg';
+					}}
+					class="h-4 w-4 mr-1"
+				/>
 			</div>
 		</a>
 	</div>
-	<div class="text-white">
+	<div>
 		<SvelteMarkdown source={text} />
 	</div>
 	<div class="h-0.5 mt-3 bg-slate-500 rounded-xl mb-10" />
