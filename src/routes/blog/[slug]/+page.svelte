@@ -17,13 +17,13 @@
 	{/if}
 	<div class="px-3 md:px-6 pt-2 flex flex-col">
 		<div class="flex flex-row justify-between items-end">
-			<h1 class="p-0 mt-1 mb-5 w-fit">{data.meta.title}</h1>
-			<h3 class="w-fit mb-5 align-text-bottom whitespace-nowrap">{data.meta.date}</h3>
+			<h1 class="p-0 mt-1 w-fit">{data.meta.title}</h1>
+			<h3 class="w-fit mb-5 align-text-bottom whitespace-nowrap special">{data.meta.date}</h3>
 		</div>
 		<div
 			class="h-1 my-1 bg-gradient-to-r from-emerald-500 via-sky-500 to-blue-700 w-full rounded-xl"
 		/>
-		<div class="my-5">
+		<div class="my-2">
 			<div>
 				{@html data.html}
 			</div>

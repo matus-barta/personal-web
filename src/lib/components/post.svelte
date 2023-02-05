@@ -21,7 +21,7 @@
 		class="h-1 mb-3 mt-3 bg-gradient-to-r from-emerald-500 via-sky-500 to-blue-700 w-full rounded-xl"
 	/>
 	<div class="flex justify-between">
-		<h3>{excerpt}</h3>
+		<h3 class="special">{excerpt}</h3>
 		<a href={github}>
 			<div class="flex space-x-1 hover:underline hover:text-slate-300">
 				<img

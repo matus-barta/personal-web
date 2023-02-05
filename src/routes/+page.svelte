@@ -7,9 +7,7 @@
 	<title>Matus Barta | Anonymus09</title>
 </svelte:head>
 
-
 <div class="window shadow-md px-3 md:px-6 pt-6 pb-6">
-
 	<div class="flex justify-between">
 		<div class="flex flex-col">
 			<h1>
@@ -34,7 +32,7 @@
 			{#each data.posts as post}
 				<div class="flex space-x-2 items-center">
 					<a class="hover:underline" href={post.path}>{post.meta.title}</a>
-					<h4 class="text-xs align-bottom whitespace-nowrap">{post.meta.date}</h4>
+					<h4 class="text-xs align-bottom whitespace-nowrap special">{post.meta.date}</h4>
 				</div>
 			{/each}
 		</div>

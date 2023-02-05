@@ -161,18 +161,18 @@ No you have your blog ready.
 
 ## My ending thoughts
 
-_What I would do differently?_
+#### What I would do differently?
 
 Probably would try to use some more established frontend framework. Don't get me wrong Svelte and SvelteKit is awesome and is getting to be released somewhat soon (I am writing this for like 6 months so it will be out when I am finished...). But, so many hours I spend on build failures and I just don't wan't to any more.
 
-_Which framework I would try?_
+#### Which framework I would try?
 
 Probably Next.js. I heard so much good about it and while it's not the new hotness on the market that means (or at lease I hope) it's much more stable and not compatibility braking with each update.
 
-_Would you use Typescript for front-end?_
+#### Would you use Typescript for front-end?
 
 Yes and No. Yes, for some bigger project with backend API to have everything safely typed. But no, not for something like this, this personal page.
 
-_What about hosting?_
+#### What about hosting?
 
 I am running this page on Netlify. They have extremely generous free tier and implementation was cakewalk. Just quick note: when deploying from GitHub (use different branches...duh) wait for the build of your pull request by Netlify bot to verify that after you push changes your page will be correctly working after update.
