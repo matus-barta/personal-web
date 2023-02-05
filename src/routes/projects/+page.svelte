@@ -7,7 +7,7 @@
 </svelte:head>
 
 <h1>Projects</h1>
-<h3>Some of my personal projects</h3>
+<h3 class="special">Some of my personal projects</h3>
 
 <div class="window shadow-md px-3 md:px-6 pt-6 pb-6 mt-5">
 	<Post

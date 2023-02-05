@@ -9,7 +9,7 @@
 </svelte:head>
 
 <h1>Personal Blog</h1>
-<h3>Here are all the blog posts</h3>
+<h3 class="special">Here are all the blog posts</h3>
 
 <div class="window shadow-md px-3 md:px-6 md:py-6 py-3 mt-5">
 	<div class="flex flex-col space-y-10">
@@ -30,12 +30,12 @@
 				{/if}
 				<div class="flex flex-col justify-between py-1 rounded-xl w-full">
 					<div class="flex flex-col">
-						<h2 class="mb-5">
+						<h2 class="mb-2 mt-0">
 							<a href={post.path}>{post.meta.title}</a>
 						</h2>
-						<h4>{post.meta.excerpt}</h4>
+						<h4 class="special">{post.meta.excerpt}</h4>
 					</div>
-					<h3>{post.meta.date}</h3>
+					<h3 class="special">{post.meta.date}</h3>
 				</div>
 			</div>
 		{/each}

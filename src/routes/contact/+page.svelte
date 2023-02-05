@@ -3,7 +3,7 @@
 </svelte:head>
 
 <h1>Contact</h1>
-<h3>Feel free to contact me</h3>
+<h3 class="special">Feel free to contact me</h3>
 
 <form
 	name="contact-form"
