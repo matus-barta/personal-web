@@ -86,4 +86,6 @@ I reduced it to the minimum just using Prisma to for DB, validating data with Zo
 I was thinking about to moving to Rust or Go. Rust is super safe and fast, the code I did look up looked pretty clean and easy.
 Go was more less made for writing APIs, their handling of JSON is just brilliant, but I somewhat don't like how they handle packages (Cargo rocks!).
 But I still did go with Node/TS/Zod/Express stack.
-It was for one simple reason... Prisma (and sharing of Prisma). I seen there are ORMs like Prisma but I still have to write models and schemas. The most thing I hate is writing the same stuff twice. That was the reason I did go with the pain of learning and moving everything to Turborepo. (Also I had like written the whole Express server from last year...)
+It was for one simple reason... Prisma (and sharing of Prisma). I seen there are ORMs like Prisma but I still have to write models and schemas. The most thing I hate is writing the same stuff twice. That was the reason I did go with the pain of learning and moving everything to Turborepo. (Also I had written the whole Express server from last year...)
+
+##
