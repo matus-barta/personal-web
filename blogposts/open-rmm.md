@@ -1,7 +1,7 @@
 ---
-title: Concept and development of Open-RMM
-date: '2023-04-01'
-excerpt:
+title: Concepts and development of Open-RMM
+date: '2023-04-05'
+excerpt: 'Description of Open RMM project and the concepts behind it.'
 img: /media/blog/open-rmm/code.png
 img_transparent: false
 ---
@@ -10,16 +10,20 @@ _Disclaimer: this post is mostly to dump ideas from my mind and make the project
 
 ## What is Open-RMM?
 
-The Open RMM is project I am working on. It is Open Source RMM (Remote Machine Management) solution, mostly intended for homelabs (my homelab) and in the future maybe even something more.
+The Open RMM is project I am working on. It is Open Source RMM (Remote Machine/Monitoring Management) solution, mostly intended for homelabs (my homelab) and in the future maybe even something more.
+
+### Quick look on the WIP dashboard for RMM.
+
+![Open-RMM dashboard](/media/blog/open-rmm/open-rmm.png)
 
 ## Why I am making Open-RMM?
 
-There are multiple Open Source (or at least free) RMM solutions: MeshCentral, RPort, Remotely, RustDesk. But none of work or look how I wanted/expected. In my day job I use N-Able RMM so there are some ways I am used to how they work and look. But also there are things I hate about it, so it is not my intention to just clone it.
+There are multiple Open Source (or at least free) RMM solutions: [MeshCentral](https://github.com/Ylianst/MeshCentral#readme), [RPort](https://github.com/realvnc-labs/rport#readme), [Remotely](https://github.com/immense/Remotely#readme), [RustDesk](https://github.com/rustdesk/rustdesk#readme). But none of work or look how I wanted/expected. In my day job I use [N-Able RMM](https://www.n-able.com/products/n-sight-rmm) so there are some ways I am used to how they work and look. But also there are things I hate about it, so it is not my intention to just clone it.
 Second reason will be, I needed some kind of long term project to work on (when I have time and motivation). Also I always want to learn new technologies so this is my excuse and also reason for so many rewrites.
 
 ## What is the goal of Open-RMM?
 
-The goal is to be full solution to monitor status of your Computers, Virtual Machines and Containers (LXD not Docker), to be able to connect to them (how to is TDB) and to be able to simply deploy the Open-RMM in you homelab.
+The goal is to be full solution to monitor status of your Computers, Virtual Machines and Containers ([LXD](https://linuxcontainers.org/lxd/introduction/) not Docker), to be able to connect to them (how to do it is still TDB) and to be able to simply deploy the Open-RMM in you homelab.
 
 ## What features are you planning?
 
@@ -35,7 +39,7 @@ _This is high level overview_
 ### 2021
 
 - First commit on 21. September, started with Svelte web, Express API and Powershell script as client agent. Used MongoDB in the backend
-- Later in September moved to SvelteKit, had issues with understating the difference
+- Later in September moved to [SvelteKit](https://kit.svelte.dev/), had issues with understating the difference
 
 ### 2022
 
@@ -44,19 +48,19 @@ _This is high level overview_
 - January to early Feb 2022, pushing the work on API server for collecting the data
 - Pause until July, again issues with updating packages, work on tests with Postman
 - Early August, split common code to separate package, work on web part (used personal web as template)
-- Another pause until end of October, another rework this was a big one. Started to use SvelteKit as fullstack so now using it for the API and also started to use Tailwind and Prisma (moved to Postgres SQL). This was full frontend and backend rewrite
+- Another pause until end of October, another rework this was a big one. Started to use SvelteKit as fullstack so now using it for the API and also started to use [Tailwind](https://tailwindcss.com/) and [Prisma](https://www.prisma.io/) (moved to Postgres SQL). This was full frontend and backend rewrite
 - All of the November, worked on the new fullstack rewrite
 
 ### 2023
 
-- Pause until end of February, found TRPC SvelteKit framework so of course need to rewrite the Frontend <-> Backend communication to use it
+- Pause until end of February, found [TRPC SvelteKit](https://github.com/icflorescu/trpc-sveltekit) framework so of course need to rewrite the Frontend ↔️ Backend communication to use it
 - Early March work in the UI, new colors, icons and layout, also work on TRPC implementation and removal a lot of unused code
-- In the middle of march March, shifting to backend work with another rework, to work on separate collection server with Express (a lot of thinking to use something different like Go or Rust). Moved everything in Turborepo and pnpm, a lot of struggling with it, barely working.
-- Until end of the March, have some of the API and UI working so need to work on Client/Agent for reporting the data. Got converted by Rusticians to use Rust-lang so starting to work on Agent in Rust, a lot of struggling but I can see the appeal. This was technically another rewrite, because of the Agent was first intended to be written using Electron with PowerShell/bash scripts.
+- In the middle of march March, shifting to backend work with another rework, to work on separate collection server with Express (a lot of thinking to use something different like Go or Rust). Moved everything in [Turborepo](https://github.com/vercel/turbo) and [pnpm](https://pnpm.io/), a lot of struggling with it, barely working.
+- Until end of the March, have some of the API and UI working so need to work on Client/Agent for reporting the data. Got converted by Rusticians to use [Rust](https://www.rust-lang.org/) so starting to work on Agent in Rust, a lot of struggling but I can see the appeal. This was technically another rewrite, because of the Agent was first intended to be written using Electron with PowerShell/bash scripts.
 
 Number of rewrites **4**.
 
-_Will try to update in future._
+_Will try to update the timeline in future._
 
 ## Why so many rewrites?
 
@@ -64,16 +68,15 @@ Well, where do I start? This is just a hobby and I am little too much enthusiast
 
 ## So what tech stack are you using now?
 
-- Prisma, I didn't mentioned it that much but it was game changer, it is just fabulous ORM and it supports multiple databases
-- SvelteKit, I just love Svelte and SvelteKit, it is getting better and better with each update
-- Express, it is nice for API server with really nice customization with Middlewares, but sometimes it just look so bloated with boilerplate
-- Typescript, of course I will newer go to JS
-- Zod, must have for API endpoint input validation
-- TRPC Sveltekit, this is just awesome way to write Backed <-> Frontend communication, wish I could use it outside of fullstack (may be possible but to much to research and broke)
-- Rust, using for the reporting Agent, love the Cargo ecosystem and when your code will compile there will be no issue. Its syntax and concepts are somewhat alien to me coming from higher lvl languages with GC like C#, TypeScript (JS), Java..., but I like it, it just fights with me all the time
+- [Prisma](https://prisma.io), I didn't mentioned it that much but it was game changer, it is just fabulous ORM and it supports multiple databases
+- [SvelteKit](https://kit.svelte.dev), I just love Svelte and SvelteKit, it is getting better and better with each update
+- [Express](https://expressjs.com/), it is nice for API server with really nice customization with Middlewares, but sometimes it just look so bloated with boilerplate
+- [Typescript](https://www.typescriptlang.org/), of course I will newer go to JS
+- [Zod](https://zod.dev/), must have for API endpoint input validation
+- [TRPC Sveltekit](https://icflorescu.github.io/trpc-sveltekit/), this is just awesome way to write Backed ↔️ Frontend communication, wish I could use it outside of fullstack (may be possible but to much to research and broke)
+- [Rust](https://www.rust-lang.org/), using for the reporting Agent, love the Cargo ecosystem and when your code will compile there will be no issue. Its syntax and concepts are somewhat alien to me coming from higher lvl languages with GC like C#, TypeScript (JS), Java..., but I like it, it just fights with me all the time
 - May use [Tauri](https://tauri.app/) in the future if I will need GUI for the Agent
-
-_I think this is it, may update if something changes_
+  _I think this is it, will try to update if something changes_
 
 ## Why did you go back to Express for collection API?
 
