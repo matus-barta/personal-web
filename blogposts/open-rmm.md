@@ -2,7 +2,7 @@
 title: Concept and development of Open-RMM
 date: '2023-04-01'
 excerpt:
-img: /media/blog/open-rmm/1.png
+img: /media/blog/open-rmm/code.png
 img_transparent: false
 ---
 
@@ -88,4 +88,9 @@ Go was more less made for writing APIs, their handling of JSON is just brilliant
 But I still did go with Node/TS/Zod/Express stack.
 It was for one simple reason... Prisma (and sharing of Prisma). I seen there are ORMs like Prisma but I still have to write models and schemas. The most thing I hate is writing the same stuff twice. That was the reason I did go with the pain of learning and moving everything to Turborepo. (Also I had written the whole Express server from last year...)
 
-##
+## What is next?
+
+Well, I hope I will continue to work on this more often and I hope I will get into stave there is at least somewhat useful.
+And for the post? I will see if I will update the post or make a new one when I will have some updates. Will see...
+
+_If someone read this, I am sorry ,it was just pure mind dump. I don't think it made much sense but I hope there is at least some value._
