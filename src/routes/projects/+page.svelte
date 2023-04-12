@@ -16,23 +16,35 @@
 		title="Personal Web"
 		excerpt="This personal web"
 		text="
-- Tech stack: **Svelte**, **Tailwind**, **Typescript**.
-- Hosted on *Netlify*. For now I am leaving the repo private."
+- **Tech stack**: *SvelteKit*, *Tailwind*, *Typescript*.
+- **Hosted on**: *Netlify*."
 		github="https://github.com/matus-barta/personal-web"
 	/>
 	<Post
 		img="/media/projects/openrmm.png"
 		img_alt="OpenRMM logo"
 		title="Open RMM"
-		excerpt="Open source Remote Management"
+		excerpt="Open source Remote Machine Management"
 		text="
-I hope this will be self-hosted service for Management and Monitoring of Windows or Linux servers and computers.
+I hope this will be self-hosted service for Management and Monitoring of Windows, Linux and Mac.
 
 - **Tech stack (not everything is set in stone):**
-- **API**: *Typescript*, *MongoDB*, *Node*, *Express*
-- **Frontend**: *Svelte*, *Tailwind*, *Typescript*
-- **Client**: *Electron*, *Typescript*, *Scripts (shell/powershell)*"
+- **API**: *Typescript*, *Postgres*, *Node*, *Express*, *Prisma*, *Zod*
+- **Web**: *SvelteKit*, *Tailwind*, *Typescript*, *Prisma*, *Postgres*
+- **Agent**: *Rust*, eventually *Tauri* for GUI"
 		github="https://github.com/matus-barta/Open_RMM"
+	/>
+	<Post
+		img="/media/projects/inprogress.svg"
+		img_alt="InProgress logo"
+		title="InProgress"
+		excerpt="Inventory and work in progress tracking web app"
+		text="Proof of concept app with UI inspired by Trello. UI optimized for PC and mobile. Able to add, edit and search for computers 
+		and to update their WIP status. Barcode scanner is integrated in the web app for easy check in and out of computers. Azure AD login is 
+		integrated with the web app.
+
+- **Tech stack**: *SvelteKit*, *Tailwind*, *Typescript*, *Prisma*, *Postgres*"
+		github="https://github.com/matus-barta/InProgress"
 	/>
 	<Post
 		img="/media/projects/powershell.svg"
