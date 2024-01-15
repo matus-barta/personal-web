@@ -5,6 +5,11 @@
 <h1>Contact</h1>
 <h3 class="special">Feel free to contact me</h3>
 
+<div class="w-full md:w-3/4">
+	<p>Notthing to be found here...</p>
+</div>
+
+<!--
 <form
 	name="contact-form"
 	method="POST"
@@ -28,6 +33,7 @@
 		</p>
 	</div>
 </form>
+-->
 
 <style>
 	p {
