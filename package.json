@@ -1,6 +1,6 @@
 {
 	"name": "personal-web",
-	"version": "0.0.11",
+	"version": "0.0.12",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
@@ -11,12 +11,14 @@
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write .",
 		"ncu": "npx npm-check-updates",
-		"ncu-u": "npx npm-check-updates -u"
+		"ncu-u": "npx npm-check-updates -u",
+		"test": "playwright test"
 	},
 	"devDependencies": {
+		"@playwright/test": "^1.48.1",
 		"@sveltejs/adapter-netlify": "^4.3.5",
 		"@sveltejs/kit": "^2.7.2",
-		"@sveltejs/vite-plugin-svelte":"^3.1.2",
+		"@sveltejs/vite-plugin-svelte": "^3.1.2",
 		"@typescript-eslint/eslint-plugin": "^8.11.0",
 		"@typescript-eslint/parser": "^8.11.0",
 		"autoprefixer": "^10.4.20",

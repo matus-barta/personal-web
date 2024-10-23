@@ -9,7 +9,7 @@
 	<link href="/prism/prism.css" rel="stylesheet" />
 </svelte:head>
 
-<div class="window">
+<div data-testid="blog_post" class="window">
 	{#if data.meta.img_transparent}
 		<img src={data.meta.img} alt="blog title" class="bg-slate-100 px-3" />
 	{:else}

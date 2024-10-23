@@ -30,7 +30,7 @@
 		<h1 class="text-2xl md:text-4xl font-bold mb-1 tracking-tight">Latest Blog Posts</h1>
 		<div class="flex flex-col mb-5">
 			{#each data.posts as post}
-				<div class="flex space-x-2 items-center">
+				<div data-testid="latest_blog_post" class="flex space-x-2 items-center">
 					<a class="hover:underline" href={post.path}>{post.meta.title}</a>
 					<h4 class="text-xs align-bottom whitespace-nowrap special">{post.meta.date}</h4>
 				</div>

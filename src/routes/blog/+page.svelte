@@ -14,7 +14,7 @@
 <div class="window shadow-md px-3 md:px-6 md:py-6 py-3 mt-5">
 	<div class="flex flex-col space-y-10">
 		{#each data.posts as post}
-			<div class="flex">
+			<div data-testid="blog_post" class="flex">
 				{#if post.meta.img_transparent}
 					<img
 						src={post.meta.img}

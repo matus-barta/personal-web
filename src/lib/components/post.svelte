@@ -10,7 +10,7 @@
 	let gh = '/media/social/gh-grey.svg';
 </script>
 
-<div>
+<div data-testid="post">
 	<div class="flex">
 		<img src={img} alt={img_alt} class="w-32 h-32 bg-white p-2 rounded-xl" />
 		<div class="h-32 w-full relative">
