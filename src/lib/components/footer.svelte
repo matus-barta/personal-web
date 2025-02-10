@@ -1,60 +1,19 @@
-<script lang="ts">
-	var tw = '/media/social/tw-grey.svg';
-	var ig = '/media/social/ig-grey.svg';
-	var yt = '/media/social/yt-grey.svg';
-	var gh = '/media/social/gh-grey.svg';
-</script>
-
-<footer class="w-full h-10 bg-window-gray text-slate-400 p-2 flex justify-center space-x-2">
+<footer class="w-full h-10 bg-window-gray text-slate-400 p-2 flex justify-center space-x-1">
 	<p class="text-gray-400 m-0">Matúš Barta • {new Date().getFullYear()} • All Rights Reserved •</p>
-	<a href="https://twitter.com/anonymus64">
-		<img
-			src={tw}
-			alt="twitter"
-			on:mouseenter={() => {
-				tw = '/media/social/tw.svg';
-			}}
-			on:mouseleave={() => {
-				tw = '/media/social/tw-grey.svg';
-			}}
-		/>
-	</a>
-	<a href="https://www.instagram.com/matus.barta09/">
-		<img
-			src={ig}
-			alt="instagram"
-			on:mouseenter={() => {
-				ig = '/media/social/ig.svg';
-			}}
-			on:mouseleave={() => {
-				ig = '/media/social/ig-grey.svg';
-			}}
-		/>
-	</a>
-	<a href="https://www.youtube.com/channel/UCPWg-Iw7QFAXM-H2WjzPxiA">
-		<img
-			src={yt}
-			alt="youtube"
-			on:mouseenter={() => {
-				yt = '/media/social/yt.svg';
-			}}
-			on:mouseleave={() => {
-				yt = '/media/social/yt-grey.svg';
-			}}
-		/>
-	</a>
-	<a href="https://github.com/matus-barta">
-		<img
-			src={gh}
-			alt="github"
-			on:mouseenter={() => {
-				gh = '/media/social/gh.svg';
-			}}
-			on:mouseleave={() => {
-				gh = '/media/social/gh-grey.svg';
-			}}
-		/>
-	</a>
+	<div class="flex space-x-2">
+		<a href="https://bsky.app/profile/anonymus09.bsky.social">
+			<img src="/media/social/bsky.svg" alt="bluesky" />
+		</a>
+		<a href="https://www.instagram.com/matus.barta09/">
+			<img src="/media/social/ig.svg" alt="instagram" />
+		</a>
+		<a href="https://www.youtube.com/channel/UCPWg-Iw7QFAXM-H2WjzPxiA">
+			<img src="/media/social/yt.svg" alt="youtube" />
+		</a>
+		<a href="https://github.com/matus-barta">
+			<img src="/media/social/gh.svg" alt="github" />
+		</a>
+	</div>
 </footer>
 
 <style>
