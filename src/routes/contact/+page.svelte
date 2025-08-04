@@ -6,7 +6,7 @@
 <h3 class="special">Feel free to contact me</h3>
 
 <div class="w-full md:w-3/4">
-	<p>Notthing to be found here...</p>
+	<p>Nothing to be found here...</p>
 </div>
 
 <!--
@@ -33,7 +33,7 @@
 		</p>
 	</div>
 </form>
--->
+
 
 <style>
 	p {
@@ -43,3 +43,4 @@
 		@apply block mb-4;
 	}
 </style>
+-->
