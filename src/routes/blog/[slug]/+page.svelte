@@ -1,7 +1,11 @@
 <script lang="ts">
 	//import {} from "../../../../static/prism/prism"
 	import type { PageData } from './$types';
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+	}
+
+	let { data }: Props = $props();
 </script>
 
 <svelte:head>
@@ -22,7 +26,7 @@
 		</div>
 		<div
 			class="h-1 my-1 bg-gradient-to-r from-emerald-500 via-sky-500 to-blue-700 w-full rounded-xl"
-		/>
+		></div>
 		<div class="my-2">
 			<div>
 				{@html data.html}

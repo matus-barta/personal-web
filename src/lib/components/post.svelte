@@ -1,13 +1,24 @@
 <script lang="ts">
-	export let img: string,
-		img_alt: string,
-		text: string,
-		title: string,
-		excerpt: string,
-		github: string;
 	import SvelteMarkdown from 'svelte-markdown';
+	interface Props {
+		img: string;
+		img_alt: string;
+		text: string;
+		title: string;
+		excerpt: string;
+		github: string;
+	}
 
-	let gh = '/media/social/gh-grey.svg';
+	let {
+		img,
+		img_alt,
+		text,
+		title,
+		excerpt,
+		github
+	}: Props = $props();
+
+	let gh = $state('/media/social/gh-grey.svg');
 </script>
 
 <div data-testid="post">
@@ -19,7 +30,7 @@
 	</div>
 	<div
 		class="h-1 mb-3 mt-3 bg-gradient-to-r from-emerald-500 via-sky-500 to-blue-700 w-full rounded-xl"
-	/>
+	></div>
 	<div class="flex justify-between">
 		<h3 class="special">{excerpt}</h3>
 		<a href={github}>
@@ -27,10 +38,10 @@
 				<img
 					src={gh}
 					alt="github"
-					on:mouseenter={() => {
+					onmouseenter={() => {
 						gh = '/media/social/gh.svg';
 					}}
-					on:mouseleave={() => {
+					onmouseleave={() => {
 						gh = '/media/social/gh-grey.svg';
 					}}
 					class="h-4 w-4 mr-1"
@@ -41,5 +52,5 @@
 	<div>
 		<SvelteMarkdown source={text} />
 	</div>
-	<div class="h-0.5 mt-3 bg-slate-500 rounded-xl mb-10" />
+	<div class="h-0.5 mt-3 bg-slate-500 rounded-xl mb-10"></div>
 </div>
