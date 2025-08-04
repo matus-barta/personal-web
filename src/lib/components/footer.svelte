@@ -1,5 +1,5 @@
 <footer class="w-full h-10 bg-window-gray text-slate-400 p-2 flex justify-center space-x-1">
-	<p class="text-gray-400 m-0">Matúš Barta • {new Date().getFullYear()} • All Rights Reserved •</p>
+	<p class="text-gray-400 m-0">• Matúš Barta • &copy {new Date().getFullYear()} •</p>
 	<div class="flex space-x-2">
 		<a href="https://bsky.app/profile/anonymus09.bsky.social">
 			<img src="/media/social/bsky.svg" alt="bluesky" />
@@ -14,9 +14,10 @@
 			<img src="/media/social/gh.svg" alt="github" />
 		</a>
 	</div>
+	<p class="text-gray-400 m-0">•</p>
 </footer>
 
-<style>
+<style lang="postcss">
 	img {
 		@apply h-6 w-6 rounded-none fill-slate-400;
 	}

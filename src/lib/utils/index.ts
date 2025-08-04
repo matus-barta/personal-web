@@ -1,31 +1,28 @@
+import type { Post } from '$lib/types';
 import type { SvelteComponent } from 'svelte';
 
-export const fetchMarkdownPosts = async () => {
-	const allPostFiles = import.meta.glob<{
-		metadata: Record<string, string>;
-	}>('/blogposts/*.md');
-	const iterablePostFiles = Object.entries(allPostFiles);
+export const fetchPosts = async () => {
+	let posts: Post[] = [];
 
-	const allPosts = await Promise.all(
-		iterablePostFiles.map(async ([path, resolver]) => {
-			const { metadata } = await resolver();
-			const postPath = '/blog' + path.slice(10, -3);
+	const paths = import.meta.glob('/blogposts/*.md', { eager: true });
 
-			return {
-				meta: metadata,
-				path: postPath
-			};
-		})
+	for (const path in paths) {
+		const file = paths[path];
+		const slug = path.split('/').at(-1)?.replace('.md', '');
+
+		if (file && typeof file === 'object' && 'metadata' in file && slug) {
+			const metadata = file.metadata as Omit<Post, 'slug'>;
+			const post = { ...metadata, slug } satisfies Post;
+			post.published && posts.push(post);
+		}
+	}
+	posts = posts.sort(
+		(first, second) => new Date(second.date).getTime() - new Date(first.date).getTime()
 	);
-
-	allPosts.sort((a, b) => {
-		return Date.parse(b.meta['date']) - Date.parse(a.meta['date']);
-	});
-
-	return allPosts;
+	return posts;
 };
 
-export const fetchMarkdownPostsContent = async (post: string) => {
+export const fetchPostsContent = async (post: string) => {
 	const allPostFiles = import.meta.glob<{
 		default: SvelteComponent;
 		metadata: Record<string, string>;
@@ -64,3 +61,12 @@ export const fetchMarkdownPostsContent = async (post: string) => {
 	});
 	return result;
 };
+
+type DateStyle = Intl.DateTimeFormatOptions['dateStyle'];
+
+export function formatDate(date: string, dateStyle: DateStyle = 'medium', locales = 'en') {
+	// Safari is mad about dashes in the date
+	const dateToFormat = new Date(date.replaceAll('-', '/'));
+	const dateFormatter = new Intl.DateTimeFormat(locales, { dateStyle });
+	return dateFormatter.format(dateToFormat);
+}

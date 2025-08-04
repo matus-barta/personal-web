@@ -1,9 +1,10 @@
 ---
 title: Concepts and development of Open-RMM
 date: '2023-04-05'
-excerpt: 'Description of Open RMM project and the concepts behind it.'
+description: 'Description of Open RMM project and the concepts behind it.'
 img: /media/blog/open-rmm/code.png
 img_transparent: false
+published: true
 ---
 
 _Disclaimer: this post is mostly to dump ideas from my mind and make the project goal more defined._
