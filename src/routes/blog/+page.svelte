@@ -35,7 +35,7 @@
 				<div class="flex flex-col justify-between py-1 rounded-xl w-full">
 					<div class="flex flex-col">
 						<h2 class="mb-2 mt-0">
-							<a href={post.slug}>{post.title}</a>
+							<a href={`/blog/${post.slug}`}>{post.title}</a>
 						</h2>
 						<h4 class="special">{post.description}</h4>
 					</div>
