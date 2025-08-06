@@ -1,21 +1,18 @@
 import adapter from '@sveltejs/adapter-netlify';
-import { vitePreprocess } from '@sveltejs/vite-plugin-svelte'
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import { mdsvex } from 'mdsvex';
 
 /** @type {import('mdsvex').MdsvexOptions} */
 const mdsvexOptions = {
-	extensions: ['.md'],
-}
+	extensions: ['.md']
+};
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	// Consult https://github.com/sveltejs/svelte-preprocess
 	// for more information about preprocessors
 	extensions: ['.svelte', '.md'],
-	preprocess: [
-		vitePreprocess(),
-		mdsvex(mdsvexOptions)
-	],
+	preprocess: [vitePreprocess(), mdsvex(mdsvexOptions)],
 	kit: {
 		adapter: adapter({
 			// if true, will create a Netlify Edge Function rather
@@ -30,7 +27,7 @@ const config = {
 		// hydrate the <div id="svelte"> element in src/app.html
 		prerender: {
 			crawl: true,
-			entries: ['*'],
+			entries: ['*']
 		}
 	}
 };

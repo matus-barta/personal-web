@@ -1,10 +1,10 @@
 <nav
-	class="bg-gray-700 backdrop-filter backdrop-blur-lg bg-opacity-30 w-screen border-b border-accent-color fixed min-w-[450px] z-10"
+	class="fixed z-10 w-screen min-w-[450px] border-b border-accent-color bg-gray-700 bg-opacity-30 backdrop-blur-lg backdrop-filter"
 >
-	<div class="max-w-6xl mx-auto px-4">
-		<div class="flex items-center justify-between h-16">
+	<div class="mx-auto max-w-6xl px-4">
+		<div class="flex h-16 items-center justify-between">
 			<a href="/">
-				<img src="/media/logo.svg" class="w-12 h-12 rounded-none" alt="logo" />
+				<img src="/media/logo.svg" class="h-12 w-12 rounded-none" alt="logo" />
 			</a>
 			<div class="flex space-x-4">
 				<a href="/blog">Blog</a>

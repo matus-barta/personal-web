@@ -12,28 +12,28 @@ body {
 	@apply min-w-[450px];
 }
 h1 {
-	@apply text-2xl md:text-4xl font-bold pb-3 tracking-tight;
+	@apply pb-3 text-2xl font-bold tracking-tight md:text-4xl;
 }
 h2 {
-	@apply tracking-tight font-bold  text-xl md:text-2xl mt-4;
+	@apply mt-4 text-xl font-bold tracking-tight md:text-2xl;
 }
 h3 {
-	@apply tracking-tight text-lg font-bold mb-1 mt-3;
+	@apply mb-1 mt-3 text-lg font-bold tracking-tight;
 }
 
 h3.special {
-	@apply text-sm font-normal text-slate-300 m-0;
+	@apply m-0 text-sm font-normal text-slate-300;
 }
 
 h4 {
-	@apply tracking-tight mt-2 italic;
+	@apply mt-2 italic tracking-tight;
 }
 
 h4.special {
-	@apply text-slate-300 m-0;
+	@apply m-0 text-slate-300;
 }
 pre {
-	@apply bg-neutral-800 rounded-xl mx-8 p-4 border-l-4 border-cyan-500 text-sm;
+	@apply mx-8 rounded-xl border-l-4 border-cyan-500 bg-neutral-800 p-4 text-sm;
 }
 p {
 	@apply mt-2;
@@ -44,33 +44,27 @@ p.special {
 }
 
 ul {
-	@apply list-disc ml-10 mb-5;
+	@apply mb-5 ml-10 list-disc;
 }
 
 code {
-	@apply bg-slate-600 rounded-md p-0.5 text-sm;
+	@apply rounded-md bg-slate-600 p-0.5 text-sm;
 }
 
 input {
-	@apply mt-1 w-full px-3 py-2 bg-gray-600 border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
-      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-      disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-      invalid:border-pink-500 invalid:text-pink-600
-      focus:invalid:border-pink-500 focus:invalid:ring-pink-500;
+	@apply mt-1 w-full rounded-md border border-slate-300 bg-gray-600 px-3 py-2 text-sm placeholder-slate-400 shadow-sm invalid:border-pink-500 invalid:text-pink-600 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:invalid:border-pink-500 focus:invalid:ring-pink-500 disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none;
 }
 textarea {
-	@apply mt-1 w-full h-32 px-3 py-2 bg-gray-600 border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400
-      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500
-      disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none;
+	@apply mt-1 h-32 w-full rounded-md border border-slate-300 bg-gray-600 px-3 py-2 text-sm placeholder-slate-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none;
 }
 
 button {
-	@apply px-6 py-2 text-base bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 focus:outline-none rounded-full;
+	@apply rounded-full bg-emerald-500 px-6 py-2 text-base hover:bg-emerald-600 focus:outline-none active:bg-emerald-700;
 }
 img {
 	@apply rounded-lg;
 }
 
 .window {
-	@apply bg-window-gray rounded-xl flex flex-col;
+	@apply flex flex-col rounded-xl bg-window-gray;
 }

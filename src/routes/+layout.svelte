@@ -9,9 +9,9 @@
 	let { children }: Props = $props();
 </script>
 
-<div class="flex flex-col h-screen justify-between">
+<div class="flex h-screen flex-col justify-between">
 	<Nav />
-	<div class="mb-auto p-8 pt-24 md:w-3/4 w-full max-w-5xl mx-auto">
+	<div class="mx-auto mb-auto w-full max-w-5xl p-8 pt-24 md:w-3/4">
 		{@render children?.()}
 	</div>
 	<Footer />
