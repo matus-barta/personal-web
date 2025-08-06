@@ -2,10 +2,6 @@ import type { Post } from '$lib/types';
 import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import matter from 'gray-matter';
-
 export const GET: RequestHandler = async () => {
 	try {
 		const allPosts = await getPosts();
@@ -18,19 +14,18 @@ export const GET: RequestHandler = async () => {
 async function parseMarkdownFiles() {
 	try {
 		const posts: Post[] = [];
-		const postsPath = path.resolve('blogposts');
-		const folders = await fs.readdir(postsPath);
 
-		for (const folder of folders) {
-			const markdownFilePath = path.join(postsPath, folder);
-			const slug = markdownFilePath.split('/').at(-1)?.replace('.md', '') as string;
+		const paths = import.meta.glob('/blogposts/*.md', { eager: true });
 
-			const markdownContent = await fs.readFile(markdownFilePath, 'utf-8');
-			const { data } = matter(markdownContent);
+		for (const path in paths) {
+			const file = paths[path];
+			const slug = path.split('/').at(-1)?.replace('.md', '');
 
-			const post = { ...(data as Post), slug } satisfies Post;
-
-			post.published && posts.push(post as Post);
+			if (file && typeof file === 'object' && 'metadata' in file && slug) {
+				const metadata = file.metadata as Omit<Post, 'slug'>;
+				const post = { ...metadata, slug } satisfies Post;
+				post.published && posts.push(post);
+			}
 		}
 
 		return posts;
