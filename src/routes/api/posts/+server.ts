@@ -35,7 +35,8 @@ async function parseMarkdownFiles() {
 
 		return posts;
 	} catch (e) {
-		throw new Error('Could not parse Markdown files');
+		throw e;
+		//throw new Error('Could not parse Markdown files');
 	}
 }
 
