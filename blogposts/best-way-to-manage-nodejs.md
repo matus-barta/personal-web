@@ -1,9 +1,10 @@
 ---
 title: Best way to manage Node.js
 date: '2022-02-25'
-excerpt: Quick how-to, to manage Node installation.
+description: Quick how-to, to manage Node installation.
 img: /media/blog/best-way-to-manage-nodejs/nodejs-logo-flat.svg
 img_transparent: true
+published: true
 ---
 
 Installation and updating of Node.js can be sometimes little complicated or annoying, there can be issues with version in your distribution's repository or after update of npm will start showing weird errors.

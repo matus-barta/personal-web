@@ -1,3 +1,4 @@
+import type { Post } from '$lib/types';
 import { expect, test } from '@playwright/test';
 
 test('check content of index', async ({ page }) => {
@@ -23,10 +24,9 @@ test('check content of blogpost open-rmm', async ({ page }) => {
 	await expect(page.getByTestId(`blog_post`)).toBeVisible();
 });
 
-test('check API', async ({ request }) => {
-	const posts = await request.get(`/api/post`);
+test('Check API', async ({ request }) => {
+	const posts = await request.get(`/api/posts`);
 	expect(posts.ok()).toBeTruthy();
-
-	const post = await request.get(`/api/post/open-rmm`);
-	expect(post.ok()).toBeTruthy();
+	const data: Post[] = await posts.json();
+	expect(data[0].slug == 'open-rmm').toBeTruthy();
 });

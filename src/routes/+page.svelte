@@ -1,6 +1,11 @@
 <script lang="ts">
+	import { formatDate } from '$lib/utils';
 	import type { PageData } from './$types';
-	export let data: PageData;
+	interface Props {
+		data: PageData;
+	}
+
+	let { data }: Props = $props();
 </script>
 
 <svelte:head>
@@ -31,8 +36,8 @@
 		<div class="flex flex-col mb-5">
 			{#each data.posts as post}
 				<div data-testid="latest_blog_post" class="flex space-x-2 items-center">
-					<a class="hover:underline" href={post.path}>{post.meta.title}</a>
-					<h4 class="text-xs align-bottom whitespace-nowrap special">{post.meta.date}</h4>
+					<a class="hover:underline" href={`/blog/${post.slug}`}>{post.title}</a>
+					<h4 class="text-xs align-bottom whitespace-nowrap special">{formatDate(post.date)}</h4>
 				</div>
 			{/each}
 		</div>

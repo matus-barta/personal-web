@@ -1,9 +1,10 @@
 ---
 title: Simple project for Node.js with Express.js and Docker
 date: '2023-02-05'
-excerpt: Simple and beginner-friendly docker container with healthcheck endpoint to call.
+description: Simple and beginner-friendly docker container with healthcheck endpoint to call.
 img: /media/blog/simple-nodejs-project/expressjs.png
 img_transparent: false
+published: true
 ---
 
 ## Description
