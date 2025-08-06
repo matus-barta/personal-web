@@ -1,16 +1,11 @@
 import type { PageLoad } from './$types';
 import { error } from '@sveltejs/kit';
 
-export const load: PageLoad = async ({ params, fetch }) => {
+export const load: PageLoad = async ({ params: { slug } }) => {
 	try {
-		const response = await fetch(`/api/post/${params.slug}`);
-		const { html, meta } = await response.json();
-
-		return {
-			html,
-			meta
-		};
+		const module = await import(`../../../../blogposts/${slug}.md`);
+		return { component: module.default, frontmatter: module.metadata };
 	} catch (e) {
-		error(404, `Could not find ${params.slug}`);
+		error(404, `Could not find ${slug} error: ${e}`);
 	}
 };

@@ -19,15 +19,15 @@
 	<div class="flex flex-col space-y-10">
 		{#each data.posts as post}
 			<div data-testid="blog_post" class="flex">
-				{#if post.meta.img_transparent}
+				{#if post.img_transparent}
 					<img
-						src={post.meta.img}
+						src={post.img}
 						alt="blog post logo"
 						class="object-cover p-3 w-48 md:w-96 rounded-xl mr-4 md:mr-8 bg-slate-100"
 					/>
 				{:else}
 					<img
-						src={post.meta.img}
+						src={post.img}
 						alt="blog post logo"
 						class="object-cover w-48 md:w-96 rounded-xl mr-4 md:mr-8"
 					/>
@@ -35,11 +35,11 @@
 				<div class="flex flex-col justify-between py-1 rounded-xl w-full">
 					<div class="flex flex-col">
 						<h2 class="mb-2 mt-0">
-							<a href={post.path}>{post.meta.title}</a>
+							<a href={post.slug}>{post.title}</a>
 						</h2>
-						<h4 class="special">{post.meta.excerpt}</h4>
+						<h4 class="special">{post.description}</h4>
 					</div>
-					<h3 class="special">{post.meta.date}</h3>
+					<h3 class="special">{post.date}</h3>
 				</div>
 			</div>
 		{/each}

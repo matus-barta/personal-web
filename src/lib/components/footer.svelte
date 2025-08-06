@@ -2,16 +2,16 @@
 	<p class="text-gray-400 m-0">• Matúš Barta • &copy {new Date().getFullYear()} •</p>
 	<div class="flex space-x-2">
 		<a href="https://bsky.app/profile/anonymus09.bsky.social">
-			<img src="/media/social/bsky.svg" alt="bluesky" />
+			<img src="/media/social/bsky-grey.svg" alt="bluesky" />
 		</a>
 		<a href="https://www.instagram.com/matus.barta09/">
-			<img src="/media/social/ig.svg" alt="instagram" />
+			<img src="/media/social/ig-grey.svg" alt="instagram" />
 		</a>
 		<a href="https://www.youtube.com/channel/UCPWg-Iw7QFAXM-H2WjzPxiA">
-			<img src="/media/social/yt.svg" alt="youtube" />
+			<img src="/media/social/yt-grey.svg" alt="youtube" />
 		</a>
 		<a href="https://github.com/matus-barta">
-			<img src="/media/social/gh.svg" alt="github" />
+			<img src="/media/social/gh-grey.svg" alt="github" />
 		</a>
 	</div>
 	<p class="text-gray-400 m-0">•</p>

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { formatDate } from '$lib/utils';
+
 	//import {} from "../../../../static/prism/prism"
 	import type { PageData } from './$types';
 	interface Props {
@@ -9,33 +11,33 @@
 </script>
 
 <svelte:head>
-	<title>{data.meta.title}</title>
+	<title>{data.frontmatter.title}</title>
 	<link href="/prism/prism.css" rel="stylesheet" />
 </svelte:head>
 
 <div data-testid="blog_post" class="window">
-	{#if data.meta.img_transparent}
-		<img src={data.meta.img} alt="blog title" class="bg-slate-100 px-3" />
+	{#if data.frontmatter.img_transparent}
+		<img src={data.frontmatter.img} alt="blog title" class="bg-slate-100 px-3" />
 	{:else}
-		<img src={data.meta.img} alt="blog title" />
+		<img src={data.frontmatter.img} alt="blog title" />
 	{/if}
 	<div class="px-3 md:px-6 pt-2 flex flex-col">
 		<div class="flex flex-row justify-between items-end">
-			<h1 class="p-0 mt-1 w-fit">{data.meta.title}</h1>
-			<h3 class="w-fit mb-5 align-text-bottom whitespace-nowrap special">{data.meta.date}</h3>
+			<h1 class="p-0 mt-1 w-fit">{data.frontmatter.title}</h1>
+			<h3 class="w-fit mb-5 align-text-bottom whitespace-nowrap special">
+				{formatDate(data.frontmatter.date)}
+			</h3>
 		</div>
 		<div
 			class="h-1 my-1 bg-gradient-to-r from-emerald-500 via-sky-500 to-blue-700 w-full rounded-xl"
 		></div>
 		<div class="my-2">
-			<div>
-				{@html data.html}
-			</div>
+			<data.component />
 		</div>
 	</div>
 </div>
 
-<style>
+<style lang="postcss">
 	img {
 		@apply w-full h-44 rounded-xl rounded-b-none object-cover;
 	}
