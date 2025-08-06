@@ -11,7 +11,7 @@ export const GET: RequestHandler = async () => {
 		const allPosts = await getPosts();
 		return json(allPosts);
 	} catch (e) {
-		error(404, 'Failed to load posts');
+		error(404, `Failed to load posts. Details: ${e}`);
 	}
 };
 
