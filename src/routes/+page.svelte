@@ -12,7 +12,7 @@
 	<title>Matus Barta | Anonymus09</title>
 </svelte:head>
 
-<div class="window px-3 pb-6 pt-6 shadow-md md:px-6">
+<div class="window px-3 pt-6 pb-6 shadow-md md:px-6">
 	<div class="flex justify-between">
 		<div class="flex flex-col">
 			<h1>
@@ -25,23 +25,23 @@
 				Barta
 			</h1>
 			<p>IT guy, hobby developer, homelab enthusiast, gamer, space nerd.</p>
-			<a class="mt-5 text-sm text-gray-500 hover:text-gray-400 hover:underline" href="/about"
+			<a class="mt-5 text-sm! text-gray-500! hover:text-gray-400! hover:underline" href="/about"
 				>More on About page</a
 			>
 		</div>
-		<img class="ml-2 h-32 w-32 rounded-full md:h-40 md:w-40" src="/media/ksp.jpg" alt="logo" />
+		<img class="ml-2 h-32 w-32 rounded-full! md:h-40 md:w-40" src="/media/ksp.jpg" alt="logo" />
 	</div>
-	<div class="pb-6 pt-6">
+	<div class="pt-6 pb-6">
 		<h1 class="mb-1 text-2xl font-bold tracking-tight md:text-4xl">Latest Blog Posts</h1>
 		<div class="mb-5 flex flex-col">
 			{#each data.posts as post (post.slug)}
 				<div data-testid="latest_blog_post" class="flex items-center space-x-2">
 					<a class="hover:underline" href={`/blog/${post.slug}`}>{post.title}</a>
-					<h4 class="special whitespace-nowrap align-bottom text-xs">{formatDate(post.date)}</h4>
+					<h4 class="special align-bottom text-xs whitespace-nowrap">{formatDate(post.date)}</h4>
 				</div>
 			{/each}
 		</div>
-		<a class="text-sm text-gray-500 hover:text-gray-400 hover:underline" href="/blog"
+		<a class="text-sm! text-gray-500! hover:text-gray-400! hover:underline" href="/blog"
 			>See All Posts</a
 		>
 	</div>

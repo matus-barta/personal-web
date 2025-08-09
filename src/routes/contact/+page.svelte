@@ -35,7 +35,8 @@
 </form>
 
 
-<style>
+<style lang="postcss">
+@reference "../../app.css";
 	p {
 		@apply text-sm font-medium;
 	}

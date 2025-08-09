@@ -1,5 +1,5 @@
 <nav
-	class="fixed z-10 w-screen min-w-[450px] border-b border-accent-color bg-gray-700 bg-opacity-30 backdrop-blur-lg backdrop-filter"
+	class="bg-opacity-30 fixed z-10 w-screen min-w-[450px] border-b border-accent-color backdrop-blur-lg backdrop-filter"
 >
 	<div class="mx-auto max-w-6xl px-4">
 		<div class="flex h-16 items-center justify-between">
@@ -16,7 +16,8 @@
 	</div>
 </nav>
 
-<style>
+<style lang="postcss">
+	@reference "../../app.css";
 	a {
 		@apply font-bold text-slate-100;
 	}
