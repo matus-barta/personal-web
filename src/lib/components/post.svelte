@@ -22,7 +22,7 @@
 		</div>
 	</div>
 	<div
-		class="mb-3 mt-3 h-1 w-full rounded-xl bg-gradient-to-r from-emerald-500 via-sky-500 to-blue-700"
+		class="mb-3 mt-3 h-1 w-full rounded-xl bg-linear-to-r from-emerald-500 via-sky-500 to-blue-700"
 	></div>
 	<div class="flex justify-between">
 		<h3 class="special">{excerpt}</h3>

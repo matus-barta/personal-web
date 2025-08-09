@@ -1,7 +1,31 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
+@theme {
+  --color-accent-color: #4ff0ba;
+  --color-accent-color-lighter: #bef263;
+  --color-background: #181a1a;
+  --color-window-gray: #2c3441;
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+/*
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+*/
 html {
 	@apply bg-background text-slate-100;
 }
@@ -52,14 +76,14 @@ code {
 }
 
 input {
-	@apply mt-1 w-full rounded-md border border-slate-300 bg-gray-600 px-3 py-2 text-sm placeholder-slate-400 shadow-sm invalid:border-pink-500 invalid:text-pink-600 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:invalid:border-pink-500 focus:invalid:ring-pink-500 disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none;
+	@apply mt-1 w-full rounded-md border border-slate-300 bg-gray-600 px-3 py-2 text-sm placeholder-slate-400 shadow-xs invalid:border-pink-500 invalid:text-pink-600 focus:border-sky-500 focus:outline-hidden focus:ring-1 focus:ring-sky-500 focus:invalid:border-pink-500 focus:invalid:ring-pink-500 disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none;
 }
 textarea {
-	@apply mt-1 h-32 w-full rounded-md border border-slate-300 bg-gray-600 px-3 py-2 text-sm placeholder-slate-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none;
+	@apply mt-1 h-32 w-full rounded-md border border-slate-300 bg-gray-600 px-3 py-2 text-sm placeholder-slate-400 shadow-xs focus:border-sky-500 focus:outline-hidden focus:ring-1 focus:ring-sky-500 disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none;
 }
 
 button {
-	@apply rounded-full bg-emerald-500 px-6 py-2 text-base hover:bg-emerald-600 focus:outline-none active:bg-emerald-700;
+	@apply rounded-full bg-emerald-500 px-6 py-2 text-base hover:bg-emerald-600 focus:outline-hidden active:bg-emerald-700;
 }
 img {
 	@apply rounded-lg;
