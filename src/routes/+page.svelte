@@ -24,7 +24,7 @@
 				</span>
 				Barta
 			</h1>
-			<p>IT guy, hobby developer, homelab enthusiast, gamer, space nerd.</p>
+			<p>IT professional, hobby developer, homelab enthusiast, gamer, space nerd.</p>
 			<a class="mt-5 text-sm! text-gray-500! hover:text-gray-400! hover:underline" href="/about"
 				>More on About page</a
 			>
