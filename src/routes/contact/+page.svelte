@@ -5,7 +5,7 @@
 <h1>Contact</h1>
 <h3 class="special">Feel free to contact me</h3>
 
-<div class="w-full md:w-3/4">
+<div class="window mt-5 px-3 py-3 shadow-md md:px-6 md:py-6">
 	<p>Nothing to be found here...</p>
 </div>
 
