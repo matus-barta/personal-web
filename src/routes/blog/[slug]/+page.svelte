@@ -31,7 +31,7 @@
 		<div
 			class="my-1 h-1 w-full rounded-xl bg-linear-to-r from-emerald-500 via-sky-500 to-blue-700"
 		></div>
-		<div class="my-2">
+		<div class="my-2 pb-10">
 			<data.component />
 		</div>
 	</div>

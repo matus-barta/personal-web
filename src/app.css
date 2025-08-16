@@ -1,10 +1,10 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-accent-color: #4ff0ba;
-  --color-accent-color-lighter: #bef263;
-  --color-background: #181a1a;
-  --color-window-gray: #2c3441;
+	--color-accent-color: #4ff0ba;
+	--color-accent-color-lighter: #bef263;
+	--color-background: #181a1a;
+	--color-window-gray: #2c3441;
 }
 
 /*
@@ -42,7 +42,7 @@ h2 {
 	@apply mt-4 text-xl font-bold tracking-tight md:text-2xl;
 }
 h3 {
-	@apply mb-1 mt-3 text-lg font-bold tracking-tight;
+	@apply mt-3 mb-1 text-lg font-bold tracking-tight;
 }
 
 h3.special {
@@ -50,7 +50,7 @@ h3.special {
 }
 
 h4 {
-	@apply mt-2 italic tracking-tight;
+	@apply mt-2 tracking-tight italic;
 }
 
 h4.special {
@@ -76,10 +76,10 @@ code {
 }
 
 input {
-	@apply mt-1 w-full rounded-md border border-slate-300 bg-gray-600 px-3 py-2 text-sm placeholder-slate-400 shadow-xs invalid:border-pink-500 invalid:text-pink-600 focus:border-sky-500 focus:outline-hidden focus:ring-1 focus:ring-sky-500 focus:invalid:border-pink-500 focus:invalid:ring-pink-500 disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none;
+	@apply mt-1 w-full rounded-md border border-slate-300 bg-gray-600 px-3 py-2 text-sm placeholder-slate-400 shadow-xs invalid:border-pink-500 invalid:text-pink-600 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 focus:outline-hidden focus:invalid:border-pink-500 focus:invalid:ring-pink-500 disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none;
 }
 textarea {
-	@apply mt-1 h-32 w-full rounded-md border border-slate-300 bg-gray-600 px-3 py-2 text-sm placeholder-slate-400 shadow-xs focus:border-sky-500 focus:outline-hidden focus:ring-1 focus:ring-sky-500 disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none;
+	@apply mt-1 h-32 w-full rounded-md border border-slate-300 bg-gray-600 px-3 py-2 text-sm placeholder-slate-400 shadow-xs focus:border-sky-500 focus:ring-1 focus:ring-sky-500 focus:outline-hidden disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none;
 }
 
 button {

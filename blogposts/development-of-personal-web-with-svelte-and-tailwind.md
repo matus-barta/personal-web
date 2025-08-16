@@ -40,11 +40,11 @@ mv postcss.config.js postcss.config.cjs
 
 ```js
 module.exports = {
-	content: ['./src/**/*.{html,js,svelte,ts}'],
-	theme: {
-		extend: {}
-	},
-	plugins: []
+    content: ['./src/**/*.{html,js,svelte,ts}'],
+    theme: {
+        extend: {}
+    },
+    plugins: []
 };
 ```
 
@@ -88,23 +88,23 @@ import { mdsvex } from 'mdsvex';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-	extensions: ['.svelte', '.md'],
-	preprocess: [
-		preprocess(),
-		mdsvex({
-			extensions: ['.md'],
-			layout: {
-				blog: 'src/routes/blog/post.svelte'
-			}
-		})
-	],
-	kit: {
-		// hydrate the <div id="svelte"> element in src/app.html
-		prerender: {
-			crawl: true,
-			entries: ['*']
-		}
-	}
+    extensions: ['.svelte', '.md'],
+    preprocess: [
+        preprocess(),
+        mdsvex({
+            extensions: ['.md'],
+            layout: {
+                blog: 'src/routes/blog/post.svelte'
+            }
+        })
+    ],
+    kit: {
+        // hydrate the <div id="svelte"> element in src/app.html
+        prerender: {
+            crawl: true,
+            entries: ['*']
+        }
+    }
 };
 
 export default config;
@@ -119,26 +119,26 @@ This config will use `post.svelte` as a template for our posts that have structu
 
 ```html
 <script lang="ts">
-	//variables filled in header part of .md file
-	export var title, date, img;
+    //variables filled in header part of .md file
+    export var title, date, img;
 </script>
 
 <svelte:head>
-	<title>{title}</title>
+    <title>{title}</title>
 </svelte:head>
 
 <div>
-	<!--use the metadata from .md header to build info about the blogpost (be creative here)-->
-	<img src="{img}" />
+    <!--use the metadata from .md header to build info about the blogpost (be creative here)-->
+    <img src="{img}" />
 
-	<!--little bit of Tailwind to arrange items under each other-->
-	<div class="flex flex-col">
-		<h1>{title}</h1>
-		<h3>{date}</h3>
+    <!--little bit of Tailwind to arrange items under each other-->
+    <div class="flex flex-col">
+        <h1>{title}</h1>
+        <h3>{date}</h3>
 
-		<!--here our .md compiled to Svelte will go-->
-		<slot />
-	</div>
+        <!--here our .md compiled to Svelte will go-->
+        <slot />
+    </div>
 </div>
 ```
 

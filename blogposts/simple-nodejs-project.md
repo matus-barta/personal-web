@@ -59,8 +59,8 @@ dotenv.config(); // initialize configuration for .env file
 
 // start HTTP server to be listening
 app.listen(port, host, () => {
-	log.info(`⚡️ : Server is running at http://${host}:${port}`);
-	checkEnvEndpoints(); // show what setting we are using and check if they are correct
+    log.info(`⚡️ : Server is running at http://${host}:${port}`);
+    checkEnvEndpoints(); // show what setting we are using and check if they are correct
 });
 ```
 
@@ -127,8 +127,8 @@ I am using Jest for testing. No real preference here, more like I found it after
 ```js
 /** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 module.exports = {
-	preset: 'ts-jest',
-	testEnvironment: 'node'
+    preset: 'ts-jest',
+    testEnvironment: 'node'
 };
 ```
 
@@ -137,55 +137,55 @@ module.exports = {
 ```ts
 // setup before all tests begin
 beforeAll(() => {
-	process.env.NODE_ENV = 'test'; // set env var to test to enable logs
+    process.env.NODE_ENV = 'test'; // set env var to test to enable logs
 });
 
 // setup before each test
 beforeEach(() => {
-	server = app.listen(port, host); // start express server
+    server = app.listen(port, host); // start express server
 });
 
 // after each test is done
 afterEach(() => {
-	server.close(); // stop the express server
+    server.close(); // stop the express server
 });
 
 // testing endpoint /healthcheck
 describe('ENDPOINT: /healthcheck', () => {
-	// test JSON response
-	it('JSON         - 200', async () => {
-		// set env var for the test
-		// enable JSON and healthcheck endpoint disable root endpoint
-		setEnv(true, true, false);
+    // test JSON response
+    it('JSON         - 200', async () => {
+        // set env var for the test
+        // enable JSON and healthcheck endpoint disable root endpoint
+        setEnv(true, true, false);
 
-		const res = await request(app).get('/healthcheck'); // run request
+        const res = await request(app).get('/healthcheck'); // run request
 
-		expect(res.statusCode).toBe(200); // check for 200
-		expect(res.body).toEqual({ status: 'OK' }); // check for JSON response
-	});
+        expect(res.statusCode).toBe(200); // check for 200
+        expect(res.body).toEqual({ status: 'OK' }); // check for JSON response
+    });
 
-	// test plaintext response
-	it('TEXT         - 200', async () => {
-		// set env var for the test
-		// enable plaintext and healthcheck endpoint disable root endpoint
-		setEnv(false, true, false);
+    // test plaintext response
+    it('TEXT         - 200', async () => {
+        // set env var for the test
+        // enable plaintext and healthcheck endpoint disable root endpoint
+        setEnv(false, true, false);
 
-		const res = await request(app).get('/healthcheck'); // run request
+        const res = await request(app).get('/healthcheck'); // run request
 
-		expect(res.statusCode).toBe(200); // check for 200
-		expect(res.text).toEqual('OK'); // check for plaintext response
-	});
+        expect(res.statusCode).toBe(200); // check for 200
+        expect(res.text).toEqual('OK'); // check for plaintext response
+    });
 
-	// test if we contact root when disabled we get 404
-	it('/            - 404', async () => {
-		// set env var for the test
-		// enable plaintext and healthcheck endpoint disable root endpoint
-		setEnv(false, true, false);
+    // test if we contact root when disabled we get 404
+    it('/            - 404', async () => {
+        // set env var for the test
+        // enable plaintext and healthcheck endpoint disable root endpoint
+        setEnv(false, true, false);
 
-		const res = await request(app).get('/'); // run request
+        const res = await request(app).get('/'); // run request
 
-		expect(res.statusCode).toBe(404); // check for 404
-	});
+        expect(res.statusCode).toBe(404); // check for 404
+    });
 });
 ```
 
@@ -276,20 +276,20 @@ If you want to deploy this project on your server the easiest way is to use dock
 ```yaml
 version: '3.0'
 services:
-  healthcheck: # name of the service
-    image: ghcr.io/matus-barta/healthcheck:latest # addres to the image in the repository
-    container_name: healthcheck # name of the container
-    environment: # here we setup our env vars
-      - PORT=8082 # listening port
-      - HOST="localhost" # listening IP address
-      - ROOT_RES="true" # https://<domain>/
-      - ENDPOINT_RES="false" # https://<domain>/healthcheck
-      - JSON_RES="true" # response in JSON
-    ports:
-      - 8082:8082 # ports we will be listening on (external port : internal port)
-    restart: unless-stopped # dont stop the service
-    security_opt:
-      - no-new-privileges:true # some security stuff not really needed
+    healthcheck: # name of the service
+        image: ghcr.io/matus-barta/healthcheck:latest # addres to the image in the repository
+        container_name: healthcheck # name of the container
+        environment: # here we setup our env vars
+            - PORT=8082 # listening port
+            - HOST="localhost" # listening IP address
+            - ROOT_RES="true" # https://<domain>/
+            - ENDPOINT_RES="false" # https://<domain>/healthcheck
+            - JSON_RES="true" # response in JSON
+        ports:
+            - 8082:8082 # ports we will be listening on (external port : internal port)
+        restart: unless-stopped # dont stop the service
+        security_opt:
+            - no-new-privileges:true # some security stuff not really needed
 ```
 
 #### GitHub Actions
