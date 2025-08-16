@@ -43,24 +43,24 @@ This was the part of the code I was stuck for so long (relatively speaking). Thi
 
 ```ts
 const allPostFiles = import.meta.glob<{
-	metadata: Record<string, string>;
+    metadata: Record<string, string>;
 }>('/blogposts/*.md');
 const iterablePostFiles = Object.entries(allPostFiles);
 
 const allPosts = await Promise.all(
-	iterablePostFiles.map(async ([path, resolver]) => {
-		const { metadata } = await resolver();
-		const postPath = '/blog' + path.slice(10, -3);
+    iterablePostFiles.map(async ([path, resolver]) => {
+        const { metadata } = await resolver();
+        const postPath = '/blog' + path.slice(10, -3);
 
-		return {
-			meta: metadata,
-			path: postPath
-		};
-	})
+        return {
+            meta: metadata,
+            path: postPath
+        };
+    })
 );
 
 allPosts.sort((a, b) => {
-	return Date.parse(b.meta['date']) - Date.parse(a.meta['date']);
+    return Date.parse(b.meta['date']) - Date.parse(a.meta['date']);
 });
 ```
 
