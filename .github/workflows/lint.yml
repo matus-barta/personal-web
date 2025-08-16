@@ -44,11 +44,11 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: 
-              '‼️ Please run `pnpm run format` on your PR! Thank you. ‼️
+              `‼️ Please run \`pnpm run format\` on your PR! Thank you. ‼️
 
               *Some more info:*
-              ```
-              ${{join(steps.lint.outputs.*, '\n')}}
-              ```
-              '
+              \`\`\`
+              ${join(steps.lint.outputs.*, '\n')}
+              \`\`\`
+              `
             })
