@@ -39,7 +39,7 @@ Then I find [this](https://github.com/pngwn/MDsveX/discussions/220#discussioncom
 
 This was the part of the code I was stuck for so long (relatively speaking). This answer described the types I needed to know what I can call and what to return (I don't know how you JS guys doing this). Then I just changed it to return raw html so I can easily pass it in API call.
 
-### Here is mine implementation to get all blogposts
+###  Here is mine implementation to get all blogposts
 
 ```ts
 const allPostFiles = import.meta.glob<{
