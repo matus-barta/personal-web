@@ -31,7 +31,7 @@ jobs:
 
       - name: Run lint
         id: lint
-        run: pnpm run lint >> $GITHUB_OUTPUT
+        run: echo "lint=$(pnpm run lint)\n" >> $GITHUB_OUTPUT
 
       - name: Comment on how to fix lint issue
         if: (github.event_name == 'pull_request') && (failure() && steps.lint.outcome == 'failure')
@@ -48,7 +48,7 @@ jobs:
 
               *Some more info:*
               \`\`\`
-              ${{join(steps.lint.outputs.*)}}
+              ${{join(steps.lint.outputs.*, '\n')}}
               \`\`\`
               `
             })
