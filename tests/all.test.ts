@@ -31,5 +31,5 @@ test('Check API', async ({ request }) => {
 	const posts = await request.get(`/api/posts`);
 	expect(posts.ok()).toBeTruthy();
 	const data: Post[] = await posts.json();
-	expect(data[BLOGPOSTS_COUNT - 1].slug == 'best-way-to-manage-nodejs').toBeTruthy();
+	expect(data[BLOGPOSTS_COUNT - 1].slug == "best-way-to-manage-nodejs").toBeTruthy();
 });
