@@ -31,7 +31,7 @@ jobs:
 
       - name: Run lint
         id: lint
-        run: echo "lint=$(pnpm run lint)\n" >> $GITHUB_OUTPUT
+        run: pnpm run lint
 
       - name: Comment on how to fix lint issue
         if: (github.event_name == 'pull_request') && (failure() && steps.lint.outcome == 'failure')
@@ -44,11 +44,5 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: 
-              `‼️ Please run \`pnpm run format\` on your PR! Thank you. ‼️
-
-              *Some more info:*
-              \`\`\`
-              ${{join(steps.lint.outputs.*, '\n')}}
-              \`\`\`
-              `
+              `‼️ Please run \`pnpm run format\` on your PR! Thank you. ‼️`
             })
