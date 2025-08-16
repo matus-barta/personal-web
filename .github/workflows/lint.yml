@@ -26,6 +26,9 @@ jobs:
           cache-dependency-path: ./pnpm-lock.yaml
           cache: 'pnpm'
 
+      - name: Install dependencies
+        run: pnpm i
+
       - name: Run lint
         id: lint
         run: pnpm run lint
