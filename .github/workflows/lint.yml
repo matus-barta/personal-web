@@ -48,7 +48,7 @@ jobs:
 
               *Some more info:*
               \`\`\`
-              ${{steps.lint.outputs.*.length}}
+              ${{join(steps.lint.outputs.*)}}
               \`\`\`
               `
             })
