@@ -48,7 +48,7 @@ jobs:
 
               *Some more info:*
               \`\`\`
-              ${{join(steps.lint.outputs.*, '\n')}}
+              ${JSON.stringify(steps.lint.outputs)}
               \`\`\`
               `
             })
