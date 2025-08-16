@@ -43,5 +43,12 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '‼️ Please run `pnpm run format` on your PR! Thank you. ‼️'
+              body: 
+              '‼️ Please run `pnpm run format` on your PR! Thank you. ‼️
+
+              *Some more info:*
+              ```
+              ${{join(steps.lint.outputs.*, '\n')}}
+              ```
+              '
             })
