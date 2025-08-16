@@ -9,7 +9,7 @@
 <h1>Projects</h1>
 <h3 class="special">Some of my personal projects</h3>
 
-<div class="window mt-5 px-3 pb-6 pt-6 shadow-md md:px-6">
+<div class="window mt-5 px-3 pt-6 pb-6 shadow-md md:px-6">
 	<Post
 		img="/media/projects/personalweb.png"
 		img_alt="Personal Web logo"
