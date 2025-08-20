@@ -20,7 +20,7 @@ jobs:
         with:
           path: |
             ~/.cache/ms-playwright
-          key: playwright-${{ hashFiles('package-lock.yaml') }}
+          key: playwright-${{ hashFiles('pnpm-lock.yaml') }}
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
