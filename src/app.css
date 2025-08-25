@@ -50,7 +50,7 @@ h3.special {
 }
 
 h4 {
-	@apply mt-4  tracking-tight font-bold;
+	@apply mt-4 font-bold tracking-tight;
 }
 
 h4.special {
