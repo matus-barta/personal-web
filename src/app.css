@@ -60,7 +60,7 @@ pre {
 	@apply mx-8 rounded-xl border-l-4 border-cyan-500 bg-neutral-800 p-4 text-sm;
 }
 p {
-	@apply mt-1;
+	@apply my-2;
 }
 
 p.special {
