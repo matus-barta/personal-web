@@ -51,8 +51,8 @@ importers:
         specifier: 0.12.6
         version: 0.12.6(svelte@5.38.1)
       npm-check-updates:
-        specifier: 18.0.2
-        version: 18.0.2
+        specifier: 18.0.3
+        version: 18.0.3
       postcss:
         specifier: 8.5.6
         version: 8.5.6
@@ -1141,8 +1141,8 @@ packages:
   natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
 
-  npm-check-updates@18.0.2:
-    resolution: {integrity: sha512-9uVFZUCg5oDOcbzdsrJ4BEvq2gikd23tXuF5mqpl4mxVl051lzB00Xmd7ZVjVWY3XNUF3BQKWlN/qmyD8/bwrA==}
+  npm-check-updates@18.0.3:
+    resolution: {integrity: sha512-IMZWxgAa5gpDVEle2KOZOMLfCu2/9FV+xsXQjPFt2OV0dyZixn0OJrZ9NxUcWgr/ZTGogmZtE0Cb8x2wlsVULg==}
     engines: {node: ^18.18.0 || >=20.0.0, npm: '>=8.12.1'}
     hasBin: true
 
@@ -2508,7 +2508,7 @@ snapshots:
 
   natural-compare@1.4.0: {}
 
-  npm-check-updates@18.0.2: {}
+  npm-check-updates@18.0.3: {}
 
   optionator@0.9.4:
     dependencies:
