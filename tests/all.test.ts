@@ -1,7 +1,7 @@
 import type { Post } from '$lib/types';
 import { expect, test } from '@playwright/test';
 
-const BLOGPOSTS_COUNT = 5;
+const BLOGPOSTS_COUNT = 6;
 const PROJECTS_COUNT = 5;
 
 test('check content of index', async ({ page }) => {

@@ -1,7 +1,5 @@
 <script lang="ts">
 	import { formatDate } from '$lib/utils';
-
-	//import {} from "../../../../static/prism/prism"
 	import type { PageData } from './$types';
 	interface Props {
 		data: PageData;
