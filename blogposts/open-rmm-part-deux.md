@@ -4,10 +4,10 @@ date: '2025-08-25'
 description: 'Long due development update for Open-RMM'
 img: /media/blog/open-rmm-part-deux/title.png
 img_transparent: false
-published: false
+published: true
 ---
 
-**The original disclaimer still valid:** _this post is mostly to dump ideas from my mind and make the project goal more defined for me._
+**The original disclaimer is still valid:** _this post is mostly to dump ideas from my mind and make the project goal more defined for me._
 
 ## Quick reintroduction: What is Open-RMM?
 
