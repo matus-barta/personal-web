@@ -18,8 +18,8 @@ importers:
         specifier: 1.55.0
         version: 1.55.0
       '@sveltejs/adapter-netlify':
-        specifier: 5.2.3
-        version: 5.2.3(@sveltejs/kit@2.31.1(@sveltejs/vite-plugin-svelte@6.1.2(svelte@5.38.1)(vite@7.1.5(jiti@2.5.1)(lightningcss@1.30.1)(yaml@2.8.0)))(svelte@5.38.1)(vite@7.1.5(jiti@2.5.1)(lightningcss@1.30.1)(yaml@2.8.0)))
+        specifier: 5.2.4
+        version: 5.2.4(@sveltejs/kit@2.31.1(@sveltejs/vite-plugin-svelte@6.1.2(svelte@5.38.1)(vite@7.1.5(jiti@2.5.1)(lightningcss@1.30.1)(yaml@2.8.0)))(svelte@5.38.1)(vite@7.1.5(jiti@2.5.1)(lightningcss@1.30.1)(yaml@2.8.0)))
       '@sveltejs/kit':
         specifier: 2.31.1
         version: 2.31.1(@sveltejs/vite-plugin-svelte@6.1.2(svelte@5.38.1)(vite@7.1.5(jiti@2.5.1)(lightningcss@1.30.1)(yaml@2.8.0)))(svelte@5.38.1)(vite@7.1.5(jiti@2.5.1)(lightningcss@1.30.1)(yaml@2.8.0))
@@ -482,8 +482,8 @@ packages:
     peerDependencies:
       acorn: ^8.9.0
 
-  '@sveltejs/adapter-netlify@5.2.3':
-    resolution: {integrity: sha512-xO9qsChQqfncgsrXgQb3phGTpKhlyPn7jusnl/HJwKJqzmEZ/xB/dAa0qFqrp+LNxEA+FPE7rJg36cmBaydXSg==}
+  '@sveltejs/adapter-netlify@5.2.4':
+    resolution: {integrity: sha512-UtPcZq1HUA43hM8uLi+nsm5Q+YjHNj7/SMFoyeLZeY/VTloVWABEZ0tJ5WodTUmy/8j5QJ7oLZjj28aQxi8y3g==}
     peerDependencies:
       '@sveltejs/kit': ^2.4.0
 
@@ -1475,6 +1475,7 @@ packages:
   tar@7.4.3:
     resolution: {integrity: sha512-5S7Va8hKfV7W5U6g3aYxXmlPoZVAwUMy9AOKyF2fVuZa2UD3qZjg578OrLRt8PcNN1PleVaL/5/yYATNL0ICUw==}
     engines: {node: '>=18'}
+    deprecated: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   tinyglobby@0.2.15:
     resolution: {integrity: sha512-j2Zq4NyQYG5XMST4cbs02Ak8iJUdxRM0XI5QyxXuZOzKOINmWurp3smXu3y5wDcJrptwpSjgXHzIQxR0omXljQ==}
@@ -1870,7 +1871,7 @@ snapshots:
     dependencies:
       acorn: 8.15.0
 
-  '@sveltejs/adapter-netlify@5.2.3(@sveltejs/kit@2.31.1(@sveltejs/vite-plugin-svelte@6.1.2(svelte@5.38.1)(vite@7.1.5(jiti@2.5.1)(lightningcss@1.30.1)(yaml@2.8.0)))(svelte@5.38.1)(vite@7.1.5(jiti@2.5.1)(lightningcss@1.30.1)(yaml@2.8.0)))':
+  '@sveltejs/adapter-netlify@5.2.4(@sveltejs/kit@2.31.1(@sveltejs/vite-plugin-svelte@6.1.2(svelte@5.38.1)(vite@7.1.5(jiti@2.5.1)(lightningcss@1.30.1)(yaml@2.8.0)))(svelte@5.38.1)(vite@7.1.5(jiti@2.5.1)(lightningcss@1.30.1)(yaml@2.8.0)))':
     dependencies:
       '@iarna/toml': 2.2.5
       '@sveltejs/kit': 2.31.1(@sveltejs/vite-plugin-svelte@6.1.2(svelte@5.38.1)(vite@7.1.5(jiti@2.5.1)(lightningcss@1.30.1)(yaml@2.8.0)))(svelte@5.38.1)(vite@7.1.5(jiti@2.5.1)(lightningcss@1.30.1)(yaml@2.8.0))
