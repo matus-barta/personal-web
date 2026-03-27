@@ -48,8 +48,8 @@ importers:
         specifier: 16.4.0
         version: 16.4.0
       mdsvex:
-        specifier: 0.12.6
-        version: 0.12.6(svelte@5.38.1)
+        specifier: 0.12.7
+        version: 0.12.7(svelte@5.38.1)
       npm-check-updates:
         specifier: 18.1.0
         version: 18.1.0
@@ -1110,8 +1110,8 @@ packages:
     engines: {node: '>= 16'}
     hasBin: true
 
-  mdsvex@0.12.6:
-    resolution: {integrity: sha512-pupx2gzWh3hDtm/iDW4WuCpljmyHbHi34r7ktOqpPGvyiM4MyfNgdJ3qMizXdgCErmvYC9Nn/qyjePy+4ss9Wg==}
+  mdsvex@0.12.7:
+    resolution: {integrity: sha512-gx4bReLCUvq+MPErHXYeyX+TEq1hsS2KfiZtEOMNTcbibSouFy8AHc5h04KbGCl+g5tLuo4/lbgRVYRnc7bJZw==}
     peerDependencies:
       svelte: ^3.56.0 || ^4.0.0 || ^5.0.0-next.120
 
@@ -1475,6 +1475,7 @@ packages:
   tar@7.4.3:
     resolution: {integrity: sha512-5S7Va8hKfV7W5U6g3aYxXmlPoZVAwUMy9AOKyF2fVuZa2UD3qZjg578OrLRt8PcNN1PleVaL/5/yYATNL0ICUw==}
     engines: {node: '>=18'}
+    deprecated: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   tinyglobby@0.2.15:
     resolution: {integrity: sha512-j2Zq4NyQYG5XMST4cbs02Ak8iJUdxRM0XI5QyxXuZOzKOINmWurp3smXu3y5wDcJrptwpSjgXHzIQxR0omXljQ==}
@@ -2501,7 +2502,7 @@ snapshots:
 
   marked@5.1.2: {}
 
-  mdsvex@0.12.6(svelte@5.38.1):
+  mdsvex@0.12.7(svelte@5.38.1):
     dependencies:
       '@types/mdast': 4.0.4
       '@types/unist': 2.0.11
