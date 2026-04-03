@@ -1,18 +1,19 @@
-import adapter from '@sveltejs/adapter-netlify';
-import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import { mdsvex } from 'mdsvex';
-
-/** @type {import('mdsvex').MdsvexOptions} */
-const mdsvexOptions = {
-	extensions: ['.md']
-};
+import adapter from '@sveltejs/adapter-netlify';
+import { relative, sep } from 'node:path';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-	// Consult https://github.com/sveltejs/svelte-preprocess
-	// for more information about preprocessors
-	extensions: ['.svelte', '.md'],
-	preprocess: [vitePreprocess(), mdsvex(mdsvexOptions)],
+	compilerOptions: {
+		// defaults to rune mode for the project, except for `node_modules`. Can be removed in svelte 6.
+		runes: ({ filename }) => {
+			const relativePath = relative(import.meta.dirname, filename);
+			const pathSegments = relativePath.toLowerCase().split(sep);
+			const isExternalLibrary = pathSegments.includes('node_modules');
+
+			return isExternalLibrary ? undefined : true;
+		}
+	},
 	kit: {
 		adapter: adapter({
 			// if true, will create a Netlify Edge Function rather
@@ -23,13 +24,14 @@ const config = {
 			// instead of creating a single one for the entire app.
 			// if `edge` is true, this option cannot be used
 			split: false
-		}),
-		// hydrate the <div id="svelte"> element in src/app.html
+		}),		// hydrate the <div id="svelte"> element in src/app.html
 		prerender: {
 			crawl: true,
 			entries: ['*']
 		}
-	}
+	},
+	preprocess: [mdsvex({ extensions: ['.svx', '.md'] })], //vitePreprocess() import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+	extensions: ['.svelte', '.svx', '.md']
 };
 
 export default config;

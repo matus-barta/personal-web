@@ -18,7 +18,7 @@
 </footer>
 
 <style lang="postcss">
-	@reference "../../app.css";
+	@reference "#app.css";
 	img {
 		@apply h-6 w-6 rounded-none fill-slate-400;
 	}

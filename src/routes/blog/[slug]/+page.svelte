@@ -36,7 +36,7 @@
 </div>
 
 <style lang="postcss">
-	@reference "../../../app.css";
+	@reference "#app.css";
 	img {
 		@apply h-44 w-full rounded-xl rounded-b-none object-cover;
 	}

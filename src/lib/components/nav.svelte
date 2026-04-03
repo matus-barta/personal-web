@@ -17,7 +17,7 @@
 </nav>
 
 <style lang="postcss">
-	@reference "../../app.css";
+	@reference "#app.css";
 	a {
 		@apply font-bold text-slate-100;
 	}
