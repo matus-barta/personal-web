@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { formatDate } from '$lib/utils';
 	import type { PageData } from './$types';
+	import { resolve } from '$app/paths';
 	interface Props {
 		data: PageData;
 	}
@@ -25,8 +26,9 @@
 				Barta
 			</h1>
 			<p>IT professional, hobby developer, homelab enthusiast, gamer, space nerd.</p>
-			<a class="mt-5 text-sm! text-gray-500! hover:text-gray-400! hover:underline" href="/about"
-				>More on About page</a
+			<a
+				class="mt-5 text-sm! text-gray-500! hover:text-gray-400! hover:underline"
+				href={resolve('/about')}>More on About page</a
 			>
 		</div>
 		<img class="ml-2 h-32 w-32 rounded-full! md:h-40 md:w-40" src="/media/ksp.jpg" alt="logo" />
@@ -36,12 +38,12 @@
 		<div class="mb-5 flex flex-col">
 			{#each data.posts as post (post.slug)}
 				<div data-testid="latest_blog_post" class="flex items-center space-x-2">
-					<a class="hover:underline" href={`/blog/${post.slug}`}>{post.title}</a>
+					<a class="hover:underline" href={resolve(`/blog/${post.slug}`)}>{post.title}</a>
 					<h4 class="special align-bottom text-xs whitespace-nowrap">{formatDate(post.date)}</h4>
 				</div>
 			{/each}
 		</div>
-		<a class="text-sm! text-gray-500! hover:text-gray-400! hover:underline" href="/blog"
+		<a class="text-sm! text-gray-500! hover:text-gray-400! hover:underline" href={resolve('/blog')}
 			>See All Posts</a
 		>
 	</div>

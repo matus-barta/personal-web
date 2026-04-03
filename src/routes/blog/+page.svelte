@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types';
+	import { resolve } from '$app/paths';
 
 	interface Props {
 		data: PageData;
@@ -35,7 +36,7 @@
 				<div class="flex w-full flex-col justify-between rounded-xl py-1">
 					<div class="flex flex-col">
 						<h2 class="mt-0 mb-2">
-							<a href={`/blog/${post.slug}`}>{post.title}</a>
+							<a href={resolve(`/blog/${post.slug}`)}>{post.title}</a>
 						</h2>
 						<h4 class="special">{post.description}</h4>
 					</div>
