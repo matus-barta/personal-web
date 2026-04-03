@@ -1,13 +1,17 @@
 <script lang="ts">
+	import './layout.css';
+	import favicon from '$lib/assets/favicon.png';
+
 	import Footer from '$lib/components/footer.svelte';
 	import Nav from '$lib/components/nav.svelte';
-	import '../app.css';
 	interface Props {
 		children?: import('svelte').Snippet;
 	}
 
 	let { children }: Props = $props();
 </script>
+
+<svelte:head><link rel="icon" href={favicon} /></svelte:head>
 
 <div class="flex h-screen flex-col justify-between">
 	<Nav />
