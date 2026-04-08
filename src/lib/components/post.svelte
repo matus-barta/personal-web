@@ -1,4 +1,5 @@
 <script lang="ts">
+	/* eslint-disable svelte/no-navigation-without-resolve */
 	import SvelteMarkdown from 'svelte-markdown';
 	interface Props {
 		img: string;
@@ -14,7 +15,6 @@
 	let gh = $state('/media/social/gh-grey.svg');
 </script>
 
-/* eslint-disable svelte/no-navigation-without-resolve */
 <div data-testid="post">
 	<div class="flex">
 		<img src={img} alt={img_alt} class="h-32 w-32 rounded-xl bg-white p-2" />
@@ -27,7 +27,7 @@
 	></div>
 	<div class="flex justify-between">
 		<h3 class="special">{excerpt}</h3>
-		// eslint-disable-next-line svelte/no-navigation-without-resolve
+
 		<a href={github}>
 			<div class="flex space-x-1 hover:text-slate-300 hover:underline">
 				<img
