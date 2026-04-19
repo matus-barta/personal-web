@@ -51,8 +51,8 @@ importers:
         specifier: ^0.12.7
         version: 0.12.7(svelte@5.55.4(@typescript-eslint/types@8.58.2))
       npm-check-updates:
-        specifier: 20.0.2
-        version: 20.0.2
+        specifier: 21.0.0
+        version: 21.0.0
       playwright:
         specifier: ^1.59.1
         version: 1.59.1
@@ -1320,9 +1320,9 @@ packages:
   natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
 
-  npm-check-updates@20.0.2:
-    resolution: {integrity: sha512-nvbcXiprjMOoSX0FCHC41kjpZhNFURV53KMU0MMa0U10RPHeoHpiilMg2P8g9NLSQoo0umSH77tUqHWTOH3w7A==}
-    engines: {node: '>=20.0.0', npm: '>=8.12.1'}
+  npm-check-updates@21.0.0:
+    resolution: {integrity: sha512-iGFLoW1QWsEDLR6Cnklyk+iHTf20hS84o79idR6AKhjSwk0whMdCd5FS0bTgEe6gMrRnJ0fGr2P6BEZ2zOelYg==}
+    engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0, npm: '>=10.0.0'}
     hasBin: true
 
   obug@2.1.1:
@@ -2816,7 +2816,7 @@ snapshots:
 
   natural-compare@1.4.0: {}
 
-  npm-check-updates@20.0.2: {}
+  npm-check-updates@21.0.0: {}
 
   obug@2.1.1: {}
 
