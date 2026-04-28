@@ -2,7 +2,7 @@
 	"name": "personal-web",
 	"version": "0.1.0",
 	"type": "module",
-	"packageManager": "pnpm@10.33.1",
+	"packageManager": "pnpm@10.33.2",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
