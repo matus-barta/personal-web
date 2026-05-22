@@ -12,7 +12,10 @@
 
 	let { img, img_alt, text, title, excerpt, github }: Props = $props();
 
-	let gh = $state('/media/social/gh-grey.svg');
+	import gh from '$lib/assets/social/gh.svg';
+	import gh_grey from '$lib/assets/social/gh-grey.svg';
+
+	let gh_logo = $state(gh_grey);
 </script>
 
 <div data-testid="post">
@@ -31,13 +34,13 @@
 		<a href={github}>
 			<div class="flex space-x-1 hover:text-slate-300 hover:underline">
 				<img
-					src={gh}
+					src={gh_logo}
 					alt="github"
 					onmouseenter={() => {
-						gh = '/media/social/gh.svg';
+						gh_logo = gh;
 					}}
 					onmouseleave={() => {
-						gh = '/media/social/gh-grey.svg';
+						gh_logo = gh_grey;
 					}}
 					class="mr-1 h-4 w-4"
 				/>

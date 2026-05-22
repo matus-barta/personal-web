@@ -1,5 +1,11 @@
 <script lang="ts">
 	import Post from '$lib/components/post.svelte';
+
+	import personalweb from '$lib/assets//projects/personalweb.png';
+	import nodejs from '$lib/assets//projects/nodejs.svg';
+	import openrmm from '$lib/assets//projects/openrmm.png';
+	import inprogress from '$lib/assets//projects/inprogress.svg';
+	import powershell from '$lib/assets//projects/powershell.svg';
 </script>
 
 <svelte:head>
@@ -11,7 +17,7 @@
 
 <div class="window mt-5 px-3 pt-6 pb-6 shadow-md md:px-6">
 	<Post
-		img="/media/projects/personalweb.png"
+		img={personalweb}
 		img_alt="Personal Web logo"
 		title="Personal Web"
 		excerpt="This personal web"
@@ -21,7 +27,7 @@
 		github="https://github.com/matus-barta/personal-web"
 	/>
 	<Post
-		img="/media/projects/openrmm.png"
+		img={openrmm}
 		img_alt="OpenRMM logo"
 		title="Open RMM"
 		excerpt="Open source Remote Machine Management"
@@ -35,7 +41,7 @@ I hope this will be self-hosted service for Management and Monitoring of Windows
 		github="https://github.com/matus-barta/Open_RMM"
 	/>
 	<Post
-		img="/media/projects/inprogress.svg"
+		img={inprogress}
 		img_alt="InProgress logo"
 		title="InProgress"
 		excerpt="Inventory and work in progress tracking web app"
@@ -47,7 +53,7 @@ I hope this will be self-hosted service for Management and Monitoring of Windows
 		github="https://github.com/matus-barta/InProgress"
 	/>
 	<Post
-		img="/media/projects/powershell.svg"
+		img={powershell}
 		img_alt="Powershell logo"
 		title="Powershell batch video file converter"
 		excerpt="Script to batch convert videos to multiple formats (HEVC, Cineform) - may be useful for someone"
@@ -55,7 +61,7 @@ I hope this will be self-hosted service for Management and Monitoring of Windows
 		github="https://github.com/matus-barta/Powershell-batch-video-file-coverter"
 	/>
 	<Post
-		img="/media/projects/nodejs.svg"
+		img={nodejs}
 		img_alt="Images 2 Video"
 		title="Create slideshow from images"
 		excerpt="Fork of sashee/images2video so you are able to make slideshow from IMGs"

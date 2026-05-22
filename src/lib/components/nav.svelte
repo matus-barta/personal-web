@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import logo from '$lib/assets/logo.svg';
 </script>
 
 <nav
@@ -8,7 +9,7 @@
 	<div class="mx-auto max-w-6xl px-4">
 		<div class="flex h-16 items-center justify-between">
 			<a href={resolve('/')}>
-				<img src="/media/logo.svg" class="h-12 w-12 rounded-none" alt="logo" />
+				<img src={logo} class="h-12 w-12 rounded-none" alt="logo" />
 			</a>
 			<div class="flex space-x-4">
 				<a href={resolve('/blog')}>Blog</a>

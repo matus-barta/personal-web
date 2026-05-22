@@ -1,17 +1,23 @@
+<script>
+	import ig from '$lib/assets/social/ig-grey.svg';
+	import yt from '$lib/assets/social/yt-grey.svg';
+	import gh from '$lib/assets/social/gh-grey.svg';
+</script>
+
 <footer class="flex h-10 w-full justify-center gap-1 bg-window-gray p-2 text-slate-400">
 	<p>• Matúš Barta • &copy {new Date().getFullYear()} •</p>
 	<div class="flex space-x-2">
-		<a href="https://bsky.app/profile/anonymus09.bsky.social">
-			<img src="/media/social/bsky-grey.svg" alt="bluesky" />
-		</a>
 		<a href="https://www.instagram.com/matus.barta09/">
-			<img src="/media/social/ig-grey.svg" alt="instagram" />
+			<img src={ig} alt="instagram" />
+		</a>
+		<a href="https://www.youtube.com/@MatúšBarta">
+			<img src={yt} alt="youtube" />
 		</a>
 		<a href="https://www.youtube.com/channel/UCPWg-Iw7QFAXM-H2WjzPxiA">
-			<img src="/media/social/yt-grey.svg" alt="youtube" />
+			<img src={yt} alt="youtube" />
 		</a>
 		<a href="https://github.com/matus-barta">
-			<img src="/media/social/gh-grey.svg" alt="github" />
+			<img src={gh} alt="github" />
 		</a>
 	</div>
 	<p>•</p>
