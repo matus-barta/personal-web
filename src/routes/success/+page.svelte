@@ -1,14 +1,16 @@
-<script>
-	import { onMount } from 'svelte';
+<script lang="ts">
+	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
 
-	onMount(() => {
-		setTimeout(() => {
-			goHome();
-		}, 5000);
+	const REDIRECT_DELAY_MS = 5000;
+
+	$effect(() => {
+		const timer = setTimeout(goHome, REDIRECT_DELAY_MS);
+		return () => clearTimeout(timer);
 	});
 
 	function goHome() {
-		window.location.href = '/';
+		goto(resolve('/'));
 	}
 </script>
 

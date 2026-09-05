@@ -14,8 +14,6 @@
 
 	import gh from '$lib/assets/social/gh.svg';
 	import gh_grey from '$lib/assets/social/gh-grey.svg';
-
-	let gh_logo = $state(gh_grey);
 </script>
 
 <div data-testid="post">
@@ -31,19 +29,22 @@
 	<div class="flex justify-between">
 		<h3 class="special">{excerpt}</h3>
 
-		<a href={github}>
+		<a href={github} aria-label="{title} on GitHub" class="group">
 			<div class="flex space-x-1 hover:text-slate-300 hover:underline">
-				<img
-					src={gh_logo}
-					alt="github"
-					onmouseenter={() => {
-						gh_logo = gh;
-					}}
-					onmouseleave={() => {
-						gh_logo = gh_grey;
-					}}
-					class="mr-1 h-4 w-4"
-				/>
+				<!-- the two icons cross-fade on hover and keyboard focus alike, so the
+				     state change is not mouse-only -->
+				<span class="relative mr-1 block h-4 w-4">
+					<img
+						src={gh_grey}
+						alt=""
+						class="absolute inset-0 h-4 w-4 group-hover:opacity-0 group-focus-visible:opacity-0"
+					/>
+					<img
+						src={gh}
+						alt=""
+						class="absolute inset-0 h-4 w-4 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100"
+					/>
+				</span>
 			</div>
 		</a>
 	</div>

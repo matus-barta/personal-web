@@ -6,6 +6,8 @@ export const load: PageLoad = async ({ params: { slug } }) => {
 		const module = await import(`../../../../blogposts/${slug}.md`);
 		return { component: module.default, frontmatter: module.metadata };
 	} catch (e) {
-		error(404, `Could not find ${slug} error: ${e}`);
+		// the thrown error names the internal source path, so it stays out of the response
+		console.error(e);
+		error(404, 'Blog post not found.');
 	}
 };

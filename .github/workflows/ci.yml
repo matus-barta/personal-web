@@ -4,6 +4,9 @@ on:
     branches: [main, master, 'renovate/**']
   pull_request:
     branches: [main, master]
+permissions:
+  contents: read
+
 jobs:
   playwright-tests:
     timeout-minutes: 10
