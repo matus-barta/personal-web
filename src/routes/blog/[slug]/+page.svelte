@@ -14,11 +14,11 @@
 </svelte:head>
 
 <div data-testid="blog_post" class="window">
-	{#if data.frontmatter.img_transparent}
-		<img src={data.frontmatter.img} alt="blog title" class="bg-slate-100 px-3" />
-	{:else}
-		<img src={data.frontmatter.img} alt="blog title" />
-	{/if}
+	<img
+		src={data.frontmatter.img}
+		alt="blog title"
+		class={[data.frontmatter.img_transparent && 'bg-slate-100 px-3']}
+	/>
 	<div class="flex flex-col px-3 pt-2 md:px-6">
 		<div class="flex flex-row items-end justify-between">
 			<h1 class="mt-1 w-fit p-0">{data.frontmatter.title}</h1>

@@ -20,19 +20,14 @@
 	<div class="flex flex-col space-y-10">
 		{#each data.posts as post (post.slug)}
 			<div data-testid="blog_post" class="flex">
-				{#if post.img_transparent}
-					<img
-						src={post.img}
-						alt="blog post logo"
-						class="mr-4 w-48 rounded-xl bg-slate-100 object-cover p-3 md:mr-8 md:w-96"
-					/>
-				{:else}
-					<img
-						src={post.img}
-						alt="blog post logo"
-						class="mr-4 w-48 rounded-xl object-cover md:mr-8 md:w-96"
-					/>
-				{/if}
+				<img
+					src={post.img}
+					alt="blog post logo"
+					class={[
+						'mr-4 w-48 rounded-xl object-cover md:mr-8 md:w-96',
+						post.img_transparent && 'bg-slate-100 p-3'
+					]}
+				/>
 				<div class="flex w-full flex-col justify-between rounded-xl py-1">
 					<div class="flex flex-col">
 						<h2 class="mt-0 mb-2">

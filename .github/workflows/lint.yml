@@ -4,6 +4,11 @@ on:
     branches: [main, master]
   push:
     branches: ['renovate/**']
+permissions:
+  contents: read
+  # needed by the failure comment below; note it is read-only on fork PRs regardless
+  pull-requests: write
+
 jobs:
   lint-check:
     timeout-minutes: 10
