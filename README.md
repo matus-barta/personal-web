@@ -27,3 +27,7 @@ This is repository for my personal web [anonymus09.com](https://anonymus09.com)
 
 - [ ] Open-RMM update
 - [ ] Some homelab-ing stuff
+
+## License
+
+The source code is MIT licensed. The blog posts, page content and personal images are **not** — those are all rights reserved. [`LICENSE`](LICENSE) states the exact split, and [`THIRD-PARTY-NOTICES.md`](THIRD-PARTY-NOTICES.md) lists bundled third-party material.

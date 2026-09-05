@@ -7,3 +7,8 @@ bun.lockb
 
 # Miscellaneous
 /static/
+
+# Vendored agent skills, managed by the `skills` CLI. Their markdown carries
+# deliberately-broken code samples that Prettier's parsers reject.
+/.agents/
+skills-lock.json
