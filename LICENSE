@@ -1,0 +1,60 @@
+Copyright (c) 2022-2026 Matúš Barta
+
+The MIT License below applies to the SOURCE CODE of this repository only. It
+grants no rights to the website content, to personal material, or to
+third-party material. See "Scope" at the end of this file.
+
+
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+--------------------------------------------------------------------------
+Scope
+--------------------------------------------------------------------------
+
+"Software" above means the source code of this repository: the contents of
+src/ other than the images listed below, together with the build, lint, test
+and deployment configuration at the repository root and in .github/.
+
+The following are NOT licensed under the MIT License. All rights are reserved,
+and no permission to copy, republish, adapt, translate or redistribute them is
+granted by this file:
+
+  Website content
+    blogposts/**                              the blog posts
+    static/media/blog/**                      the author's own post images; the
+                                              third-party images in that tree are
+                                              listed in THIRD-PARTY-NOTICES.md
+    the page copy in src/routes/              about, projects, contact, index
+
+  Personal and project images
+    src/lib/assets/logo.svg                   personal logo
+    src/lib/assets/projects/openrmm.png       the author's project logo
+    src/lib/assets/projects/personalweb.png   the author's project logo
+
+Nothing in the MIT License grants permission to use the name "Matúš Barta",
+the handle "anonymus09", the author's likeness, or the personal logo, whether
+to endorse or promote products derived from this software or to present
+yourself as the author.
+
+Third-party material contained in this repository is owned by its respective
+owners and is neither licensed nor sublicensed by this file. It is listed in
+THIRD-PARTY-NOTICES.md.
