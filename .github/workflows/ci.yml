@@ -1,7 +1,7 @@
 name: Playwright Tests
 on:
   push:
-    branches: [main, master]
+    branches: [main, master, 'renovate/**']
   pull_request:
     branches: [main, master]
 jobs:
@@ -43,7 +43,7 @@ jobs:
       - name: Install Playwright Browsers
         id: install-playwright-browsers
         if: steps.cache-playwright.outputs.cache-hit != 'true'
-        run: npx playwright install --with-deps
+        run: pnpm exec playwright install --with-deps
 
       - name: Run Playwright tests
         run: pnpm run test
