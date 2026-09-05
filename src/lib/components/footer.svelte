@@ -11,10 +11,10 @@
 			<img src={ig} alt="instagram" />
 		</a>
 		<a href="https://www.youtube.com/@MatúšBarta">
-			<img src={yt} alt="youtube" />
+			<img src={yt} alt="YouTube: Matúš Barta" />
 		</a>
 		<a href="https://www.youtube.com/channel/UCPWg-Iw7QFAXM-H2WjzPxiA">
-			<img src={yt} alt="youtube" />
+			<img src={yt} alt="YouTube: second channel" />
 		</a>
 		<a href="https://github.com/matus-barta">
 			<img src={gh} alt="github" />

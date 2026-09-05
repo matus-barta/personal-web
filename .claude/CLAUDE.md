@@ -22,7 +22,7 @@ There is no database, no auth and no CMS. A blog post is a markdown file in git,
 
 ## Blog posts
 
-`blogposts/*.md` is the content store. mdsvex preprocesses it, and `extensions: ['.svelte', '.svx', '.md']` in `svelte.config.js` makes every `.md` file a Svelte component, so a post may contain markup.
+`blogposts/*.md` is the content store. mdsvex preprocesses it, and `extensions: ['.svelte', '.svx', '.md']` on the `sveltekit()` plugin in `vite.config.ts` makes every `.md` file a Svelte component, so a post may contain markup.
 
 **Two routes read that directory in two different ways and share no code:**
 
@@ -61,14 +61,9 @@ pnpm ncu                   # npm-check-updates
 
 **E2E specs sit beside the routes**, matched by `testMatch: '**/*.e2e.{ts,js}'`; today they are all in `src/routes/all.e2e.ts`. There is no `tests/` directory.
 
-**The E2E tests hardcode content counts, and this is the most common way to break CI:**
+**The blog assertions derive their expected counts from `/api/posts`, so adding a post does not break them.** What the suite actually checks is that the rendered page and the API agree, plus the API's own contract: every entry published, every entry carrying a slug, and the list sorted newest first.
 
-```ts
-const BLOGPOSTS_COUNT = 6;
-const PROJECTS_COUNT = 5;
-```
-
-Adding a blog post, or another `<Post>` on `/projects`, fails the suite until those constants are updated. The API test additionally asserts that the _oldest_ post is `best-way-to-manage-nodejs`. The index test's expectation of 5 latest posts is different — that is the `POSTS_LIMIT` slice in `src/routes/+page.ts`, not a content count, and it should stay 5.
+**`PROJECTS_COUNT` in `src/routes/all.e2e.ts` is still hardcoded**, because the project cards are written by hand in `src/routes/projects/+page.svelte` and there is no endpoint to derive them from. Adding a `<Post>` there fails the suite until that constant is updated — it is now the only content count that has to be maintained by hand. `LATEST_POSTS_LIMIT` mirrors the `POSTS_LIMIT` slice in `src/routes/+page.ts` and must change with it.
 
 Vitest is configured as two projects — `client` (Chromium via Playwright, for `*.svelte.{test,spec}.ts`) and `server` (node, everything else) — with `expect.requireAssertions` on. No test file exists yet, but a first one needs no new setup.
 
@@ -76,9 +71,15 @@ Vitest is configured as two projects — `client` (Chromium via Playwright, for 
 
 `adapter-netlify` with `edge: true` and `split: false`, so the whole app is **a single Netlify Edge Function**. Server code runs on a Deno-based web-standard runtime: do not reach for Node built-ins in `+server.ts` or a `+page.server.ts`.
 
-**Almost nothing is prerendered.** Only `/contact` and `/success` opt in, each via `export const prerender = true` in its `+page.ts`. Everything else — `/`, `/blog`, `/blog/[slug]`, `/projects`, `/about` and both API routes — renders per request. The `prerender: { crawl: true, entries: ['*'] }` block in `svelte.config.js` widens what the crawler _visits_; it does not opt pages in. `.netlify/edge-functions/manifest.json` after a build shows what was actually baked out.
+**Almost nothing is prerendered.** Only `/contact` and `/success` opt in, each via `export const prerender = true` in its `+page.ts`. Everything else — `/`, `/blog`, `/blog/[slug]`, `/projects`, `/about` and both API routes — renders per request. The `prerender: { crawl: true, entries: ['*'] }` option on the `sveltekit()` plugin widens what the crawler _visits_; it does not opt pages in. `.netlify/edge-functions/manifest.json` after a build shows what was actually baked out.
 
 `netlify.toml` publishes `build/`. `/api/healthcheck` returns `{ Status: 'OK' }` for external uptime monitoring; nothing in the app calls it.
+
+## Project configuration
+
+**There is no `svelte.config.js`.** Everything it used to hold now lives in the `sveltekit()` plugin call in `vite.config.ts` — the Netlify adapter with `edge: true`/`split: false`, the runes `compilerOptions`, the `prerender` block, the mdsvex `preprocess`, and `extensions`. This matches what `sv create` scaffolds today, and Kit accepts it because `sveltekit()` takes `KitConfig & Options`, so kit-level keys sit flat beside plugin-level ones rather than nested under `kit`. Tooling follows the file: `svelte-check` and `eslint-plugin-svelte` read it without a separate Svelte config, and `eslint.config.js` no longer imports one.
+
+Prettier is configured in `prettier.config.js`, not `.prettierrc`.
 
 ## Styling
 
