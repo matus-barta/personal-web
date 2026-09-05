@@ -1,11 +1,11 @@
 <script lang="ts">
 	import Post from '$lib/components/post.svelte';
 
-	import personalweb from '$lib/assets//projects/personalweb.png';
-	import nodejs from '$lib/assets//projects/nodejs.svg';
-	import openrmm from '$lib/assets//projects/openrmm.png';
-	import inprogress from '$lib/assets//projects/inprogress.svg';
-	import powershell from '$lib/assets//projects/powershell.svg';
+	import personalweb from '$lib/assets/projects/personalweb.png';
+	import nodejs from '$lib/assets/projects/nodejs.svg';
+	import openrmm from '$lib/assets/projects/openrmm.png';
+	import inprogress from '$lib/assets/projects/inprogress.svg';
+	import powershell from '$lib/assets/projects/powershell.svg';
 </script>
 
 <svelte:head>

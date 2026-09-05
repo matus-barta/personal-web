@@ -7,7 +7,7 @@ export const GET: RequestHandler = async () => {
 		const allPosts = await getPosts();
 		return json(allPosts);
 	} catch (e) {
-		console.log(e);
+		console.error(e);
 		error(404, `Failed to load posts.`);
 	}
 };
@@ -25,14 +25,13 @@ async function parseMarkdownFiles() {
 			if (file && typeof file === 'object' && 'metadata' in file && slug) {
 				const metadata = file.metadata as Omit<Post, 'slug'>;
 				const post = { ...metadata, slug } satisfies Post;
-				// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-				post.published && posts.push(post);
+				if (post.published) posts.push(post);
 			}
 		}
 
 		return posts;
 	} catch (e) {
-		console.log(e);
+		console.error(e);
 		throw new Error('Could not parse Markdown files', { cause: e });
 	}
 }

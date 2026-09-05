@@ -61,14 +61,9 @@ pnpm ncu                   # npm-check-updates
 
 **E2E specs sit beside the routes**, matched by `testMatch: '**/*.e2e.{ts,js}'`; today they are all in `src/routes/all.e2e.ts`. There is no `tests/` directory.
 
-**The E2E tests hardcode content counts, and this is the most common way to break CI:**
+**The blog assertions derive their expected counts from `/api/posts`, so adding a post does not break them.** What the suite actually checks is that the rendered page and the API agree, plus the API's own contract: every entry published, every entry carrying a slug, and the list sorted newest first.
 
-```ts
-const BLOGPOSTS_COUNT = 6;
-const PROJECTS_COUNT = 5;
-```
-
-Adding a blog post, or another `<Post>` on `/projects`, fails the suite until those constants are updated. The API test additionally asserts that the _oldest_ post is `best-way-to-manage-nodejs`. The index test's expectation of 5 latest posts is different — that is the `POSTS_LIMIT` slice in `src/routes/+page.ts`, not a content count, and it should stay 5.
+**`PROJECTS_COUNT` in `src/routes/all.e2e.ts` is still hardcoded**, because the project cards are written by hand in `src/routes/projects/+page.svelte` and there is no endpoint to derive them from. Adding a `<Post>` there fails the suite until that constant is updated — it is now the only content count that has to be maintained by hand. `LATEST_POSTS_LIMIT` mirrors the `POSTS_LIMIT` slice in `src/routes/+page.ts` and must change with it.
 
 Vitest is configured as two projects — `client` (Chromium via Playwright, for `*.svelte.{test,spec}.ts`) and `server` (node, everything else) — with `expect.requireAssertions` on. No test file exists yet, but a first one needs no new setup.
 

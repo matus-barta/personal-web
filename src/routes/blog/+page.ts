@@ -11,7 +11,7 @@ export const load: PageLoad = async ({ fetch }) => {
 			posts
 		};
 	} catch (e) {
-		console.log(e);
+		console.error(e);
 		error(500, 'Could not load posts.');
 	}
 };
