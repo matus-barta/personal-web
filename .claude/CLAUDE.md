@@ -22,7 +22,7 @@ There is no database, no auth and no CMS. A blog post is a markdown file in git,
 
 ## Blog posts
 
-`blogposts/*.md` is the content store. mdsvex preprocesses it, and `extensions: ['.svelte', '.svx', '.md']` in `svelte.config.js` makes every `.md` file a Svelte component, so a post may contain markup.
+`blogposts/*.md` is the content store. mdsvex preprocesses it, and `extensions: ['.svelte', '.svx', '.md']` on the `sveltekit()` plugin in `vite.config.ts` makes every `.md` file a Svelte component, so a post may contain markup.
 
 **Two routes read that directory in two different ways and share no code:**
 
@@ -71,9 +71,15 @@ Vitest is configured as two projects — `client` (Chromium via Playwright, for 
 
 `adapter-netlify` with `edge: true` and `split: false`, so the whole app is **a single Netlify Edge Function**. Server code runs on a Deno-based web-standard runtime: do not reach for Node built-ins in `+server.ts` or a `+page.server.ts`.
 
-**Almost nothing is prerendered.** Only `/contact` and `/success` opt in, each via `export const prerender = true` in its `+page.ts`. Everything else — `/`, `/blog`, `/blog/[slug]`, `/projects`, `/about` and both API routes — renders per request. The `prerender: { crawl: true, entries: ['*'] }` block in `svelte.config.js` widens what the crawler _visits_; it does not opt pages in. `.netlify/edge-functions/manifest.json` after a build shows what was actually baked out.
+**Almost nothing is prerendered.** Only `/contact` and `/success` opt in, each via `export const prerender = true` in its `+page.ts`. Everything else — `/`, `/blog`, `/blog/[slug]`, `/projects`, `/about` and both API routes — renders per request. The `prerender: { crawl: true, entries: ['*'] }` option on the `sveltekit()` plugin widens what the crawler _visits_; it does not opt pages in. `.netlify/edge-functions/manifest.json` after a build shows what was actually baked out.
 
 `netlify.toml` publishes `build/`. `/api/healthcheck` returns `{ Status: 'OK' }` for external uptime monitoring; nothing in the app calls it.
+
+## Project configuration
+
+**There is no `svelte.config.js`.** Everything it used to hold now lives in the `sveltekit()` plugin call in `vite.config.ts` — the Netlify adapter with `edge: true`/`split: false`, the runes `compilerOptions`, the `prerender` block, the mdsvex `preprocess`, and `extensions`. This matches what `sv create` scaffolds today, and Kit accepts it because `sveltekit()` takes `KitConfig & Options`, so kit-level keys sit flat beside plugin-level ones rather than nested under `kit`. Tooling follows the file: `svelte-check` and `eslint-plugin-svelte` read it without a separate Svelte config, and `eslint.config.js` no longer imports one.
+
+Prettier is configured in `prettier.config.js`, not `.prettierrc`.
 
 ## Styling
 

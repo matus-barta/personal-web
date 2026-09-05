@@ -21,7 +21,6 @@
 		"test:e2e": "playwright test"
 	},
 	"devDependencies": {
-		"@eslint/compat": "^2.0.3",
 		"@eslint/js": "^10.0.1",
 		"@playwright/test": "^1.59.1",
 		"@sveltejs/adapter-netlify": "^6.0.4",
@@ -38,7 +37,7 @@
 		"npm-check-updates": "22.2.9",
 		"playwright": "^1.59.1",
 		"prettier": "^3.8.1",
-		"prettier-plugin-svelte": "^3.5.1",
+		"prettier-plugin-svelte": "^4.1.1",
 		"prettier-plugin-tailwindcss": "^0.8.0",
 		"svelte": "^5.55.1",
 		"svelte-check": "^4.4.6",
