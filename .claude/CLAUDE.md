@@ -41,7 +41,7 @@ mdsvex compiles `blogposts/*.md` **at build time**. `svelte-markdown` renders **
 
 ## Commands
 
-Node 24 (`.nvmrc`), pnpm pinned by `packageManager`, and `.npmrc` sets `engine-strict=true`.
+Node 24 (`.nvmrc`), pnpm pinned by `packageManager`, and `pnpm-workspace.yaml` sets `engineStrict: true` (pnpm 11+ ignores non-auth settings in `.npmrc`).
 
 ```bash
 pnpm dev
