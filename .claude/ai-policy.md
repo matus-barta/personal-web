@@ -1,4 +1,6 @@
-# Artificial intelligence usage policy
+---
+title: 'Artificial intelligence usage policy'
+---
 
 AI tools may be used to assist with research, documentation, analysis, debugging, testing ideas, and code suggestions.
 
@@ -11,7 +13,7 @@ AI may assist with research and prepare suggestions.
 A human must understand and review the result.
 A human must perform the appropriate validation.
 A human must make the final decisions.
-A human must create the commit.
+AI may prepare commits; a human reviews every changed line before it is pushed.
 A human remains responsible for the contribution.
 ```
 
@@ -38,7 +40,6 @@ AI agents must not operate on the repository without human supervision.
 
 AI agents are not permitted to:
 
-- Create, amend, or sign commits
 - Push branches or tags
 - Submit, approve, or merge pull requests
 - Create releases or publish packages
@@ -46,21 +47,23 @@ AI agents are not permitted to:
 - Access or modify project secrets
 - Deploy changes
 - Make final architectural, security, privacy, licensing, or policy decisions
+- Act in the project's shared spaces - issues, pull requests, reviews, discussions - without a human approving each action
+- Decide whether a contribution is accepted: an AI tool may help a reviewer, but the decision is a human's
 
-An AI tool may suggest changes or prepare files in a supervised local working tree. A human must review the complete result, select the intended changes, and create the commit personally.
+An AI tool may suggest changes and prepare files in a supervised local working tree and, when the developer asks, create the commits and write their messages. However a commit was made, the developer reviews every changed line of it before it is pushed - nothing reaches the shared repository unreviewed - and it is authored under the developer's name.
 
 ## Required review
 
-Before committing AI-assisted work, the human contributor must:
+Before pushing AI-assisted work, the human contributor must:
 
-1. Review the complete diff.
+1. Review every changed line of every commit, including commits an AI tool created.
 2. Understand every substantive change.
 3. Remove unrelated, unnecessary, or fabricated content.
 4. Perform the appropriate tests and validation.
 5. Review security-sensitive changes manually.
 6. Verify factual claims and external references.
 7. Confirm that no secrets, personal data, or confidential information are included.
-8. Create the commit personally.
+8. Push only what has been reviewed.
 
 Automated checks assist human review but do not replace it.
 
@@ -71,7 +74,8 @@ Do not provide AI services with:
 - Passwords, tokens, API keys, or private keys
 - Repository or deployment secrets
 - Production environment files
-- Personal information
+- Site analytics or visitor data
+- Personal information beyond what the site already publishes
 - Confidential logs or proprietary material
 
 Use sanitized examples when requesting AI assistance.
@@ -101,6 +105,23 @@ who understands the changes and accepts responsibility for them.
 ```
 
 Minor assistance such as spelling correction, formatting, or simple editor completion does not require disclosure.
+
+A commit an AI tool helped to create should say so in an `Assisted-by:` trailer naming the tool, for example `Assisted-by: Claude Code (Claude Opus 5.5)`. That records the assistance, for transparency, and nothing more: the tool is not an author and the work is not its own. Do not use `Co-authored-by` for a tool - GitHub treats that trailer as naming a co-author and credits the commit to them. The developer is the author, answers for every line, and must be able to explain it.
+
+## Sources
+
+This policy follows what projects that allow AI assistance, under human
+responsibility, have settled on: the
+[Linux kernel](https://github.com/torvalds/linux/blob/master/Documentation/process/coding-assistants.rst)
+(the `Assisted-by:` tag, and only humans certifying the contribution),
+[LLVM](https://llvm.org/docs/AIToolPolicy.html) (a human in the loop, and no
+agents acting without approval), [Fedora](https://communityblog.fedoraproject.org/council-policy-proposal-policy-on-ai-assisted-contributions/)
+(the contributor as author, and AI never making the final call on a review),
+[OpenInfra](https://openinfra.org/legal/ai-policy/) and the
+[Apache Software Foundation](https://www.apache.org/legal/generative-tooling.html).
+GitHub's documentation on
+[commits with multiple authors](https://docs.github.com/en/pull-requests/committing-changes-to-your-project/creating-and-editing-commits/creating-a-commit-with-multiple-authors)
+is why `Co-authored-by` is not used for a tool.
 
 ## Enforcement
 

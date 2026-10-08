@@ -1,0 +1,29 @@
+# Link checking with lychee (https://lychee.cli.rs), run by hand from the
+# repository root:
+#
+#   lychee './**/*.md' '.claude/*.md'
+#
+# The glob skips dot-directories, so the pages in .claude/ are named on their own.
+#
+# Only links inside the repository are checked - to files, and to headings
+# within them. External sites come and go for reasons that have nothing to do
+# with a change, and a check that fails on someone else's outage gets ignored.
+
+offline = true
+include_fragments = "full"
+no_progress = true
+
+# An input glob bypasses .gitignore, so dependencies, build output and the
+# vendored agent skills have to be named here. The blog posts link with site
+# URLs - /blog/... and /media/... - which name routes and files under static/,
+# not paths in the repository, so lychee cannot resolve them.
+exclude_path = [
+    "(^|/)node_modules/",
+    "(^|/)build/",
+    "(^|/)\\.svelte-kit/",
+    "(^|/)\\.netlify/",
+    "(^|/)test-results/",
+    "(^|/)\\.agents/",
+    "(^|/)\\.claude/skills/",
+    "(^|/)blogposts/",
+]
