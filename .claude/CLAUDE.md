@@ -1,126 +1,84 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+The rules for working in this repository. Each links to the page in `.claude/` that gives its reasons; why this file is written the way it is, is in [`writing-agent-instructions.md`](writing-agent-instructions.md).
 
-**Before you touch git or the deployment, read `.claude/ai-policy.md`.** It is binding, not advisory: an AI tool prepares changes, a human commits them. Full terms in [AI policy](#ai-policy) below.
+## Architecture
 
-## What this is
+One SvelteKit app, deployed to Netlify. There is no database, no auth and no CMS: a blog post is a Markdown file in git, and content ships by pushing a commit. [`architecture.md`](architecture.md) says why each rule below holds.
 
-The personal site at [anonymus09.com](https://anonymus09.com). One SvelteKit app — not a monorepo — deployed to Netlify.
-
-| Path                         | What it is                                                    |
-| ---------------------------- | ------------------------------------------------------------- |
-| `src/routes/`                | Pages, the two API endpoints, and the E2E specs               |
-| `src/lib/components/`        | Shared components: nav, footer, project card                  |
-| `src/lib/assets/`            | Images imported through Vite, so they get hashed filenames    |
-| `src/lib/types/`, `-/utils/` | The `Post` type and `formatDate()` — that is all of it        |
-| `blogposts/`                 | Blog post markdown, deliberately outside `src/`               |
-| `static/`                    | Served verbatim: blog images under `/media/`, the Prism theme |
-| `.agents/skills/`            | Vendored agent skills, symlinked into `.claude/skills/`       |
-
-There is no database, no auth and no CMS. A blog post is a markdown file in git, and content ships by pushing a commit.
+- **Server code runs on a Deno-based edge runtime.** `adapter-netlify` with `edge: true` and `split: false` makes the whole app one Netlify Edge Function, so no Node built-ins in a `+server.ts` or `+page.server.ts`.
+- **Almost nothing is prerendered.** Only `/contact` and `/success` export `prerender = true`. The `prerender` block in `vite.config.ts` widens what the crawler visits; it does not opt a page in. `.netlify/edge-functions/manifest.json` after a build shows what was actually baked out.
+- **There is no `svelte.config.js`, and there should not be.** The adapter, compiler options, mdsvex and `extensions` all live in the `sveltekit()` call in `vite.config.ts`, with Kit's keys flat beside the plugin's. Where a skill or the Svelte docs say to set an option in `svelte.config.js` - `experimental.async`, for one - it goes in that call instead, compiler options under `compilerOptions`.
 
 ## Blog posts
 
-`blogposts/*.md` is the content store. mdsvex preprocesses it, and `extensions: ['.svelte', '.svx', '.md']` on the `sveltekit()` plugin in `vite.config.ts` makes every `.md` file a Svelte component, so a post may contain markup.
+- **`blogposts/*.md` is the content store, and the filename is the slug** - renaming a file changes its URL. Frontmatter must satisfy `Post` in `$lib/types`.
+- **Two routes read that directory and share no code.** `/api/posts` lists the frontmatter of published posts, newest first; `/blog/[slug]` imports one post by slug and renders it. A change to how posts are read usually lands in both.
+- **`published: false` hides a post from the list, not from the web** - `/blog/[slug]` never checks it. A post that must stay private belongs on an unmerged branch.
+- **A post's `img` is a URL into `static/media/blog/<slug>/`**, served verbatim, not a Vite import.
+- **mdsvex is for Markdown that lives in git; `svelte-markdown` only for strings that exist at runtime** - today, the project blurbs passed to `post.svelte`.
 
-**Two routes read that directory in two different ways and share no code:**
+## Styling
 
-- `/api/posts` (`src/routes/api/posts/+server.ts`) uses `import.meta.glob('/blogposts/*.md', { eager: true })` and reads only each module's `metadata` — the frontmatter. It filters on `published` and sorts newest first. This is the list.
-- `/blog/[slug]` (`src/routes/blog/[slug]/+page.ts`) does a dynamic `import()` by slug and renders `module.default`. This is the body.
-
-**The slug is the filename**, never a frontmatter field — `parseMarkdownFiles()` derives it and merges it into the metadata. Renaming a file changes its URL.
-
-**`published: false` hides a post from the list, not from the web.** `/blog/[slug]` imports by slug without consulting the flag, so an unpublished post stays reachable by direct link. Anything that must actually stay private belongs on an unmerged branch, not behind that flag.
-
-Frontmatter must satisfy the `Post` type in `$lib/types`: `title`, `date`, `description`, `img`, `img_transparent`, `published`. `img` is a URL into `static/` (`/media/blog/<slug>/…`), not a Vite import, so those images are copied verbatim and are neither hashed nor optimised.
-
-## Two markdown renderers, on purpose
-
-mdsvex compiles `blogposts/*.md` **at build time**. `svelte-markdown` renders **at runtime**, inside `src/lib/components/post.svelte`, because the project blurbs on `/projects` are written as inline string props rather than files. Use mdsvex for content that lives in git; `svelte-markdown` only for strings that do not exist until runtime.
+- **Tailwind v4 with no `tailwind.config`.** The theme is the `@theme` block in `src/routes/layout.css`.
+- **The bare element selectors in `layout.css` are what style a blog post**, since mdsvex output carries no classes. Do not narrow them into component scope.
+- **A component `<style>` block uses `@reference "#app.css"`**, never a relative path. The commented-out block in `src/routes/contact/+page.svelte` still has the old `../../app.css`, which no longer resolves.
+- **Internal links go through `resolve()` from `$app/paths`**, which `eslint-plugin-svelte` enforces. A file of external links disables the rule at its top, as `post.svelte` does, rather than the rule being weakened globally.
 
 ## Commands
 
-Node 24 (`.nvmrc`), pnpm pinned by `packageManager`, and `pnpm-workspace.yaml` sets `engineStrict: true` (pnpm 11+ ignores non-auth settings in `.npmrc`).
+Node 24 (`.nvmrc`) and the pnpm version `packageManager` pins; `engineStrict` in `pnpm-workspace.yaml` makes pnpm refuse an older Node.
 
 ```bash
 pnpm dev
 pnpm build && pnpm preview
-pnpm check                 # svelte-kit sync + svelte-check
-pnpm lint                  # prettier --check . && eslint .
-pnpm format                # prettier --write .
-pnpm test                  # Playwright only — this is what CI runs
-pnpm test:e2e              # the same thing
-pnpm test:unit             # vitest; configured, but no unit tests exist yet
-pnpm ncu                   # npm-check-updates
+pnpm check        # svelte-kit sync + svelte-check
+pnpm lint         # prettier --check . && eslint .
+pnpm format       # prettier --write .
+pnpm test         # Playwright end-to-end, and nothing else - what CI runs
+pnpm test:unit    # Vitest; configured, but no tests exist yet
 ```
 
-`pnpm test` is E2E and nothing else. Playwright runs `pnpm run build && pnpm run preview` itself and drives the production build on port 4173, so the suite is slow and can fail for build reasons rather than test reasons.
+- **`pnpm test` builds and previews the site itself** on port 4173, so it is slow and can fail for build reasons rather than test reasons.
+- **End-to-end specs sit beside the routes** as `*.e2e.ts` - all in `src/routes/all.e2e.ts` today - and there is no `tests/` directory. The blog counts derive from `/api/posts`; `PROJECTS_COUNT` is hardcoded and changes with the cards in `src/routes/projects/+page.svelte`, and `LATEST_POSTS_LIMIT` with `POSTS_LIMIT` in `src/routes/+page.ts`.
+- **A first Vitest file needs no setup**: `*.svelte.test.ts` runs in Chromium, any other `*.test.ts` in Node, and every test must assert.
+- **Node 24 is pinned in four places that move together**: `.nvmrc`, `engines` in `package.json`, and the `node-version` matrix in `ci.yml` and `lint.yml`.
+- **Run `actionlint` after editing a workflow, and keep their `renovate/**` push triggers** - Renovate's branch automerge relies on them. [`development-setup.md`](development-setup.md#ci-and-dependency-updates) says how CI and Renovate fit together.
 
-## Testing
+## Working on a developer's machine
 
-**E2E specs sit beside the routes**, matched by `testMatch: '**/*.e2e.{ts,js}'`; today they are all in `src/routes/all.e2e.ts`. There is no `tests/` directory.
-
-**The blog assertions derive their expected counts from `/api/posts`, so adding a post does not break them.** What the suite actually checks is that the rendered page and the API agree, plus the API's own contract: every entry published, every entry carrying a slug, and the list sorted newest first.
-
-**`PROJECTS_COUNT` in `src/routes/all.e2e.ts` is still hardcoded**, because the project cards are written by hand in `src/routes/projects/+page.svelte` and there is no endpoint to derive them from. Adding a `<Post>` there fails the suite until that constant is updated — it is now the only content count that has to be maintained by hand. `LATEST_POSTS_LIMIT` mirrors the `POSTS_LIMIT` slice in `src/routes/+page.ts` and must change with it.
-
-Vitest is configured as two projects — `client` (Chromium via Playwright, for `*.svelte.{test,spec}.ts`) and `server` (node, everything else) — with `expect.requireAssertions` on. No test file exists yet, but a first one needs no new setup.
-
-## Rendering and deployment
-
-`adapter-netlify` with `edge: true` and `split: false`, so the whole app is **a single Netlify Edge Function**. Server code runs on a Deno-based web-standard runtime: do not reach for Node built-ins in `+server.ts` or a `+page.server.ts`.
-
-**Almost nothing is prerendered.** Only `/contact` and `/success` opt in, each via `export const prerender = true` in its `+page.ts`. Everything else — `/`, `/blog`, `/blog/[slug]`, `/projects`, `/about` and both API routes — renders per request. The `prerender: { crawl: true, entries: ['*'] }` option on the `sveltekit()` plugin widens what the crawler _visits_; it does not opt pages in. `.netlify/edge-functions/manifest.json` after a build shows what was actually baked out.
-
-`netlify.toml` publishes `build/`. `/api/healthcheck` returns `{ Status: 'OK' }` for external uptime monitoring; nothing in the app calls it.
-
-## Project configuration
-
-**There is no `svelte.config.js`.** Everything it used to hold now lives in the `sveltekit()` plugin call in `vite.config.ts` — the Netlify adapter with `edge: true`/`split: false`, the runes `compilerOptions`, the `prerender` block, the mdsvex `preprocess`, and `extensions`. This matches what `sv create` scaffolds today, and Kit accepts it because `sveltekit()` takes `KitConfig & Options`, so kit-level keys sit flat beside plugin-level ones rather than nested under `kit`. Tooling follows the file: `svelte-check` and `eslint-plugin-svelte` read it without a separate Svelte config, and `eslint.config.js` no longer imports one.
-
-Prettier is configured in `prettier.config.js`, not `.prettierrc`.
-
-## Styling
-
-Tailwind v4 via `@tailwindcss/vite`, with **no `tailwind.config` file**. The theme is an `@theme` block in `src/routes/layout.css`: `--color-accent-color`, `--color-accent-color-lighter`, `--color-background`, `--color-window-gray`.
-
-**That same file is the global element stylesheet, and it is load-bearing for the blog.** Bare `h1`–`h4`, `a`, `p`, `ul`, `pre`, `code`, `img`, `input` and `button` are styled globally, which is the only reason mdsvex output — plain HTML carrying no classes — looks right. Do not narrow those selectors into component scope.
-
-**Component `<style>` blocks must `@reference "#app.css"`**, not a relative path. `#app.css` is a subpath import declared in `package.json` under `"imports"` that resolves to `src/routes/layout.css`; Prettier's `tailwindStylesheet` points at the same file so class sorting knows the custom colours. The commented-out form in `src/routes/contact/+page.svelte` still carries an old `@reference "../../app.css"`; that path no longer exists, so uncommenting it as-is will not build.
-
-**Internal links go through `resolve()` from `$app/paths`.** `eslint-plugin-svelte` enforces this. `post.svelte` disables the rule at the top of the file because its links are external GitHub URLs — prefer that local disable over weakening the rule globally.
-
-## Skills
-
-Agent skills are vendored in `.agents/skills/` and symlinked into `.claude/skills/`, tracked by `skills-lock.json`. Unlike some sibling repos, **all three are committed here.** Manage them with the `skills` CLI (`pnpm dlx skills add|remove|list|update …`) rather than hand-editing the vendored files or the lockfile — `remove <name> -y` deletes the vendored directory, the agent symlinks and the lock entry together.
-
-**`.agents/` and `skills-lock.json` are excluded from Prettier, and must stay excluded.** The vendored markdown contains deliberately-broken code samples — a `$inspect.trace()` sitting in an illegal position, among others — that Prettier's babel parser throws on, so `prettier --check .` fails across the entire repository the moment those ignore entries are removed. Keep vendored files outside every formatter's scope.
+- **Every tool a script or check needs is listed under "Dev requirements" in the root [`README.md`](../README.md#dev-requirements).** When a change makes a new tool necessary, add it there in the same change.
+- **Never install anything on the machine yourself** - name the tool, say what it is needed for, and let the developer decide. For a one-off or troubleshooting tool, ask before running it any other way too: offer installing it, running it from a container, or doing without, and use what the developer picks. Clean up whatever ran, so nothing is left behind.
+- **Dependencies, tools, GitHub Actions and images go in at their latest stable version, checked against the registry** - never recalled. Read a new major version's documentation before writing code against it. Where a compatibility limit holds a version back, say which tool sets it, pin it in `renovate.json` with a `description` saying what lifts the pin, and add it to the TODOs in `README.md`.
 
 ## Conventions
 
-Prettier uses tabs, single quotes, no trailing commas and 100 columns, with the Svelte and Tailwind plugins. `static/`, the lockfiles and the vendored `.agents/` tree are excluded. Run `pnpm format` before pushing — the lint workflow comments on the PR telling you to do precisely that.
+The reasons are in [`conventions.md`](conventions.md):
 
-CI is two workflows: `ci.yml` runs Playwright on pushes and PRs to `main`/`master`, and `lint.yml` runs `pnpm lint` on PRs only. Renovate opens the dependency PRs, automerges minor and patch updates after a five-day `minimumReleaseAge`, and the repo owner is auto-assigned as reviewer.
-
-**Commit subjects are short, lowercase and imperative** — `add skills`. The `chore(deps): …` majority of the log belongs to Renovate and is not a convention to imitate; there are no topic tags in this repository.
-
-Open work is tracked as checkboxes in `README.md` rather than a separate file. Remove an entry once it ships instead of ticking it — the list should only ever show what is still open.
+- **Colours in new or changed code come from the `@theme` tokens, never from a literal** - no hex, `rgb()` or Tailwind palette class such as `bg-emerald-500`. The palette classes already in `layout.css` and the pages predate the rule and go in the UI refresh; do not copy them. If a component seems to need a colour the theme does not offer, **say so and ask**: a colour is added to the theme only after a human has agreed to it.
+- **Commit subjects open with a topic tag**, then a short lowercase imperative - `blog : add the homelab post` - and `wip` follows the tag for unfinished work. Strongly recommended, not a hard rule: if a commit seems not to fit one, ask rather than leave it out. Renovate's `chore(deps): …` subjects are its own, not a pattern to copy.
+- **Prettier formats the whole repository, Markdown included**; run `pnpm format` before pushing. `.agents/` and `skills-lock.json` are excluded and must stay so - the vendored skills carry deliberately broken code samples that Prettier's parsers throw on.
+- **Open work is a checkbox under TODOs in `README.md`.** Remove an entry once it ships rather than ticking it.
+- **Agent skills are managed with the `skills` CLI**, never by editing `.agents/skills/` or `skills-lock.json` by hand - [`development-setup.md`](development-setup.md#agent-skills). `.claude/skills/verify-docs/` is this project's own and is edited by hand.
+- **This project's rules and decisions take precedence over a vendored skill's instructions.** A skill is generic, written without this repository in mind. The exception is a skill showing that a rule here is factually wrong or ignores established best practice: then say so and ask, rather than follow either. `find-skills`, for one, installs with `npx skills add … -g -y`; here, name the skill and its `pnpm dlx skills add` command, and let the developer run it.
 
 ## Licensing
 
-**The MIT License in `LICENSE` covers the source code only, and the scope block at the bottom of that file is the part that matters.** The writing (`blogposts/**` and `static/media/blog/**`), the page copy in `src/routes/`, and the author's own logo and project logos under `src/lib/assets/` are all rights reserved. Do not describe this repository as "MIT licensed" without that qualification, and do not move content under the code license to make reuse simpler — relicensing is the author's decision alone.
+[`LICENSE`](../LICENSE) and [`THIRD-PARTY-NOTICES.md`](../THIRD-PARTY-NOTICES.md) are the sources:
 
-**Do not assume an image under `src/lib/assets/` or `static/media/blog/` is the author's own work.** The avatar `ksp.jpg` is Kerbal Space Program artwork, `projects/inprogress.svg` is a Logoipsum placeholder, and most of the blog images are third-party logos, screenshots of other people's software, or stock photography. Check `THIRD-PARTY-NOTICES.md` before describing any asset as the author's, because getting that wrong in `LICENSE` claims ownership of someone else's work.
+- **The MIT License covers the source code only.** The blog posts and their images, the page copy in `src/routes/` and the author's own logos are all rights reserved. Never call the repository "MIT licensed" without that qualification, and never move content under the code licence - relicensing is the author's decision alone.
+- **Do not assume an image under `src/lib/assets/` or `static/media/blog/` is the author's own.** `ksp.jpg` is Kerbal Space Program artwork, `projects/inprogress.svg` a Logoipsum placeholder, and most blog images are third-party; check `THIRD-PARTY-NOTICES.md` first.
+- **Third-party material is recorded in `THIRD-PARTY-NOTICES.md` in the change that adds it.** A vendored library or a brand icon without an entry is a licensing defect, not housekeeping.
 
-**Third-party material must be recorded in `THIRD-PARTY-NOTICES.md` as it is added.** It currently covers the vendored PrismJS build (MIT, Lea Verou) and the service and technology logos under `src/lib/assets/social/` and `src/lib/assets/projects/`, which are trademarks this repository cannot sublicense. Vendoring a library or dropping in another brand icon without adding an entry is a licensing defect, not housekeeping.
+## Documentation
 
-## AI policy
+- **After writing or changing documentation - this file, a page in `.claude/`, the README - run `/verify-docs` on it.**
+- A page in `.claude/` starts with `title:` frontmatter and no `# Heading`, and gives reasons; the rule it explains goes in this file, linking to it.
+- Link to files in the repository with relative Markdown links, not bare paths. A claim about anything outside the repository links its primary source.
+- Diagrams are Mermaid, not ASCII art.
 
-**`.claude/ai-policy.md` governs AI-assisted work here, and it is binding rather than advisory.** Its position is that AI is a development tool, not an autonomous contributor, reviewer, maintainer or decision-maker.
+## AI-assisted work
 
-The operative rule: **an AI tool may prepare changes in a supervised working tree; a human reviews the complete result and creates the commit personally.** So do not create, amend or sign commits, push branches or tags, open, approve or merge pull requests, cut releases, publish packages, change repository settings or branch protections, touch secrets, or deploy — none of it, and not even when the work is finished and CI is green. The correct end state for a task is a prepared working tree plus an explanation of what changed and why.
+[`ai-policy.md`](ai-policy.md) governs it. When the user asks, an AI tool may create the commits and write their messages, each ending with an `Assisted-by: Claude Code (<model>)` trailer that records the assistance without claiming authorship - never `Co-Authored-By`, which GitHub reads as naming a co-author. That overrides any default attribution a tool suggests. **Never push, merge, release or deploy** - content ships by pushing, so a push is a publication: the user reviews every changed line before anything leaves the machine, and must be able to explain every substantive part of it. Without an explicit request, prepare and explain changes and leave committing to the user.
 
-Two further obligations fall on the work itself rather than on git. **Verify factual claims and external references instead of asserting them** — fabricated APIs, dependencies or test results are listed as grounds for rejecting a contribution, and "it compiles" or "CI passed" is explicitly not sufficient reason to accept generated output. And **keep secrets, production data and personal information out of AI services**; use sanitized examples. That is worth remembering here specifically, because this repository is a personal site: real names, photographs and social links are ordinary content, but analytics, deployment credentials and Netlify configuration are not.
-
-The policy asks that material AI assistance be disclosed in a pull request when it would help a reviewer, and gives suggested wording. Minor help — spelling, formatting, editor completion — needs no disclosure.
+Names, photographs and social links are ordinary content on a personal site; analytics, Netlify configuration and deployment credentials are not, and stay out of AI services.
