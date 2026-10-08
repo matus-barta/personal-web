@@ -24,7 +24,7 @@ This is repository for my personal web [anonymus09.com](https://anonymus09.com)
 - [actionlint](https://github.com/rhysd/actionlint), to check the workflows in `.github/`
 - Python 3.10 or later, for the `/verify-docs` agent skill's evidence check
 
-How to set up, and the checks CI runs, are in [`.claude/development-setup.md`](.claude/development-setup.md).
+How to set up and check the site is in [`.claude/development-setup.md`](.claude/development-setup.md), and what CI runs in [`.claude/ci.md`](.claude/ci.md).
 
 ## Repository layout
 
@@ -38,6 +38,8 @@ How to set up, and the checks CI runs, are in [`.claude/development-setup.md`](.
 | `static/`                    | Served verbatim: blog images under `/media/`, the Prism theme                 |
 | `.claude/`                   | Agent instructions, and the pages explaining the architecture and conventions |
 | `.agents/skills/`            | Vendored agent skills, linked into `.claude/skills/`                          |
+
+How the pieces fit together - one SvelteKit app on a Netlify Edge Function, with the blog posts as Markdown in git - is in [`.claude/architecture.md`](.claude/architecture.md).
 
 ## TODOs
 

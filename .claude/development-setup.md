@@ -46,22 +46,13 @@ The blog assertions derive their expected counts from `/api/posts`, so adding a 
 Documentation and workflows, from the repository root:
 
 ```bash
-lychee README.md THIRD-PARTY-NOTICES.md .claude/*.md   # links, relative and external
-actionlint                                             # the workflows in .github/
+lychee './**/*.md' '.claude/*.md'   # links inside the repository, and the headings they point at
+actionlint                         # the workflows in .github/
 ```
 
-`/verify-docs` checks what a page claims about the code - see [Agent skills](#agent-skills).
+lychee's settings are in [`lychee.toml`](../lychee.toml): it runs offline, so links to other sites are not checked, and it skips the blog posts, whose links are site URLs rather than paths in the repository. `/verify-docs` checks what a page claims about the code - see [Agent skills](#agent-skills).
 
-## CI and dependency updates
-
-Two workflows run in [`.github/workflows/`](../.github/workflows/):
-
-- `ci.yml` runs the Playwright suite on pushes to `main`, `master` and `renovate/**`, and on pull requests to `main` and `master`.
-- `lint.yml` runs `pnpm lint` on pull requests and on pushes to `renovate/**`. On a failing pull request it comments asking for `pnpm format`.
-
-[Renovate](../renovate.json) opens the dependency updates. Minor and patch updates are automerged straight to the branch once CI is green, after a five-day `minimumReleaseAge` that security fixes skip, and the whole lockfile is refreshed weekly. The branch automerge is why both workflows trigger on pushes to `renovate/**`: without those triggers, Renovate's branches would never be checked.
-
-A version Renovate must not take is held back by a rule in `renovate.json` whose `description` says why and what lifts it - TypeScript stays below 7 until typescript-eslint supports it, and `@types/node` on the Node major the site runs. Node 24 itself is pinned in four places that move together: `.nvmrc`, the `engines` field in `package.json`, and the `node-version` matrix in both `ci.yml` and `lint.yml`.
+What CI runs, and how Renovate's updates get checked, is in [continuous integration](ci.md).
 
 ## Agent skills
 

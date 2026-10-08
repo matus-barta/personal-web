@@ -43,7 +43,7 @@ pnpm test:unit    # Vitest; configured, but no tests exist yet
 - **End-to-end specs sit beside the routes** as `*.e2e.ts` - all in `src/routes/all.e2e.ts` today - and there is no `tests/` directory. The blog counts derive from `/api/posts`; `PROJECTS_COUNT` is hardcoded and changes with the cards in `src/routes/projects/+page.svelte`, and `LATEST_POSTS_LIMIT` with `POSTS_LIMIT` in `src/routes/+page.ts`.
 - **A first Vitest file needs no setup**: `*.svelte.test.ts` runs in Chromium, any other `*.test.ts` in Node, and every test must assert.
 - **Node 24 is pinned in four places that move together**: `.nvmrc`, `engines` in `package.json`, and the `node-version` matrix in `ci.yml` and `lint.yml`.
-- **Run `actionlint` after editing a workflow, and keep their `renovate/**` push triggers** - Renovate's branch automerge relies on them. [`development-setup.md`](development-setup.md#ci-and-dependency-updates) says how CI and Renovate fit together.
+- **Run `actionlint` after editing a workflow, and keep their `renovate/**` push triggers** - Renovate's branch automerge relies on them. [`ci.md`](ci.md) says how CI and Renovate fit together.
 
 ## Working on a developer's machine
 
@@ -72,8 +72,11 @@ The reasons are in [`conventions.md`](conventions.md):
 
 ## Documentation
 
+The rules and their reasons are in [`writing-documentation.md`](writing-documentation.md):
+
 - **After writing or changing documentation - this file, a page in `.claude/`, the README - run `/verify-docs` on it.**
-- A page in `.claude/` starts with `title:` frontmatter and no `# Heading`, and gives reasons; the rule it explains goes in this file, linking to it.
+- A page in `.claude/` starts with `title:` frontmatter and no `# Heading`, and is one kind - a how-to guide, an explanation or reference; steps and their reasons go on separate pages. It gives reasons; the rule it explains goes in this file, linking to it.
+- The README opens with what the repository is, for a visitor, and runs from visitor to developer; it links the pages in `.claude/` rather than repeating them.
 - Link to files in the repository with relative Markdown links, not bare paths. A claim about anything outside the repository links its primary source.
 - Diagrams are Mermaid, not ASCII art.
 
