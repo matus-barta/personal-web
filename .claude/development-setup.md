@@ -69,4 +69,6 @@ An update skips a skill whose source repository holds the same name at more than
 
 A skill runs with the agent's full permissions, so read what an added or updated one says before committing it. Their Markdown is left as its authors wrote it: Prettier skips `.agents/` - see [Formatting](conventions.md#formatting).
 
+The skills are third-party code, redistributed under their source repositories' licenses, so the change that adds or removes one also updates [vendored agent skills](../THIRD-PARTY-NOTICES.md#vendored-agent-skills) in the third-party notices: its source and license, and the license text with its copyright notice if that license is not there yet. A logo or other brand asset that comes with a skill goes in the trademarks table below it.
+
 One skill is this project's own: `.claude/skills/verify-docs/` is a real directory rather than a link, edited by hand. It lists the factual claims in a page, checks each against the code, and has a script confirm that every quote it cites as evidence really is in the file it names; the script needs Python 3.10 or later.
