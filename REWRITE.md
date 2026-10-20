@@ -74,13 +74,10 @@ Status: [1.0 is stable and MIT-licensed](https://voidzero.dev/posts/announcing-v
 
 ## 3. Make the site fully static
 
-Built on `rewrite/static`: `adapter-static` with `fallback: '404.html'`, `prerender = true` in the root `+layout.ts`, the posts read through `#lib/posts.ts`, and `/api/healthcheck` removed. Every URL the live site served on 2026-10-20 has a file in `build/` except `/api/healthcheck`, and `/api/posts` moved to `/api/posts.json` with identical JSON. [`.claude/architecture.md`](.claude/architecture.md) explains the result. What's left can only be checked on a Netlify deploy preview:
+Built on `rewrite/static` ([#325](https://github.com/matus-barta/personal-web/pull/325)): `adapter-static` with `fallback: '404.html'`, `prerender = true` in the root `+layout.ts`, the posts read through `#lib/posts.ts`, `/api/posts` renamed `/api/posts.json`, and `/api/healthcheck` removed. [`.claude/architecture.md`](.claude/architecture.md) explains the result. The deploy preview passed every check on 2026-10-21: every URL the live site served is there except `/api/healthcheck`, `/` returns 200, an unknown URL gets `404.html` with a 404, `/about/` redirects to `/about` (301; the live site answers 308), `/api/posts.json` is `application/json`, and the deploy has no functions or edge functions. Left before merging:
 
-- [ ] `curl -I <preview>/` returns 200, for the uptime check.
-- [ ] An unknown URL returns 404 with `404.html`, and the page then renders the error page.
-- [ ] `/about/` redirects to `/about`. The live site answers 308; Netlify's [support guide](https://answers.netlify.com/t/support-guide-how-can-i-alter-trailing-slash-behaviour-in-my-urls-will-enabling-pretty-urls-help/31191) says 301.
-- [ ] `/api/posts.json` is sent as `application/json`, as `/api/posts` was.
-- [ ] The deploy lists no edge function and no function.
+- [ ] `/_app/immutable/*` comes back with `cache-control: public, immutable, max-age=31536000`, as on the live site. `adapter-netlify` set that rule itself; it's now a `[[headers]]` rule in `netlify.toml`. Check it on the next deploy preview.
+- [ ] Clear the Functions directory (`functions`) in Netlify's build settings. Nothing deploys from it any more, and every build warns that it doesn't exist.
 
 ## 4. Update to latest
 
