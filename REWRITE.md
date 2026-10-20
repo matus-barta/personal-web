@@ -2,7 +2,7 @@
 
 Researched and verified on 2026-10-20. Versions come from the npm registry on that date. Claims about this repository name the file they come from; claims about anything else link their source where they're made.
 
-**Suggested order:** 4 (Kit 3) → 3 (static) → 5 + 6 (Markdown, highlighting) → 7 (assets) → 1 + 10 + 11 (shadcn, mobile and layout refresh, together) → 9 (content). 2 (Vite+) waits for full Svelte support. Items in 8 can land at any point.
+**Suggested order:** 4 (Node 26) → 3 (static) → 5 + 6 (Markdown, highlighting) → 7 (assets) → 1 + 10 + 11 (shadcn, mobile and layout refresh, together) → 9 (content). 2 (Vite+) waits for full Svelte support. Items in 8 can land at any point.
 
 ## Decisions
 
@@ -110,27 +110,14 @@ Today the whole app is one Netlify Edge Function (`edge: true`, `split: false` i
 
 ## 4. Update to latest
 
-| Package                                                                                                                            | Range now | Latest      | Note                                                                                                                                                                               |
-| ---------------------------------------------------------------------------------------------------------------------------------- | --------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`@sveltejs/kit`](https://www.npmjs.com/package/@sveltejs/kit)                                                                     | ^2.55.0   | **3.1.0**   | Major version. Requires Node ≥22.17, TS 6, Svelte ≥5.57.1, Vite ≥8.0.12 ([migration guide](https://svelte.dev/docs/kit/migrating-to-sveltekit-3))                                  |
-| [`@sveltejs/adapter-netlify`](https://www.npmjs.com/package/@sveltejs/adapter-netlify)                                             | ^6.0.4    | **7.0.1**   | Kit 3 only. Or `adapter-static` 4.0.0 (see 3)                                                                                                                                      |
-| [`svelte`](https://www.npmjs.com/package/svelte)                                                                                   | ^5.55.1   | 5.57.2      |                                                                                                                                                                                    |
-| [`vite`](https://www.npmjs.com/package/vite)                                                                                       | ^8.0.3    | 8.3.4       |                                                                                                                                                                                    |
-| [`@sveltejs/vite-plugin-svelte`](https://www.npmjs.com/package/@sveltejs/vite-plugin-svelte)                                       | ^7.0.0    | 7.3.1       |                                                                                                                                                                                    |
-| [`tailwindcss`](https://www.npmjs.com/package/tailwindcss), [`@tailwindcss/vite`](https://www.npmjs.com/package/@tailwindcss/vite) | ^4.2.2    | 4.3.3       |                                                                                                                                                                                    |
-| [`typescript`](https://www.npmjs.com/package/typescript)                                                                           | ^6.0.2    | 7.0.2       | **Stay on 6.** The peer ranges rule out 7: Kit 3 `^6.0.0`, svelte-check `^5.0.0 \|\| ^6.0.0`, typescript-eslint `>=4.8.4 <6.1.0`. Keep the Renovate pin (`allowedVersions: "<7"`). |
-| [`@types/node`](https://www.npmjs.com/package/@types/node)                                                                         | ^24       | 26.6.5      | Follows the Node pin                                                                                                                                                               |
-| [`mdsvex`](https://www.npmjs.com/package/mdsvex)                                                                                   | ^0.12.7   | 0.12.8      |                                                                                                                                                                                    |
-| eslint, vitest, playwright, prettier…                                                                                              | caret     | minor/patch | Renovate already covers these                                                                                                                                                      |
+SvelteKit 3 and the packages it needed are done. What's left:
 
-- [ ] Kit 3 migration (all from the [migration guide](https://svelte.dev/docs/kit/migrating-to-sveltekit-3)):
-  - [ ] Update to the latest 2.x (2.70.3) first and fix its deprecation warnings.
-  - [ ] Run `pnpm dlx sv migrate sveltekit-3`.
-  - [ ] `$lib` → `#lib`: add `#lib` and `#lib/*` under `imports` in `package.json` (next to `#app.css`), and add `.js` extensions to the imports.
-  - [ ] `resolve()`: only route IDs keep the leading `/`. ``resolve(`/blog/${post.slug}`)`` (in `+page.svelte` and `blog/+page.svelte`) becomes `resolve('/blog/[slug]', { slug: post.slug })`.
-  - [ ] `json()` is deprecated: use `Response.json()` in both API routes.
-  - [ ] `tsconfig.json` extends `$app/tsconfig`, with explicit `include` and `exclude`.
-  - [ ] If you stay on `adapter-netlify` 7: the publish directory is now an adapter option, not read from `netlify.toml`.
+| Package                                                    | Range now | Latest      | Note                                                                                                                                                                               |
+| ---------------------------------------------------------- | --------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`typescript`](https://www.npmjs.com/package/typescript)   | ^6.0.2    | 7.0.2       | **Stay on 6.** The peer ranges rule out 7: Kit 3 `^6.0.0`, svelte-check `^5.0.0 \|\| ^6.0.0`, typescript-eslint `>=4.8.4 <6.1.0`. Keep the Renovate pin (`allowedVersions: "<7"`). |
+| [`@types/node`](https://www.npmjs.com/package/@types/node) | ^24       | 26.6.5      | Follows the Node pin                                                                                                                                                               |
+| eslint, vitest, playwright, prettier…                      | caret     | minor/patch | Renovate already covers these                                                                                                                                                      |
+
 - [ ] **Node 26, on its own branch (`rewrite/node-26`)**, separate from the Kit 3 migration, so a Netlify problem can't block it. Node 24's active support ends 2026-10-20 and Node 26 becomes LTS on 2026-10-28 ([endoflife.date](https://endoflife.date/nodejs)). Switching before the 28th is fine, because the LTS date is a support label, not a code change. Node 24 keeps security fixes until 2028-04-30, so nothing forces the move.
   - [ ] The packages allow it (checked 2026-10-20 against their `engines` fields): Kit 3 `>=22.17`, enhanced-img `>=22`, Vite `^20.19.0 || >=22.12.0`, ESLint `>=24`, Playwright `>=20`, and Vitest lists `>=26.0.0` explicitly.
   - [ ] Move all four pins together: `.nvmrc`, `engines` in `package.json`, and the `node-version` matrix in `ci.yml` and `lint.yml`.

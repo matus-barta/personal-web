@@ -45,7 +45,7 @@ How the pieces fit together - one SvelteKit app on a Netlify Edge Function, with
 
 ### Code
 
-- [ ] The rewrite, planned in [`REWRITE.md`](REWRITE.md): SvelteKit 3, a fully static build, shadcn-svelte, and a UI refresh that replaces the Tailwind palette classes with theme colours
+- [ ] The rewrite, planned in [`REWRITE.md`](REWRITE.md): Node 26, a fully static build, shadcn-svelte, and a UI refresh that replaces the Tailwind palette classes with theme colours
 
 ### Blog
 

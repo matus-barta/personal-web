@@ -1,9 +1,9 @@
 <script lang="ts">
 	import './layout.css';
-	import favicon from '$lib/assets/favicon.png';
+	import favicon from '#lib/assets/favicon.png';
 
-	import Footer from '$lib/components/footer.svelte';
-	import Nav from '$lib/components/nav.svelte';
+	import Footer from '#lib/components/footer.svelte';
+	import Nav from '#lib/components/nav.svelte';
 	interface Props {
 		children?: import('svelte').Snippet;
 	}

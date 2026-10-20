@@ -1,5 +1,5 @@
 import type { PageLoad } from './$types';
-import type { Post } from '$lib/types';
+import type { Post } from '#lib/types/post.js';
 
 export const load: PageLoad = async ({ fetch }) => {
 	const POSTS_LIMIT = 5;
