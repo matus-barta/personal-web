@@ -45,9 +45,7 @@ How the pieces fit together - one SvelteKit app on a Netlify Edge Function, with
 
 ### Code
 
-- [ ] move common stuff to components (page)
-- [ ] review if adding shadcn is needed
-- [ ] UI refresh (styles rework, maybe shadcn), replacing the Tailwind palette classes with theme colours
+- [ ] The rewrite, planned in [`REWRITE.md`](REWRITE.md): SvelteKit 3, a fully static build, shadcn-svelte, and a UI refresh that replaces the Tailwind palette classes with theme colours
 
 ### Blog
 
