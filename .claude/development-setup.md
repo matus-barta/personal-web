@@ -27,7 +27,7 @@ There is no environment file: nothing the site runs on is configured through var
 
 ## Checking the site
 
-The checks to run locally. CI runs the last two - `pnpm lint` on pull requests and `pnpm test` on pushes and pull requests - but not `pnpm check`, so type errors are caught only here:
+The checks to run locally. CI runs all three - `pnpm lint` and `pnpm check` on pull requests, `pnpm test` on pushes and pull requests:
 
 ```bash
 pnpm check    # svelte-kit sync and svelte-check
