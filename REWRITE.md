@@ -235,8 +235,6 @@ How images get processed (from the [images docs](https://svelte.dev/docs/kit/ima
 - [ ] **Images:** no `width` or `height` on any `<img>` (layout shift); see 7.
 - [ ] **CI:**
   - [ ] `test:unit` is configured, but no `*.test.ts` or `*.spec.ts` files exist. Add unit tests for `formatDate` and post sorting, or drop the script.
-- [ ] **Tooling:**
-  - [ ] `npm-check-updates` (the `ncu` script) duplicates Renovate; consider removing it.
 - [ ] **Leftovers:**
   - [ ] `/contact` (with its commented-out form and its dead `@reference "../../app.css"`) and `/success` go; see 9.
   - [ ] The commented-out border compatibility block in `layout.css`.
