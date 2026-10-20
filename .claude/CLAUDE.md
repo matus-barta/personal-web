@@ -27,7 +27,7 @@ One SvelteKit app, deployed to Netlify. There is no database, no auth and no CMS
 
 ## Commands
 
-Node 24 (`.nvmrc`) and the pnpm version `packageManager` pins; `engineStrict` in `pnpm-workspace.yaml` makes pnpm refuse an older Node.
+Node 26 (`.nvmrc`) and the pnpm version `packageManager` pins; `engineStrict` in `pnpm-workspace.yaml` makes pnpm refuse an older Node.
 
 ```bash
 pnpm dev
@@ -42,7 +42,7 @@ pnpm test:unit    # Vitest; configured, but no tests exist yet
 - **`pnpm test` builds and previews the site itself** on port 4173, so it is slow and can fail for build reasons rather than test reasons.
 - **End-to-end specs sit beside the routes** as `*.e2e.ts` - all in `src/routes/all.e2e.ts` today - and there is no `tests/` directory. The blog counts derive from `/api/posts`; `PROJECTS_COUNT` is hardcoded and changes with the cards in `src/routes/projects/+page.svelte`, and `LATEST_POSTS_LIMIT` with `POSTS_LIMIT` in `src/routes/+page.ts`.
 - **A first Vitest file needs no setup**: `*.svelte.test.ts` runs in Chromium, any other `*.test.ts` in Node, and every test must assert.
-- **Node 24 is pinned in four places that move together**: `.nvmrc`, `engines` in `package.json`, and the `node-version` matrix in `ci.yml` and `lint.yml`.
+- **Node 26 is pinned in four places that move together**: `.nvmrc`, `engines` in `package.json`, and the `node-version` matrix in `ci.yml` and `lint.yml`.
 - **Run `actionlint` after editing a workflow, and keep their `renovate/**` push triggers** - Renovate's branch automerge relies on them. [`ci.md`](ci.md) says how CI and Renovate fit together.
 
 ## Working on a developer's machine

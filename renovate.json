@@ -26,9 +26,9 @@
 			"allowedVersions": "<7"
 		},
 		{
-			"description": "Keep @types/node on the major that matches the runtime. Node 24 is pinned in four places that must move together: .nvmrc, the engines field in package.json, and the node-version matrix in both ci.yml and lint.yml.",
+			"description": "Keep @types/node on the major that matches the runtime. Node 26 is pinned in four places that must move together: .nvmrc, the engines field in package.json, and the node-version matrix in both ci.yml and lint.yml.",
 			"matchPackageNames": ["@types/node"],
-			"allowedVersions": "<25"
+			"allowedVersions": "<27"
 		}
 	]
 }

@@ -17,7 +17,7 @@ This is repository for my personal web [anonymus09.com](https://anonymus09.com)
 
 ## Dev requirements
 
-- [Node.js](https://nodejs.org/) 24, the version in [`.nvmrc`](.nvmrc)
+- [Node.js](https://nodejs.org/) 26, the version in [`.nvmrc`](.nvmrc)
 - [pnpm](https://pnpm.io/), at the version `packageManager` pins in [`package.json`](package.json)
 - Playwright's browsers, for the end-to-end tests: `pnpm exec playwright install`
 - [lychee](https://lychee.cli.rs/), to check the links in the documentation
@@ -45,7 +45,7 @@ How the pieces fit together - one SvelteKit app on a Netlify Edge Function, with
 
 ### Code
 
-- [ ] The rewrite, planned in [`REWRITE.md`](REWRITE.md): Node 26, a fully static build, shadcn-svelte, and a UI refresh that replaces the Tailwind palette classes with theme colours
+- [ ] The rewrite, planned in [`REWRITE.md`](REWRITE.md): a fully static build, shadcn-svelte, and a UI refresh that replaces the Tailwind palette classes with theme colours
 
 ### Blog
 

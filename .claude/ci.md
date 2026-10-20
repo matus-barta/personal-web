@@ -25,6 +25,6 @@ That branch automerge is why both workflows also trigger on pushes to `renovate/
 
 A version Renovate must not take is held back by a rule in `renovate.json` whose `description` says why and what lifts it - TypeScript stays below 7 until typescript-eslint supports it, and `@types/node` on the Node major the site runs.
 
-Node 24 itself is pinned in four places that move together: [`.nvmrc`](../.nvmrc), the `engines` field in [`package.json`](../package.json), and the `node-version` matrix in both workflows. A change to one that misses the others runs CI on a different Node from the one the site is built with locally.
+Node 26 itself is pinned in four places that move together: [`.nvmrc`](../.nvmrc), the `engines` field in [`package.json`](../package.json), and the `node-version` matrix in both workflows. A change to one that misses the others runs CI on a different Node from the one the site is built with locally.
 
 After editing a workflow, run `actionlint` - it is listed under [Dev requirements](../README.md#dev-requirements).
