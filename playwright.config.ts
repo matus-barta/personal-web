@@ -2,5 +2,13 @@ import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
 	webServer: { command: 'pnpm run build && pnpm run preview', port: 4173 },
-	testMatch: '**/*.e2e.{ts,js}'
+	testMatch: '**/*.e2e.{ts,js}',
+	use: {
+		// Browsers in Playwright's Docker image when scripts/with-browsers.ts started
+		// them, installed ones otherwise. <loopback> sends the browser's localhost back
+		// to this machine, where the preview server is.
+		connectOptions: process.env.PLAYWRIGHT_WS_ENDPOINT
+			? { wsEndpoint: process.env.PLAYWRIGHT_WS_ENDPOINT, exposeNetwork: '<loopback>' }
+			: undefined
+	}
 });

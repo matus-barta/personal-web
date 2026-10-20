@@ -17,14 +17,6 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - name: Cache Playwright Binaries
-        id: cache-playwright
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
-        with:
-          path: |
-            ~/.cache/ms-playwright
-          key: playwright-${{ hashFiles('pnpm-lock.yaml') }}
-
       - name: Install pnpm
         uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
         with:
@@ -40,13 +32,34 @@ jobs:
       - name: Install dependencies
         run: pnpm i
 
+      - name: Get Playwright version
+        id: playwright-version
+        run: echo "version=$(pnpm exec playwright --version | cut -d ' ' -f 2)" >> "$GITHUB_OUTPUT"
+
+      # The browsers run in Playwright's image, started by scripts/with-browsers.ts.
+      # Each Playwright version has its own image, so the version is the cache key.
+      - name: Cache Playwright image
+        id: cache-playwright-image
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: ~/playwright-image.tar
+          key: playwright-image-${{ runner.os }}-${{ steps.playwright-version.outputs.version }}
+
+      - name: Load Playwright image
+        if: steps.cache-playwright-image.outputs.cache-hit == 'true'
+        run: docker load --input ~/playwright-image.tar
+
+      # The same image name scripts/with-browsers.ts derives from the installed version.
+      - name: Pull Playwright image
+        if: steps.cache-playwright-image.outputs.cache-hit != 'true'
+        env:
+          IMAGE: mcr.microsoft.com/playwright:v${{ steps.playwright-version.outputs.version }}-noble
+        run: |
+          docker pull "$IMAGE"
+          docker save --output ~/playwright-image.tar "$IMAGE"
+
       - name: Build website
         run: pnpm run build
-
-      - name: Install Playwright Browsers
-        id: install-playwright-browsers
-        if: steps.cache-playwright.outputs.cache-hit != 'true'
-        run: pnpm exec playwright install --with-deps
 
       - name: Run Playwright tests
         run: pnpm run test

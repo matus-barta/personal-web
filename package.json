@@ -16,9 +16,10 @@
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
 		"ncu": "pnpm exec npm-check-updates",
-		"test:unit": "vitest",
+		"test:unit": "node scripts/with-browsers.ts vitest",
 		"test": "pnpm test:e2e",
-		"test:e2e": "playwright test"
+		"test:e2e": "node scripts/with-browsers.ts playwright test",
+		"test:browsers:stop": "docker rm --force personal-web-playwright"
 	},
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",

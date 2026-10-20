@@ -40,6 +40,7 @@ pnpm test:unit    # Vitest; configured, but no tests exist yet
 ```
 
 - **`pnpm test` builds and previews the site itself** on port 4173, so it is slow and can fail for build reasons rather than test reasons.
+- **The tests' browsers run in Docker**, in Playwright's image, through `scripts/with-browsers.ts`, so Docker must be running. `PLAYWRIGHT_LOCAL_BROWSERS=1` uses browsers installed on the machine instead, for anything headed.
 - **End-to-end specs sit beside the routes** as `*.e2e.ts` - all in `src/routes/all.e2e.ts` today - and there is no `tests/` directory. The blog counts derive from `/api/posts`; `PROJECTS_COUNT` is hardcoded and changes with the cards in `src/routes/projects/+page.svelte`, and `LATEST_POSTS_LIMIT` with `POSTS_LIMIT` in `src/routes/+page.ts`.
 - **A first Vitest file needs no setup**: `*.svelte.test.ts` runs in Chromium, any other `*.test.ts` in Node, and every test must assert.
 - **Node 26 is pinned in four places that move together**: `.nvmrc`, `engines` in `package.json`, and the `node-version` matrix in `ci.yml` and `lint.yml`.
