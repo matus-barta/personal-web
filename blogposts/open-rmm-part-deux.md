@@ -105,7 +105,7 @@ There are few reasons why:
 - the other reason is, the service is pretty stable and mature while it still gets many features
 - and the lasts thing _(this is probably may be same with Appwrite)_ it has pretty generous free tier so the early hosting can be done on the free tier with not many downsides
 
-Of course these are not only upsides of using Supabase. The weird bug showing error for the `getUser()` function was super annoying (mentioned in [2024](#2024) year). Also, I started using Supabase during the transition between SDKs.
+Of course these are not only upsides of using Supabase. The weird bug showing error for the `getUser()` function was super annoying (mentioned in 2024 year). Also, I started using Supabase during the transition between SDKs.
 
 ## Tech stack now
 
@@ -153,7 +153,7 @@ Later I would like to add support application for the systems running GUI to man
 
 Regarding the tech stack I think this is more less stabilized _(I hope)_, maybe with exception adding some in-memory cache like [Redis](https://redis.io/)/[Valkey](https://valkey.io/).
 
-### And regarding the features, there are so many to add.
+### And regarding the features, there are so many to add
 
 #### RMM
 
@@ -179,7 +179,7 @@ This paragraph just came to my mind and I am thinking a lot about mobile apps la
 
 But maybe just scanner for the inventory, it may be that little taste of mobile development, that may be nice starting point.
 
-#### Lets see what options we have.
+#### Lets see what options we have
 
 - **Fully native ([Swift](https://www.swift.org/) and [Kotlin](https://kotlinlang.org/)):** two separate codebases, may be feasible for this low scope app but hard for the future when having to add more features
 - **[Capacitor](https://capacitorjs.com/):** this is just wrapper around the web app
