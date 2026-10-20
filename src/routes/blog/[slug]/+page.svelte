@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { formatDate } from '#lib/utils/format-date.js';
+	import { pageTitle } from '#lib/utils/page-title.js';
 	import type { PageData } from './$types';
 	interface Props {
 		data: PageData;
@@ -9,7 +10,7 @@
 </script>
 
 <svelte:head>
-	<title>{data.frontmatter.title}</title>
+	<title>{pageTitle(data.frontmatter.title)}</title>
 	<link href="/prism/prism.css" rel="stylesheet" />
 </svelte:head>
 

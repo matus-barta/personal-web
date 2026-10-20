@@ -1,13 +1,13 @@
-import type { PageLoad } from './$types';
+import { getPost, getPosts } from '#lib/posts.js';
 import { error } from '@sveltejs/kit';
+import type { EntryGenerator, PageLoad } from './$types';
+
+// Built from the list rather than from whatever links the crawler happens to find.
+export const entries: EntryGenerator = async () => (await getPosts()).map(({ slug }) => ({ slug }));
 
 export const load: PageLoad = async ({ params: { slug } }) => {
-	try {
-		const module = await import(`../../../../blogposts/${slug}.md`);
-		return { component: module.default, frontmatter: module.metadata };
-	} catch (e) {
-		// the thrown error names the internal source path, so it stays out of the response
-		console.error(e);
-		error(404, 'Blog post not found.');
-	}
+	const found = await getPost(slug);
+	if (!found) error(404, 'Blog post not found.');
+
+	return { component: found.component, frontmatter: found.post };
 };

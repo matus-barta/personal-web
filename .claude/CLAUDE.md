@@ -6,15 +6,18 @@ The rules for working in this repository. Each links to the page in `.claude/` t
 
 One SvelteKit app, deployed to Netlify. There is no database, no auth and no CMS: a blog post is a Markdown file in git, and content ships by pushing a commit. [`architecture.md`](architecture.md) says why each rule below holds.
 
-- **Server code runs on a Deno-based edge runtime.** `adapter-netlify` with `edge: true` and `split: false` makes the whole app one Netlify Edge Function, so no Node built-ins in a `+server.ts` or `+page.server.ts`.
-- **Almost nothing is prerendered.** Only `/contact` and `/success` export `prerender = true`. The `prerender` block in `vite.config.ts` widens what the crawler visits; it does not opt a page in. The `.html` files in `build/` after a build show what was actually baked out.
+- **The site is fully static.** `adapter-static` prerenders every route during `vite build`, in Node, and Netlify only serves `build/`. Nothing runs per request: no hooks, form actions, cookies or request headers, and a value computed while rendering - the footer's year - is fixed at build time.
+- **`prerender = true` in the root `+layout.ts` covers every page, not a `+server.ts`**: an endpoint no page fetches exports its own, as `/api/posts.json` does. Give a prerendered endpoint a file extension in its route name, since the host picks the `Content-Type` from it. A route with a parameter is built only for what its `entries()` returns or the crawler reaches.
+- **`fallback: '404.html'` turns off adapter-static's check that every route was prerendered** - a route that wasn't is served as the 404 shell instead of failing the build. The `.html` files in `build/` show what was built.
+- **A broken internal link fails the build**, including one to a post set to `published: false`, and so does a `#fragment` link in a post: mdsvex gives headings no `id`.
+- **A page's `<title>` is `pageTitle('Name')`** from `#lib/utils/page-title.js`, which appends `SITE_NAME` - a blog post's included, with its frontmatter `title`.
 - **There is no `svelte.config.js`, and Kit 3 stops with an error if one exists.** The adapter, compiler options, mdsvex and `extensions` all live in the `sveltekit()` call in `vite.config.ts`, with Kit's keys flat beside the plugin's. Where a skill or the Svelte docs say to set an option in `svelte.config.js` - `experimental.async`, for one - it goes in that call instead, compiler options under `compilerOptions`.
 
 ## Blog posts
 
 - **`blogposts/*.md` is the content store, and the filename is the slug** - renaming a file changes its URL. Frontmatter must satisfy `Post` in `#lib/types/post.js`.
-- **Two routes read that directory and share no code.** `/api/posts` lists the frontmatter of published posts, newest first; `/blog/[slug]` imports one post by slug and renders it. A change to how posts are read usually lands in both.
-- **`published: false` hides a post from the list, not from the web** - `/blog/[slug]` never checks it. A post that must stay private belongs on an unmerged branch.
+- **Every read of that directory goes through `#lib/posts.ts`**: `getPosts()` for the list, `getPost(slug)` for one post. Call `getPosts()` only from code that runs at build time - a `+page.server.ts`, a `+server.ts`, `entries()` - since in a universal load it bundles every post into that page.
+- **`published: false` keeps a post off the site, not out of the deploy**: no page and no list entry, but its compiled body still ships as a chunk under `build/_app/`. A post that must stay private belongs on an unmerged branch.
 - **A post's `img` is a URL into `static/media/blog/<slug>/`**, served verbatim, not a Vite import.
 - **mdsvex is for Markdown that lives in git; `svelte-markdown` only for strings that exist at runtime** - today, the project blurbs passed to `post.svelte`.
 
@@ -36,13 +39,15 @@ pnpm check        # svelte-kit sync + svelte-check
 pnpm lint         # prettier --check . && eslint .
 pnpm format       # prettier --write .
 pnpm test         # Playwright end-to-end, and nothing else - what CI runs
-pnpm test:unit    # Vitest; configured, but no tests exist yet
+pnpm test:unit    # Vitest: the *.test.ts beside the code; not run in CI
 ```
 
 - **`pnpm test` builds and previews the site itself** on port 4173, so it is slow and can fail for build reasons rather than test reasons.
 - **The tests' browsers run in Docker**, in Playwright's image, through `scripts/with-browsers.ts`, so Docker must be running. `PLAYWRIGHT_LOCAL_BROWSERS=1` uses browsers installed on the machine instead, for anything headed.
-- **End-to-end specs sit beside the routes** as `*.e2e.ts` - all in `src/routes/all.e2e.ts` today - and there is no `tests/` directory. The blog counts derive from `/api/posts`; `PROJECTS_COUNT` is hardcoded and changes with the cards in `src/routes/projects/+page.svelte`, and `LATEST_POSTS_LIMIT` with `POSTS_LIMIT` in `src/routes/+page.ts`.
-- **A first Vitest file needs no setup**: `*.svelte.test.ts` runs in Chromium, any other `*.test.ts` in Node, and every test must assert.
+- **End-to-end specs sit beside the routes** as `*.e2e.ts` - all in `src/routes/all.e2e.ts` today - and there is no `tests/` directory. The blog counts derive from `/api/posts.json`; `PROJECTS_COUNT` in `src/lib/config.ts` is kept by hand and changes with the cards in `src/routes/projects/+page.svelte`.
+- **The site's constants live in `src/lib/config.ts`**, not in the file that uses them, and are never copied. The app imports it as `#lib/config.js`; a spec needs a relative path, since Playwright does not map that `.js` to `.ts`.
+- **`vite preview` server-renders whatever wasn't prerendered**, so an end-to-end check on the static output reads `build/` rather than requesting the page.
+- **Unit tests sit beside the code as `*.test.ts`**: `*.svelte.test.ts` runs in Chromium, any other in Node, and every test must assert. Unlike a spec, a unit test can import from `#lib`.
 - **Node 26 is pinned in four places that move together**: `.nvmrc`, `engines` in `package.json`, and the `node-version` matrix in `ci.yml` and `lint.yml`.
 - **Run `actionlint` after editing a workflow, and keep their `renovate/**` push triggers** - Renovate's branch automerge relies on them. [`ci.md`](ci.md) says how CI and Renovate fit together.
 

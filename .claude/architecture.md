@@ -4,44 +4,59 @@ title: 'Architecture'
 
 How the site is built and why, for the rules in [`CLAUDE.md`](CLAUDE.md) that follow from it. The directories themselves are listed in the [root README](../README.md#repository-layout).
 
-## One app, one edge function
+## A static site
 
 The site is a single SvelteKit app. There is no database, no auth and no CMS: a blog post is a Markdown file in git, and content ships by pushing a commit.
 
-It deploys to Netlify through `adapter-netlify`, configured in [`vite.config.ts`](../vite.config.ts) with `edge: true` and `split: false`. Together those make the whole app **one Netlify Edge Function**, and an edge function runs on Netlify's Deno-based, web-standard runtime rather than on Node - which is why a `+server.ts` or `+page.server.ts` must not reach for Node built-ins. The adapter's own comment in the config notes that `split` cannot be used with `edge` anyway. [`netlify.toml`](../netlify.toml) runs `pnpm run build` and publishes `build/`.
+It builds with `adapter-static`, configured in [`vite.config.ts`](../vite.config.ts) with `fallback: '404.html'`. Every page, and the one endpoint, is rendered to a file in `build/` during `vite build`, and [`netlify.toml`](../netlify.toml) runs `pnpm run build` and publishes that directory - nothing else is deployed, so Netlify serves files from its CDN and no function runs per view.
 
-`/api/healthcheck` returns `{ Status: 'OK' }` for external uptime monitoring; nothing in the app calls it.
+Server code still exists - the `+page.server.ts` loads and the `+server.ts` endpoint - but it runs once, in Node, while the site is prerendered. Nothing runs per request, so there are no hooks, form actions, cookies or request headers to read; response headers and redirects go in `netlify.toml` - which is where the year-long cache for the hashed files under `/_app/immutable/` is set, a rule `adapter-netlify` used to write itself - or in Netlify's [`_headers`](https://docs.netlify.com/manage/routing/headers/) and [`_redirects`](https://docs.netlify.com/manage/routing/redirects/overview/) files. For the same reason anything computed while rendering is fixed at build time: the footer's `new Date().getFullYear()` in [`footer.svelte`](../src/lib/components/footer.svelte) is the year of the last build. Per-request rendering would mean going back to `adapter-netlify`.
 
-## Almost nothing is prerendered
+With no request to take it from, Kit renders every page with `url.origin` set to `paths.origin`, which [`vite.config.ts`](../vite.config.ts) sets to `SITE_URL` from [`src/lib/config.ts`](../src/lib/config.ts). Unset, it would be `http://sveltekit-prerender` ([`prerender.js`](https://github.com/sveltejs/kit/blob/main/packages/kit/src/core/postbuild/prerender.js)), and an absolute URL built from `page.url` would name that instead of the site.
 
-Only `/contact` and `/success` opt in, each with `export const prerender = true` in its `+page.ts`. Everything else - `/`, `/blog`, `/blog/[slug]`, `/projects`, `/about` and both API routes - renders per request.
+An external uptime check requests `/`, which is `index.html`; there is no healthcheck endpoint, since a static file answering is all one could report.
 
-The `prerender: { crawl: true, entries: ['*'] }` block in `vite.config.ts` reads as though it prerenders everything, and it does not: it widens what the crawler _visits_, and a page is still baked out only when it opts in. After a build, the `.html` files in `build/` show what actually was; the same pages appear in the `excludedPath` list that the edge function in `.netlify/v1/edge-functions/` exports, so Netlify serves them without invoking it ([Netlify docs](https://docs.netlify.com/build/edge-functions/declarations/#match-by-path)).
+## Everything is prerendered
+
+`export const prerender = true` in the root [`+layout.ts`](../src/routes/+layout.ts) applies to every page beneath it. Kit starts from its default [`prerender.entries`](https://svelte.dev/docs/kit/configuration#prerender), `['*']` - every route without a required parameter - and crawls the links it finds. `/blog/[slug]` has one, so its [`+page.ts`](../src/routes/blog/[slug]/+page.ts) exports `entries()`, which lists the published slugs rather than relying on whatever the crawler happens to reach.
+
+A layout's options do not reach a `+server.ts`: an endpoint inherits `prerender` only from the pages that fetch it ([page options](https://svelte.dev/docs/kit/page-options#prerender)). No page fetches [`/api/posts.json`](../src/routes/api/posts.json/+server.ts), so it exports its own `prerender = true`, and comes out as `build/api/posts.json`. The extension is in the route's name because the file is served as it is, and the host chooses the `Content-Type` from it - Kit's docs recommend one on every prerendered endpoint. Without it, the file was `build/api/posts`, which `vite preview` served as `text/html`.
+
+With the default [`trailingSlash`](https://svelte.dev/docs/kit/page-options#trailingSlash), `/about` is written as `about.html`, which Netlify serves at `/about` and redirects `/about/` to ([Netlify support guide](https://answers.netlify.com/t/support-guide-how-can-i-alter-trailing-slash-behaviour-in-my-urls-will-enabling-pretty-urls-help/31191)).
+
+**The build is a link checker.** [`prerender.handleHttpError`](https://svelte.dev/docs/kit/configuration#prerender) defaults to `'fail'`, so an internal link to a page that does not exist stops the build - a post linking to one set to `published: false` included. Its counterpart for `#fragment` links, `handleMissingId`, is `'fail'` too, and mdsvex gives headings no `id` - so a post cannot link to one of its own headings yet.
+
+**The fallback switches off adapter-static's own safety check.** Without a `fallback`, the adapter refuses to build if any route was not prerendered; with one, it skips the check entirely ([`index.js`](https://github.com/sveltejs/kit/blob/main/packages/adapter-static/index.js)), and a route that failed to prerender is simply served the fallback. Kit's [`prerender.handleUnseenRoutes`](https://svelte.dev/docs/kit/configuration#prerender), `'fail'` by default, still catches a route marked prerenderable that was never reached. After a build, the `.html` files in `build/` show what was actually built.
+
+## The 404 page
+
+`404.html` is the fallback: an empty shell, with no title and no content, whose client-side router renders the error page once its JavaScript runs - SvelteKit's default one, as the app has no `+error.svelte`. Netlify serves a `404.html` from the publish directory "automatically for any failed paths" ([redirect options](https://docs.netlify.com/manage/routing/redirects/redirect-options/#custom-404-page-handling)). A crawler or a browser without JavaScript sees the empty shell.
 
 ## Configuration lives in `vite.config.ts`
 
-There is no `svelte.config.js`. What it used to hold - the Netlify adapter, the runes `compilerOptions`, the `prerender` block, the mdsvex `preprocess` and `extensions` - is passed to the `sveltekit()` plugin in `vite.config.ts`. Since SvelteKit 3 that is the only place it can go - Kit stops with a `config_file_unsupported` error if a `svelte.config.js` exists ([migration guide](https://svelte.dev/docs/kit/migrating-to-sveltekit-3#Configuration-svelte.config.js-is-no-longer-supported)). `sveltekit()` takes Kit's configuration and the plugin's options as one object, so Kit-level keys sit flat beside the plugin's rather than nested under `kit`. `svelte-check` and `eslint-plugin-svelte` read it from there, and [`eslint.config.js`](../eslint.config.js) imports no Svelte config.
+There is no `svelte.config.js`. What it used to hold - the adapter, the runes `compilerOptions`, `paths.origin`, the mdsvex `preprocess` and `extensions` - is passed to the `sveltekit()` plugin in `vite.config.ts`. Since SvelteKit 3 that is the only place it can go - Kit stops with a `config_file_unsupported` error if a `svelte.config.js` exists ([migration guide](https://svelte.dev/docs/kit/migrating-to-sveltekit-3#Configuration-svelte.config.js-is-no-longer-supported)). `sveltekit()` takes Kit's configuration and the plugin's options as one object, so Kit-level keys sit flat beside the plugin's rather than nested under `kit`. `svelte-check` and `eslint-plugin-svelte` read it from there, and [`eslint.config.js`](../eslint.config.js) imports no Svelte config.
 
 ## Blog posts
 
 `blogposts/*.md` is the content store, deliberately outside `src/`. mdsvex preprocesses it, and `extensions: ['.svelte', '.svx', '.md']` makes every `.md` file a Svelte component, so a post may contain markup.
 
-Two routes read that directory, in two different ways, and share no code:
+Every route that reads that directory goes through [`#lib/posts.ts`](../src/lib/posts.ts), and it reads it with one lazy `import.meta.glob`, so each post compiles to a chunk of its own:
 
 ```mermaid
 flowchart LR
-    md["blogposts/*.md"]
-    md -- "import.meta.glob, eager:<br/>frontmatter only" --> list["/api/posts<br/>published, newest first"]
-    md -- "dynamic import() by slug:<br/>the compiled component" --> post["/blog/[slug]"]
-    list --> pages["/ and /blog"]
+    md["blogposts/*.md"] --> reader["#lib/posts.ts"]
+    reader -- "getPosts():<br/>published frontmatter, newest first" --> list["/, /blog and /api/posts.json"]
+    reader -- "getPost(slug):<br/>one published post and its component" --> post["/blog/[slug]"]
 ```
 
-- [`/api/posts`](../src/routes/api/posts/+server.ts) reads only each module's `metadata` - the frontmatter - keeps the posts marked `published`, and sorts them newest first. This is the list.
-- [`/blog/[slug]`](../src/routes/blog/[slug]/+page.ts) imports one file by slug and renders its default export. This is the body.
+- `getPosts()` loads every module to read its `metadata` - the frontmatter - keeps the posts marked `published`, and sorts them newest first. Because it loads every post, **only code that runs at build time calls it**: the loads of [`/`](../src/routes/+page.server.ts) and [`/blog`](../src/routes/blog/+page.server.ts) are `+page.server.ts` files, whose data reaches the browser as the prerendered `__data.json` beside each page, plus `/api/posts.json` and the `entries()` of `/blog/[slug]`. Called from a universal `+page.ts`, it would put every post into that page's client bundle.
+- `getPost(slug)` loads one module and returns its default export - the compiled component - with its frontmatter. `/blog/[slug]` calls it from a universal `+page.ts`, because a component cannot pass through a server load: what one returns must be serializable ([loading data](https://svelte.dev/docs/kit/load#Universal-vs-server-Output)).
 
-**The slug is the filename**, never a frontmatter field: `parseMarkdownFiles()` derives it from the path and merges it into the metadata, so renaming a file changes its URL.
+The glob is lazy on purpose. An eager glob of the same files beside it would turn every post into a static import, which Vite reports as `INEFFECTIVE_DYNAMIC_IMPORT`, and the bodies would no longer load separately.
 
-**`published: false` hides a post from the list, not from the web.** `/blog/[slug]` imports by slug without consulting the flag, so an unpublished post stays reachable by direct link. Anything that must actually stay private belongs on an unmerged branch.
+**The slug is the filename**, never a frontmatter field: `toSlug()` derives it from the path and merges it into the metadata, so renaming a file changes its URL.
+
+**`published: false` keeps a post off the site, not out of the deploy.** The post is not in the list or in `entries()`, so no page is built for it, and `getPost()` returns nothing for it, so a direct link gets the 404. Its compiled body is still a chunk under `build/_app/`, though, because the glob takes every file. Anything that must actually stay private belongs on an unmerged branch.
 
 Frontmatter must satisfy the `Post` type in [`src/lib/types/post.ts`](../src/lib/types/post.ts): `title`, `date`, `description`, `img`, `img_transparent` and `published`. `img` is a URL into `static/` (`/media/blog/<slug>/…`), not a Vite import, so those images are served verbatim and are neither hashed nor optimised - unlike the images under `src/lib/assets/`, which are imported and get hashed filenames.
 

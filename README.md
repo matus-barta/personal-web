@@ -30,22 +30,24 @@ How to set up and check the site is in [`.claude/development-setup.md`](.claude/
 
 | Path                         | What it is                                                                    |
 | ---------------------------- | ----------------------------------------------------------------------------- |
-| `src/routes/`                | Pages, the two API endpoints, and the end-to-end specs                        |
+| `src/routes/`                | Pages, the `/api/posts.json` endpoint, and the end-to-end specs               |
 | `src/lib/components/`        | Shared components: nav, footer, project card                                  |
 | `src/lib/assets/`            | Images imported through Vite, so they get hashed filenames                    |
-| `src/lib/types/`, `-/utils/` | The `Post` type and `formatDate()`                                            |
+| `src/lib/config.ts`          | The site's constants, read by the pages and the tests                         |
+| `src/lib/posts.ts`           | Reads the blog posts, for every route that lists or shows them                |
+| `src/lib/types/`, `-/utils/` | The `Post` type, `formatDate()` and `pageTitle()`                             |
 | `blogposts/`                 | Blog post Markdown, deliberately outside `src/`                               |
 | `static/`                    | Served verbatim: blog images under `/media/`, the Prism theme                 |
 | `.claude/`                   | Agent instructions, and the pages explaining the architecture and conventions |
 | `.agents/skills/`            | Vendored agent skills, linked into `.claude/skills/`                          |
 
-How the pieces fit together - one SvelteKit app on a Netlify Edge Function, with the blog posts as Markdown in git - is in [`.claude/architecture.md`](.claude/architecture.md).
+How the pieces fit together - one SvelteKit app prerendered to static files and served by Netlify, with the blog posts as Markdown in git - is in [`.claude/architecture.md`](.claude/architecture.md).
 
 ## TODOs
 
 ### Code
 
-- [ ] The rewrite, planned in [`REWRITE.md`](REWRITE.md): a fully static build, shadcn-svelte, and a UI refresh that replaces the Tailwind palette classes with theme colours
+- [ ] The rewrite, planned in [`REWRITE.md`](REWRITE.md): shadcn-svelte and a UI refresh that replaces the Tailwind palette classes with theme colours
 
 ### Blog
 

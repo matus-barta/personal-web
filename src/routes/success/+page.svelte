@@ -1,11 +1,11 @@
 <script lang="ts">
+	import { pageTitle } from '#lib/utils/page-title.js';
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
-
-	const REDIRECT_DELAY_MS = 5000;
+	import { SUCCESS_REDIRECT_DELAY_MS } from '#lib/config.js';
 
 	$effect(() => {
-		const timer = setTimeout(goHome, REDIRECT_DELAY_MS);
+		const timer = setTimeout(goHome, SUCCESS_REDIRECT_DELAY_MS);
 		return () => clearTimeout(timer);
 	});
 
@@ -15,7 +15,7 @@
 </script>
 
 <svelte:head>
-	<title>Success - Matus Barta | Anonymus09</title>
+	<title>{pageTitle('Success')}</title>
 </svelte:head>
 
 <div class="rounded-xl bg-gray-700 px-8 pt-6 pb-6 text-center shadow-md">
