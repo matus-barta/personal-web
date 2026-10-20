@@ -18,7 +18,6 @@ Researched and verified on 2026-10-20. Versions come from the npm registry on th
 
 Latest versions: [`shadcn-svelte`](https://www.npmjs.com/package/shadcn-svelte) 1.7.0, [`bits-ui`](https://www.npmjs.com/package/bits-ui) 2.19.5, [`@lucide/svelte`](https://www.npmjs.com/package/@lucide/svelte) 1.60.0, [`tw-animate-css`](https://www.npmjs.com/package/tw-animate-css) 1.4.0. shadcn-svelte targets Svelte 5 and Tailwind 4 ([install guide](https://shadcn-svelte.com/docs/installation/sveltekit)), and [since 1.6.0](https://github.com/huntabyte/shadcn-svelte/releases/tag/shadcn-svelte%401.6.0) it auto-detects Kit 3's `#lib` import.
 
-- [ ] Do this after the Kit 3 migration (4), so the components land with `#lib` paths.
 - [ ] Run `pnpm i` (which runs `svelte-kit sync`) **before** `pnpm dlx shadcn-svelte@latest init` and `add`. On Kit 3, skipping it gives `File '$app/tsconfig' not found` ([issue #2849](https://github.com/huntabyte/shadcn-svelte/issues/2849), still being reported on 2026-10-14).
 - [ ] `init` **overwrites** the global CSS file (`src/routes/layout.css`), as its [prompt says](https://shadcn-svelte.com/docs/installation/sveltekit). Save the `@theme` block and the element styles first, then merge them back.
 - [ ] Theme (decided: shadcn's base palette plus the site's greens):
@@ -235,11 +234,9 @@ How images get processed (from the [images docs](https://svelte.dev/docs/kit/ima
   - [ ] Page titles are written out by hand in every page's `<svelte:head>`; use one helper or component.
 - [ ] **Images:** no `width` or `height` on any `<img>` (layout shift); see 7.
 - [ ] **CI:**
-  - [ ] `pnpm check` isn't run in CI (`ci.yml` runs build and test, `lint.yml` runs lint), so type errors are only caught locally. Add it to `lint.yml`.
   - [ ] `test:unit` is configured, but no `*.test.ts` or `*.spec.ts` files exist. Add unit tests for `formatDate` and post sorting, or drop the script.
 - [ ] **Tooling:**
   - [ ] `npm-check-updates` (the `ncu` script) duplicates Renovate; consider removing it.
-  - [ ] Playwright and its browsers drift apart: after `pnpm i` on 2026-10-20, Playwright 1.64.0 wanted Chromium build 1248 while build 1234 was installed, so `pnpm test` fails until `pnpm exec playwright install` runs. Do this after every Playwright bump.
 - [ ] **Leftovers:**
   - [ ] `/contact` (with its commented-out form and its dead `@reference "../../app.css"`) and `/success` go; see 9.
   - [ ] The commented-out border compatibility block in `layout.css`.
