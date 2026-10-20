@@ -2,7 +2,7 @@
 
 Researched and verified on 2026-10-20. Versions come from the npm registry on that date. Claims about this repository name the file they come from; claims about anything else link their source where they're made.
 
-**Suggested order:** 3 (static) → 5 + 6 (Markdown, highlighting) → 7 (assets) → 1 + 10 + 11 (shadcn, mobile and layout refresh, together) → 9 (content). 2 (Vite+) waits for full Svelte support. Items in 8 can land at any point.
+**Suggested order:** 5 + 6 (Markdown, highlighting) → 7 (assets) → 1 + 10 + 11 (shadcn, mobile and layout refresh, together) → 9 (content). 2 (Vite+) waits for full Svelte support. Items in 8 can land at any point.
 
 ## Decisions
 
@@ -71,13 +71,6 @@ Status: [1.0 is stable and MIT-licensed](https://voidzero.dev/posts/announcing-v
   - [ ] README "Dev requirements"
   - [ ] `.claude/` pages
 - [ ] Re-check when Oxlint ships Svelte template linting ([compatibility page](https://oxc.rs/compatibility.html)).
-
-## 3. Make the site fully static
-
-Built on `rewrite/static` ([#325](https://github.com/matus-barta/personal-web/pull/325)): `adapter-static` with `fallback: '404.html'`, `prerender = true` in the root `+layout.ts`, the posts read through `#lib/posts.ts`, `/api/posts` renamed `/api/posts.json`, and `/api/healthcheck` removed. [`.claude/architecture.md`](.claude/architecture.md) explains the result. The deploy preview passed every check on 2026-10-21: every URL the live site served is there except `/api/healthcheck`, `/` returns 200, an unknown URL gets `404.html` with a 404, `/about/` redirects to `/about` (301; the live site answers 308), `/api/posts.json` is `application/json`, and the deploy has no functions or edge functions. Left before merging:
-
-- [ ] `/_app/immutable/*` comes back with `cache-control: public, immutable, max-age=31536000`, as on the live site. `adapter-netlify` set that rule itself; it's now a `[[headers]]` rule in `netlify.toml`. Check it on the next deploy preview.
-- [ ] Clear the Functions directory (`functions`) in Netlify's build settings. Nothing deploys from it any more, and every build warns that it doesn't exist.
 
 ## 4. Update to latest
 
