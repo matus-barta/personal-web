@@ -14,10 +14,13 @@ Install the dependencies:
 pnpm install
 ```
 
-The end-to-end tests need Playwright's browsers, downloaded once:
+The browsers the tests drive run in Docker, in Playwright's own image, so Docker has to be running. [`scripts/with-browsers.ts`](../scripts/with-browsers.ts), which `pnpm test` and `pnpm test:unit` go through, starts `playwright run-server` in a container named `personal-web-playwright` and points the tests at it. The first run pulls the image, about 1 GB; later runs reuse the container until the Playwright version changes. `pnpm test:browsers:stop` removes it.
+
+For `--headed`, `--debug` or anything else that needs a window, use browsers installed on this machine instead:
 
 ```bash
-pnpm exec playwright install
+pnpm exec playwright install chromium
+PLAYWRIGHT_LOCAL_BROWSERS=1 pnpm test:e2e --headed
 ```
 
 There is no environment file: nothing the site runs on is configured through variables.
@@ -41,7 +44,7 @@ The blog assertions derive their expected counts from `/api/posts`, so adding a 
 - `PROJECTS_COUNT`, because the project cards are written by hand in [`src/routes/projects/+page.svelte`](../src/routes/projects/+page.svelte) and there is no endpoint to derive them from. Adding a card fails the suite until the constant follows.
 - `LATEST_POSTS_LIMIT`, which mirrors the `POSTS_LIMIT` slice in [`src/routes/+page.ts`](../src/routes/+page.ts) and changes with it.
 
-**Vitest is configured but unused** (`pnpm test:unit`). [`vite.config.ts`](../vite.config.ts) defines two projects - `client`, running `*.svelte.{test,spec}.ts` in Chromium through Playwright, and `server`, running every other `*.{test,spec}.ts` in Node - with `expect.requireAssertions` on, so a test that asserts nothing fails. A first test file needs no new setup.
+**Vitest is configured but unused** (`pnpm test:unit`). [`vite.config.ts`](../vite.config.ts) defines two projects - `client`, running `*.svelte.{test,spec}.ts` in Chromium through Playwright - the Docker one, like the end-to-end suite - and `server`, running every other `*.{test,spec}.ts` in Node - with `expect.requireAssertions` on, so a test that asserts nothing fails. A first test file needs no new setup.
 
 Documentation and workflows, from the repository root:
 

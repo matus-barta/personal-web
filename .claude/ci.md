@@ -13,6 +13,16 @@ Both live in [`.github/workflows/`](../.github/workflows/):
 
 Neither runs `pnpm check`, so type errors surface only when someone runs it locally.
 
+## Caches
+
+Both workflows cache the pnpm store through `setup-node`'s `cache: 'pnpm'`.
+
+CI installs no browsers. They run in Playwright's Docker image, as they do locally, started by [`scripts/with-browsers.ts`](../scripts/with-browsers.ts) - so the runner image's system libraries no longer matter, and a test fails in CI the way it fails on a developer's machine. Playwright documents this as a [remote connection](https://playwright.dev/docs/docker#remote-connection). `ci.yml` caches the image itself, `docker save`d to a tar file and keyed on the installed Playwright version, since each version has its own image: a miss pulls it from Microsoft's registry and saves it, a hit loads it.
+
+The key used to be the lockfile hash, on a cache of the installed browsers. That stored another full copy for every Renovate branch, until those copies filled the repository's 10 GB [cache limit](https://docs.github.com/en/actions/reference/workflows-and-actions/dependency-caching).
+
+## Pinned actions
+
 Every action a workflow uses is pinned to a full commit SHA, with its version in a comment beside it. Renovate's [`helpers:pinGitHubActionDigests`](https://docs.renovatebot.com/presets-helpers/#helperspingithubactiondigests) preset, extended in `renovate.json`, keeps them pinned as it updates them, so a tag moved upstream cannot change what runs here.
 
 ## Renovate and the branch triggers

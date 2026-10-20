@@ -19,7 +19,7 @@ This is repository for my personal web [anonymus09.com](https://anonymus09.com)
 
 - [Node.js](https://nodejs.org/) 26, the version in [`.nvmrc`](.nvmrc)
 - [pnpm](https://pnpm.io/), at the version `packageManager` pins in [`package.json`](package.json)
-- Playwright's browsers, for the end-to-end tests: `pnpm exec playwright install`
+- [Docker](https://www.docker.com/), for the browsers the tests drive: they run in Playwright's image, started by [`scripts/with-browsers.ts`](scripts/with-browsers.ts)
 - [lychee](https://lychee.cli.rs/), to check the links in the documentation
 - [actionlint](https://github.com/rhysd/actionlint), to check the workflows in `.github/`
 - Python 3.10 or later, for the `/verify-docs` agent skill's evidence check
