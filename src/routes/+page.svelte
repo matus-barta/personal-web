@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { formatDate } from '$lib/utils';
+	import { formatDate } from '#lib/utils/format-date.js';
 	import type { PageData } from './$types';
 	import { resolve } from '$app/paths';
 
-	import ksp from '$lib/assets/ksp.jpg';
+	import ksp from '#lib/assets/ksp.jpg';
 	interface Props {
 		data: PageData;
 	}
@@ -40,7 +40,9 @@
 		<div class="mb-5 flex flex-col">
 			{#each data.posts as post (post.slug)}
 				<div data-testid="latest_blog_post" class="flex items-center space-x-2">
-					<a class="hover:underline" href={resolve(`/blog/${post.slug}`)}>{post.title}</a>
+					<a class="hover:underline" href={resolve('/blog/[slug]', { slug: post.slug })}
+						>{post.title}</a
+					>
 					<h4 class="special align-bottom text-xs whitespace-nowrap">{formatDate(post.date)}</h4>
 				</div>
 			{/each}

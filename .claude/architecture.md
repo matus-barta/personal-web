@@ -16,11 +16,11 @@ It deploys to Netlify through `adapter-netlify`, configured in [`vite.config.ts`
 
 Only `/contact` and `/success` opt in, each with `export const prerender = true` in its `+page.ts`. Everything else - `/`, `/blog`, `/blog/[slug]`, `/projects`, `/about` and both API routes - renders per request.
 
-The `prerender: { crawl: true, entries: ['*'] }` block in `vite.config.ts` reads as though it prerenders everything, and it does not: it widens what the crawler _visits_, and a page is still baked out only when it opts in. After a build, `.netlify/edge-functions/manifest.json` shows what actually was.
+The `prerender: { crawl: true, entries: ['*'] }` block in `vite.config.ts` reads as though it prerenders everything, and it does not: it widens what the crawler _visits_, and a page is still baked out only when it opts in. After a build, the `.html` files in `build/` show what actually was; the same pages appear in the `excludedPath` list that the edge function in `.netlify/v1/edge-functions/` exports, so Netlify serves them without invoking it ([Netlify docs](https://docs.netlify.com/build/edge-functions/declarations/#match-by-path)).
 
 ## Configuration lives in `vite.config.ts`
 
-There is no `svelte.config.js`. What it used to hold - the Netlify adapter, the runes `compilerOptions`, the `prerender` block, the mdsvex `preprocess` and `extensions` - is passed to the `sveltekit()` plugin in `vite.config.ts`. That is what `sv create` scaffolds today, and Kit accepts it because `sveltekit()` takes Kit's configuration and the plugin's options as one object, so Kit-level keys sit flat beside the plugin's rather than nested under `kit`. `svelte-check` and `eslint-plugin-svelte` read it from there, and [`eslint.config.js`](../eslint.config.js) imports no Svelte config.
+There is no `svelte.config.js`. What it used to hold - the Netlify adapter, the runes `compilerOptions`, the `prerender` block, the mdsvex `preprocess` and `extensions` - is passed to the `sveltekit()` plugin in `vite.config.ts`. Since SvelteKit 3 that is the only place it can go - Kit stops with a `config_file_unsupported` error if a `svelte.config.js` exists ([migration guide](https://svelte.dev/docs/kit/migrating-to-sveltekit-3#Configuration-svelte.config.js-is-no-longer-supported)). `sveltekit()` takes Kit's configuration and the plugin's options as one object, so Kit-level keys sit flat beside the plugin's rather than nested under `kit`. `svelte-check` and `eslint-plugin-svelte` read it from there, and [`eslint.config.js`](../eslint.config.js) imports no Svelte config.
 
 ## Blog posts
 
@@ -43,7 +43,7 @@ flowchart LR
 
 **`published: false` hides a post from the list, not from the web.** `/blog/[slug]` imports by slug without consulting the flag, so an unpublished post stays reachable by direct link. Anything that must actually stay private belongs on an unmerged branch.
 
-Frontmatter must satisfy the `Post` type in [`src/lib/types/index.ts`](../src/lib/types/index.ts): `title`, `date`, `description`, `img`, `img_transparent` and `published`. `img` is a URL into `static/` (`/media/blog/<slug>/…`), not a Vite import, so those images are served verbatim and are neither hashed nor optimised - unlike the images under `src/lib/assets/`, which are imported and get hashed filenames.
+Frontmatter must satisfy the `Post` type in [`src/lib/types/post.ts`](../src/lib/types/post.ts): `title`, `date`, `description`, `img`, `img_transparent` and `published`. `img` is a URL into `static/` (`/media/blog/<slug>/…`), not a Vite import, so those images are served verbatim and are neither hashed nor optimised - unlike the images under `src/lib/assets/`, which are imported and get hashed filenames.
 
 ## Two Markdown renderers, on purpose
 

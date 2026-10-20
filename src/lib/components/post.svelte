@@ -12,8 +12,8 @@
 
 	let { img, img_alt, text, title, excerpt, github }: Props = $props();
 
-	import gh from '$lib/assets/social/gh.svg';
-	import gh_grey from '$lib/assets/social/gh-grey.svg';
+	import gh from '#lib/assets/social/gh.svg';
+	import gh_grey from '#lib/assets/social/gh-grey.svg';
 </script>
 
 <div data-testid="post">

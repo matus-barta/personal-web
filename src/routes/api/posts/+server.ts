@@ -1,11 +1,11 @@
-import type { Post } from '$lib/types';
-import { error, json } from '@sveltejs/kit';
+import type { Post } from '#lib/types/post.js';
+import { error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async () => {
 	try {
 		const allPosts = await getPosts();
-		return json(allPosts);
+		return Response.json(allPosts);
 	} catch (e) {
 		console.error(e);
 		error(404, `Failed to load posts.`);

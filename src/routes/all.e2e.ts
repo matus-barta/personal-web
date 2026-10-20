@@ -1,4 +1,4 @@
-import type { Post } from '$lib/types';
+import type { Post } from '#lib/types/post.js';
 import { expect, test, type APIRequestContext } from '@playwright/test';
 
 // The cards on /projects are written out by hand in the page, so this one still

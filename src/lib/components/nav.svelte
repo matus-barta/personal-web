@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import logo from '$lib/assets/logo.svg';
+	import logo from '#lib/assets/logo.svg';
 </script>
 
 <nav

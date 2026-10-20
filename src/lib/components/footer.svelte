@@ -1,7 +1,7 @@
 <script>
-	import ig from '$lib/assets/social/ig-grey.svg';
-	import yt from '$lib/assets/social/yt-grey.svg';
-	import gh from '$lib/assets/social/gh-grey.svg';
+	import ig from '#lib/assets/social/ig-grey.svg';
+	import yt from '#lib/assets/social/yt-grey.svg';
+	import gh from '#lib/assets/social/gh-grey.svg';
 </script>
 
 <footer class="flex h-10 w-full justify-center gap-1 bg-window-gray p-2 text-slate-400">

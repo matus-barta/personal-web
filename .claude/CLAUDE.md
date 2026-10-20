@@ -7,12 +7,12 @@ The rules for working in this repository. Each links to the page in `.claude/` t
 One SvelteKit app, deployed to Netlify. There is no database, no auth and no CMS: a blog post is a Markdown file in git, and content ships by pushing a commit. [`architecture.md`](architecture.md) says why each rule below holds.
 
 - **Server code runs on a Deno-based edge runtime.** `adapter-netlify` with `edge: true` and `split: false` makes the whole app one Netlify Edge Function, so no Node built-ins in a `+server.ts` or `+page.server.ts`.
-- **Almost nothing is prerendered.** Only `/contact` and `/success` export `prerender = true`. The `prerender` block in `vite.config.ts` widens what the crawler visits; it does not opt a page in. `.netlify/edge-functions/manifest.json` after a build shows what was actually baked out.
-- **There is no `svelte.config.js`, and there should not be.** The adapter, compiler options, mdsvex and `extensions` all live in the `sveltekit()` call in `vite.config.ts`, with Kit's keys flat beside the plugin's. Where a skill or the Svelte docs say to set an option in `svelte.config.js` - `experimental.async`, for one - it goes in that call instead, compiler options under `compilerOptions`.
+- **Almost nothing is prerendered.** Only `/contact` and `/success` export `prerender = true`. The `prerender` block in `vite.config.ts` widens what the crawler visits; it does not opt a page in. The `.html` files in `build/` after a build show what was actually baked out.
+- **There is no `svelte.config.js`, and Kit 3 stops with an error if one exists.** The adapter, compiler options, mdsvex and `extensions` all live in the `sveltekit()` call in `vite.config.ts`, with Kit's keys flat beside the plugin's. Where a skill or the Svelte docs say to set an option in `svelte.config.js` - `experimental.async`, for one - it goes in that call instead, compiler options under `compilerOptions`.
 
 ## Blog posts
 
-- **`blogposts/*.md` is the content store, and the filename is the slug** - renaming a file changes its URL. Frontmatter must satisfy `Post` in `$lib/types`.
+- **`blogposts/*.md` is the content store, and the filename is the slug** - renaming a file changes its URL. Frontmatter must satisfy `Post` in `#lib/types/post.js`.
 - **Two routes read that directory and share no code.** `/api/posts` lists the frontmatter of published posts, newest first; `/blog/[slug]` imports one post by slug and renders it. A change to how posts are read usually lands in both.
 - **`published: false` hides a post from the list, not from the web** - `/blog/[slug]` never checks it. A post that must stay private belongs on an unmerged branch.
 - **A post's `img` is a URL into `static/media/blog/<slug>/`**, served verbatim, not a Vite import.
