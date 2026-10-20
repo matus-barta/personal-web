@@ -8,6 +8,10 @@ permissions:
   contents: read
   # needed by the failure comment below; note it is read-only on fork PRs regardless
   pull-requests: write
+# A new push replaces the run it supersedes.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   lint-check:
@@ -38,6 +42,11 @@ jobs:
         id: lint
         run: pnpm run lint
 
+      # Also when lint failed, so type errors are not hidden behind formatting ones.
+      - name: Run type check
+        if: success() || steps.lint.outcome == 'failure'
+        run: pnpm run check
+
       - name: Comment on how to fix lint issue
         if: (github.event_name == 'pull_request') && (failure() && steps.lint.outcome == 'failure')
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
@@ -48,5 +57,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '‼️ Please run `pnpm run format` on your PR! Thank you. ‼️'
+              body: '‼️ Please run `pnpm format` on your PR! Thank you. ‼️'
             })
