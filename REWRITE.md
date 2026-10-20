@@ -2,7 +2,7 @@
 
 Researched and verified on 2026-10-20. Versions come from the npm registry on that date. Claims about this repository name the file they come from; claims about anything else link their source where they're made.
 
-**Suggested order:** 4 (Node 26) → 3 (static) → 5 + 6 (Markdown, highlighting) → 7 (assets) → 1 + 10 + 11 (shadcn, mobile and layout refresh, together) → 9 (content). 2 (Vite+) waits for full Svelte support. Items in 8 can land at any point.
+**Suggested order:** 3 (static) → 5 + 6 (Markdown, highlighting) → 7 (assets) → 1 + 10 + 11 (shadcn, mobile and layout refresh, together) → 9 (content). 2 (Vite+) waits for full Svelte support. Items in 8 can land at any point.
 
 ## Decisions
 
@@ -110,26 +110,13 @@ Today the whole app is one Netlify Edge Function (`edge: true`, `split: false` i
 
 ## 4. Update to latest
 
-SvelteKit 3 and the packages it needed are done. What's left:
+SvelteKit 3, Node 26 and the packages they needed are done. What's left:
 
-| Package                                                    | Range now | Latest      | Note                                                                                                                                                                               |
-| ---------------------------------------------------------- | --------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`typescript`](https://www.npmjs.com/package/typescript)   | ^6.0.2    | 7.0.2       | **Stay on 6.** The peer ranges rule out 7: Kit 3 `^6.0.0`, svelte-check `^5.0.0 \|\| ^6.0.0`, typescript-eslint `>=4.8.4 <6.1.0`. Keep the Renovate pin (`allowedVersions: "<7"`). |
-| [`@types/node`](https://www.npmjs.com/package/@types/node) | ^24       | 26.6.5      | Follows the Node pin                                                                                                                                                               |
-| eslint, vitest, playwright, prettier…                      | caret     | minor/patch | Renovate already covers these                                                                                                                                                      |
+| Package                                                  | Range now | Latest      | Note                                                                                                                                                                               |
+| -------------------------------------------------------- | --------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`typescript`](https://www.npmjs.com/package/typescript) | ^6.0.2    | 7.0.2       | **Stay on 6.** The peer ranges rule out 7: Kit 3 `^6.0.0`, svelte-check `^5.0.0 \|\| ^6.0.0`, typescript-eslint `>=4.8.4 <6.1.0`. Keep the Renovate pin (`allowedVersions: "<7"`). |
+| eslint, vitest, playwright, prettier…                    | caret     | minor/patch | Renovate already covers these                                                                                                                                                      |
 
-- [ ] **Node 26, on its own branch (`rewrite/node-26`)**, separate from the Kit 3 migration, so a Netlify problem can't block it. Node 24's active support ends 2026-10-20 and Node 26 becomes LTS on 2026-10-28 ([endoflife.date](https://endoflife.date/nodejs)). Switching before the 28th is fine, because the LTS date is a support label, not a code change. Node 24 keeps security fixes until 2028-04-30, so nothing forces the move.
-  - [ ] The packages allow it (checked 2026-10-20 against their `engines` fields): Kit 3 `>=22.17`, enhanced-img `>=22`, Vite `^20.19.0 || >=22.12.0`, ESLint `>=24`, Playwright `>=20`, and Vitest lists `>=26.0.0` explicitly.
-  - [ ] Move all four pins together: `.nvmrc`, `engines` in `package.json`, and the `node-version` matrix in `ci.yml` and `lint.yml`.
-  - [ ] Bump `@types/node` and update its `renovate.json` rule (`allowedVersions: "<25"`).
-  - [ ] Netlify takes the Node version from `.nvmrc`, which accepts "any released version of Node.js or any valid string that nvm understands" ([Netlify docs](https://docs.netlify.com/build/configure-builds/manage-dependencies/)). With a static build (3), no Netlify function runtime is involved.
-  - [ ] **Risk: pnpm on Netlify.** Netlify installs pnpm through Corepack, from the `packageManager` field ([Netlify docs](https://docs.netlify.com/build/configure-builds/manage-dependencies/)), but [Node 25 and later don't ship Corepack](https://nodejs.org/dist/latest/docs/api/corepack.html).
-    - [ ] In September 2026, Netlify builds on Node 26 fell back to Corepack 0.34.0, which can't run pnpm 12 ([forum thread](https://answers.netlify.com/t/corepack-pnpm-12-node-26/170141)).
-    - [ ] Netlify staff said on 2026-10-07 that they had upgraded Corepack. On 2026-10-15, another project's Netlify log showed `corepack@0.36.0` running pnpm 12.4.1 ([PR](https://github.com/poveste-dev/poveste/pull/1340)).
-    - [ ] It probably works now, but it isn't confirmed for this site.
-    - [ ] Locally and in CI this doesn't apply: pnpm there isn't installed through Corepack (CI uses `pnpm/action-setup`).
-  - [ ] Open the branch as a PR and check the Netlify deploy preview's build log: which Corepack it installs, and that `pnpm install` and the build succeed.
-  - [ ] If the preview fails, stay on Node 24 and retry later; nothing else in the plan depends on Node 26.
 - [ ] Drop [`svelte-markdown`](https://www.npmjs.com/package/svelte-markdown) (0.4.1, last published 2023-12-25; see 5) and `static/prism/` (see 6).
 
 ## 5. One Markdown path: mdsvex only

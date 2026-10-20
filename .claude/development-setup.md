@@ -6,7 +6,7 @@ How to set up a machine to work on the site, check it the way CI does, and manag
 
 ## Setting up
 
-Use the Node version in [`.nvmrc`](../.nvmrc) - 24 - and the pnpm version `packageManager` pins in [`package.json`](../package.json). `engineStrict: true` sits in [`pnpm-workspace.yaml`](../pnpm-workspace.yaml) rather than `.npmrc` because pnpm 11 and later ignore settings other than auth ones in `.npmrc`; it makes pnpm refuse to install under a Node older than the `engines` field allows.
+Use the Node version in [`.nvmrc`](../.nvmrc) - 26 - and the pnpm version `packageManager` pins in [`package.json`](../package.json). `engineStrict: true` sits in [`pnpm-workspace.yaml`](../pnpm-workspace.yaml) rather than `.npmrc` because pnpm 11 and later ignore settings other than auth ones in `.npmrc`; it makes pnpm refuse to install under a Node older than the `engines` field allows.
 
 Install the dependencies:
 
