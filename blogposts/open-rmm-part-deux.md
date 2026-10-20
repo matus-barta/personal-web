@@ -185,6 +185,6 @@ But maybe just scanner for the inventory, it may be that little taste of mobile 
 - **[Capacitor](https://capacitorjs.com/):** this is just wrapper around the web app
 - **[Tauri](https://tauri.app/):** with 2.0 is possible to create mobile apps _(very tempting to test how it works but not much information in the community)_
 - **[Flutter](https://flutter.dev/):** this is also interesting option, easy to build apps that look same on both platforms and a lot of prebuild component options, but no overlap with other technologies I know _(web apps)_ and having the same downsides as the web apps _(not native look)_
-- **[React Native](https://reactnative.dev/):** blah, the taste in my mouth it leaves when I say it _(sorry_ 😂*)*, but it is nice solution for native looking apps, witch you can't get with other solutions mentioned _(except the native option off course)_
+- **[React Native](https://reactnative.dev/):** blah, the taste in my mouth it leaves when I say it _(sorry_ 😂_)_, but it is nice solution for native looking apps, witch you can't get with other solutions mentioned _(except the native option off course)_
 
 _This will be all for this update. Lets hope next one will be in less than two years._
