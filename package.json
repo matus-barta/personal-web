@@ -2,7 +2,7 @@
 	"name": "personal-web",
 	"version": "0.1.0",
 	"type": "module",
-	"packageManager": "pnpm@12.13.0",
+	"packageManager": "pnpm@12.14.0",
 	"engines": {
 		"node": ">=26"
 	},
