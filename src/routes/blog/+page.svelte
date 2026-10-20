@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { pageTitle } from '#lib/utils/page-title.js';
 	import type { PageData } from './$types';
 	import { resolve } from '$app/paths';
 
@@ -10,7 +11,7 @@
 </script>
 
 <svelte:head>
-	<title>Blog - Matus Barta | Anonymus09</title>
+	<title>{pageTitle('Blog')}</title>
 </svelte:head>
 
 <h1>Personal Blog</h1>

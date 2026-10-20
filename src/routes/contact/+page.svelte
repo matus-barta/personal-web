@@ -1,5 +1,9 @@
+<script lang="ts">
+	import { pageTitle } from '#lib/utils/page-title.js';
+</script>
+
 <svelte:head>
-	<title>Contact - Matus Barta | Anonymus09</title>
+	<title>{pageTitle('Contact')}</title>
 </svelte:head>
 
 <h1>Contact</h1>

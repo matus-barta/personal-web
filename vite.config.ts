@@ -1,9 +1,10 @@
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vitest/config';
 import { playwright } from '@vitest/browser-playwright';
-import adapter from '@sveltejs/adapter-netlify';
+import adapter from '@sveltejs/adapter-static';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { mdsvex } from 'mdsvex';
+import { SITE_URL } from './src/lib/config.js';
 
 export default defineConfig({
 	plugins: [
@@ -14,20 +15,11 @@ export default defineConfig({
 				runes: ({ filename }) =>
 					filename.split(/[/\\]/).includes('node_modules') ? undefined : true
 			},
-			adapter: adapter({
-				// if true, will create a Netlify Edge Function rather
-				// than using standard Node-based functions
-				edge: true,
-
-				// if true, will split your app into multiple functions
-				// instead of creating a single one for the entire app.
-				// if `edge` is true, this option cannot be used
-				split: false
-			}),
-			prerender: {
-				crawl: true,
-				entries: ['*']
-			},
+			// Netlify serves 404.html for any path without a file; the client router
+			// then renders the error page there.
+			adapter: adapter({ fallback: '404.html' }),
+			// url.origin while prerendering, which is otherwise http://sveltekit-prerender
+			paths: { origin: SITE_URL },
 			// blog posts are authored as markdown and compiled to components
 			preprocess: [mdsvex({ extensions: ['.svx', '.md'] })],
 			extensions: ['.svelte', '.svx', '.md']

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { pageTitle } from '#lib/utils/page-title.js';
 	import { formatDate } from '#lib/utils/format-date.js';
 	import type { PageData } from './$types';
 	import { resolve } from '$app/paths';
@@ -12,7 +13,7 @@
 </script>
 
 <svelte:head>
-	<title>Matus Barta | Anonymus09</title>
+	<title>{pageTitle()}</title>
 </svelte:head>
 
 <div class="window px-3 pt-6 pb-6 shadow-md md:px-6">

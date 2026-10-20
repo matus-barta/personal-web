@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { pageTitle } from '#lib/utils/page-title.js';
 	import Post from '#lib/components/post.svelte';
 
 	import personalweb from '#lib/assets/projects/personalweb.png';
@@ -9,7 +10,7 @@
 </script>
 
 <svelte:head>
-	<title>Projects - Matus Barta | Anonymus09</title>
+	<title>{pageTitle('Projects')}</title>
 </svelte:head>
 
 <h1>Projects</h1>

@@ -74,38 +74,13 @@ Status: [1.0 is stable and MIT-licensed](https://voidzero.dev/posts/announcing-v
 
 ## 3. Make the site fully static
 
-Today the whole app is one Netlify Edge Function (`edge: true`, `split: false` in `vite.config.ts`), and only `/contact` and `/success` are prerendered. The site doesn't need SSR: posts are files in git, and nothing reads a request.
+Built on `rewrite/static`: `adapter-static` with `fallback: '404.html'`, `prerender = true` in the root `+layout.ts`, the posts read through `#lib/posts.ts`, and `/api/healthcheck` removed. Every URL the live site served on 2026-10-20 has a file in `build/` except `/api/healthcheck`, and `/api/posts` moved to `/api/posts.json` with identical JSON. [`.claude/architecture.md`](.claude/architecture.md) explains the result. What's left can only be checked on a Netlify deploy preview:
 
-**Decided:** `adapter-static` with `fallback: '404.html'`, the uptime check is on `/` (done), and URLs are diffed before and after.
-
-- **Pros:**
-  - Served from Netlify's CDN, with no function invocation per view.
-  - The "no Node built-ins" rule goes away, because prerendering runs in Node at build time.
-  - The prerender crawler fails the build on broken internal links: [`prerender.handleHttpError`](https://svelte.dev/docs/kit/configuration#prerender) defaults to `'fail'`.
-  - No server code is deployed.
-  - `build/` runs on any static host.
-- **Cons:**
-  - The 404 page is a client-rendered fallback shell ([adapter-static](https://svelte.dev/docs/kit/adapter-static)).
-  - No hooks, form actions or per-request logic. Headers and redirects go in `netlify.toml`, or in Netlify's [`_headers`](https://docs.netlify.com/manage/routing/headers/) and [`_redirects`](https://docs.netlify.com/manage/routing/redirects/overview/) files.
-  - A page nothing links to isn't built unless it's listed in [`entries()`](https://svelte.dev/docs/kit/page-options).
-  - Values like the footer year (`new Date().getFullYear()` in `footer.svelte`) are frozen at build time.
-  - SSR later means switching back to `adapter-netlify`.
-
-- [ ] Switch to [`@sveltejs/adapter-static`](https://svelte.dev/docs/kit/adapter-static) 4.0.0 with `fallback: '404.html'`. [Netlify's docs](https://docs.netlify.com/build/frameworks/framework-setup-guides/sveltekit/) say it "will also work successfully with Netlify".
-  - [ ] Check that Netlify serves `404.html` with a 404 status for unknown URLs, and that the page renders `+error.svelte`.
-- [ ] Add `export const prerender = true` to a new root `src/routes/+layout.ts`, and drop the per-page exports ([page options](https://svelte.dev/docs/kit/page-options)).
-- [ ] Posts:
-  - [ ] Read posts through one shared module (`#lib/posts.ts`) instead of the ``fetch(`/api/posts`)`` in `src/routes/+page.ts` and `src/routes/blog/+page.ts`.
-  - [ ] Keep `/api/posts` (`all.e2e.ts` requests it) with `prerender = true`; it then becomes static JSON. Unlike other page options, `prerender` also applies to `+server.ts` files ([page options](https://svelte.dev/docs/kit/page-options)).
-- [ ] `/blog/[slug]`: the crawler finds published posts through `/blog`, or add `entries()` to `+page.ts`.
-  - [ ] Bonus: unpublished posts are no longer rendered as pages.
-- [ ] `netlify.toml`: drop `functions` and `[functions]`, and keep `publish` pointing at `build`.
-- [ ] Remove `/api/healthcheck`. Nothing uses it any more: the Uptime Kuma monitor already sends a HEAD request to `/`.
-- [ ] Diff the URLs before and after:
-  - [ ] List every URL the current deploy serves, including `/blog/<slug>` and `/api/posts`.
-  - [ ] Check each one against the new `build/`. [`trailingSlash`](https://svelte.dev/docs/kit/page-options) decides whether a page comes out as `about.html` (the default) or `about/index.html` (`'always'`).
-- [ ] Verify after a build: `build/` holds HTML for every route, and there's no edge function in the Netlify deploy.
-- [ ] Afterwards, rewrite `.claude/architecture.md`, the architecture rules in `CLAUDE.md` and the README layout, then run `/verify-docs`.
+- [ ] `curl -I <preview>/` returns 200, for the uptime check.
+- [ ] An unknown URL returns 404 with `404.html`, and the page then renders the error page.
+- [ ] `/about/` redirects to `/about`. The live site answers 308; Netlify's [support guide](https://answers.netlify.com/t/support-guide-how-can-i-alter-trailing-slash-behaviour-in-my-urls-will-enabling-pretty-urls-help/31191) says 301.
+- [ ] `/api/posts.json` is sent as `application/json`, as `/api/posts` was.
+- [ ] The deploy lists no edge function and no function.
 
 ## 4. Update to latest
 
@@ -145,7 +120,7 @@ Today the projects page passes Markdown strings to `svelte-markdown` at runtime 
     - [ ] Neither milestone has a due date, and the [roadmap issue](https://github.com/pngwn/MDsveX/issues/771) gives no timeline.
   - [ ] **Tested against all six posts** (2026-10-20, Kit 2.55, in a throwaway container). Three builds: 0.12.8 as today, `1.0.0-next.1` with forced runes left on, and 1.0 with a runes template and a `components` replacement.
     - [ ] Setup: `mdsvex({ extensions: ['.md'] })` goes in `plugins` before `sveltekit()`, and the `preprocess` line is removed. 1.0 checks that `.md` is in `sveltekit()`'s `extensions`, and it is.
-    - [ ] All three builds pass and every page returns 200. `/api/posts` (the frontmatter) is identical, and code-block text is identical in all 22 blocks.
+    - [ ] All three builds pass and every page returns 200. `/api/posts.json` (the frontmatter) is identical, and code-block text is identical in all 22 blocks.
     - [ ] Templates and `components` work under forced runes: a runes template (`let { children, ...frontmatter } = $props()`) wrapped every post, and an `img` export from `components` replaced the posts' images.
     - [ ] 0.12.8 prints a Svelte 5 deprecation warning for every post (`context="module"` is deprecated); 1.0 doesn't.
     - [ ] **Bug in 1.0:** bold around a link (`**[TailwindCSS](…)**`, `**_… [here](…)._**`) renders as `*<strong>…</strong>*`, with a stray literal `*` on each side. That's 6 places, in `open-rmm-part-deux` and `simple-nodejs-project`. Inline-delimiter fixes merged after `next.1` (for example [#931](https://github.com/pngwn/MDsveX/issues/931), [#970](https://github.com/pngwn/MDsveX/issues/970)) may already fix it.
@@ -194,7 +169,7 @@ How images get processed (from the [images docs](https://svelte.dev/docs/kit/ima
 
 - [ ] **Blog images: option B (decided, do it now).** Each post becomes a folder holding its Markdown and its images.
   - [ ] Move each post to `content/blog/<slug>/index.md` (see the folder rename below), with its images beside it. The slug becomes the folder name.
-    - [ ] Update the glob in the shared post reader (3) and in `/blog/[slug]`.
+    - [ ] Update the glob in `#lib/posts.ts`.
   - [ ] Cover image: give `img` a relative path in the frontmatter (`img: ./cover.png`).
     - [ ] Resolve it through `import.meta.glob('/content/blog/*/*.{png,jpg}', { eager: true, query: { enhanced: true } })`, keyed by slug. The [images docs](https://svelte.dev/docs/kit/images) say a glob has to ask for `enhanced` through a custom query.
     - [ ] The one SVG cover (`best-way-to-manage-nodejs`'s `nodejs-logo-flat.svg`; the other covers are PNG or JPG) can't go through that glob, because enhanced-img supports SVG only as a static import. Resolve SVGs through a plain glob without the `enhanced` query, which gives a hashed URL.
@@ -215,7 +190,7 @@ How images get processed (from the [images docs](https://svelte.dev/docs/kit/ima
     - [ ] The CLAUDE.md rules "`blogposts/*.md` is the content store", "the filename is the slug" and "`img` is a URL into `static/media/blog/`", plus `.claude/architecture.md` and the README's layout table.
 - [ ] **Content folder (decided):** rename `blogposts/` to `content/blog/`, and put the project files from 5 in `content/projects/`. Do it in the same move as option B.
   - [ ] All content stays out of `src/`, in one folder.
-  - [ ] Only the two post routes reference `blogposts/` in code today: `api/posts/+server.ts` and `blog/[slug]/+page.ts`.
+  - [ ] Only `#lib/posts.ts` references `blogposts/` in code today.
 - [ ] Remove the unused icons `social/bsky*`, `social/tw*`, `social/ig.svg` and `social/yt.svg`, and their rows in `THIRD-PARTY-NOTICES.md`. Only the `-grey` variants (`footer.svelte`, `post.svelte`) and `gh.svg` (`post.svelte`) are used.
 - [ ] Decide whether `static/media/blog/interesting-image.jpg` (the Rick Astley easter egg, third-party per `THIRD-PARTY-NOTICES.md`) stays.
 
@@ -224,17 +199,13 @@ How images get processed (from the [images docs](https://svelte.dev/docs/kit/ima
 - [ ] **Mobile layout:** see 10.
 - [ ] **Dead class:** the nav's `bg-opacity-30` does nothing; [Tailwind v4 removed](https://tailwindcss.com/docs/upgrade-guide) `bg-opacity-*` and the other `*-opacity-*` utilities. Use `bg-…/30`.
 - [ ] **`/blog`** shows the raw `post.date`; `/` and the post page use `formatDate()`.
-- [ ] **One post reader:** `/api/posts` and `/blog/[slug]` share no code: one uses an eager `import.meta.glob`, the other a dynamic `import()`. Merge them into `#lib/posts.ts` (see 3).
 - [ ] **Semantics and accessibility:**
   - [ ] `h3.special` and `h4.special` are used for dates and descriptions: use `<p>` or `<time>` instead.
   - [ ] Generic alt texts: "avatar", "blog post logo", "blog title".
 - [ ] **SEO:**
-  - [ ] No meta description, Open Graph tags or canonical URL (`app.html` has only `charset`, `viewport` and `text-scale`).
+  - [ ] No meta description, Open Graph tags or canonical URL (`app.html` has only `charset`, `viewport` and `text-scale`). `paths.origin` is already `SITE_URL`, so `page.url.href` gives the canonical URL while prerendering.
   - [ ] No `sitemap.xml`, and `robots.txt` has no `Sitemap:` line.
-  - [ ] Page titles are written out by hand in every page's `<svelte:head>`; use one helper or component.
 - [ ] **Images:** no `width` or `height` on any `<img>` (layout shift); see 7.
-- [ ] **CI:**
-  - [ ] `test:unit` is configured, but no `*.test.ts` or `*.spec.ts` files exist. Add unit tests for `formatDate` and post sorting, or drop the script.
 - [ ] **Leftovers:**
   - [ ] `/contact` (with its commented-out form and its dead `@reference "../../app.css"`) and `/success` go; see 9.
   - [ ] The commented-out border compatibility block in `layout.css`.
@@ -287,6 +258,7 @@ How images get processed (from the [images docs](https://svelte.dev/docs/kit/ima
 - [ ] Reading time.
 - [ ] A table of contents on long posts.
 - [ ] Link icons on headings.
+  - [ ] They need heading `id`s, which mdsvex doesn't add. Until then a `#heading` link in a post fails the build (`handleMissingId`).
 - [ ] Previous/next links at the end of a post.
 - [ ] A copy button on code blocks.
 - [ ] A preview (OG) image per post, for social shares.
