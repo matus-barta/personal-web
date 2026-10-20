@@ -76,7 +76,7 @@ Status: [1.0 is stable and MIT-licensed](https://voidzero.dev/posts/announcing-v
 
 Today the whole app is one Netlify Edge Function (`edge: true`, `split: false` in `vite.config.ts`), and only `/contact` and `/success` are prerendered. The site doesn't need SSR: posts are files in git, and nothing reads a request.
 
-**Decided:** `adapter-static` with `fallback: '404.html'`, the uptime check moves to `/`, and URLs are diffed before and after.
+**Decided:** `adapter-static` with `fallback: '404.html'`, the uptime check is on `/` (done), and URLs are diffed before and after.
 
 - **Pros:**
   - Served from Netlify's CDN, with no function invocation per view.
@@ -100,7 +100,7 @@ Today the whole app is one Netlify Edge Function (`edge: true`, `split: false` i
 - [ ] `/blog/[slug]`: the crawler finds published posts through `/blog`, or add `entries()` to `+page.ts`.
   - [ ] Bonus: unpublished posts are no longer rendered as pages.
 - [ ] `netlify.toml`: drop `functions` and `[functions]`, and keep `publish` pointing at `build`.
-- [ ] Remove `/api/healthcheck`, and point the Uptime Kuma monitor at `/` before the switch deploys.
+- [ ] Remove `/api/healthcheck`. Nothing uses it any more: the Uptime Kuma monitor already sends a HEAD request to `/`.
 - [ ] Diff the URLs before and after:
   - [ ] List every URL the current deploy serves, including `/blog/<slug>` and `/api/posts`.
   - [ ] Check each one against the new `build/`. [`trailingSlash`](https://svelte.dev/docs/kit/page-options) decides whether a page comes out as `about.html` (the default) or `about/index.html` (`'always'`).
