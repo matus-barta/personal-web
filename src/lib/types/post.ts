@@ -9,7 +9,7 @@ export type PostFrontmatter = {
 	/** The cover image, a file beside the post: `./cover.png`. */
 	img: string;
 	img_transparent: boolean;
-	/** Which part of the cover stays when it is cropped to its frame; `center` if unset. */
+	/** Which part of the cover stays when it is cropped to its frame; `top` if unset. */
 	img_crop?: CoverCrop;
 };
 

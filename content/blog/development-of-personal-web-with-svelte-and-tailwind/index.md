@@ -4,6 +4,7 @@ date: '2022-10-27'
 description: My development experience and little bit of how-to with SvelteKit and Tailwind CSS integration. And my take on usefulness of Typescript in frontend project.
 img: ./1.png
 img_transparent: false
+img_crop: center
 published: true
 ---
 

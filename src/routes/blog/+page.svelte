@@ -1,6 +1,6 @@
 <script lang="ts">
 	import * as Card from '#lib/components/ui/card/index.js';
-	import { coverFit } from '#lib/cover.js';
+	import { coverFit, coverSize } from '#lib/cover.js';
 	import PageHeader from '#lib/components/page-header.svelte';
 	import { pageTitle } from '#lib/utils/page-title.js';
 	import type { PageData } from './$types';
@@ -30,7 +30,12 @@
 				<enhanced:img
 					src={post.img}
 					alt=""
-					sizes="(min-width: 768px) 384px, 192px"
+					sizes="(min-width: 768px) {coverSize(post, 16 / 9, '384px', 216)}, {coverSize(
+						post,
+						16 / 9,
+						'192px',
+						108
+					)}"
 					class={['aspect-video w-48 shrink-0 rounded-lg md:w-96', coverFit(post, 16 / 9)]}
 				/>
 				<div class="flex w-full flex-col justify-between gap-2 py-1">

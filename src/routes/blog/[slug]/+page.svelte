@@ -1,7 +1,7 @@
 <script lang="ts">
 	import * as Card from '#lib/components/ui/card/index.js';
 	import GradientSeparator from '#lib/components/gradient-separator.svelte';
-	import { coverFit } from '#lib/cover.js';
+	import { coverFit, coverSize } from '#lib/cover.js';
 	import { formatDate } from '#lib/utils/format-date.js';
 	import { pageTitle } from '#lib/utils/page-title.js';
 	import { setPostSlug } from '#lib/markdown/post-slug.js';
@@ -13,6 +13,8 @@
 	let { data }: Props = $props();
 
 	setPostSlug(() => data.frontmatter.slug);
+
+	const cover = $derived(data.frontmatter);
 </script>
 
 <svelte:head>
@@ -25,8 +27,13 @@
 	<enhanced:img
 		src={data.frontmatter.img}
 		alt=""
-		sizes="(min-width: 1024px) 960px, 100vw"
-		class={['cover', coverFit(data.frontmatter, 960 / 176)]}
+		sizes="(min-width: 1024px) {coverSize(cover, 960 / 176, '960px', 176)}, {coverSize(
+			cover,
+			960 / 176,
+			'100vw',
+			176
+		)}"
+		class={['cover', coverFit(cover, 960 / 176)]}
 	/>
 	<Card.Header class="md:px-6">
 		<Card.Title class="text-2xl font-bold tracking-tight md:text-4xl">
