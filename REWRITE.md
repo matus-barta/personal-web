@@ -194,6 +194,11 @@ Keep the dark background, the green accent, the skewed `@anonymus09` highlight a
 - [ ] **Typography:**
   - [ ] No font is set, so the site uses Tailwind's default system font stack and renders in each OS's own font. Self-host one sans-serif and one monospace font (for example with [Fontsource](https://fontsource.org)), and record their licences in `THIRD-PARTY-NOTICES.md`.
   - [ ] Post text runs about 100 characters per line at 1280 px (measured); aim for 65–75 (`max-w-prose`, or typography's `prose`; see 1).
+- [ ] **Links and buttons:** review their colours and hover behaviour, which differ from place to place today.
+  - [ ] Now: links in posts and project blurbs (`prose`) are mint, lime on hover and always underlined. The home page's latest posts and the `/blog` card titles are mint and lime on hover, underlined on hover on the home page only. "More on About page" (`Button variant="link"`) stays mint on hover, and the nav links are white, mint on hover.
+  - [ ] The lime hover on the `/blog` card titles is too much; the card already shows hover with its green ring.
+  - [ ] Home: "More on About page" should look like "See all posts", an `outline` `Button`.
+  - [ ] Keep links in running text underlined, so they don't rely on colour alone ([WCAG 1.4.1](https://www.w3.org/TR/WCAG22/#use-of-color)).
 - [ ] **`/blog`:**
   - [ ] Cards in two columns on desktop, one on phones.
   - [ ] Show the formatted date (8), with reading time and tags (9).
