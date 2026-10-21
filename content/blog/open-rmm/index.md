@@ -2,7 +2,7 @@
 title: Concepts and development of Open-RMM
 date: '2023-04-05'
 description: 'Description of Open RMM project and the concepts behind it.'
-img: /media/blog/open-rmm/code.png
+img: ./code.png
 img_transparent: false
 published: true
 ---
@@ -15,7 +15,7 @@ The Open RMM is project I am working on. It is Open Source RMM (Remote Machine/M
 
 ### Quick look on the WIP dashboard for RMM.
 
-![Open-RMM dashboard](/media/blog/open-rmm/open-rmm.png)
+![Open-RMM dashboard](./open-rmm.png)
 
 ## Why I am making Open-RMM?
 

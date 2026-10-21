@@ -15,10 +15,10 @@ One SvelteKit app, deployed to Netlify. There is no database, no auth and no CMS
 
 ## Blog posts
 
-- **`blogposts/*.md` is the content store, and the filename is the slug** - renaming a file changes its URL. Frontmatter must satisfy `Post` in `#lib/types/post.js`.
+- **A post is a folder, `content/blog/<slug>/`, holding `index.md` and its images, and the folder name is the slug** - renaming it changes the post's URL. Frontmatter must satisfy `PostFrontmatter` in `#lib/types/post.js`.
 - **Every read of that directory goes through `#lib/posts.ts`**: `getPosts()` for the list, `getPost(slug)` for one post. Call `getPosts()` only from code that runs at build time - a `+page.server.ts`, a `+server.ts`, `entries()` - since in a universal load it bundles every post into that page.
 - **`published: false` keeps a post off the site, not out of the deploy**: no page and no list entry, but its compiled body still ships as a chunk under `build/_app/`. A post that must stay private belongs on an unmerged branch.
-- **A post's `img` is a URL into `static/media/blog/<slug>/`**, served verbatim, not a Vite import.
+- **A post refers to its images relative to its folder - `img: ./cover.png` in the frontmatter, `![…](./x.png)` in the body** - and a path with no file behind it fails the build. They are built by enhanced-img through `#lib/post-images.ts`, the in-post ones swapped in by the layout in `#lib/markdown/`, so no post image goes in `static/`.
 - **All Markdown is compiled by mdsvex at build time** - the posts, and the project blurbs in `content/projects/*.md`, which `#lib/projects.ts` reads and whose `img` is a file name in `src/lib/assets/projects/`. Frontmatter must satisfy `Project` in `#lib/types/project.js`.
 - **Shiki highlights code blocks at build time, in the languages `vite.config.ts` loads** - a block in any other fails the build until it's added there. Its colours are inline, from the `monokai` theme, so no stylesheet ships.
 
@@ -26,6 +26,7 @@ One SvelteKit app, deployed to Netlify. There is no database, no auth and no CMS
 
 - **Tailwind v4 with no `tailwind.config`.** The theme is the `@theme` block in `src/routes/layout.css`.
 - **The bare element selectors in `layout.css` are what style a blog post**, since mdsvex output carries no classes. Do not narrow them into component scope.
+- **A raster image a component shows goes through `<enhanced:img>`, and `static/` only holds files that need a fixed URL.** An SVG can't be enhanced: import it with `?url`, and `<enhanced:img>` given that string renders a plain `<img>`. For an image passed in as a value, the widths come from the query that imported it, so its `sizes` attribute must match that query's. `<enhanced:img>` becomes a `<picture>` that `layout.css` sets to `display: contents`; style it through a class, since `svelte-check` sees no `<img>` there.
 - **A component `<style>` block uses `@reference "#app.css"`**, never a relative path. The commented-out block in `src/routes/contact/+page.svelte` still has the old `../../app.css`, which no longer resolves.
 - **Internal links go through `resolve()` from `$app/paths`**, which `eslint-plugin-svelte` enforces. A file of external links disables the rule at its top, as `post.svelte` does, rather than the rule being weakened globally.
 
@@ -74,7 +75,7 @@ The reasons are in [`conventions.md`](conventions.md):
 [`LICENSE`](../LICENSE) and [`THIRD-PARTY-NOTICES.md`](../THIRD-PARTY-NOTICES.md) are the sources:
 
 - **The MIT License covers the source code only.** The blog posts and their images, the page copy in `src/routes/` and the author's own logos are all rights reserved. Never call the repository "MIT licensed" without that qualification, and never move content under the code licence - relicensing is the author's decision alone.
-- **Do not assume an image under `src/lib/assets/` or `static/media/blog/` is the author's own.** `ksp.jpg` is Kerbal Space Program artwork, `projects/inprogress.svg` a Logoipsum placeholder, and most blog images are third-party; check `THIRD-PARTY-NOTICES.md` first.
+- **Do not assume an image under `src/lib/assets/` or `content/blog/` is the author's own.** `ksp.jpg` is Kerbal Space Program artwork, `projects/inprogress.svg` a Logoipsum placeholder, and most blog images are third-party; check `THIRD-PARTY-NOTICES.md` first.
 - **Third-party material is recorded in `THIRD-PARTY-NOTICES.md` in the change that adds it.** A vendored library or a brand icon without an entry is a licensing defect, not housekeeping.
 
 ## Documentation

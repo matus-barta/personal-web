@@ -2,7 +2,7 @@
 title: Simple project for Node.js with Express.js and Docker
 date: '2023-02-05'
 description: Simple and beginner-friendly docker container with healthcheck endpoint to call.
-img: /media/blog/simple-nodejs-project/expressjs.png
+img: ./expressjs.png
 img_transparent: false
 published: true
 ---
@@ -306,7 +306,7 @@ To start, you will need machine running docker service. [See how to install dock
 To automatically check the Healthcheck is online, I use [Uptime-Kuma](https://www.youtube.com/watch?v=r_A5NKkAqZM) with notifications sent to Telegram (or you can use Discord and many other messaging platforms)
 
 **Here are my Uptime-Kuma setting for the Healthcheck**
-![Uptime-Kuma-Settings](/media/blog/simple-nodejs-project/uptime-kuma-settings.jpg)
+![Uptime-Kuma-Settings](./uptime-kuma-settings.jpg)
 
 ## Ending thoughts
 

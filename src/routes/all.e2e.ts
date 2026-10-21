@@ -77,6 +77,27 @@ test('every post is prerendered', async ({ request }) => {
 	}
 });
 
+// Every image a built page points at must be a file in build/. The covers are looked up in
+// server-only code, whose assets Kit has to copy into the client output.
+test('every image on a built page exists', () => {
+	const pages = ['index.html', 'blog.html', 'projects.html'];
+	for (const file of readdirSync(new URL('../../build/blog', import.meta.url)))
+		if (file.endsWith('.html')) pages.push(`blog/${file}`);
+
+	for (const page of pages) {
+		const html = readFileSync(new URL(`../../build/${page}`, import.meta.url), 'utf8');
+		const urls = [...html.matchAll(/(?:src|srcset)="([^"]+)"/g)]
+			.flatMap(([, value]) => value.split(',').map((candidate) => candidate.trim().split(' ')[0]))
+			.filter((url) => url.startsWith('/'));
+
+		expect(urls.length, page).toBeGreaterThan(0);
+		for (const url of urls)
+			expect(existsSync(new URL(`../../build${url}`, import.meta.url)), `${page}: ${url}`).toBe(
+				true
+			);
+	}
+});
+
 test('the 404 fallback is built', () => {
 	expect(existsSync(new URL('../../build/404.html', import.meta.url))).toBe(true);
 });

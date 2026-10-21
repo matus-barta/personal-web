@@ -12,7 +12,7 @@ This repository contains material owned by third parties. That material is not c
 
 ## Blog post images
 
-Not every image under `static/media/blog/` is the author's work. The files below are third party, are not covered by any license in this repository, and remain the property of their respective owners.
+Not every image beside the posts in `content/blog/` is the author's work. The files below are third party, are not covered by any license in this repository, and remain the property of their respective owners.
 
 | File                                                         | What it is                                                                                                                                                                                                                                                                                                |
 | ------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -22,9 +22,9 @@ Not every image under `static/media/blog/` is the author's work. The files below
 | `simple-nodejs-project/uptime-kuma-settings.jpg`             | A screenshot of the Uptime Kuma web interface, by Louis Lam and contributors                                                                                                                                                                                                                              |
 | `svelte-kit-migration-experience/issue-6462-sveltekit.png`   | A screenshot of a GitHub issue thread in the SvelteKit repository, including comments written by other people                                                                                                                                                                                             |
 | `svelte-kit-migration-experience/1.jpg`                      | A stock photograph of source code on a screen, found through an image search. Its EXIF metadata has been stripped and carries no author or copyright field, so the original photographer, source and license terms are unknown. Treat its status as unresolved rather than assuming it is freely reusable |
-| `interesting-image.jpg`                                      | A frame from the music video for Rick Astley's "Never Gonna Give You Up". Rights are held by Sony Music Entertainment. The file appears only inside a fenced code sample in one post, so it is never rendered; the URL is reachable directly as an easter egg                                             |
+| `static/media/blog/interesting-image.jpg`                    | A frame from the music video for Rick Astley's "Never Gonna Give You Up". Rights are held by Sony Music Entertainment. The file appears only inside a fenced code sample in one post, so it is never rendered; the URL is reachable directly as an easter egg                                             |
 
-The remaining images in that tree are the author's own work and are reserved under `LICENSE`: the Open-RMM dashboard captures and the screenshot of his own source code under `open-rmm/` and `open-rmm-part-deux/`.
+The remaining images in `content/blog/` are the author's own work and are reserved under `LICENSE`: the Open-RMM dashboard captures and the screenshot of his own source code under `open-rmm/` and `open-rmm-part-deux/`.
 
 ## Vendored agent skills
 
@@ -274,10 +274,8 @@ The files below reproduce logos and marks owned by other organisations. They ide
 | Files                                                                              | Mark and owner                    |
 | ---------------------------------------------------------------------------------- | --------------------------------- |
 | `src/lib/assets/social/gh.svg`, `gh-grey.svg`                                      | GitHub, GitHub, Inc.              |
-| `src/lib/assets/social/ig.svg`, `ig-grey.svg`                                      | Instagram, Meta Platforms, Inc.   |
-| `src/lib/assets/social/yt.svg`, `yt-grey.svg`                                      | YouTube, Google LLC               |
-| `src/lib/assets/social/tw.svg`, `tw-grey.svg`                                      | X, formerly Twitter, X Corp.      |
-| `src/lib/assets/social/bsky.svg`, `bsky-grey.svg`                                  | Bluesky, Bluesky Social, PBC      |
+| `src/lib/assets/social/ig-grey.svg`                                                | Instagram, Meta Platforms, Inc.   |
+| `src/lib/assets/social/yt-grey.svg`                                                | YouTube, Google LLC               |
 | `src/lib/assets/projects/nodejs.svg`                                               | Node.js, OpenJS Foundation        |
 | `src/lib/assets/projects/powershell.svg`                                           | PowerShell, Microsoft Corporation |
 | `.agents/skills/shadcn-svelte/assets/shadcn-svelte.png`, `shadcn-svelte-small.png` | shadcn-svelte, its maintainers    |

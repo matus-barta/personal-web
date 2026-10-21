@@ -39,10 +39,11 @@ and no permission to copy, republish, adapt, translate or redistribute them is
 granted by this file:
 
   Website content
-    blogposts/**                              the blog posts
-    static/media/blog/**                      the author's own post images; the
-                                              third-party images in that tree are
-                                              listed in THIRD-PARTY-NOTICES.md
+    content/**                                the blog posts and the author's own
+                                              images beside them, and the project
+                                              descriptions; the third-party images
+                                              in that tree are listed in
+                                              THIRD-PARTY-NOTICES.md
     the page copy in src/routes/              about, projects, contact, index
 
   Personal and project images

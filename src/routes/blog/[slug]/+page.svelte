@@ -1,12 +1,15 @@
 <script lang="ts">
 	import { formatDate } from '#lib/utils/format-date.js';
 	import { pageTitle } from '#lib/utils/page-title.js';
+	import { setPostSlug } from '#lib/markdown/post-slug.js';
 	import type { PageData } from './$types';
 	interface Props {
 		data: PageData;
 	}
 
 	let { data }: Props = $props();
+
+	setPostSlug(() => data.frontmatter.slug);
 </script>
 
 <svelte:head>
@@ -14,10 +17,12 @@
 </svelte:head>
 
 <div data-testid="blog_post" class="window">
-	<img
+	<!-- full width of the post column, which is at most 960px -->
+	<enhanced:img
 		src={data.frontmatter.img}
 		alt="blog title"
-		class={[data.frontmatter.img_transparent && 'bg-slate-100 px-3']}
+		sizes="(min-width: 1024px) 960px, 100vw"
+		class={['cover', data.frontmatter.img_transparent && 'bg-slate-100 px-3']}
 	/>
 	<div class="flex flex-col px-3 pt-2 md:px-6">
 		<div class="flex flex-row items-end justify-between">
@@ -37,7 +42,8 @@
 
 <style lang="postcss">
 	@reference "#app.css";
-	img {
+	/* a class, not img: svelte-check doesn't see <enhanced:img> become an <img> */
+	.cover {
 		@apply h-44 w-full rounded-xl rounded-b-none object-cover;
 	}
 </style>

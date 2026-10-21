@@ -2,7 +2,7 @@
 title: Update on Open-RMM development
 date: '2025-08-25'
 description: 'Long due development update for Open-RMM'
-img: /media/blog/open-rmm-part-deux/title.png
+img: ./title.png
 img_transparent: false
 published: true
 ---
@@ -15,7 +15,7 @@ The Open RMM is a project I am working on. It is Open Source RMM (Remote Machine
 
 ### A picture is worth a thousand words: Look on the WIP Dashboard for RMM
 
-![Open-RMM dashboard](/media/blog/open-rmm-part-deux/open-rmm.png)
+![Open-RMM dashboard](./open-rmm.png)
 
 _Now I will stop with copypaste-ing the previous blogpost and will start with some new stuff since last update._
 
@@ -25,7 +25,7 @@ I am basing this on my commits so there may be some spaces in the timeline, beca
 
 ### 2023
 
-- Finished move to [Turborepo](https://turborepo.com/) and [pnpm](https://pnpm.io/), the skeleton of the UI for dashboard was done, [old look here](/media/blog/open-rmm/open-rmm.png).
+- Finished move to [Turborepo](https://turborepo.com/) and [pnpm](https://pnpm.io/), the skeleton of the UI for dashboard was done, [old look here](/blog/open-rmm#quick-look-on-the-wip-dashboard-for-rmm).
 - Did some package updates in the summer, nothing significant.
 - In July, I started working on rewrite of the API server to the Rust, _(Rustaceans got me this time for real)_. It was done using: [Axum](https://docs.rs/axum/latest/axum/), [Serde](https://docs.rs/serde/latest/serde/), [sqlx](https://docs.rs/sqlx/latest/sqlx/) and [Tokio](https://docs.rs/tokio/latest/tokio/) crates.
 - Also had some crazy idea during the rewrite i can use [WASM](https://en.wikipedia.org/wiki/WebAssembly) to use sqlx on the rust server side and also on the SvelteKit server side, but I was still using [Prisma](https://www.prisma.io/) for the DB modeling (this is still my favorite way to do DBs).

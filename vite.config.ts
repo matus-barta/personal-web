@@ -1,8 +1,10 @@
+import { fileURLToPath } from 'node:url';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vitest/config';
 import { playwright } from '@vitest/browser-playwright';
 import adapter from '@sveltejs/adapter-static';
 import { sveltekit } from '@sveltejs/kit/vite';
+import { enhancedImages } from '@sveltejs/enhanced-img';
 import { escapeSvelte, mdsvex } from 'mdsvex';
 import { createHighlighter } from 'shiki';
 import { SITE_URL } from './src/lib/config.js';
@@ -26,6 +28,8 @@ async function highlight(code: string, lang: string | null | undefined) {
 export default defineConfig({
 	plugins: [
 		tailwindcss(),
+		// must come before sveltekit(), as the enhanced-img docs require
+		enhancedImages(),
 		sveltekit({
 			compilerOptions: {
 				// Force runes mode for the project, except for libraries. Can be removed in svelte 6.
@@ -42,6 +46,13 @@ export default defineConfig({
 			preprocess: [
 				mdsvex({
 					extensions: ['.svx', '.md'],
+					// Wraps every file under a blog/ folder - the posts, not the project blurbs.
+					layout: {
+						blog: fileURLToPath(new URL('src/lib/markdown/blog-layout.svelte', import.meta.url))
+					},
+					// Hands the layout its props through $props() rather than $$props, which the
+					// forced runes mode above rejects.
+					layoutPropForwarding: 'runes',
 					highlight: { highlighter: highlight },
 					rehypePlugins: [rehypeHeadingIds]
 				})

@@ -2,7 +2,7 @@ import { existsSync } from 'node:fs';
 import { getPost, getPosts } from '#lib/posts.js';
 import { describe, expect, test } from 'vitest';
 
-// Against the real posts in blogposts/, so the assertions are about shape and order
+// Against the real posts in content/blog/, so the assertions are about shape and order
 // rather than particular titles - adding a post must not break them.
 describe('getPosts', async () => {
 	const posts = await getPosts();
@@ -20,8 +20,13 @@ describe('getPosts', async () => {
 		expect(timestamps).toEqual([...timestamps].sort((first, second) => second - first));
 	});
 
-	test('takes each slug from its filename', () => {
-		for (const post of posts) expect(existsSync(`blogposts/${post.slug}.md`), post.slug).toBe(true);
+	test('takes each slug from its folder name', () => {
+		for (const post of posts)
+			expect(existsSync(`content/blog/${post.slug}/index.md`), post.slug).toBe(true);
+	});
+
+	test('gives each its built cover', () => {
+		for (const post of posts) expect(post.img, post.slug).toBeTruthy();
 	});
 });
 

@@ -2,7 +2,7 @@
 title: Svelte Kit migration experience
 date: '2022-10-29'
 description: 'How hard it can be? -Jeremy Clarkson'
-img: /media/blog/svelte-kit-migration-experience/1.jpg
+img: ./1.jpg
 img_transparent: false
 published: true
 ---
@@ -79,7 +79,7 @@ After who knows how long search, I found the solution. It was simple (as always 
 
 Drumroll please... the solution was to use edge functions with Netlify, [source](https://github.com/sveltejs/kit/issues/6462#issuecomment-1234893057). I could't believe that this was _it_.
 
-![Screenshot of the solution](/media/blog/svelte-kit-migration-experience/issue-6462-sveltekit.png)
+![Screenshot of the solution](./issue-6462-sveltekit.png)
 
 ## Finale
 

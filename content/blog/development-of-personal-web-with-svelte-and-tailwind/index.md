@@ -2,7 +2,7 @@
 title: Development of personal web with SvelteKit and Tailwind
 date: '2022-10-27'
 description: My development experience and little bit of how-to with SvelteKit and Tailwind CSS integration. And my take on usefulness of Typescript in frontend project.
-img: /media/blog/development-of-personal-web-with-svelte-and-tailwind/1.png
+img: ./1.png
 img_transparent: false
 published: true
 ---

@@ -38,13 +38,13 @@ There is no `svelte.config.js`. What it used to hold - the adapter, the runes `c
 
 ## Blog posts
 
-`blogposts/*.md` is the content store, deliberately outside `src/`. mdsvex preprocesses it, and `extensions: ['.svelte', '.svx', '.md']` makes every `.md` file a Svelte component, so a post may contain markup.
+`content/blog/` is the content store, deliberately outside `src/`: one folder per post, holding its Markdown as `index.md` and the images it uses. mdsvex preprocesses it, and `extensions: ['.svelte', '.svx', '.md']` makes every `.md` file a Svelte component, so a post may contain markup.
 
 Every route that reads that directory goes through [`#lib/posts.ts`](../src/lib/posts.ts), and it reads it with one lazy `import.meta.glob`, so each post compiles to a chunk of its own:
 
 ```mermaid
 flowchart LR
-    md["blogposts/*.md"] --> reader["#lib/posts.ts"]
+    md["content/blog/*/index.md"] --> reader["#lib/posts.ts"]
     reader -- "getPosts():<br/>published frontmatter, newest first" --> list["/, /blog and /api/posts.json"]
     reader -- "getPost(slug):<br/>one published post and its component" --> post["/blog/[slug]"]
 ```
@@ -54,11 +54,28 @@ flowchart LR
 
 The glob is lazy on purpose. An eager glob of the same files beside it would turn every post into a static import, which Vite reports as `INEFFECTIVE_DYNAMIC_IMPORT`, and the bodies would no longer load separately.
 
-**The slug is the filename**, never a frontmatter field: `toSlug()` derives it from the path and merges it into the metadata, so renaming a file changes its URL.
+**The slug is the folder name**, never a frontmatter field: `toSlug()` derives it from the path and merges it into the metadata, so renaming a post's folder changes its URL.
 
 **`published: false` keeps a post off the site, not out of the deploy.** The post is not in the list or in `entries()`, so no page is built for it, and `getPost()` returns nothing for it, so a direct link gets the 404. Its compiled body is still a chunk under `build/_app/`, though, because the glob takes every file. Anything that must actually stay private belongs on an unmerged branch.
 
-Frontmatter must satisfy the `Post` type in [`src/lib/types/post.ts`](../src/lib/types/post.ts): `title`, `date`, `description`, `img`, `img_transparent` and `published`. `img` is a URL into `static/` (`/media/blog/<slug>/…`), not a Vite import, so those images are served verbatim and are neither hashed nor optimised - unlike the images under `src/lib/assets/`, which are imported and get hashed filenames.
+Frontmatter must satisfy the `PostFrontmatter` type in [`src/lib/types/post.ts`](../src/lib/types/post.ts): `title`, `date`, `description`, `img`, `img_transparent` and `published`. `img` is the cover, a file in the post's folder written as `./cover.png`. `toPost()` swaps it for the built image, so a `Post` - and each entry of `/api/posts.json` - carries an enhanced-img `Picture`, or a URL for an SVG, and a cover with no file behind it fails the build.
+
+## Images
+
+Every image a page shows is imported through Vite and gets a hashed filename; `static/` holds only what needs a fixed URL, such as `robots.txt`.
+
+**Raster images go through [`@sveltejs/enhanced-img`](https://svelte.dev/docs/kit/images)**, registered before `sveltekit()` in [`vite.config.ts`](../vite.config.ts) as its docs require. It builds AVIF, WebP and the original format in several widths, and gives the `<img>` its intrinsic `width` and `height`. It takes SVG only as a static import ([images docs](https://svelte.dev/docs/kit/images)), so the globs import SVGs with `?url` instead, and `<enhanced:img>` renders a plain `<img>` for a string `src`.
+
+**Which widths get built is decided where the image is imported**, not by the `sizes` on the element. For a static `src`, enhanced-img reads the element's `sizes`; for one passed in as a value, the import's query decides, and the `sizes` attribute only tells the browser which to pick. So the two must agree:
+
+- [`src/lib/post-images.ts`](../src/lib/post-images.ts) imports every image beside a post with the post column's `sizes` (`(min-width: 1024px) 960px, 100vw`) as `imgSizes`, which makes enhanced-img ask for a fixed list of widths from 540px up, plus the original's ([`index.js`](https://github.com/sveltejs/kit/blob/main/packages/enhanced-img/src/index.js)). Only the ones up to the original's width are built: in a build on 2026-10-21, a 960px image stopped at 960w. The covers on `/blog` reuse those files with their own, smaller `sizes`.
+- The avatar on `/` and the project logos, which always show at a fixed size, ask for two widths with `w` instead.
+
+**A post's own images are swapped in through an mdsvex layout.** mdsvex wraps every Markdown file under a `blog/` folder in [`blog-layout.svelte`](../src/lib/markdown/blog-layout.svelte), and the `img` that layout exports from its `<script module>` replaces every `<img>` in the post ([custom components](https://mdsvex.pngwn.at/docs)). That component, [`image.svelte`](../src/lib/markdown/image.svelte), resolves `./name.png` against the post's folder, so it needs the slug: `/blog/[slug]` provides it through a context, as a getter, since moving from one post to another reuses the page component. A path that isn't relative - an external URL - renders as a plain `<img>`. The project blurbs are under no `blog/` folder, so they get no layout.
+
+**`layoutPropForwarding: 'runes'` is what lets that layout run under the forced runes mode.** By default mdsvex 0.12 hands a layout its props as `{...$$props}`, which runes mode rejects; with the option, which [its type definitions](https://unpkg.com/mdsvex@0.12.8/dist/main.d.ts) list, the generated code declares them with `$props()` instead. That is from its bundled source, and a build on 2026-10-21 confirmed it. So `.md` files compile in runes mode like everything else.
+
+**`<enhanced:img>` wraps the `<img>` in a `<picture>`**, which would become the flex or grid item in its place. `layout.css` gives `picture` `display: contents`, so the `<img>` lays out exactly as a bare one would. `svelte-check` does not run the enhanced-img preprocessor and sees no `<img>` there either, so a component styles one through a class rather than an `img` selector, as the cover on `/blog/[slug]` does.
 
 ## One Markdown renderer
 

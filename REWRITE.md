@@ -2,17 +2,14 @@
 
 Researched and verified on 2026-10-20. Versions come from the npm registry on that date. Claims about this repository name the file they come from; claims about anything else link their source where they're made.
 
-**Suggested order:** 7 (assets) → 1 + 10 + 11 (shadcn, mobile and layout refresh, together) → 9 (content). 2 (Vite+) waits for full Svelte support. Items in 8 can land at any point.
+**Suggested order:** 1 + 10 + 11 (shadcn, mobile and layout refresh, together) → 9 (content). 2 (Vite+) waits for full Svelte support. Items in 8 can land at any point.
 
 ## Decisions
 
 - **Colours (decided):** shadcn's base palette for the neutrals, and the site's greens as the brand accent, adjusted where that helps. The final values still need your sign-off before they go in, as the conventions require (see 1).
 - **Vite+ (decided):** wait until it fully supports Svelte (see 2).
-- **Blog images (decided):** option B, right away (see 7).
 - **This file (decided):** it's the plan for the big rewrite, linked from the README's TODOs.
-- **Content folder (decided):** `blogposts/` becomes `content/blog/`, and the project files go in `content/projects/` (see 5 and 7).
-- **Images (decided):** process raster images with `@sveltejs/enhanced-img`, not Vite's built-in handling plus hand optimisation (see 7).
-- **mdsvex (decided):** stay on 0.12.8 with the `.md` exclusion, and watch 1.0's releases (see 5).
+- **mdsvex (decided):** stay on 0.12.8, and watch 1.0's releases (see 5). The `.md` exclusion from forced runes that this first assumed wasn't needed: `layoutPropForwarding: 'runes'` does the job.
 
 ## 1. Switch to shadcn-svelte
 
@@ -83,17 +80,12 @@ SvelteKit 3, Node 26 and the packages they needed are done. What's left:
 
 ## 5. mdsvex: layouts and 1.0
 
-The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.12.8 now, with Shiki highlighting the code blocks and `#lib/markdown/heading-ids.ts` giving headings their ids.
+The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.12.8 now, with Shiki highlighting the code blocks, `#lib/markdown/heading-ids.ts` giving headings their ids, and a layout swapping in the posts' images. With `layoutPropForwarding: 'runes'` the layout gets `$props()` instead of `$$props`, so the posts compile in forced runes mode too.
 
-- [ ] Watch out, for the layout that 7 needs:
-  - [ ] **mdsvex layouts break under the forced runes mode** (tested 2026-10-20 in a build). mdsvex wraps every post in `<Layout_MDSVEX_DEFAULT {...$$props}>`, and the build fails with "Cannot use `$$props` in runes mode", whether the layout uses `<slot />` or `{@render children()}`.
-    - [ ] Fix (tested): leave `.md` out of forced runes in `vite.config.ts`, with `filename.split(/[/\\]/).includes('node_modules') || filename.endsWith('.md') ? undefined : true`. The posts then compile in legacy mode, while the layout itself stays a runes component.
-    - [ ] With that fix, a runes layout (`let { children, ...frontmatter } = $props()`, `{@render children?.()}`) rendered every post, and a custom `img` exported from the layout's `<script module>` replaced the post's Markdown images ([custom components](https://mdsvex.pngwn.at/docs)).
-    - [ ] Update the comment on `runes` in `vite.config.ts` to say why `.md` is excluded.
-  - [ ] mdsvex 0.12.8 still bundles `remark-parse` 8 / `unified` 8–9 ([its `package.json`](https://unpkg.com/mdsvex@0.12.8/package.json) and bundled sources), older than today's remark/rehype plugins expect, so add plugins only after testing them.
+- [ ] mdsvex 0.12.8 still bundles `remark-parse` 8 / `unified` 8–9 ([its `package.json`](https://unpkg.com/mdsvex@0.12.8/package.json) and bundled sources), older than today's remark/rehype plugins expect, so add plugins only after testing them.
 - [ ] **Why 0.12 behaves like this, and mdsvex 1.0:** 0.12 is maintained but old in design. It still gets fixes (0.12.8 came out 2026-07-19). Its code generation predates Svelte 5 runes, which is where the `$$props` comes from, and so does its unified pipeline. The fix is a rewrite, now in prerelease: [`1.0.0-next.1`](https://github.com/pngwn/MDsveX/releases) (2026-10-05, npm tag `next`).
   - [ ] It has its own parser and renderer instead of unified, and it ships as a Vite plugin (peer `vite >=5`) rather than a Svelte preprocessor.
-  - [ ] It emits `let … = $props();` and no `$$props`, so it works with forced runes and needs no `.md` exclusion (tested, see below).
+  - [ ] It emits `let … = $props();` and no `$$props`, so it works with forced runes without `layoutPropForwarding` (tested, see below).
   - [ ] Layouts become "templates", and replacing elements moves to a `components` option.
   - [ ] It has a built-in highlighter with every language the posts use, plus PowerShell. That could replace Shiki.
   - [ ] There's a migration tool, [`@mdsvex/migrate`](https://www.npmjs.com/package/@mdsvex/migrate).
@@ -112,57 +104,14 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
       - [ ] No typographic quotes: 0.12 turns `'`, `"` and `...` into `’`, `“ ”` and `…`; 1.0 leaves them as typed.
       - [ ] No `rel="nofollow"` added to links.
       - [ ] Code blocks get `twinkleplop`/`tok` classes, which need a theme stylesheet from npm, such as [`@twinkleplop/theme-github`](https://www.npmjs.com/package/@twinkleplop/theme-github).
-  - [ ] **Decided:** stay on 0.12.8 with the `.md` exclusion, and monitor 1.0. The bold-link bug visibly breaks two published posts, and the repo takes the latest _stable_ release.
+  - [ ] **Decided:** stay on 0.12.8, and monitor 1.0. The bold-link bug visibly breaks two published posts, and the repo takes the latest _stable_ release.
     - [ ] **Stable 1.0.0 needs no extra setup.** Renovate's `ignoreUnstable` defaults to `true` ([option source](https://github.com/renovatebot/renovate/blob/main/lib/config/options/index.ts)), so it skips the `next` prereleases. It will open a PR for 1.0.0 when that's out, and `renovate.json` automerges only minor and patch updates, so that PR waits for review. Until then, 0.12.x patches keep automerging.
     - [ ] **Prereleases (`next.2` and on):** watch the repo's releases on GitHub: _Watch → Custom → Releases_ on [pngwn/MDsveX](https://github.com/pngwn/MDsveX). Renovate won't report them.
     - [ ] On each new prerelease, re-run the comparison: build the six posts on 0.12.8 and on 1.0 and diff the rendered post bodies. Check the bold-link bug first.
     - [ ] Switch when the posts match apart from quotes (or at stable 1.0.0).
       - [ ] On a prerelease: pin it exactly, turn off automerge for it in `renovate.json` (with a `description`), and list it in the README TODOs.
-      - [ ] Then drop the 0.12-only work: the `.md` exclusion, Shiki through `highlight.highlighter`, and layout exports. 1.0 replaces them with templates, `components` and its built-in highlighter.
+      - [ ] Then drop the 0.12-only work: `layoutPropForwarding`, Shiki through `highlight.highlighter`, and the layout's `img` export. 1.0 replaces them with templates, `components` and its built-in highlighter.
       - [ ] Check that headings still get their `id`s, and the same ones (untested): 1.0 has no unified pipeline, so the rehype plugin in `#lib/markdown/heading-ids.ts` won't run on it. A post's `#heading` link fails the build if the id is missing.
-
-## 7. Assets: `static/` vs `src/lib/assets/`
-
-Rule to adopt:
-
-- **`#lib/assets/`** (imported, hashed, cacheable forever): everything a component uses, such as the logo, avatar, icons and project logos.
-
-How images get processed (from the [images docs](https://svelte.dev/docs/kit/images)):
-
-- **Built in, no package:** Vite's asset handling. An image that's _imported_ gets a hashed, cacheable URL, and a small one is inlined. Nothing is resized or converted, and no `width` or `height` is added. A `src` string in markup, which is all a Markdown image becomes, isn't processed at all.
-- **[`@sveltejs/enhanced-img`](https://svelte.dev/docs/kit/images) 1.0.0:** SvelteKit's own package, from the [`sveltejs/kit` repo](https://github.com/sveltejs/kit/tree/main/packages/enhanced-img). It adds AVIF/WebP output, several sizes, intrinsic `width` and `height`, and strips EXIF data. It uses `sharp` at build time, and it handles SVG only as a static import, not through a glob.
-- **Decided:** use enhanced-img for raster images (the logo, avatar, project logos, and blog covers and in-post images). New images then need no manual step. SVGs stay plain Vite imports.
-  - [ ] Add `@sveltejs/enhanced-img` and register `enhancedImages()` before `sveltekit()` in `vite.config.ts`, as the docs require.
-  - [ ] The image library `sharp` comes in as one of its npm dependencies, so the README's dev requirements don't change. In the container test on 2026-10-20, a plain `pnpm add` was enough for AVIF/WebP output.
-- **Next to their post:** blog images (option B, below).
-- **`static/`** (served verbatim, stable URLs): only what needs a fixed URL, such as `robots.txt`. In Kit 3, build paths to these with `asset()` from `$app/paths` ([migration guide](https://svelte.dev/docs/kit/migrating-to-sveltekit-3)).
-
-- [ ] **Blog images: option B (decided, do it now).** Each post becomes a folder holding its Markdown and its images.
-  - [ ] Move each post to `content/blog/<slug>/index.md` (see the folder rename below), with its images beside it. The slug becomes the folder name.
-    - [ ] Update the glob in `#lib/posts.ts`.
-  - [ ] Cover image: give `img` a relative path in the frontmatter (`img: ./cover.png`).
-    - [ ] Resolve it through `import.meta.glob('/content/blog/*/*.{png,jpg}', { eager: true, query: { enhanced: true } })`, keyed by slug. The [images docs](https://svelte.dev/docs/kit/images) say a glob has to ask for `enhanced` through a custom query.
-    - [ ] The one SVG cover (`best-way-to-manage-nodejs`'s `nodejs-logo-flat.svg`; the other covers are PNG or JPG) can't go through that glob, because enhanced-img supports SVG only as a static import. Resolve SVGs through a plain glob without the `enhanced` query, which gives a hashed URL.
-  - [ ] Images inside a post (`![…](./x.png)`):
-    - [ ] **Don't write `<enhanced:img>` in a post** (tested 2026-10-20 in a build). enhanced-img 1.0 [reuses vite-plugin-svelte's file filter](https://github.com/sveltejs/kit/blob/main/packages/enhanced-img/src/vite-plugin.js), which is [built from the configured `extensions`](https://github.com/sveltejs/vite-plugin-svelte/blob/main/packages/vite-plugin-svelte/src/utils/id.js), so it does run on `.md`. But it runs before mdsvex and parses the raw Markdown as Svelte.
-      - [ ] In a post with no braces it works: AVIF, WebP and PNG at 1x and 2x, with `width` and `height`.
-      - [ ] Any `{` in the post (inline code, `${…}` in a code block) fails the build with "Expected token }". Most of these posts have code, so it isn't usable.
-      - [ ] Posts without `<enhanced:img>` aren't affected, because the plugin only touches files that contain it.
-    - [ ] Instead (untested design): a custom `img` component from the mdsvex layout (tested, see 5).
-      - [ ] It looks the post's `src` up in an `import.meta.glob('/content/blog/*/*.{png,jpg}', { eager: true, query: { enhanced: true } })` map, and renders `<enhanced:img src={…}>`. That's allowed in a `.svelte` file ([images docs](https://svelte.dev/docs/kit/images)).
-      - [ ] It needs the post's slug to resolve `./x.png`; `/blog/[slug]` could pass it down with `setContext`.
-      - [ ] Fallback: optimise the images by hand and keep plain `<img>`.
-    - [ ] Don't use [`mdsvex-enhanced-images`](https://www.npmjs.com/package/mdsvex-enhanced-images) (0.3.3, last published 2025-02): its peer range is `@sveltejs/enhanced-img ^0.4.4`, which excludes 1.0.
-  - [ ] Old `/media/blog/…` image URLs stop working. That only matters if something outside the site links to them.
-  - [ ] Update in the same change:
-    - [ ] `LICENSE`, which names `blogposts/**` and `static/media/blog/**`. Replace both with `content/**`.
-    - [ ] The blog image table in `THIRD-PARTY-NOTICES.md`.
-    - [ ] The CLAUDE.md rules "`blogposts/*.md` is the content store", "the filename is the slug" and "`img` is a URL into `static/media/blog/`", plus `.claude/architecture.md` and the README's layout table.
-- [ ] **Content folder (decided):** rename `blogposts/` to `content/blog/`, and put the project files from 5 in `content/projects/`. Do it in the same move as option B.
-  - [ ] All content stays out of `src/`, in one folder.
-  - [ ] Only `#lib/posts.ts` references `blogposts/` in code today.
-- [ ] Remove the unused icons `social/bsky*`, `social/tw*`, `social/ig.svg` and `social/yt.svg`, and their rows in `THIRD-PARTY-NOTICES.md`. Only the `-grey` variants (`footer.svelte`, `post.svelte`) and `gh.svg` (`post.svelte`) are used.
-- [ ] Decide whether `static/media/blog/interesting-image.jpg` (the Rick Astley easter egg, third-party per `THIRD-PARTY-NOTICES.md`) stays.
 
 ## 8. Technical review
 
@@ -175,7 +124,7 @@ How images get processed (from the [images docs](https://svelte.dev/docs/kit/ima
 - [ ] **SEO:**
   - [ ] No meta description, Open Graph tags or canonical URL (`app.html` has only `charset`, `viewport` and `text-scale`). `paths.origin` is already `SITE_URL`, so `page.url.href` gives the canonical URL while prerendering.
   - [ ] No `sitemap.xml`, and `robots.txt` has no `Sitemap:` line.
-- [ ] **Images:** no `width` or `height` on any `<img>` (layout shift); see 7.
+- [ ] **Images:** the SVGs still have no `width` or `height` (layout shift): the nav logo, the social icons, the SVG project logos and the one SVG cover. enhanced-img gives the raster images theirs.
 - [ ] **Leftovers:**
   - [ ] `/contact` (with its commented-out form and its dead `@reference "../../app.css"`) and `/success` go; see 9.
   - [ ] The commented-out border compatibility block in `layout.css`.
