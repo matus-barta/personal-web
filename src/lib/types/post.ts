@@ -8,7 +8,8 @@ export type PostFrontmatter = {
 	published: boolean;
 	/** The cover image, a file beside the post: `./cover.png`. */
 	img: string;
-	img_transparent: boolean;
+	/** Set on a cover with a transparent background, to show it whole on a light backdrop. */
+	img_transparent?: boolean;
 	/** Which part of the cover stays when it is cropped to its frame; `top` if unset. */
 	img_crop?: CoverCrop;
 };

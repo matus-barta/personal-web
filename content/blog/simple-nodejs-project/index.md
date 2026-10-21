@@ -3,7 +3,6 @@ title: Simple project for Node.js with Express.js and Docker
 date: '2023-02-05'
 description: Simple and beginner-friendly docker container with healthcheck endpoint to call.
 img: ./express-js.svg
-img_transparent: false
 img_crop: center
 published: true
 ---

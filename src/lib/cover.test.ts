@@ -6,8 +6,8 @@ function picture(w: number, h: number): Picture {
 	return { sources: {}, img: { src: 'cover.png', w, h } };
 }
 
-const narrow = { img: picture(960, 640), img_transparent: false };
-const wide = { img: picture(1919, 472), img_transparent: false };
+const narrow = { img: picture(960, 640) };
+const wide = { img: picture(1919, 472) };
 
 describe('coverFit', () => {
 	test('crops a cover no wider than the frame, keeping its top', () => {
@@ -51,9 +51,7 @@ describe('coverSize', () => {
 	});
 
 	test('is the frame width for an SVG, which records no size', () => {
-		expect(coverSize({ img: 'cover.svg', img_transparent: false }, 16 / 9, '384px', 216)).toBe(
-			'384px'
-		);
+		expect(coverSize({ img: 'cover.svg' }, 16 / 9, '384px', 216)).toBe('384px');
 	});
 });
 
