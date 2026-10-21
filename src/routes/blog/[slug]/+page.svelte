@@ -15,6 +15,10 @@
 	setPostSlug(() => data.frontmatter.slug);
 
 	const cover = $derived(data.frontmatter);
+	const date = $derived(formatDate(data.frontmatter.date));
+	// the title's last word, kept apart so it and the room for the date wrap together
+	const titleStart = $derived(data.frontmatter.title.split(' ').slice(0, -1).join(' '));
+	const titleEnd = $derived(data.frontmatter.title.split(' ').at(-1));
 </script>
 
 <svelte:head>
@@ -38,12 +42,28 @@
 		class={['cover', coverFit(cover, 960 / 176)]}
 	/>
 	<Card.Header class="md:px-6">
-		<Card.Title class="text-2xl font-bold tracking-tight md:text-4xl">
-			<h1>{data.frontmatter.title}</h1>
-		</Card.Title>
-		<Card.Description>
-			<time datetime={data.frontmatter.date}>{formatDate(data.frontmatter.date)}</time>
-		</Card.Description>
+		<!-- The date sits at the right end of the title's last line: both share one grid cell, and
+		     last-baseline alignment puts the date on that line's baseline. An invisible copy of
+		     it, glued to the title's last word, keeps the line room for it, so a long title wraps a
+		     word earlier rather than run under the date. -->
+		<div class="grid">
+			<Card.Title
+				class="col-start-1 row-start-1 self-baseline-last text-2xl font-bold tracking-tight md:text-4xl"
+			>
+				<h1>
+					{titleStart}
+					<span class="whitespace-nowrap"
+						>{titleEnd}<span
+							class="invisible ml-4 text-sm font-normal tracking-normal"
+							aria-hidden="true">{date}</span
+						></span
+					>
+				</h1>
+			</Card.Title>
+			<Card.Description class="col-start-1 row-start-1 self-baseline-last justify-self-end">
+				<time datetime={data.frontmatter.date}>{date}</time>
+			</Card.Description>
+		</div>
 		<GradientSeparator class="mt-2" />
 	</Card.Header>
 	<Card.Content class="pb-6 md:px-6">
