@@ -10,3 +10,5 @@ stack: [Node.js]
 ---
 
 NodeJS script for rendering Images to slideshow video. Removed other algos for simplicity and updated to render in 60FPS and 1 sec crossfade.
+
+Forked from [sashee/images2video](https://github.com/sashee/images2video), the original repository.
