@@ -22,6 +22,17 @@ The history before this convention has no tags, and Renovate writes its own `cho
 
 A commit an AI tool helped to make carries an `Assisted-by:` trailer naming the tool, never `Co-authored-by` - the [AI usage policy](ai-policy.md#disclosure) says why.
 
+## Branches
+
+**A branch starts from `master` without tracking it:**
+
+```bash
+git switch --no-track -c <name> origin/master
+git push -u origin <name>    # the first push, which makes its own remote branch the upstream
+```
+
+Started from a remote-tracking branch, git makes that branch the new one's upstream unless told not to - `branch.autoSetupMerge` defaults to `true` ([git-config](https://git-scm.com/docs/git-config#Documentation/git-config.txt-branchautoSetupMerge)) - so a branch made with `git switch -c <name> origin/master` has `master` as its upstream. A plain `git push` refuses to push to an upstream of another name ([`push.default`](https://git-scm.com/docs/git-config#Documentation/git-config.txt-pushdefault) is `simple`), but a push that follows the upstream sends the branch to `master`, and that publishes the site: it is how two commits of `rewrite/mobile` reached `master` on 2026-10-21, before the pull request they were meant for.
+
 ## Formatting
 
 **Prettier formats the whole repository, Markdown included** - tabs, single quotes, no trailing commas, 100 columns, with the Svelte and Tailwind plugins, set in [`prettier.config.js`](../prettier.config.js). `pnpm lint` checks it and `pnpm format` fixes it; the lint workflow comments on a failing pull request asking for exactly that.
