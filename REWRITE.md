@@ -2,7 +2,7 @@
 
 Researched and verified on 2026-10-20. Versions come from the npm registry on that date. Claims about this repository name the file they come from; claims about anything else link their source where they're made.
 
-**Suggested order:** 10 (mobile) → 11 (layout refresh) → 9 (content), each its own pull request. Most of 1 - the shadcn-svelte theme and components - landed first, on its own; what's left of it goes with 10, 11 and 9. 2 (Vite+) waits for full Svelte support. Items in 8 can land at any point: the SVG sizes fit with 10, the `/blog` date with 11.
+**Suggested order:** 10 (mobile) → 11 (layout refresh) → 9 (content), each its own pull request. Most of 1 - the shadcn-svelte theme and components - landed first, on its own; what's left of it goes with 10, 11 and 9. 2 (Vite+) waits for full Svelte support. Items in 8 can land at any point: the `/blog` date fits with 11.
 
 ## Decisions
 
@@ -95,7 +95,6 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
 - [ ] **SEO:**
   - [ ] No meta description, Open Graph tags or canonical URL (`app.html` has only `charset`, `viewport` and `text-scale`). `paths.origin` is already `SITE_URL`, so `page.url.href` gives the canonical URL while prerendering.
   - [ ] No `sitemap.xml`, and `robots.txt` has no `Sitemap:` line.
-- [ ] **Images:** the SVGs still have no `width` or `height` (layout shift): the SVG project logos and the two SVG covers. enhanced-img gives the raster images theirs.
 - [ ] **Leftovers:**
   - [ ] `/contact` (with its commented-out form and its dead `@reference "../../app.css"`) and `/success` go; see 9.
 
@@ -162,10 +161,6 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
 
 The site is laid out for desktop and shrunk down. Confirmed in screenshots on 2026-10-20: at 375 px every route is 75 px wider than the screen, which is exactly the 450 px minimum width.
 
-- [ ] **Home:** the 128 px avatar (`size-32`, in the card header's `Card.Action`) sits beside the intro and squeezes the text. Stack them on phones and go side by side from `sm:`.
-- [ ] **`/blog` list:** each row is a 192 px image (`w-48`) plus text, which leaves the text about 155 px at 375 px (about 125 px once the minimum width goes). Use `flex-col` on phones and `sm:flex-row` above.
-- [ ] **Blog post:** check it at 360 px. `prose` now sets the code blocks (scrolling inside, no side margin) and the lists, and the title and date stack in the card header.
-- [ ] **Project cards (`post.svelte`):** the 128 px logo, the title and the GitHub button share the card header. Shrink the logo or put the title under it on phones; the excerpt and the badges already wrap.
 - [ ] **Verify and guard:**
   - [ ] Take Playwright screenshots of every route at 360, 390 and 430 px.
   - [ ] Add an e2e check that `document.documentElement.scrollWidth <= window.innerWidth` on every route at 360 px, so horizontal scrolling can't come back unnoticed.

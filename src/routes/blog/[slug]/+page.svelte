@@ -27,6 +27,8 @@
 	<enhanced:img
 		src={data.frontmatter.img}
 		alt=""
+		width="960"
+		height="176"
 		sizes="(min-width: 1024px) {coverSize(cover, 960 / 176, '960px', 176)}, {coverSize(
 			cover,
 			960 / 176,

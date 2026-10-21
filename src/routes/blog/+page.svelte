@@ -3,6 +3,7 @@
 	import { coverFit, coverSize } from '#lib/cover.js';
 	import PageHeader from '#lib/components/page-header.svelte';
 	import { pageTitle } from '#lib/utils/page-title.js';
+	import type { Post } from '#lib/types/post.js';
 	import type { PageData } from './$types';
 	import { resolve } from '$app/paths';
 
@@ -11,6 +12,18 @@
 	}
 
 	let { data }: Props = $props();
+
+	// The cover's frame: on phones 2:1, so the card stays near square, and the card's whole
+	// width, edge to edge at its top - 100vw less the page's 16px on each side; then 16:9 beside
+	// the text from sm:, 192px wide, and 384px from md:. coverFit() takes the 16:9 for both: it
+	// decides alike for every cover today, as none is fitted at one ratio and cropped at the other.
+	function coverSizes(post: Post) {
+		return [
+			`(min-width: 768px) ${coverSize(post, 16 / 9, '384px', 216)}`,
+			`(min-width: 640px) ${coverSize(post, 16 / 9, '192px', 108)}`,
+			coverSize(post, 2, 'calc(100vw - 32px)')
+		].join(', ');
+	}
 </script>
 
 <svelte:head>
@@ -26,17 +39,19 @@
 			data-testid="blog_post"
 			class="relative transition-shadow hover:ring-primary/50 has-focus-visible:ring-primary/50"
 		>
-			<Card.Content class="flex gap-4 md:gap-8">
+			<Card.Content class="flex flex-col gap-4 sm:flex-row md:gap-8">
 				<enhanced:img
 					src={post.img}
 					alt=""
-					sizes="(min-width: 768px) {coverSize(post, 16 / 9, '384px', 216)}, {coverSize(
-						post,
-						16 / 9,
-						'192px',
-						108
-					)}"
-					class={['aspect-video w-48 shrink-0 rounded-lg md:w-96', coverFit(post, 16 / 9)]}
+					width="384"
+					height="216"
+					sizes={coverSizes(post)}
+					class={[
+						'aspect-2/1 w-full shrink-0 rounded-lg sm:aspect-video sm:w-48 md:w-96',
+						// out over the card's padding, as the cover on the post page is
+						'max-sm:-mx-(--card-spacing) max-sm:-mt-(--card-spacing) max-sm:w-[calc(100%+2*var(--card-spacing))] max-sm:max-w-none max-sm:rounded-none',
+						coverFit(post, 16 / 9)
+					]}
 				/>
 				<div class="flex w-full flex-col justify-between gap-2 py-1">
 					<div class="flex flex-col gap-2">

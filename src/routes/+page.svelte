@@ -19,8 +19,9 @@
 </svelte:head>
 
 <Card.Root class="mt-6 md:mt-10">
-	<!-- a third row takes the avatar's extra height, so the text stays together at the top -->
-	<Card.Header class="grid-rows-[auto_auto_1fr]">
+	<!-- a third row takes the avatar's extra height, so the text stays together at the top.
+	     On phones the avatar goes above the text, in one column, rather than squeeze it. -->
+	<Card.Header class="grid-rows-[auto_auto_1fr] max-sm:has-data-[slot=card-action]:grid-cols-1">
 		<Card.Title class="text-2xl font-bold tracking-tight md:text-4xl">
 			<h1>
 				Matúš
@@ -38,7 +39,9 @@
 		<Button variant="link" size="sm" class="w-fit px-0" href={resolve('/about')}>
 			More on About page
 		</Button>
-		<Card.Action class="row-span-3">
+		<Card.Action
+			class="row-span-3 max-sm:col-start-1 max-sm:row-span-1 max-sm:row-start-1 max-sm:mb-3 max-sm:justify-self-start"
+		>
 			<!-- Not shadcn's Avatar: its image stays display: none until JavaScript has loaded it,
 			     and it takes one src, so the prerendered page would lose enhanced-img's picture.
 			     Shown at 128 or 160px, so 160 and 320px wide are enough for any screen. -->
