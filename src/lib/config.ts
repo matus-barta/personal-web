@@ -3,6 +3,12 @@
 /** How many of the newest posts the home page lists. */
 export const LATEST_POSTS_LIMIT = 5;
 
+/**
+ * The narrowest screen the layout fits without scrolling sideways: the smallest common phones.
+ * An end-to-end test checks every page at this width.
+ */
+export const MIN_PAGE_WIDTH = 360;
+
 /** How long /success waits before going back to the home page. */
 export const SUCCESS_REDIRECT_DELAY_MS = 5000;
 

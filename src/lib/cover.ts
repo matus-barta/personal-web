@@ -47,13 +47,18 @@ export function coverFit(cover: Cover, ratio: number) {
 
 /**
  * The width a cover renders at, for its `sizes` attribute, in a frame of the given ratio,
- * `width` wide and `height` pixels tall. A cropped cover wider than the frame is scaled to
- * the frame's height, so it renders wider than the frame, and the browser has to be told,
- * or it picks a source the frame's width and stretches it.
+ * `width` wide and `height` pixels tall - or, without a `height`, as tall as the ratio makes
+ * it, for a frame whose height follows its width. A cropped cover wider than the frame is
+ * scaled to the frame's height, so it renders wider than the frame, and the browser has to
+ * be told, or it picks a source the frame's width and stretches it.
  */
-export function coverSize(cover: Cover, ratio: number, width: string, height: number) {
+export function coverSize(cover: Cover, ratio: number, width: string, height?: number) {
 	const own = aspect(cover);
 	if (own === undefined || !isCropped(cover, ratio)) return width;
+	// a frame that keeps its ratio is as many times narrower than the cover as the ratios say
+	if (height === undefined) {
+		return own > ratio ? `calc(${width} * ${Math.ceil((own / ratio) * 100) / 100})` : width;
+	}
 	const scaled = Math.ceil(height * own);
 	// a width in px can be compared here; a vw one only where the browser knows the viewport
 	if (width.endsWith('px') && parseFloat(width) >= scaled) return width;

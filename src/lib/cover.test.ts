@@ -50,6 +50,17 @@ describe('coverSize', () => {
 		);
 	});
 
+	test('without a height, is the frame width when the cover is no wider than the frame', () => {
+		expect(coverSize(narrow, 16 / 9, 'calc(100vw - 32px)')).toBe('calc(100vw - 32px)');
+	});
+
+	test('without a height, scales the frame width by how much wider a cropped cover is', () => {
+		// 1919:472 is 2.033 times as wide as 2:1
+		expect(coverSize({ ...wide, img_crop: 'top-left' }, 2, 'calc(100vw - 32px)')).toBe(
+			'calc(calc(100vw - 32px) * 2.04)'
+		);
+	});
+
 	test('is the frame width for an SVG, which records no size', () => {
 		expect(coverSize({ img: 'cover.svg' }, 16 / 9, '384px', 216)).toBe('384px');
 	});

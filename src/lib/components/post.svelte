@@ -19,11 +19,14 @@
 <Card.Root data-testid="post">
 	<Card.Header>
 		<Card.Title class="flex items-end gap-3">
+			<!-- 80px on phones, so the title keeps room beside it; 128px from sm: -->
 			<enhanced:img
 				src={img}
 				alt={img_alt}
-				sizes="128px"
-				class="size-32 shrink-0 rounded-xl bg-foreground p-2"
+				width="128"
+				height="128"
+				sizes="(min-width: 640px) 128px, 80px"
+				class="size-20 shrink-0 rounded-xl bg-foreground p-2 sm:size-32"
 			/>
 			<h2 class="text-2xl font-bold tracking-tight md:text-4xl">{title}</h2>
 		</Card.Title>

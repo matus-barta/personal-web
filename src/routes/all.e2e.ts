@@ -2,7 +2,7 @@
 // config.ts exists. A type-only import, like Post below, is erased and never resolved.
 // For the same reason a spec can't import a module that itself imports from #lib, such
 // as pageTitle(): it builds the expected titles from SITE_NAME instead.
-import { LATEST_POSTS_LIMIT, SITE_NAME } from '../lib/config.js';
+import { LATEST_POSTS_LIMIT, MIN_PAGE_WIDTH, SITE_NAME } from '../lib/config.js';
 import type { Post } from '#lib/types/post.js';
 import { expect, test, type APIRequestContext } from '@playwright/test';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
@@ -95,6 +95,24 @@ test('every image on a built page exists', () => {
 			expect(existsSync(new URL(`../../build${url}`, import.meta.url)), `${page}: ${url}`).toBe(
 				true
 			);
+	}
+});
+
+// Every prerendered page, from the HTML files in build/, so a new route is covered without
+// being listed here; 404.html is the fallback shell, not a page of its own. Read inside the
+// test, as the existing build/ checks are: the web server builds only after the spec loads.
+test(`no page scrolls sideways at ${MIN_PAGE_WIDTH}px`, async ({ page }) => {
+	const build = new URL('../../build/', import.meta.url);
+	const paths = readdirSync(build, { recursive: true, encoding: 'utf8' })
+		.filter((file) => file.endsWith('.html') && file !== '404.html')
+		.map((file) => '/' + file.replace(/(index)?\.html$/, ''));
+	expect(paths).toContain('/blog');
+
+	await page.setViewportSize({ width: MIN_PAGE_WIDTH, height: 800 });
+	for (const path of paths) {
+		await page.goto(path);
+		const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);
+		expect.soft(scrollWidth, path).toBeLessThanOrEqual(MIN_PAGE_WIDTH);
 	}
 });
 
