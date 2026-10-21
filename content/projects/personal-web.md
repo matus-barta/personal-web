@@ -5,7 +5,8 @@ github: https://github.com/matus-barta/personal-web
 img: personalweb.png
 img_alt: Personal Web logo
 order: 1
+status: active
+stack: [SvelteKit, Tailwind, TypeScript]
 ---
 
-- **Tech stack**: _SvelteKit_, _Tailwind_, _Typescript_.
 - **Hosted on**: _Netlify_.

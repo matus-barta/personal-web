@@ -15,7 +15,7 @@ Researched and verified on 2026-10-20. Versions come from the npm registry on th
 Latest versions: [`shadcn-svelte`](https://www.npmjs.com/package/shadcn-svelte) 1.7.0, [`bits-ui`](https://www.npmjs.com/package/bits-ui) 2.19.5, [`@lucide/svelte`](https://www.npmjs.com/package/@lucide/svelte) 1.60.0, [`tw-animate-css`](https://www.npmjs.com/package/tw-animate-css) 1.4.0. shadcn-svelte targets Svelte 5 and Tailwind 4 ([install guide](https://shadcn-svelte.com/docs/installation/sveltekit)), and [since 1.6.0](https://github.com/huntabyte/shadcn-svelte/releases/tag/shadcn-svelte%401.6.0) it auto-detects Kit 3's `#lib` import.
 
 - [ ] Components to use (all in the [component list](https://shadcn-svelte.com/docs/components)):
-  - [ ] `Badge`: tech stack and tags
+  - [ ] `Badge`: tags (see 9)
   - [ ] `Sheet` or `Navigation Menu`: a mobile nav
 - [ ] Skip `form` for now. The registry's `form` [still pins](https://shadcn-svelte.com/registry/form.json) `sveltekit-superforms@^2.28.1`, which rejects Kit 3 ([issue #2915](https://github.com/huntabyte/shadcn-svelte/issues/2915), open). [`sveltekit-superforms`](https://www.npmjs.com/package/sveltekit-superforms) 3.0.0 (2026-10-04) accepts Kit 3, so re-check once the registry moves to it.
 - [ ] Icons: [Lucide v1 removed every brand icon](https://lucide.dev/guide/version-1), GitHub's included. Keep the SVGs in `src/lib/assets/social/`, or use [Simple Icons](https://simpleicons.org), which Lucide recommends.
@@ -194,7 +194,6 @@ Keep the dark background, the green accent, the skewed `@anonymus09` highlight a
 - [ ] **Typography:**
   - [ ] No font is set, so the site uses Tailwind's default system font stack and renders in each OS's own font. Self-host one sans-serif and one monospace font (for example with [Fontsource](https://fontsource.org)), and record their licences in `THIRD-PARTY-NOTICES.md`.
   - [ ] Post text runs about 100 characters per line at 1280 px (measured); aim for 65–75 (`max-w-prose`, or typography's `prose`; see 1).
-- [ ] **Cards instead of one big panel:** each page today is one large `.window` panel. Give each post and project its own card with a hover state (shadcn `Card`, see 1).
 - [ ] **`/blog`:**
   - [ ] Crop every cover to one aspect ratio (16:9, `aspect-video object-cover`). Today the images have a fixed width but no fixed height, so each row is a different height.
   - [ ] Cards in two columns on desktop, one on phones.
@@ -202,9 +201,7 @@ Keep the dark background, the green accent, the skewed `@anonymus09` highlight a
 - [ ] **Home:** keep the hero section, and add a "Featured projects" row of 2–3 cards under the latest posts.
 - [ ] **`/projects`:** the 128 px logos and very large titles fill most of the page. Make it a grid of compact cards, each with:
   - [ ] a small logo
-  - [ ] the tech stack as badges
-  - [ ] an active or archived status
-  - [ ] links to the repo and any related blog post
+  - [ ] a link to any related blog post
 - [ ] **Footer:**
   - [ ] Compact, and allowed to wrap on phones (10).
   - [ ] Add an RSS icon, a "source on GitHub" link, and a short licence note: the code is MIT and the content is all rights reserved (`LICENSE`).

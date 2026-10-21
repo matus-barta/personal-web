@@ -7,4 +7,8 @@ export type Project = {
 	img_alt: string;
 	/** Where the card sits on /projects, lowest first. */
 	order: number;
+	/** Whether the project is still being worked on; shown as a badge. */
+	status: 'active' | 'archived';
+	/** The technologies it is built with, each shown as a badge. */
+	stack: string[];
 };

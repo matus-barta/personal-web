@@ -1,6 +1,6 @@
 <script lang="ts">
 	import * as Card from '#lib/components/ui/card/index.js';
-	import { Separator } from '#lib/components/ui/separator/index.js';
+	import GradientSeparator from '#lib/components/gradient-separator.svelte';
 	import { formatDate } from '#lib/utils/format-date.js';
 	import { pageTitle } from '#lib/utils/page-title.js';
 	import { setPostSlug } from '#lib/markdown/post-slug.js';
@@ -34,8 +34,8 @@
 		<Card.Description>
 			<time datetime={data.frontmatter.date}>{formatDate(data.frontmatter.date)}</time>
 		</Card.Description>
+		<GradientSeparator class="mt-2" />
 	</Card.Header>
-	<Separator />
 	<Card.Content class="pb-6 md:px-6">
 		<data.component />
 	</Card.Content>
