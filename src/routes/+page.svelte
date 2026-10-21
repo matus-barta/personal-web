@@ -1,4 +1,7 @@
 <script lang="ts">
+	import ArrowRightIcon from '@lucide/svelte/icons/arrow-right';
+	import * as Card from '#lib/components/ui/card/index.js';
+	import { Button } from '#lib/components/ui/button/index.js';
 	import { pageTitle } from '#lib/utils/page-title.js';
 	import { formatDate } from '#lib/utils/format-date.js';
 	import type { PageData } from './$types';
@@ -15,46 +18,60 @@
 	<title>{pageTitle()}</title>
 </svelte:head>
 
-<div class="window px-3 pt-6 pb-6 shadow-md md:px-6">
-	<div class="flex justify-between">
-		<div class="flex flex-col">
+<Card.Root>
+	<!-- a third row takes the avatar's extra height, so the text stays together at the top -->
+	<Card.Header class="grid-rows-[auto_auto_1fr]">
+		<Card.Title class="text-2xl font-bold tracking-tight md:text-4xl">
 			<h1>
 				Matúš
 				<span
-					class="relative ml-2 inline-block before:absolute before:-inset-1 before:block before:-skew-y-3 before:bg-emerald-500"
+					class="relative mx-2 inline-block before:absolute before:-inset-1 before:block before:-skew-y-3 before:bg-mark"
 				>
-					<span class="relative skew-y-3 text-accent-color-lighter"> @anonymus09 </span>
+					<span class="relative text-mark-foreground">@anonymus09</span>
 				</span>
 				Barta
 			</h1>
-			<p>IT professional, hobby developer, homelab enthusiast, gamer, space nerd.</p>
-			<a
-				class="mt-5 text-sm! text-gray-500! hover:text-gray-400! hover:underline"
-				href={resolve('/about')}>More on About page</a
-			>
-		</div>
-		<!-- shown at 128 or 160px, so 160 and 320px wide are enough for any screen -->
-		<enhanced:img
-			class="ml-2 h-32 w-32 rounded-full! md:h-40 md:w-40"
-			src="#lib/assets/ksp.jpg?w=320;160"
-			sizes="(min-width: 768px) 160px, 128px"
-			alt="avatar"
-		/>
-	</div>
-	<div class="pt-6 pb-6">
-		<h1 class="mb-1 text-2xl font-bold tracking-tight md:text-4xl">Latest Blog Posts</h1>
-		<div class="mb-5 flex flex-col">
-			{#each data.posts as post (post.slug)}
-				<div data-testid="latest_blog_post" class="flex items-center space-x-2">
-					<a class="hover:underline" href={resolve('/blog/[slug]', { slug: post.slug })}
-						>{post.title}</a
-					>
-					<h4 class="special align-bottom text-xs whitespace-nowrap">{formatDate(post.date)}</h4>
-				</div>
-			{/each}
-		</div>
-		<a class="text-sm! text-gray-500! hover:text-gray-400! hover:underline" href={resolve('/blog')}
-			>See All Posts</a
-		>
-	</div>
-</div>
+		</Card.Title>
+		<Card.Description class="text-base">
+			IT professional, hobby developer, homelab enthusiast, gamer, space nerd.
+		</Card.Description>
+		<Button variant="link" size="sm" class="w-fit px-0" href={resolve('/about')}>
+			More on About page
+		</Button>
+		<Card.Action class="row-span-3">
+			<!-- Not shadcn's Avatar: its image stays display: none until JavaScript has loaded it,
+			     and it takes one src, so the prerendered page would lose enhanced-img's picture.
+			     Shown at 128 or 160px, so 160 and 320px wide are enough for any screen. -->
+			<enhanced:img
+				class="size-32 rounded-full md:size-40"
+				src="#lib/assets/ksp.jpg?w=320;160"
+				sizes="(min-width: 768px) 160px, 128px"
+				alt="Kerbal Space Program astronaut floating in space"
+			/>
+		</Card.Action>
+	</Card.Header>
+	<Card.Content>
+		<section class="flex flex-col gap-2">
+			<h2 class="text-xl font-bold tracking-tight md:text-2xl">Latest Blog Posts</h2>
+			<ul class="flex flex-col gap-1 text-base">
+				{#each data.posts as post (post.slug)}
+					<li data-testid="latest_blog_post" class="flex flex-wrap items-baseline gap-x-2">
+						<a
+							class="text-primary hover:text-link-hover hover:underline"
+							href={resolve('/blog/[slug]', { slug: post.slug })}>{post.title}</a
+						>
+						<time class="text-xs text-muted-foreground" datetime={post.date}>
+							{formatDate(post.date)}
+						</time>
+					</li>
+				{/each}
+			</ul>
+		</section>
+	</Card.Content>
+	<Card.Footer>
+		<Button variant="outline" size="sm" href={resolve('/blog')}>
+			See all posts
+			<ArrowRightIcon data-icon="inline-end" />
+		</Button>
+	</Card.Footer>
+</Card.Root>

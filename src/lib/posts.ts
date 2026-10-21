@@ -1,4 +1,5 @@
 import type { Component } from 'svelte';
+import { isCoverCrop } from '#lib/cover.js';
 import { postImage } from '#lib/post-images.js';
 import type { Post, PostFrontmatter } from '#lib/types/post.js';
 
@@ -17,6 +18,9 @@ function toSlug(path: string) {
 function toPost(metadata: PostFrontmatter, slug: string): Post {
 	const img = postImage(slug, metadata.img);
 	if (!img) throw new Error(`The cover of "${slug}" must be a file beside it, such as ./cover.png`);
+	if (metadata.img_crop !== undefined && !isCoverCrop(metadata.img_crop)) {
+		throw new Error(`"${slug}" has an unknown img_crop: ${metadata.img_crop}`);
+	}
 	return { ...metadata, slug, img };
 }
 

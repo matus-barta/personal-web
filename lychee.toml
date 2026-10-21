@@ -25,5 +25,5 @@ exclude_path = [
     "(^|/)test-results/",
     "(^|/)\\.agents/",
     "(^|/)\\.claude/skills/",
-    "(^|/)blogposts/",
+    "(^|/)content/blog/",
 ]

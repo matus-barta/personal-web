@@ -9,4 +9,7 @@
 	let { children }: { children?: Snippet } = $props();
 </script>
 
-{@render children?.()}
+<!-- the post body carries no classes, so prose styles it; max-w-none until the layout sets the column -->
+<div class="prose max-w-none prose-site">
+	{@render children?.()}
+</div>

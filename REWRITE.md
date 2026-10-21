@@ -2,48 +2,24 @@
 
 Researched and verified on 2026-10-20. Versions come from the npm registry on that date. Claims about this repository name the file they come from; claims about anything else link their source where they're made.
 
-**Suggested order:** 1 + 10 + 11 (shadcn, mobile and layout refresh, together) → 9 (content). 2 (Vite+) waits for full Svelte support. Items in 8 can land at any point.
+**Suggested order:** 10 (mobile) → 11 (layout refresh) → 9 (content), each its own pull request. Most of 1 - the shadcn-svelte theme and components - landed first, on its own; what's left of it goes with 10, 11 and 9. 2 (Vite+) waits for full Svelte support. Items in 8 can land at any point: the dead nav class and the SVG sizes fit with 10, the `/blog` date with 11.
 
 ## Decisions
 
-- **Colours (decided):** shadcn's base palette for the neutrals, and the site's greens as the brand accent, adjusted where that helps. The final values still need your sign-off before they go in, as the conventions require (see 1).
 - **Vite+ (decided):** wait until it fully supports Svelte (see 2).
 - **This file (decided):** it's the plan for the big rewrite, linked from the README's TODOs.
 - **mdsvex (decided):** stay on 0.12.8, and watch 1.0's releases (see 5). The `.md` exclusion from forced runes that this first assumed wasn't needed: `layoutPropForwarding: 'runes'` does the job.
 
 ## 1. Switch to shadcn-svelte
 
-Latest versions: [`shadcn-svelte`](https://www.npmjs.com/package/shadcn-svelte) 1.7.0, [`bits-ui`](https://www.npmjs.com/package/bits-ui) 2.19.5, [`@lucide/svelte`](https://www.npmjs.com/package/@lucide/svelte) 1.60.0, [`tw-animate-css`](https://www.npmjs.com/package/tw-animate-css) 1.4.0. shadcn-svelte targets Svelte 5 and Tailwind 4 ([install guide](https://shadcn-svelte.com/docs/installation/sveltekit)), and [since 1.6.0](https://github.com/huntabyte/shadcn-svelte/releases/tag/shadcn-svelte%401.6.0) it auto-detects Kit 3's `#lib` import.
+Installed: [`shadcn-svelte`](https://www.npmjs.com/package/shadcn-svelte) 1.7.0, [`bits-ui`](https://www.npmjs.com/package/bits-ui) 2.19.5, [`@lucide/svelte`](https://www.npmjs.com/package/@lucide/svelte) 1.60.0, [`tw-animate-css`](https://www.npmjs.com/package/tw-animate-css) 1.4.0. bits-ui 2.20.0 and Lucide 1.61.0 came out on 2026-10-20 and 2026-10-21, younger than pnpm's `minimumReleaseAge`, so Renovate brings them after its wait. shadcn-svelte targets Svelte 5 and Tailwind 4 ([install guide](https://shadcn-svelte.com/docs/installation/sveltekit)), and [since 1.6.0](https://github.com/huntabyte/shadcn-svelte/releases/tag/shadcn-svelte%401.6.0) it auto-detects Kit 3's `#lib` import.
 
-- [ ] Run `pnpm i` (which runs `svelte-kit sync`) **before** `pnpm dlx shadcn-svelte@latest init` and `add`. On Kit 3, skipping it gives `File '$app/tsconfig' not found` ([issue #2849](https://github.com/huntabyte/shadcn-svelte/issues/2849), still being reported on 2026-10-14).
-- [ ] `init` **overwrites** the global CSS file (`src/routes/layout.css`), as its [prompt says](https://shadcn-svelte.com/docs/installation/sveltekit). Save the `@theme` block and the element styles first, then merge them back.
-- [ ] Theme (decided: shadcn's base palette plus the site's greens):
-  - [ ] Pick a [base colour](https://shadcn-svelte.com/docs/theming): Neutral, Stone, Zinc, Gray or Slate. Today's card colour `#2c3441` is a blue-grey, `oklch(0.323 0.026 260)`. That's the same hue as Slate and Gray ([Tailwind colours](https://tailwindcss.com/docs/colors)); Gray's lower chroma makes it a slightly closer match.
-  - [ ] Put the green on `--primary` and `--ring`, **not** on `--accent`. In shadcn's [current styles](https://github.com/huntabyte/shadcn-svelte/blob/main/docs/src/lib/registry/styles/style-vega.css), `--accent` is the highlight background of focused items in menus (dropdown, context menu, combobox).
-  - [ ] The greens are light, so `--primary-foreground` has to be dark.
-  - [ ] Today's greens (`src/routes/layout.css`):
-    - [ ] `#4ff0ba` (`--color-accent-color`) is custom, not a Tailwind palette colour.
-    - [ ] `#bef263` (`--color-accent-color-lighter`) is almost exactly Tailwind v3's `lime-300`, `#bef264` ([v3 palette](https://v3.tailwindcss.com/docs/customizing-colors)).
-    - [ ] There are also `bg-emerald-500` literals (`layout.css`, `+page.svelte`).
-    - [ ] Both theme greens are readable as text and links: at least 8.6:1 contrast on the background and on cards.
-  - [ ] Fix two contrast failures while doing this ([WCAG 1.4.3](https://www.w3.org/TR/WCAG22/#contrast-minimum): 4.5:1 for normal text, 3:1 for large):
-    - [ ] The hero badge (lime text on Tailwind v4's `emerald-500`) is 1.89:1.
-    - [ ] The grey "More on About page" and "See All Posts" links (`text-gray-500`) are 2.59:1 on the card.
-  - [ ] shadcn writes OKLCH values ([theming](https://shadcn-svelte.com/docs/theming)), so convert the chosen colours. Show the final values for sign-off before adding them.
-  - [ ] Replace every Tailwind palette class with theme tokens. That means slate, emerald, sky, cyan, gray, neutral, pink and the rest, in `layout.css` and in the pages. This is the UI refresh that `.claude/conventions.md` points to, carried over from the README's old TODO.
-- [ ] Stop the global element styles from leaking into components. The bare `button`, `input`, `a` and `img` rules in `layout.css` will restyle shadcn's components.
-  - [ ] Scope blog styling to a wrapper on the post body. [`@tailwindcss/typography`](https://www.npmjs.com/package/@tailwindcss/typography) (0.5.20, `prose`) is one option. It works with Tailwind v4: add `@plugin "@tailwindcss/typography";` after `@import 'tailwindcss';` in `layout.css` ([README](https://github.com/tailwindlabs/tailwindcss-typography)); its peer range is `>=3.0.0 || >=4.0.0`.
-  - [ ] Then update the CLAUDE.md rule that says bare selectors style the posts.
 - [ ] Components to use (all in the [component list](https://shadcn-svelte.com/docs/components)):
-  - [ ] `Card`: replaces `.window`, the post list and the project cards
-  - [ ] `Button`
-  - [ ] `Badge`: tech stack and tags
-  - [ ] `Separator`: the gradient bars
-  - [ ] `Sheet` or `Navigation Menu`: a mobile nav
-  - [ ] `Avatar`
+  - [ ] `Badge`: tags (see 9)
+  - [ ] `Sheet`: the mobile menu (see 10).
+  - [ ] `Navigation Menu`: the desktop links, with the current page marked (see 11).
 - [ ] Skip `form` for now. The registry's `form` [still pins](https://shadcn-svelte.com/registry/form.json) `sveltekit-superforms@^2.28.1`, which rejects Kit 3 ([issue #2915](https://github.com/huntabyte/shadcn-svelte/issues/2915), open). [`sveltekit-superforms`](https://www.npmjs.com/package/sveltekit-superforms) 3.0.0 (2026-10-04) accepts Kit 3, so re-check once the registry moves to it.
 - [ ] Icons: [Lucide v1 removed every brand icon](https://lucide.dev/guide/version-1), GitHub's included. Keep the SVGs in `src/lib/assets/social/`, or use [Simple Icons](https://simpleicons.org), which Lucide recommends.
-- [ ] Add the copied shadcn-svelte component source (MIT) to `THIRD-PARTY-NOTICES.md`, in the same change.
 
 ## 2. Vite+ (`vp`): is it viable?
 
@@ -118,17 +94,12 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
 - [ ] **Mobile layout:** see 10.
 - [ ] **Dead class:** the nav's `bg-opacity-30` does nothing; [Tailwind v4 removed](https://tailwindcss.com/docs/upgrade-guide) `bg-opacity-*` and the other `*-opacity-*` utilities. Use `bg-…/30`.
 - [ ] **`/blog`** shows the raw `post.date`; `/` and the post page use `formatDate()`.
-- [ ] **Semantics and accessibility:**
-  - [ ] `h3.special` and `h4.special` are used for dates and descriptions: use `<p>` or `<time>` instead.
-  - [ ] Generic alt texts: "avatar", "blog post logo", "blog title".
 - [ ] **SEO:**
   - [ ] No meta description, Open Graph tags or canonical URL (`app.html` has only `charset`, `viewport` and `text-scale`). `paths.origin` is already `SITE_URL`, so `page.url.href` gives the canonical URL while prerendering.
   - [ ] No `sitemap.xml`, and `robots.txt` has no `Sitemap:` line.
-- [ ] **Images:** the SVGs still have no `width` or `height` (layout shift): the nav logo, the social icons, the SVG project logos and the one SVG cover. enhanced-img gives the raster images theirs.
+- [ ] **Images:** the SVGs still have no `width` or `height` (layout shift): the nav logo, the social icons, the SVG project logos and the two SVG covers. enhanced-img gives the raster images theirs.
 - [ ] **Leftovers:**
   - [ ] `/contact` (with its commented-out form and its dead `@reference "../../app.css"`) and `/success` go; see 9.
-  - [ ] The commented-out border compatibility block in `layout.css`.
-- [ ] **Duplication:** the gradient bar markup appears twice (`post.svelte`, `blog/[slug]/+page.svelte`), and so does the page-header pattern (`h1` + `h3.special`, on `/blog`, `/projects`, `/about` and `/contact`). Make them components; this was the old README TODO "move common stuff to components".
 
 ## 9. Content
 
@@ -140,9 +111,9 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
   - [ ] **[healthcheck](https://github.com/matus-barta/healthcheck)**: the Docker healthcheck API; the post "Simple project for Node.js…" already covers it and links the repo.
   - [ ] **[fileserver](https://github.com/matus-barta/fileserver)**: a Svelte web UI for managing a fileserver. Its README is a single line, so expand it first.
 - [ ] [Open RMM](https://github.com/matus-barta/open-rmm):
-  - [ ] Its blurb (`content/projects/open-rmm.md`) still lists Express/Prisma, while the 2025 post (`open-rmm-part-deux.md`) describes the move to Rust/Axum and to Supabase. Update it.
+  - [ ] Its blurb (`content/projects/open-rmm.md`), its `stack:` badges and its sentence, still list Express/Prisma, while the 2025 post (`open-rmm-part-deux.md`) describes the move to Rust/Axum and to Supabase. Update it.
   - [ ] Its link `Open_RMM` redirects (301) to `open-rmm`.
-- [ ] Move the 2022 items ([images2video](https://github.com/matus-barta/images2video) fork, [PowerShell converter](https://github.com/matus-barta/Powershell-batch-video-file-coverter)) into an "older / archive" group.
+- [ ] The 2022 items ([images2video](https://github.com/matus-barta/images2video) fork, [PowerShell converter](https://github.com/matus-barta/Powershell-batch-video-file-coverter)) and InProgress carry an Archived badge now (`status: archived`). Group the archived projects below the active ones too, if the badge isn't enough.
 
 **Ground rules:** no contact form (it would only collect spam), and little personal information: no employer, no city, and no photo of you (the avatar stays the Kerbal, `ksp.jpg`).
 
@@ -157,12 +128,12 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
   - [ ] Delete `/contact` and `/success`, and remove Contact from the nav.
   - [ ] Put the social links in the footer and on About instead.
   - [ ] Check the Netlify dashboard for Netlify Forms settings left over from the old form.
-- [ ] **Footer:** two YouTube icons with no visible difference. Bluesky and X icons exist but aren't linked; add those links or delete the icons.
+- [ ] **Footer:** two YouTube icons with no visible difference. There is no Bluesky or X icon: the unused ones went in step 7, so add an icon with each link (Bluesky is planned on About).
 
 **New pages** ("slash pages", see [slashpages.net](https://slashpages.net)):
 
 - [ ] `/uses`: dev setup, software and homelab hardware ([uses.tech](https://uses.tech)). It's about gear, not you.
-- [ ] `/homelab`: hardware, the services you run, and a high-level Mermaid diagram of how they fit together. It suits the "homelab enthusiast" tagline and the planned post (README: "Some homelab-ing stuff").
+- [ ] `/homelab`: hardware, the services you run, and a high-level Mermaid diagram of how they fit together. It suits the "homelab enthusiast" tagline and the homelab post among the README's post ideas.
   - [ ] Leave out IPs, domain names and network layout. Publishing those is a security risk, not just a privacy one.
 - [ ] `/now`: what you're focused on currently ([nownownow.com](https://nownownow.com/about)). It can stay vague: "working on Open-RMM, playing X".
 - [ ] `/colophon`: how the site is built, with the stack, hosting and the licence split.
@@ -187,7 +158,7 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
 **Other:**
 
 - [ ] A dark/light toggle; shadcn-svelte's [dark mode docs](https://shadcn-svelte.com/docs/dark-mode/svelte) use `mode-watcher`.
-- [ ] Post backlog already in the README: the Open-RMM update and the homelab post.
+- [ ] Post ideas are listed in the README's TODOs: Open-RMM updates and the homelab.
 
 ## 10. Mobile-first layout
 
@@ -198,16 +169,11 @@ The site is laid out for desktop and shrunk down. Confirmed in screenshots on 20
   - [ ] Use `w-full` instead of the nav's `w-screen` (`100vw`), so the nav follows the page width.
   - [ ] Root layout (`+layout.svelte`): `h-screen` → `min-h-dvh`. The content wrapper's `p-8 pt-24` → smaller padding on phones, growing at `md:`.
 - [ ] **Nav:** the logo and four bold links don't fit at 375 px; "Contact" is cut off. Add a mobile menu (shadcn `Sheet`, see 1) below `sm:`.
-- [ ] **Home:** the 128 px avatar (`h-32 w-32`) sits beside the intro and squeezes the text. Stack them on phones and go side by side from `sm:`.
+- [ ] **Home:** the 128 px avatar (`size-32`, in the card header's `Card.Action`) sits beside the intro and squeezes the text. Stack them on phones and go side by side from `sm:`.
 - [ ] **`/blog` list:** each row is a 192 px image (`w-48`) plus text, which leaves the text about 155 px at 375 px (about 125 px once the minimum width goes). Use `flex-col` on phones and `sm:flex-row` above.
-- [ ] **Blog post:**
-  - [ ] Code blocks scroll inside the block (`overflow-x-auto` on `pre` in `layout.css`). Drop their `mx-8` side margin on phones.
-  - [ ] Header: the title and the `whitespace-nowrap` date share one row. Stack them on phones.
-  - [ ] `ul` uses `ml-10`; reduce it on phones.
-- [ ] **Projects cards (`post.svelte`):**
-  - [ ] The 128 px logo and the absolutely positioned title: stack them, or shrink the logo on phones.
-  - [ ] Let the excerpt and the GitHub link wrap.
-- [ ] **Footer:** the fixed `h-10` (`footer.svelte`) clips the row when it wraps. Use `min-h` and `flex-wrap`, and give the icons at least 24×24 px targets ([WCAG 2.5.8](https://www.w3.org/TR/WCAG22/#target-size-minimum)).
+- [ ] **Blog post:** check it at 360 px. `prose` now sets the code blocks (scrolling inside, no side margin) and the lists, and the title and date stack in the card header.
+- [ ] **Project cards (`post.svelte`):** the 128 px logo, the title and the GitHub button share the card header. Shrink the logo or put the title under it on phones; the excerpt and the badges already wrap.
+- [ ] **Footer:** the fixed `h-10` (`footer.svelte`) clips the row when it wraps. Use `min-h` and `flex-wrap`. The icons are already 28 px buttons (shadcn's `icon-sm`), above the 24×24 px of [WCAG 2.5.8](https://www.w3.org/TR/WCAG22/#target-size-minimum).
 - [ ] **Verify and guard:**
   - [ ] Take Playwright screenshots of every route at 360, 390 and 430 px.
   - [ ] Add an e2e check that `document.documentElement.scrollWidth <= window.innerWidth` on every route at 360 px, so horizontal scrolling can't come back unnoticed.
@@ -222,19 +188,21 @@ Keep the dark background, the green accent, the skewed `@anonymus09` highlight a
   - [ ] Make it sticky and slightly translucent; it needs a real background, as `bg-opacity-30` is dead (8).
   - [ ] A menu button on phones (10).
 - [ ] **Typography:**
-  - [ ] No font is set, so the site uses Tailwind's default system font stack and renders in each OS's own font. Self-host one sans-serif and one monospace font (for example with [Fontsource](https://fontsource.org)), and record their licences in `THIRD-PARTY-NOTICES.md`.
-  - [ ] Post text runs about 100 characters per line at 1280 px (measured); aim for 65–75 (`max-w-prose`, or typography's `prose`; see 1).
-- [ ] **Cards instead of one big panel:** each page today is one large `.window` panel. Give each post and project its own card with a hover state (shadcn `Card`, see 1).
+  - [ ] Inter is self-hosted through [Fontsource](https://fontsource.org) since the shadcn-svelte `init`. Add JetBrains Mono (decided) for code the same way, and record its licence in `THIRD-PARTY-NOTICES.md` beside Inter's.
+  - [ ] Post text ran about 100 characters per line at 1280 px (measured before `prose`); aim for 65–75. Posts are in `prose` now, but `max-w-none` in `blog-layout.svelte` keeps the old column; set the column, or drop it for prose's own 65ch.
+- [ ] **Code block background:** Shiki writes the `monokai` theme's own `background-color:#272822` inline on every `pre`, a warm olive-grey outside the Mist palette. Change it to match the theme (untested options: replace the colour at build time through Shiki's options in `vite.config.ts`, or pick a theme whose background fits; an inline style beats any class, so CSS alone would need `!important`).
+- [ ] **Links and buttons:** review their colours and hover behaviour, which differ from place to place today.
+  - [ ] Now: links in posts and project blurbs (`prose`) are mint, lime on hover and always underlined. The home page's latest posts and the `/blog` card titles are mint and lime on hover, underlined on hover on the home page only. "More on About page" (`Button variant="link"`) stays mint on hover, and the nav links are white, mint on hover.
+  - [ ] The lime hover on the `/blog` card titles is too much; the card already shows hover with its green ring.
+  - [ ] Home: "More on About page" should look like "See all posts", an `outline` `Button`.
+  - [ ] Keep links in running text underlined, so they don't rely on colour alone ([WCAG 1.4.1](https://www.w3.org/TR/WCAG22/#use-of-color)).
 - [ ] **`/blog`:**
-  - [ ] Crop every cover to one aspect ratio (16:9, `aspect-video object-cover`). Today the images have a fixed width but no fixed height, so each row is a different height.
   - [ ] Cards in two columns on desktop, one on phones.
   - [ ] Show the formatted date (8), with reading time and tags (9).
 - [ ] **Home:** keep the hero section, and add a "Featured projects" row of 2–3 cards under the latest posts.
 - [ ] **`/projects`:** the 128 px logos and very large titles fill most of the page. Make it a grid of compact cards, each with:
   - [ ] a small logo
-  - [ ] the tech stack as badges
-  - [ ] an active or archived status
-  - [ ] links to the repo and any related blog post
+  - [ ] a link to any related blog post
 - [ ] **Footer:**
   - [ ] Compact, and allowed to wrap on phones (10).
   - [ ] Add an RSS icon, a "source on GitHub" link, and a short licence note: the code is MIT and the content is all rights reserved (`LICENSE`).

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import PageHeader from '#lib/components/page-header.svelte';
 	import { pageTitle } from '#lib/utils/page-title.js';
 	import { getProjects } from '#lib/projects.js';
 	import Post from '#lib/components/post.svelte';
@@ -10,10 +11,9 @@
 	<title>{pageTitle('Projects')}</title>
 </svelte:head>
 
-<h1>Projects</h1>
-<h3 class="special">Some of my personal projects</h3>
+<PageHeader title="Projects" description="Some of my personal projects" />
 
-<div class="window mt-5 px-3 pt-6 pb-6 shadow-md md:px-6">
+<div class="flex flex-col gap-6">
 	{#each projects as project (project.title)}
 		<Post {...project} />
 	{/each}

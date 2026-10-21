@@ -6,9 +6,9 @@ Rules that hold across the repository rather than in one piece of it. How the si
 
 ## Colours come from the theme, never from a literal
 
-New or changed code may not write a colour value - a hex string, `rgb()`, a Tailwind palette class such as `bg-emerald-500`, or a stock colour with an opacity applied to approximate a shade. The theme is the `@theme` block in [`src/routes/layout.css`](../src/routes/layout.css), and a colour taken from it changes with it; a literal does not, so every literal is one more place a palette change has to find by hand, and one more shade that only looks deliberate until the colours around it move.
+New or changed code may not write a colour value - a hex string, `rgb()`, a Tailwind palette class such as `bg-emerald-500`, or a stock colour with an opacity applied to approximate a shade. The theme is the set of CSS variables in [`src/routes/layout.css`](../src/routes/layout.css) that its `@theme inline` block maps to Tailwind colours - `bg-card`, `text-muted-foreground` - and a colour taken from it changes with it; a literal does not, so every literal is one more place a palette change has to find by hand, and one more shade that only looks deliberate until the colours around it move.
 
-The site does not follow this yet. `layout.css` and a few pages use Tailwind palette classes - slate, emerald, sky, pink and others - from before the rule, and they go when the UI refresh on the README's TODO list reworks the styles. Until then they are not a precedent: new code does not copy them.
+The palette classes that predated the rule went when the site moved to shadcn-svelte's theme. The only ones left are in the commented-out form in `src/routes/contact/+page.svelte`, which goes with that page.
 
 If a component seems to need a colour the theme does not offer, **say so and ask** - a new colour is added to the theme only after a human has agreed to it, so the palette stays something that was decided rather than something that accumulated one component at a time.
 
@@ -26,7 +26,7 @@ A commit an AI tool helped to make carries an `Assisted-by:` trailer naming the 
 
 **Prettier formats the whole repository, Markdown included** - tabs, single quotes, no trailing commas, 100 columns, with the Svelte and Tailwind plugins, set in [`prettier.config.js`](../prettier.config.js). `pnpm lint` checks it and `pnpm format` fixes it; the lint workflow comments on a failing pull request asking for exactly that.
 
-[`.prettierignore`](../.prettierignore) excludes `static/`, the lockfiles, the vendored `.agents/` tree and `skills-lock.json`. The last two must stay excluded: the vendored skills' Markdown contains deliberately broken code samples - a `$inspect.trace()` in an illegal position, among others - that Prettier's parsers throw on, so `prettier --check .` fails across the whole repository the moment those entries go.
+[`.prettierignore`](../.prettierignore) excludes `static/`, the lockfiles, shadcn-svelte's generated components in `src/lib/components/ui/` - kept as its CLI writes them, see [architecture](architecture.md#styling) - the vendored `.agents/` tree and `skills-lock.json`. The last two must stay excluded: the vendored skills' Markdown contains deliberately broken code samples - a `$inspect.trace()` in an illegal position, among others - that Prettier's parsers throw on, so `prettier --check .` fails across the whole repository the moment those entries go.
 
 ESLint runs alongside it, configured in [`eslint.config.js`](../eslint.config.js) with `eslint-config-prettier` turning off the rules that would fight Prettier.
 

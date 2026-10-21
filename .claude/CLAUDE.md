@@ -24,11 +24,12 @@ One SvelteKit app, deployed to Netlify. There is no database, no auth and no CMS
 
 ## Styling
 
-- **Tailwind v4 with no `tailwind.config`.** The theme is the `@theme` block in `src/routes/layout.css`.
-- **The bare element selectors in `layout.css` are what style a blog post**, since mdsvex output carries no classes. Do not narrow them into component scope.
+- **Tailwind v4 with no `tailwind.config`, themed by shadcn-svelte.** The colours are CSS variables in `src/routes/layout.css`, which `@theme inline` maps to Tailwind colours; the site's are the `.dark` block, which `app.html` turns on for every page. `components.json` records the style, Nova, and the base colour, Mist. The shadcn-svelte CLI's `init` and `apply` write to `layout.css`, so review its diff after running either.
+- **Markdown is styled by `prose prose-site`, not by element rules** - the typography plugin's class, with `@utility prose-site` in `layout.css` setting the theme's colours. The blog layout in `#lib/markdown/` wraps every post in it and `post.svelte` every project blurb. Don't add bare element rules to `layout.css`: unlayered, they beat every utility and shadcn class.
+- **UI components come from shadcn-svelte, into `src/lib/components/ui/`, and are never edited there** - `pnpm dlx shadcn-svelte@latest add <name>` writes them and `update` replaces them, and Prettier skips the folder. Style them through the theme tokens, their variants and props, and `class` on the usage, and wrap one in a component of ours where that isn't enough. If a design needs a generated file changed, stop and ask. The site's own components sit in `src/lib/components/`.
 - **A raster image a component shows goes through `<enhanced:img>`, and `static/` only holds files that need a fixed URL.** An SVG can't be enhanced: import it with `?url`, and `<enhanced:img>` given that string renders a plain `<img>`. For an image passed in as a value, the widths come from the query that imported it, so its `sizes` attribute must match that query's. `<enhanced:img>` becomes a `<picture>` that `layout.css` sets to `display: contents`; style it through a class, since `svelte-check` sees no `<img>` there.
 - **A component `<style>` block uses `@reference "#app.css"`**, never a relative path. The commented-out block in `src/routes/contact/+page.svelte` still has the old `../../app.css`, which no longer resolves.
-- **Internal links go through `resolve()` from `$app/paths`**, which `eslint-plugin-svelte` enforces. A file of external links disables the rule at its top, as `post.svelte` does, rather than the rule being weakened globally.
+- **Internal links go through `resolve()` from `$app/paths`**, which `eslint-plugin-svelte` enforces on `<a>` only - **a `Button`'s `href` isn't checked**, so write `resolve()` there yourself. An `<a>` to an external URL in a variable disables the rule for that line or file, rather than the rule being weakened globally.
 
 ## Commands
 
@@ -63,7 +64,7 @@ pnpm test:unit    # Vitest: the *.test.ts beside the code; not run in CI
 
 The reasons are in [`conventions.md`](conventions.md):
 
-- **Colours in new or changed code come from the `@theme` tokens, never from a literal** - no hex, `rgb()` or Tailwind palette class such as `bg-emerald-500`. The palette classes already in `layout.css` and the pages predate the rule and go in the UI refresh; do not copy them. If a component seems to need a colour the theme does not offer, **say so and ask**: a colour is added to the theme only after a human has agreed to it.
+- **Colours come from the theme tokens - `bg-card`, `text-muted-foreground`, `bg-mark` - never from a literal**: no hex, `rgb()` or Tailwind palette class such as `bg-emerald-500`. If a component seems to need a colour the theme does not offer, **say so and ask**: a colour is added to the theme only after a human has agreed to it.
 - **Commit subjects open with a topic tag**, then a short lowercase imperative - `blog : add the homelab post` - and `wip` follows the tag for unfinished work. Strongly recommended, not a hard rule: if a commit seems not to fit one, ask rather than leave it out. Renovate's `chore(deps): …` subjects are its own, not a pattern to copy.
 - **Prettier formats the whole repository, Markdown included**; run `pnpm format` before pushing. `.agents/` and `skills-lock.json` are excluded and must stay so - the vendored skills carry deliberately broken code samples that Prettier's parsers throw on.
 - **Open work is a checkbox under TODOs in `README.md`.** Remove an entry once it ships rather than ticking it.

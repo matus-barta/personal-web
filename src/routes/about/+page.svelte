@@ -1,4 +1,7 @@
 <script lang="ts">
+	import ConstructionIcon from '@lucide/svelte/icons/construction';
+	import * as Empty from '#lib/components/ui/empty/index.js';
+	import PageHeader from '#lib/components/page-header.svelte';
 	import { pageTitle } from '#lib/utils/page-title.js';
 </script>
 
@@ -6,7 +9,14 @@
 	<title>{pageTitle('About')}</title>
 </svelte:head>
 
-<h1>About Me</h1>
-<h3 class="special">Under construction...</h3>
+<PageHeader title="About Me" description="Under construction..." />
 
-<div class="mt-5 flex flex-col rounded-xl bg-gray-700 px-3 pt-6 pb-6 shadow-md md:px-6"></div>
+<Empty.Root class="border">
+	<Empty.Header>
+		<Empty.Media variant="icon">
+			<ConstructionIcon />
+		</Empty.Media>
+		<Empty.Title>Nothing here yet</Empty.Title>
+		<Empty.Description>This page is still being written.</Empty.Description>
+	</Empty.Header>
+</Empty.Root>

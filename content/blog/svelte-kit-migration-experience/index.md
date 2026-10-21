@@ -3,7 +3,6 @@ title: Svelte Kit migration experience
 date: '2022-10-29'
 description: 'How hard it can be? -Jeremy Clarkson'
 img: ./1.jpg
-img_transparent: false
 published: true
 ---
 
