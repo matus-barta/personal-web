@@ -1,9 +1,9 @@
 <script lang="ts">
 	import ArrowRightIcon from '@lucide/svelte/icons/arrow-right';
 	import * as Card from '#lib/components/ui/card/index.js';
+	import LatestPosts from '#lib/components/latest-posts.svelte';
 	import { Button } from '#lib/components/ui/button/index.js';
 	import { pageTitle } from '#lib/utils/page-title.js';
-	import { formatDate } from '#lib/utils/format-date.js';
 	import type { PageData } from './$types';
 	import { resolve } from '$app/paths';
 
@@ -64,19 +64,7 @@
 	<Card.Content>
 		<section class="flex flex-col gap-2">
 			<h2 class="text-xl font-bold tracking-tight md:text-2xl">Latest Blog Posts</h2>
-			<ul class="flex flex-col gap-1 text-base">
-				{#each data.posts as post (post.slug)}
-					<li data-testid="latest_blog_post" class="flex flex-wrap items-baseline gap-x-2">
-						<a
-							class="text-primary hover:text-link-hover hover:underline"
-							href={resolve('/blog/[slug]', { slug: post.slug })}>{post.title}</a
-						>
-						<time class="text-xs text-muted-foreground" datetime={post.date}>
-							{formatDate(post.date)}
-						</time>
-					</li>
-				{/each}
-			</ul>
+			<LatestPosts posts={data.posts} />
 		</section>
 	</Card.Content>
 	<Card.Footer>
