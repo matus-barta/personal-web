@@ -50,7 +50,7 @@ How the pieces fit together - one SvelteKit app prerendered to static files and 
 
 ### Code
 
-- [ ] The rewrite, planned in [`REWRITE.md`](REWRITE.md): shadcn-svelte's components, a mobile layout and a layout refresh
+- [ ] The rewrite, planned in [`REWRITE.md`](REWRITE.md): shadcn-svelte's components and a layout refresh
 
 ### Post ideas
 

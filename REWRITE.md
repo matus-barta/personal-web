@@ -2,7 +2,7 @@
 
 Researched and verified on 2026-10-20. Versions come from the npm registry on that date. Claims about this repository name the file they come from; claims about anything else link their source where they're made.
 
-**Suggested order:** 10 (mobile) → 11 (layout refresh) → 9 (content), each its own pull request. Most of 1 - the shadcn-svelte theme and components - landed first, on its own; what's left of it goes with 10, 11 and 9. 2 (Vite+) waits for full Svelte support. Items in 8 can land at any point: the `/blog` date fits with 11.
+**Suggested order:** 11 (layout refresh) → 9 (content), each its own pull request. Most of 1 - the shadcn-svelte theme and components - landed first, on its own; what's left of it goes with 11 and 9. 2 (Vite+) waits for full Svelte support. Items in 8 can land at any point: the `/blog` date fits with 11.
 
 ## Decisions
 
@@ -90,7 +90,6 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
 
 ## 8. Technical review
 
-- [ ] **Mobile layout:** see 10.
 - [ ] **`/blog`** shows the raw `post.date`; `/` and the post page use `formatDate()`.
 - [ ] **SEO:**
   - [ ] No meta description, Open Graph tags or canonical URL (`app.html` has only `charset`, `viewport` and `text-scale`). `paths.origin` is already `SITE_URL`, so `page.url.href` gives the canonical URL while prerendering.
@@ -156,14 +155,6 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
 
 - [ ] A dark/light toggle; shadcn-svelte's [dark mode docs](https://shadcn-svelte.com/docs/dark-mode/svelte) use `mode-watcher`.
 - [ ] Post ideas are listed in the README's TODOs: Open-RMM updates and the homelab.
-
-## 10. Mobile-first layout
-
-The site is laid out for desktop and shrunk down. Confirmed in screenshots on 2026-10-20: at 375 px every route is 75 px wider than the screen, which is exactly the 450 px minimum width.
-
-- [ ] **Verify and guard:**
-  - [ ] Take Playwright screenshots of every route at 360, 390 and 430 px.
-  - [ ] Add an e2e check that `document.documentElement.scrollWidth <= window.innerWidth` on every route at 360 px, so horizontal scrolling can't come back unnoticed.
 
 ## 11. Layout refresh: same base, more modern
 
