@@ -2,7 +2,7 @@
 
 Researched and verified on 2026-10-20. Versions come from the npm registry on that date. Claims about this repository name the file they come from; claims about anything else link their source where they're made.
 
-**Suggested order:** 10 (mobile) → 11 (layout refresh) → 9 (content), each its own pull request. Most of 1 - the shadcn-svelte theme and components - landed first, on its own; what's left of it goes with 10, 11 and 9. 2 (Vite+) waits for full Svelte support. Items in 8 can land at any point: the dead nav class and the SVG sizes fit with 10, the `/blog` date with 11.
+**Suggested order:** 10 (mobile) → 11 (layout refresh) → 9 (content), each its own pull request. Most of 1 - the shadcn-svelte theme and components - landed first, on its own; what's left of it goes with 10, 11 and 9. 2 (Vite+) waits for full Svelte support. Items in 8 can land at any point: the SVG sizes fit with 10, the `/blog` date with 11.
 
 ## Decisions
 
@@ -16,7 +16,6 @@ Installed: [`shadcn-svelte`](https://www.npmjs.com/package/shadcn-svelte) 1.7.0,
 
 - [ ] Components to use (all in the [component list](https://shadcn-svelte.com/docs/components)):
   - [ ] `Badge`: tags (see 9)
-  - [ ] `Sheet`: the mobile menu (see 10).
   - [ ] `Navigation Menu`: the desktop links, with the current page marked (see 11).
 - [ ] Skip `form` for now. The registry's `form` [still pins](https://shadcn-svelte.com/registry/form.json) `sveltekit-superforms@^2.28.1`, which rejects Kit 3 ([issue #2915](https://github.com/huntabyte/shadcn-svelte/issues/2915), open). [`sveltekit-superforms`](https://www.npmjs.com/package/sveltekit-superforms) 3.0.0 (2026-10-04) accepts Kit 3, so re-check once the registry moves to it.
 - [ ] Icons: [Lucide v1 removed every brand icon](https://lucide.dev/guide/version-1), GitHub's included. Keep the SVGs in `src/lib/assets/social/`, or use [Simple Icons](https://simpleicons.org), which Lucide recommends.
@@ -92,12 +91,11 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
 ## 8. Technical review
 
 - [ ] **Mobile layout:** see 10.
-- [ ] **Dead class:** the nav's `bg-opacity-30` does nothing; [Tailwind v4 removed](https://tailwindcss.com/docs/upgrade-guide) `bg-opacity-*` and the other `*-opacity-*` utilities. Use `bg-…/30`.
 - [ ] **`/blog`** shows the raw `post.date`; `/` and the post page use `formatDate()`.
 - [ ] **SEO:**
   - [ ] No meta description, Open Graph tags or canonical URL (`app.html` has only `charset`, `viewport` and `text-scale`). `paths.origin` is already `SITE_URL`, so `page.url.href` gives the canonical URL while prerendering.
   - [ ] No `sitemap.xml`, and `robots.txt` has no `Sitemap:` line.
-- [ ] **Images:** the SVGs still have no `width` or `height` (layout shift): the nav logo, the SVG project logos and the two SVG covers. enhanced-img gives the raster images theirs.
+- [ ] **Images:** the SVGs still have no `width` or `height` (layout shift): the SVG project logos and the two SVG covers. enhanced-img gives the raster images theirs.
 - [ ] **Leftovers:**
   - [ ] `/contact` (with its commented-out form and its dead `@reference "../../app.css"`) and `/success` go; see 9.
 
@@ -164,7 +162,6 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
 
 The site is laid out for desktop and shrunk down. Confirmed in screenshots on 2026-10-20: at 375 px every route is 75 px wider than the screen, which is exactly the 450 px minimum width.
 
-- [ ] **Nav:** the logo and four bold links don't fit at 375 px; "Contact" is cut off. Add a mobile menu (shadcn `Sheet`, see 1) below `sm:`.
 - [ ] **Home:** the 128 px avatar (`size-32`, in the card header's `Card.Action`) sits beside the intro and squeezes the text. Stack them on phones and go side by side from `sm:`.
 - [ ] **`/blog` list:** each row is a 192 px image (`w-48`) plus text, which leaves the text about 155 px at 375 px (about 125 px once the minimum width goes). Use `flex-col` on phones and `sm:flex-row` above.
 - [ ] **Blog post:** check it at 360 px. `prose` now sets the code blocks (scrolling inside, no side margin) and the lists, and the title and date stack in the card header.
@@ -177,11 +174,7 @@ The site is laid out for desktop and shrunk down. Confirmed in screenshots on 20
 
 Keep the dark background, the green accent, the skewed `@anonymus09` highlight and the space avatar. What makes the site look dated (seen in screenshots at 1280 and 375 px) is mostly spacing, image sizes and typography.
 
-- [ ] **One container width:** the nav uses `max-w-6xl` (`nav.svelte`) and the content `max-w-5xl` (`+layout.svelte`), so the nav's edges don't line up with the content card's. Use one width for both.
-- [ ] **Nav:**
-  - [ ] Highlight the current page.
-  - [ ] Make it sticky and slightly translucent; it needs a real background, as `bg-opacity-30` is dead (8).
-  - [ ] A menu button on phones (10).
+- [ ] **Nav:** highlight the current page, for example by turning its icon green, as the icons in the phone menu are.
 - [ ] **Typography:**
   - [ ] Inter is self-hosted through [Fontsource](https://fontsource.org) since the shadcn-svelte `init`. Add JetBrains Mono (decided) for code the same way, and record its licence in `THIRD-PARTY-NOTICES.md` beside Inter's.
   - [ ] Post text ran about 100 characters per line at 1280 px (measured before `prose`); aim for 65–75. Posts are in `prose` now, but `max-w-none` in `blog-layout.svelte` keeps the old column; set the column, or drop it for prose's own 65ch.

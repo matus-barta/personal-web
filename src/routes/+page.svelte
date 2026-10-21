@@ -18,7 +18,7 @@
 	<title>{pageTitle()}</title>
 </svelte:head>
 
-<Card.Root>
+<Card.Root class="mt-6 md:mt-10">
 	<!-- a third row takes the avatar's extra height, so the text stays together at the top -->
 	<Card.Header class="grid-rows-[auto_auto_1fr]">
 		<Card.Title class="text-2xl font-bold tracking-tight md:text-4xl">

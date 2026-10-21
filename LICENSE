@@ -48,6 +48,8 @@ granted by this file:
 
   Personal and project images
     src/lib/assets/logo.svg                   personal logo
+    src/lib/assets/logo-mark.svg              the personal logo's mark alone, for
+                                              the nav
     src/lib/assets/projects/openrmm.png       the author's project logo
     src/lib/assets/projects/personalweb.png   the author's project logo
 
