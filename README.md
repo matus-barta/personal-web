@@ -35,9 +35,12 @@ How to set up and check the site is in [`.claude/development-setup.md`](.claude/
 | `src/lib/assets/`            | Images imported through Vite, so they get hashed filenames                    |
 | `src/lib/config.ts`          | The site's constants, read by the pages and the tests                         |
 | `src/lib/posts.ts`           | Reads the blog posts, for every route that lists or shows them                |
-| `src/lib/types/`, `-/utils/` | The `Post` type, `formatDate()` and `pageTitle()`                             |
+| `src/lib/projects.ts`        | Reads the project blurbs for `/projects`                                      |
+| `src/lib/markdown/`          | The rehype plugin that gives Markdown headings their ids                      |
+| `src/lib/types/`, `-/utils/` | The `Post` and `Project` types, `formatDate()` and `pageTitle()`              |
 | `blogposts/`                 | Blog post Markdown, deliberately outside `src/`                               |
-| `static/`                    | Served verbatim: blog images under `/media/`, the Prism theme                 |
+| `content/projects/`          | The project blurbs on `/projects`, as Markdown                                |
+| `static/`                    | Served verbatim: blog images under `/media/`                                  |
 | `.claude/`                   | Agent instructions, and the pages explaining the architecture and conventions |
 | `.agents/skills/`            | Vendored agent skills, linked into `.claude/skills/`                          |
 

@@ -2,10 +2,10 @@
 // config.ts exists. A type-only import, like Post below, is erased and never resolved.
 // For the same reason a spec can't import a module that itself imports from #lib, such
 // as pageTitle(): it builds the expected titles from SITE_NAME instead.
-import { LATEST_POSTS_LIMIT, PROJECTS_COUNT, SITE_NAME } from '../lib/config.js';
+import { LATEST_POSTS_LIMIT, SITE_NAME } from '../lib/config.js';
 import type { Post } from '#lib/types/post.js';
 import { expect, test, type APIRequestContext } from '@playwright/test';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 
 async function getPublishedPosts(request: APIRequestContext): Promise<Post[]> {
 	const response = await request.get('/api/posts.json');
@@ -32,9 +32,12 @@ test('check content of blog', async ({ page, request }) => {
 	await expect(page.getByTestId(`blog_post`)).toHaveCount(posts.length);
 });
 
+// one card per file in content/projects/
 test('check content of projects', async ({ page }) => {
+	const projects = readdirSync(new URL('../../content/projects', import.meta.url));
+
 	await page.goto('/projects');
-	await expect(page.getByTestId(`post`)).toHaveCount(PROJECTS_COUNT);
+	await expect(page.getByTestId(`post`)).toHaveCount(projects.length);
 });
 
 test('check content of blogpost open-rmm', async ({ page }) => {

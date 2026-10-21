@@ -11,7 +11,6 @@
 
 <svelte:head>
 	<title>{pageTitle(data.frontmatter.title)}</title>
-	<link href="/prism/prism.css" rel="stylesheet" />
 </svelte:head>
 
 <div data-testid="blog_post" class="window">

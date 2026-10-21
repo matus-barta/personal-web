@@ -1,16 +1,12 @@
 <script lang="ts">
 	/* eslint-disable svelte/no-navigation-without-resolve */
-	import SvelteMarkdown from 'svelte-markdown';
-	interface Props {
-		img: string;
-		img_alt: string;
-		text: string;
-		title: string;
-		excerpt: string;
-		github: string;
+	import type { Component } from 'svelte';
+	import type { Project } from '#lib/types/project.js';
+	interface Props extends Omit<Project, 'order'> {
+		body: Component;
 	}
 
-	let { img, img_alt, text, title, excerpt, github }: Props = $props();
+	let { img, img_alt, body: Body, title, excerpt, github }: Props = $props();
 
 	import gh from '#lib/assets/social/gh.svg';
 	import gh_grey from '#lib/assets/social/gh-grey.svg';
@@ -49,7 +45,7 @@
 		</a>
 	</div>
 	<div>
-		<SvelteMarkdown source={text} />
+		<Body />
 	</div>
 	<div class="mt-3 mb-10 h-0.5 rounded-xl bg-slate-500"></div>
 </div>
