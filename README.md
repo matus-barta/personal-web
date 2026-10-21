@@ -52,10 +52,12 @@ How the pieces fit together - one SvelteKit app prerendered to static files and 
 
 - [ ] The rewrite, planned in [`REWRITE.md`](REWRITE.md): shadcn-svelte's components, a mobile layout and a layout refresh
 
-### Blog
+### Post ideas
 
-- [ ] Open-RMM update
-- [ ] Some homelab-ing stuff
+Topics to think about writing up; none is scheduled.
+
+- [ ] Open-RMM: a new update whenever the project moves on
+- [ ] The homelab: the hardware and the services it runs
 
 ## License
 

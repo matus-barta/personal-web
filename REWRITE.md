@@ -133,7 +133,7 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
 **New pages** ("slash pages", see [slashpages.net](https://slashpages.net)):
 
 - [ ] `/uses`: dev setup, software and homelab hardware ([uses.tech](https://uses.tech)). It's about gear, not you.
-- [ ] `/homelab`: hardware, the services you run, and a high-level Mermaid diagram of how they fit together. It suits the "homelab enthusiast" tagline and the planned post (README: "Some homelab-ing stuff").
+- [ ] `/homelab`: hardware, the services you run, and a high-level Mermaid diagram of how they fit together. It suits the "homelab enthusiast" tagline and the homelab post among the README's post ideas.
   - [ ] Leave out IPs, domain names and network layout. Publishing those is a security risk, not just a privacy one.
 - [ ] `/now`: what you're focused on currently ([nownownow.com](https://nownownow.com/about)). It can stay vague: "working on Open-RMM, playing X".
 - [ ] `/colophon`: how the site is built, with the stack, hosting and the licence split.
@@ -158,7 +158,7 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
 **Other:**
 
 - [ ] A dark/light toggle; shadcn-svelte's [dark mode docs](https://shadcn-svelte.com/docs/dark-mode/svelte) use `mode-watcher`.
-- [ ] Post backlog already in the README: the Open-RMM update and the homelab post.
+- [ ] Post ideas are listed in the README's TODOs: Open-RMM updates and the homelab.
 
 ## 10. Mobile-first layout
 
