@@ -149,10 +149,6 @@
 	}
 }
 
-body {
-	@apply min-w-[450px];
-}
-
 /*
   The Markdown mdsvex compiles - the posts and the project blurbs - carries no classes, so it
   is styled by the typography plugin's prose class, in the theme's colours. Unlike bare

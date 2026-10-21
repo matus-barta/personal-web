@@ -17,13 +17,13 @@
 </script>
 
 <footer
-	class="flex h-10 w-full items-center justify-center gap-1 bg-card p-2 text-sm text-muted-foreground"
+	class="flex min-h-10 w-full flex-wrap items-center justify-center gap-1 bg-card p-2 text-sm text-muted-foreground"
 >
 	<p>• Matúš Barta • &copy {new Date().getFullYear()} •</p>
 	<div class="flex">
 		{#each links as link (link.href)}
 			<Button variant="ghost" size="icon-sm" href={link.href} aria-label={link.label}>
-				<img src={link.icon} alt="" class="size-5" />
+				<img src={link.icon} alt="" width="20" height="20" class="size-5" />
 			</Button>
 		{/each}
 	</div>

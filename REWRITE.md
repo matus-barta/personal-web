@@ -97,7 +97,7 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
 - [ ] **SEO:**
   - [ ] No meta description, Open Graph tags or canonical URL (`app.html` has only `charset`, `viewport` and `text-scale`). `paths.origin` is already `SITE_URL`, so `page.url.href` gives the canonical URL while prerendering.
   - [ ] No `sitemap.xml`, and `robots.txt` has no `Sitemap:` line.
-- [ ] **Images:** the SVGs still have no `width` or `height` (layout shift): the nav logo, the social icons, the SVG project logos and the two SVG covers. enhanced-img gives the raster images theirs.
+- [ ] **Images:** the SVGs still have no `width` or `height` (layout shift): the nav logo, the SVG project logos and the two SVG covers. enhanced-img gives the raster images theirs.
 - [ ] **Leftovers:**
   - [ ] `/contact` (with its commented-out form and its dead `@reference "../../app.css"`) and `/success` go; see 9.
 
@@ -164,16 +164,11 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
 
 The site is laid out for desktop and shrunk down. Confirmed in screenshots on 2026-10-20: at 375 px every route is 75 px wider than the screen, which is exactly the 450 px minimum width.
 
-- [ ] **Global:**
-  - [ ] Remove `min-w-[450px]` from `body` (`layout.css`) and the nav (`nav.svelte`). Phones are mostly 360–430 px wide.
-  - [ ] Use `w-full` instead of the nav's `w-screen` (`100vw`), so the nav follows the page width.
-  - [ ] Root layout (`+layout.svelte`): `h-screen` → `min-h-dvh`. The content wrapper's `p-8 pt-24` → smaller padding on phones, growing at `md:`.
 - [ ] **Nav:** the logo and four bold links don't fit at 375 px; "Contact" is cut off. Add a mobile menu (shadcn `Sheet`, see 1) below `sm:`.
 - [ ] **Home:** the 128 px avatar (`size-32`, in the card header's `Card.Action`) sits beside the intro and squeezes the text. Stack them on phones and go side by side from `sm:`.
 - [ ] **`/blog` list:** each row is a 192 px image (`w-48`) plus text, which leaves the text about 155 px at 375 px (about 125 px once the minimum width goes). Use `flex-col` on phones and `sm:flex-row` above.
 - [ ] **Blog post:** check it at 360 px. `prose` now sets the code blocks (scrolling inside, no side margin) and the lists, and the title and date stack in the card header.
 - [ ] **Project cards (`post.svelte`):** the 128 px logo, the title and the GitHub button share the card header. Shrink the logo or put the title under it on phones; the excerpt and the badges already wrap.
-- [ ] **Footer:** the fixed `h-10` (`footer.svelte`) clips the row when it wraps. Use `min-h` and `flex-wrap`. The icons are already 28 px buttons (shadcn's `icon-sm`), above the 24×24 px of [WCAG 2.5.8](https://www.w3.org/TR/WCAG22/#target-size-minimum).
 - [ ] **Verify and guard:**
   - [ ] Take Playwright screenshots of every route at 360, 390 and 430 px.
   - [ ] Add an e2e check that `document.documentElement.scrollWidth <= window.innerWidth` on every route at 360 px, so horizontal scrolling can't come back unnoticed.
@@ -204,6 +199,6 @@ Keep the dark background, the green accent, the skewed `@anonymus09` highlight a
   - [ ] a small logo
   - [ ] a link to any related blog post
 - [ ] **Footer:**
-  - [ ] Compact, and allowed to wrap on phones (10).
+  - [ ] Compact.
   - [ ] Add an RSS icon, a "source on GitHub" link, and a short licence note: the code is MIT and the content is all rights reserved (`LICENSE`).
 - [ ] **Motion:** subtle page transitions with `onNavigate` and `document.startViewTransition`, as the [Svelte blog](https://svelte.dev/blog/view-transitions) shows ([MDN](https://developer.mozilla.org/en-US/docs/Web/API/View_Transition_API)). Respect `prefers-reduced-motion`.
