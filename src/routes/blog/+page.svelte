@@ -21,9 +21,10 @@
 	<div class="flex flex-col space-y-10">
 		{#each data.posts as post (post.slug)}
 			<div data-testid="blog_post" class="flex">
-				<img
+				<enhanced:img
 					src={post.img}
 					alt="blog post logo"
+					sizes="(min-width: 768px) 384px, 192px"
 					class={[
 						'mr-4 w-48 rounded-xl object-cover md:mr-8 md:w-96',
 						post.img_transparent && 'bg-slate-100 p-3'

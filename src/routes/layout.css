@@ -94,6 +94,11 @@ img {
 	@apply rounded-lg;
 }
 
+/* enhanced-img wraps each image in a <picture>; this lays the <img> out as if it weren't. */
+picture {
+	@apply contents;
+}
+
 .window {
 	@apply flex flex-col rounded-xl bg-window-gray;
 }

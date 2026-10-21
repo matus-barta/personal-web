@@ -4,7 +4,6 @@
 	import type { PageData } from './$types';
 	import { resolve } from '$app/paths';
 
-	import ksp from '#lib/assets/ksp.jpg';
 	interface Props {
 		data: PageData;
 	}
@@ -34,7 +33,13 @@
 				href={resolve('/about')}>More on About page</a
 			>
 		</div>
-		<img class="ml-2 h-32 w-32 rounded-full! md:h-40 md:w-40" src={ksp} alt="avatar" />
+		<!-- shown at 128 or 160px, so 160 and 320px wide are enough for any screen -->
+		<enhanced:img
+			class="ml-2 h-32 w-32 rounded-full! md:h-40 md:w-40"
+			src="#lib/assets/ksp.jpg?w=320;160"
+			sizes="(min-width: 768px) 160px, 128px"
+			alt="avatar"
+		/>
 	</div>
 	<div class="pt-6 pb-6">
 		<h1 class="mb-1 text-2xl font-bold tracking-tight md:text-4xl">Latest Blog Posts</h1>

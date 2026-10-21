@@ -1,8 +1,10 @@
 <script lang="ts">
 	/* eslint-disable svelte/no-navigation-without-resolve */
 	import type { Component } from 'svelte';
+	import type { Picture } from '@sveltejs/enhanced-img';
 	import type { Project } from '#lib/types/project.js';
-	interface Props extends Omit<Project, 'order'> {
+	interface Props extends Omit<Project, 'order' | 'img'> {
+		img: Picture | string;
 		body: Component;
 	}
 
@@ -14,7 +16,7 @@
 
 <div data-testid="post">
 	<div class="flex">
-		<img src={img} alt={img_alt} class="h-32 w-32 rounded-xl bg-white p-2" />
+		<enhanced:img src={img} alt={img_alt} sizes="128px" class="h-32 w-32 rounded-xl bg-white p-2" />
 		<div class="relative h-32 w-full">
 			<h1 class="absolute bottom-0 pb-0 pl-3">{title}</h1>
 		</div>

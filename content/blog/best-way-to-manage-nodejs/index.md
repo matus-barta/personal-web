@@ -2,7 +2,7 @@
 title: Best way to manage Node.js
 date: '2022-02-25'
 description: Quick how-to, to manage Node installation.
-img: /media/blog/best-way-to-manage-nodejs/nodejs-logo-flat.svg
+img: ./nodejs-logo-flat.svg
 img_transparent: true
 published: true
 ---
