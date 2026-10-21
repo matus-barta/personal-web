@@ -195,7 +195,6 @@ Keep the dark background, the green accent, the skewed `@anonymus09` highlight a
   - [ ] No font is set, so the site uses Tailwind's default system font stack and renders in each OS's own font. Self-host one sans-serif and one monospace font (for example with [Fontsource](https://fontsource.org)), and record their licences in `THIRD-PARTY-NOTICES.md`.
   - [ ] Post text runs about 100 characters per line at 1280 px (measured); aim for 65–75 (`max-w-prose`, or typography's `prose`; see 1).
 - [ ] **`/blog`:**
-  - [ ] Crop every cover to one aspect ratio (16:9, `aspect-video object-cover`). Today the images have a fixed width but no fixed height, so each row is a different height.
   - [ ] Cards in two columns on desktop, one on phones.
   - [ ] Show the formatted date (8), with reading time and tags (9).
 - [ ] **Home:** keep the hero section, and add a "Featured projects" row of 2–3 cards under the latest posts.

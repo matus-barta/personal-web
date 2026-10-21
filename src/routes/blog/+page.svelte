@@ -10,6 +10,16 @@
 	}
 
 	let { data }: Props = $props();
+
+	type Post = PageData['posts'][number];
+
+	// Covers share one 16:9 frame. One wider than that would lose its sides to cropping, so it
+	// is fitted instead, as is a transparent one, on a backdrop that shows where it ends.
+	function coverFit(post: Post) {
+		if (post.img_transparent) return 'bg-foreground object-contain p-3';
+		const wide = typeof post.img !== 'string' && post.img.img.w / post.img.img.h > 16 / 9;
+		return wide ? 'bg-muted object-contain' : 'object-cover';
+	}
 </script>
 
 <svelte:head>
@@ -30,10 +40,7 @@
 					src={post.img}
 					alt=""
 					sizes="(min-width: 768px) 384px, 192px"
-					class={[
-						'w-48 shrink-0 rounded-lg object-cover md:w-96',
-						post.img_transparent && 'bg-foreground p-3'
-					]}
+					class={['aspect-video w-48 shrink-0 rounded-lg md:w-96', coverFit(post)]}
 				/>
 				<div class="flex w-full flex-col justify-between gap-2 py-1">
 					<div class="flex flex-col gap-2">
