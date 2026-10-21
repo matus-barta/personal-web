@@ -3,8 +3,25 @@ import { defineConfig } from 'vitest/config';
 import { playwright } from '@vitest/browser-playwright';
 import adapter from '@sveltejs/adapter-static';
 import { sveltekit } from '@sveltejs/kit/vite';
-import { mdsvex } from 'mdsvex';
+import { escapeSvelte, mdsvex } from 'mdsvex';
+import { createHighlighter } from 'shiki';
 import { SITE_URL } from './src/lib/config.js';
+import { rehypeHeadingIds } from './src/lib/markdown/heading-ids.js';
+
+// One instance for the whole build, as Shiki recommends. Only the languages the posts use
+// are loaded, so a code block in any other fails the build until it is added here.
+const highlighter = createHighlighter({
+	themes: ['monokai'],
+	langs: ['bash', 'dockerfile', 'html', 'js', 'ts', 'markdown', 'yaml']
+});
+
+// Highlights at build time; the output carries its colours inline, so no theme ships.
+// The HTML goes through {@html `…`}, hence escaping the braces and backticks Svelte would
+// read, and every backslash, which the template literal would otherwise swallow.
+async function highlight(code: string, lang: string | null | undefined) {
+	const html = (await highlighter).codeToHtml(code, { lang: lang ?? 'text', theme: 'monokai' });
+	return `{@html \`${escapeSvelte(html.replaceAll('\\', '&#92;'))}\`}`;
+}
 
 export default defineConfig({
 	plugins: [
@@ -20,8 +37,15 @@ export default defineConfig({
 			adapter: adapter({ fallback: '404.html' }),
 			// url.origin while prerendering, which is otherwise http://sveltekit-prerender
 			paths: { origin: SITE_URL },
-			// blog posts are authored as markdown and compiled to components
-			preprocess: [mdsvex({ extensions: ['.svx', '.md'] })],
+			// Blog posts and project blurbs are authored as markdown and compiled to components.
+			// Every heading gets an id, so a post can link to #its-heading.
+			preprocess: [
+				mdsvex({
+					extensions: ['.svx', '.md'],
+					highlight: { highlighter: highlight },
+					rehypePlugins: [rehypeHeadingIds]
+				})
+			],
 			extensions: ['.svelte', '.svx', '.md']
 		})
 	],

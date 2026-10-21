@@ -105,7 +105,7 @@ There are few reasons why:
 - the other reason is, the service is pretty stable and mature while it still gets many features
 - and the lasts thing _(this is probably may be same with Appwrite)_ it has pretty generous free tier so the early hosting can be done on the free tier with not many downsides
 
-Of course these are not only upsides of using Supabase. The weird bug showing error for the `getUser()` function was super annoying (mentioned in 2024 year). Also, I started using Supabase during the transition between SDKs.
+Of course these are not only upsides of using Supabase. The weird bug showing error for the `getUser()` function was super annoying (mentioned in [2024](#2024) year). Also, I started using Supabase during the transition between SDKs.
 
 ## Tech stack now
 
@@ -140,7 +140,7 @@ For now I have great experience with Shadcn, only minor issues not understating 
 
 ## Whats next?
 
-Today I made [TODO document](https://github.com/matus-barta/open-rmm/blob/master/docs/todo.md) inside the Open-RMM documentation _(yea I know, documentation, what is that?_ 😅*)*.
+Today I made [TODO document](https://github.com/matus-barta/open-rmm/blob/master/docs/todo.md) inside the Open-RMM documentation _(yea I know, documentation, what is that? 😅)_.
 In the Todo, there are things that I want to add, and to finish in near and far future _(probably more in far)_.
 
 ### The Agent

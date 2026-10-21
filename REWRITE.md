@@ -2,7 +2,7 @@
 
 Researched and verified on 2026-10-20. Versions come from the npm registry on that date. Claims about this repository name the file they come from; claims about anything else link their source where they're made.
 
-**Suggested order:** 5 + 6 (Markdown, highlighting) → 7 (assets) → 1 + 10 + 11 (shadcn, mobile and layout refresh, together) → 9 (content). 2 (Vite+) waits for full Svelte support. Items in 8 can land at any point.
+**Suggested order:** 7 (assets) → 1 + 10 + 11 (shadcn, mobile and layout refresh, together) → 9 (content). 2 (Vite+) waits for full Svelte support. Items in 8 can land at any point.
 
 ## Decisions
 
@@ -81,17 +81,11 @@ SvelteKit 3, Node 26 and the packages they needed are done. What's left:
 | [`typescript`](https://www.npmjs.com/package/typescript) | ^6.0.2    | 7.0.2       | **Stay on 6.** The peer ranges rule out 7: Kit 3 `^6.0.0`, svelte-check `^5.0.0 \|\| ^6.0.0`, typescript-eslint `>=4.8.4 <6.1.0`. Keep the Renovate pin (`allowedVersions: "<7"`). |
 | eslint, vitest, playwright, prettier…                    | caret     | minor/patch | Renovate already covers these                                                                                                                                                      |
 
-- [ ] Drop [`svelte-markdown`](https://www.npmjs.com/package/svelte-markdown) (0.4.1, last published 2023-12-25; see 5) and `static/prism/` (see 6).
+## 5. mdsvex: layouts and 1.0
 
-## 5. One Markdown path: mdsvex only
+The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.12.8 now, with Shiki highlighting the code blocks and `#lib/markdown/heading-ids.ts` giving headings their ids.
 
-Today the projects page passes Markdown strings to `svelte-markdown` at runtime (`post.svelte`), and everything else goes through mdsvex.
-
-- [ ] Move the project blurbs into files such as `content/projects/<slug>.md`, with frontmatter (`title`, `excerpt`, `github`, `img`, `order`). Load them with `import.meta.glob` the same way posts are loaded.
-  - [ ] Project images are Vite imports (`projects/+page.svelte`), so map them by name with a glob over `#lib/assets/projects/*`.
-  - [ ] Derive `PROJECTS_COUNT` in `all.e2e.ts` from the files instead of hardcoding it.
-- [ ] Remove `svelte-markdown` and the eslint-disable in `post.svelte` if nothing external remains in it.
-- [ ] Watch out:
+- [ ] Watch out, for the layout that 7 needs:
   - [ ] **mdsvex layouts break under the forced runes mode** (tested 2026-10-20 in a build). mdsvex wraps every post in `<Layout_MDSVEX_DEFAULT {...$$props}>`, and the build fails with "Cannot use `$$props` in runes mode", whether the layout uses `<slot />` or `{@render children()}`.
     - [ ] Fix (tested): leave `.md` out of forced runes in `vite.config.ts`, with `filename.split(/[/\\]/).includes('node_modules') || filename.endsWith('.md') ? undefined : true`. The posts then compile in legacy mode, while the layout itself stays a runes component.
     - [ ] With that fix, a runes layout (`let { children, ...frontmatter } = $props()`, `{@render children?.()}`) rendered every post, and a custom `img` exported from the layout's `<script module>` replaced the post's Markdown images ([custom components](https://mdsvex.pngwn.at/docs)).
@@ -101,7 +95,7 @@ Today the projects page passes Markdown strings to `svelte-markdown` at runtime 
   - [ ] It has its own parser and renderer instead of unified, and it ships as a Vite plugin (peer `vite >=5`) rather than a Svelte preprocessor.
   - [ ] It emits `let … = $props();` and no `$$props`, so it works with forced runes and needs no `.md` exclusion (tested, see below).
   - [ ] Layouts become "templates", and replacing elements moves to a `components` option.
-  - [ ] It has a built-in highlighter with every language the posts use, plus PowerShell. That could replace the Shiki plan in 6.
+  - [ ] It has a built-in highlighter with every language the posts use, plus PowerShell. That could replace Shiki.
   - [ ] There's a migration tool, [`@mdsvex/migrate`](https://www.npmjs.com/package/@mdsvex/migrate).
   - [ ] **How far along 1.0 is** (checked 2026-10-20): an early prerelease, not a release candidate.
     - [ ] The versions are tagged `next` (`next.0` on 2026-09-20, `next.1` on 2026-10-05). There's no alpha, beta or `rc` line.
@@ -114,7 +108,6 @@ Today the projects page passes Markdown strings to `svelte-markdown` at runtime 
     - [ ] Templates and `components` work under forced runes: a runes template (`let { children, ...frontmatter } = $props()`) wrapped every post, and an `img` export from `components` replaced the posts' images.
     - [ ] 0.12.8 prints a Svelte 5 deprecation warning for every post (`context="module"` is deprecated); 1.0 doesn't.
     - [ ] **Bug in 1.0:** bold around a link (`**[TailwindCSS](…)**`, `**_… [here](…)._**`) renders as `*<strong>…</strong>*`, with a stray literal `*` on each side. That's 6 places, in `open-rmm-part-deux` and `simple-nodejs-project`. Inline-delimiter fixes merged after `next.1` (for example [#931](https://github.com/pngwn/MDsveX/issues/931), [#970](https://github.com/pngwn/MDsveX/issues/970)) may already fix it.
-    - [ ] Edge case: `open-rmm-part-deux` line 143 ends in `😅*)*`. 0.12 italicises the `)`; 1.0 prints the asterisks. That source is a typo either way, so fix the post.
     - [ ] Differences that are arguably fine:
       - [ ] No typographic quotes: 0.12 turns `'`, `"` and `...` into `’`, `“ ”` and `…`; 1.0 leaves them as typed.
       - [ ] No `rel="nofollow"` added to links.
@@ -126,20 +119,7 @@ Today the projects page passes Markdown strings to `svelte-markdown` at runtime 
     - [ ] Switch when the posts match apart from quotes (or at stable 1.0.0).
       - [ ] On a prerelease: pin it exactly, turn off automerge for it in `renovate.json` (with a `description`), and list it in the README TODOs.
       - [ ] Then drop the 0.12-only work: the `.md` exclusion, Shiki through `highlight.highlighter`, and layout exports. 1.0 replaces them with templates, `components` and its built-in highlighter.
-
-## 6. Replace the vendored Prism
-
-Finding: `static/prism/prism.js` is **never loaded**. Only `prism.css` is linked, in `blog/[slug]/+page.svelte`. mdsvex already highlights at build time with Prism, which it [ships as a dependency](https://unpkg.com/mdsvex@0.12.8/package.json) ([docs](https://mdsvex.pngwn.at/docs)). The vendored files only supply the theme, and `prism.css` is also what makes code blocks scroll inside the block (see 10).
-
-- [ ] Re-check first: once mdsvex 1.0 is stable, its built-in highlighter may make Shiki unnecessary (see 5).
-- [ ] Use **[Shiki](https://shiki.style/guide/install)** 4.5.0 through mdsvex's [`highlight.highlighter`](https://mdsvex.pngwn.at/docs) option. It runs at build time, outputs inline styles, and ships no JS or CSS, so nothing gets vendored.
-  - [ ] Create one `createHighlighter` instance; the [Shiki docs](https://shiki.style/guide/install) say to keep it as a long-lived singleton.
-  - [ ] Load only the languages the posts use: bash, dockerfile, html, js, ts, markdown, yaml.
-  - [ ] Wrap the output as `{@html escapeSvelte(html)}`. `escapeSvelte` is exported by `mdsvex`, and the mdsvex docs' Shiki example uses it; without it, `{`, `}` and `${…}` in code blocks break the Svelte compile.
-  - [ ] Pick a theme that fits the palette. Use [dual themes](https://shiki.style/guide/dual-themes) if light mode is added.
-- [ ] Don't use the rehype route ([`@shikijs/rehype`](https://www.npmjs.com/package/@shikijs/rehype), [`rehype-pretty-code`](https://www.npmjs.com/package/rehype-pretty-code)); it runs into mdsvex's old unified (see 5).
-- [ ] There's no need for a "Svelte-native" runtime highlighter. [`svelte-highlight`](https://www.npmjs.com/package/svelte-highlight) ("Svelte component library for highlighting code using highlight.js") only helps for strings that exist at runtime, and those go away with 5.
-- [ ] Delete `static/prism/`, the `<link>` to it, and the PrismJS entry in `THIRD-PARTY-NOTICES.md`.
+      - [ ] Check that headings still get their `id`s, and the same ones (untested): 1.0 has no unified pipeline, so the rehype plugin in `#lib/markdown/heading-ids.ts` won't run on it. A post's `#heading` link fails the build if the id is missing.
 
 ## 7. Assets: `static/` vs `src/lib/assets/`
 
@@ -211,7 +191,7 @@ How images get processed (from the [images docs](https://svelte.dev/docs/kit/ima
   - [ ] **[healthcheck](https://github.com/matus-barta/healthcheck)**: the Docker healthcheck API; the post "Simple project for Node.js…" already covers it and links the repo.
   - [ ] **[fileserver](https://github.com/matus-barta/fileserver)**: a Svelte web UI for managing a fileserver. Its README is a single line, so expand it first.
 - [ ] [Open RMM](https://github.com/matus-barta/open-rmm):
-  - [ ] Its blurb on `/projects` still lists Express/Prisma, while the 2025 post (`open-rmm-part-deux.md`) describes the move to Rust/Axum and to Supabase. Update it.
+  - [ ] Its blurb (`content/projects/open-rmm.md`) still lists Express/Prisma, while the 2025 post (`open-rmm-part-deux.md`) describes the move to Rust/Axum and to Supabase. Update it.
   - [ ] Its link `Open_RMM` redirects (301) to `open-rmm`.
 - [ ] Move the 2022 items ([images2video](https://github.com/matus-barta/images2video) fork, [PowerShell converter](https://github.com/matus-barta/Powershell-batch-video-file-coverter)) into an "older / archive" group.
 
@@ -247,8 +227,7 @@ How images get processed (from the [images docs](https://svelte.dev/docs/kit/ima
 - [ ] Series: the two Open-RMM posts (`open-rmm.md`, `open-rmm-part-deux.md`) become "part 1/2", with links between them.
 - [ ] Reading time.
 - [ ] A table of contents on long posts.
-- [ ] Link icons on headings.
-  - [ ] They need heading `id`s, which mdsvex doesn't add. Until then a `#heading` link in a post fails the build (`handleMissingId`).
+- [ ] Link icons on headings. The headings already have `id`s (`#lib/markdown/heading-ids.ts`).
 - [ ] Previous/next links at the end of a post.
 - [ ] A copy button on code blocks.
 - [ ] A preview (OG) image per post, for social shares.
@@ -273,7 +252,7 @@ The site is laid out for desktop and shrunk down. Confirmed in screenshots on 20
 - [ ] **Home:** the 128 px avatar (`h-32 w-32`) sits beside the intro and squeezes the text. Stack them on phones and go side by side from `sm:`.
 - [ ] **`/blog` list:** each row is a 192 px image (`w-48`) plus text, which leaves the text about 155 px at 375 px (about 125 px once the minimum width goes). Use `flex-col` on phones and `sm:flex-row` above.
 - [ ] **Blog post:**
-  - [ ] Code blocks: they scroll inside the block only because `prism.css` sets `overflow: auto` on `pre[class*=language-]`. The `pre` rule in `layout.css` (`mx-8 … p-4`) doesn't. When Prism goes (6), give the Shiki output `overflow-x-auto`, or long lines will push the page sideways. Drop the side margin on phones.
+  - [ ] Code blocks scroll inside the block (`overflow-x-auto` on `pre` in `layout.css`). Drop their `mx-8` side margin on phones.
   - [ ] Header: the title and the `whitespace-nowrap` date share one row. Stack them on phones.
   - [ ] `ul` uses `ml-10`; reduce it on phones.
 - [ ] **Projects cards (`post.svelte`):**

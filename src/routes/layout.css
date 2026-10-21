@@ -56,8 +56,9 @@ h4 {
 h4.special {
 	@apply m-0 text-slate-300;
 }
+/* Shiki sets the background and text colour inline; a long line scrolls inside the block. */
 pre {
-	@apply mx-8 rounded-xl border-l-4 border-cyan-500 bg-neutral-800 p-4 text-sm;
+	@apply mx-8 overflow-x-auto rounded-xl border-l-4 border-cyan-500 p-4 text-sm;
 }
 p {
 	@apply my-2;
@@ -73,6 +74,10 @@ ul {
 
 code {
 	@apply rounded-md bg-slate-600 p-0.5 text-sm;
+}
+
+pre code {
+	@apply rounded-none bg-transparent p-0;
 }
 
 input {

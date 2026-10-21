@@ -2,34 +2,6 @@
 
 This repository contains material owned by third parties. That material is not covered by the MIT License in `LICENSE`, and this project neither licenses nor sublicenses it. Anyone reusing the source code is responsible for obtaining their own rights to the material below, or for removing it.
 
-## PrismJS
-
-`static/prism/prism.js` and `static/prism/prism.css` are a bundled build of [PrismJS](https://prismjs.com) 1.29.0, redistributed here under the MIT License.
-
-```text
-MIT LICENSE
-
-Copyright (c) 2012 Lea Verou
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
-
 ## Kerbal Space Program
 
 `src/lib/assets/ksp.jpg` is artwork from the video game Kerbal Space Program, cropped and used as the site author's avatar. It is not original work by the author of this repository, and no ownership of it is claimed here. Kerbal Space Program, its artwork and its name belong to their rights holders — the game was developed by Squad and published by Private Division (Take-Two Interactive). Reuse or redistribution is subject to those rights holders' terms; replace this file if you fork this repository for your own site.
