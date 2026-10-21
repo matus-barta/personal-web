@@ -190,6 +190,7 @@ Keep the dark background, the green accent, the skewed `@anonymus09` highlight a
 - [ ] **Typography:**
   - [ ] Inter is self-hosted through [Fontsource](https://fontsource.org) since the shadcn-svelte `init`. Add JetBrains Mono (decided) for code the same way, and record its licence in `THIRD-PARTY-NOTICES.md` beside Inter's.
   - [ ] Post text ran about 100 characters per line at 1280 px (measured before `prose`); aim for 65–75. Posts are in `prose` now, but `max-w-none` in `blog-layout.svelte` keeps the old column; set the column, or drop it for prose's own 65ch.
+- [ ] **Code block background:** Shiki writes the `monokai` theme's own `background-color:#272822` inline on every `pre`, a warm olive-grey outside the Mist palette. Change it to match the theme (untested options: replace the colour at build time through Shiki's options in `vite.config.ts`, or pick a theme whose background fits; an inline style beats any class, so CSS alone would need `!important`).
 - [ ] **Links and buttons:** review their colours and hover behaviour, which differ from place to place today.
   - [ ] Now: links in posts and project blurbs (`prose`) are mint, lime on hover and always underlined. The home page's latest posts and the `/blog` card titles are mint and lime on hover, underlined on hover on the home page only. "More on About page" (`Button variant="link"`) stays mint on hover, and the nav links are white, mint on hover.
   - [ ] The lime hover on the `/blog` card titles is too much; the card already shows hover with its green ring.
