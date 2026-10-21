@@ -1,4 +1,6 @@
 <script lang="ts">
+	import * as Card from '#lib/components/ui/card/index.js';
+	import PageHeader from '#lib/components/page-header.svelte';
 	import { pageTitle } from '#lib/utils/page-title.js';
 	import type { PageData } from './$types';
 	import { resolve } from '$app/paths';
@@ -14,32 +16,34 @@
 	<title>{pageTitle('Blog')}</title>
 </svelte:head>
 
-<h1>Personal Blog</h1>
-<h3 class="special">Here are all the blog posts</h3>
+<PageHeader title="Personal Blog" description="Here are all the blog posts" />
 
-<div class="window mt-5 px-3 py-3 shadow-md md:px-6 md:py-6">
-	<div class="flex flex-col space-y-10">
+<Card.Root>
+	<Card.Content class="flex flex-col gap-10">
 		{#each data.posts as post (post.slug)}
-			<div data-testid="blog_post" class="flex">
+			<article data-testid="blog_post" class="flex gap-4 md:gap-8">
 				<enhanced:img
 					src={post.img}
-					alt="blog post logo"
+					alt=""
 					sizes="(min-width: 768px) 384px, 192px"
 					class={[
-						'mr-4 w-48 rounded-xl object-cover md:mr-8 md:w-96',
+						'w-48 shrink-0 rounded-xl object-cover md:w-96',
 						post.img_transparent && 'bg-foreground p-3'
 					]}
 				/>
-				<div class="flex w-full flex-col justify-between rounded-xl py-1">
-					<div class="flex flex-col">
-						<h2 class="mt-0 mb-2">
-							<a href={resolve('/blog/[slug]', { slug: post.slug })}>{post.title}</a>
+				<div class="flex w-full flex-col justify-between gap-2 py-1">
+					<div class="flex flex-col gap-2">
+						<h2 class="text-xl font-bold tracking-tight md:text-2xl">
+							<a
+								class="text-primary hover:text-link-hover"
+								href={resolve('/blog/[slug]', { slug: post.slug })}>{post.title}</a
+							>
 						</h2>
-						<h4 class="special">{post.description}</h4>
+						<p class="text-muted-foreground">{post.description}</p>
 					</div>
-					<h3 class="special">{post.date}</h3>
+					<time class="text-sm text-muted-foreground" datetime={post.date}>{post.date}</time>
 				</div>
-			</div>
+			</article>
 		{/each}
-	</div>
-</div>
+	</Card.Content>
+</Card.Root>

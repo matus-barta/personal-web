@@ -1,4 +1,6 @@
 <script lang="ts">
+	import * as Card from '#lib/components/ui/card/index.js';
+	import PageHeader from '#lib/components/page-header.svelte';
 	import { pageTitle } from '#lib/utils/page-title.js';
 </script>
 
@@ -6,12 +8,13 @@
 	<title>{pageTitle('Contact')}</title>
 </svelte:head>
 
-<h1>Contact</h1>
-<h3 class="special">Feel free to contact me</h3>
+<PageHeader title="Contact" description="Feel free to contact me" />
 
-<div class="window mt-5 px-3 py-3 shadow-md md:px-6 md:py-6">
-	<p>Nothing to be found here...</p>
-</div>
+<Card.Root>
+	<Card.Content>
+		<p>Nothing to be found here...</p>
+	</Card.Content>
+</Card.Root>
 
 <!--
 <form

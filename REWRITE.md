@@ -14,19 +14,11 @@ Researched and verified on 2026-10-20. Versions come from the npm registry on th
 
 Latest versions: [`shadcn-svelte`](https://www.npmjs.com/package/shadcn-svelte) 1.7.0, [`bits-ui`](https://www.npmjs.com/package/bits-ui) 2.19.5, [`@lucide/svelte`](https://www.npmjs.com/package/@lucide/svelte) 1.60.0, [`tw-animate-css`](https://www.npmjs.com/package/tw-animate-css) 1.4.0. shadcn-svelte targets Svelte 5 and Tailwind 4 ([install guide](https://shadcn-svelte.com/docs/installation/sveltekit)), and [since 1.6.0](https://github.com/huntabyte/shadcn-svelte/releases/tag/shadcn-svelte%401.6.0) it auto-detects Kit 3's `#lib` import.
 
-- [ ] Stop the global element styles from leaking into components. The bare `button`, `a`, `img` and heading rules in `layout.css` will restyle shadcn's components.
-  - [ ] Scope blog styling to a wrapper on the post body. [`@tailwindcss/typography`](https://www.npmjs.com/package/@tailwindcss/typography) (0.5.20, `prose`) is one option. It works with Tailwind v4: add `@plugin "@tailwindcss/typography";` after `@import 'tailwindcss';` in `layout.css` ([README](https://github.com/tailwindlabs/tailwindcss-typography)); its peer range is `>=3.0.0 || >=4.0.0`.
-  - [ ] Then update the CLAUDE.md rule that says bare selectors style the posts.
 - [ ] Components to use (all in the [component list](https://shadcn-svelte.com/docs/components)):
-  - [ ] `Card`: replaces `.window`, the post list and the project cards
-  - [ ] `Button`
   - [ ] `Badge`: tech stack and tags
-  - [ ] `Separator`: the gradient bars
   - [ ] `Sheet` or `Navigation Menu`: a mobile nav
-  - [ ] `Avatar`
 - [ ] Skip `form` for now. The registry's `form` [still pins](https://shadcn-svelte.com/registry/form.json) `sveltekit-superforms@^2.28.1`, which rejects Kit 3 ([issue #2915](https://github.com/huntabyte/shadcn-svelte/issues/2915), open). [`sveltekit-superforms`](https://www.npmjs.com/package/sveltekit-superforms) 3.0.0 (2026-10-04) accepts Kit 3, so re-check once the registry moves to it.
 - [ ] Icons: [Lucide v1 removed every brand icon](https://lucide.dev/guide/version-1), GitHub's included. Keep the SVGs in `src/lib/assets/social/`, or use [Simple Icons](https://simpleicons.org), which Lucide recommends.
-- [ ] Add the copied shadcn-svelte component source (MIT) to `THIRD-PARTY-NOTICES.md`, in the same change.
 
 ## 2. Vite+ (`vp`): is it viable?
 
@@ -101,16 +93,12 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
 - [ ] **Mobile layout:** see 10.
 - [ ] **Dead class:** the nav's `bg-opacity-30` does nothing; [Tailwind v4 removed](https://tailwindcss.com/docs/upgrade-guide) `bg-opacity-*` and the other `*-opacity-*` utilities. Use `bg-…/30`.
 - [ ] **`/blog`** shows the raw `post.date`; `/` and the post page use `formatDate()`.
-- [ ] **Semantics and accessibility:**
-  - [ ] `h3.special` and `h4.special` are used for dates and descriptions: use `<p>` or `<time>` instead.
-  - [ ] Generic alt texts: "avatar", "blog post logo", "blog title".
 - [ ] **SEO:**
   - [ ] No meta description, Open Graph tags or canonical URL (`app.html` has only `charset`, `viewport` and `text-scale`). `paths.origin` is already `SITE_URL`, so `page.url.href` gives the canonical URL while prerendering.
   - [ ] No `sitemap.xml`, and `robots.txt` has no `Sitemap:` line.
 - [ ] **Images:** the SVGs still have no `width` or `height` (layout shift): the nav logo, the social icons, the SVG project logos and the one SVG cover. enhanced-img gives the raster images theirs.
 - [ ] **Leftovers:**
   - [ ] `/contact` (with its commented-out form and its dead `@reference "../../app.css"`) and `/success` go; see 9.
-- [ ] **Duplication:** the gradient bar markup appears twice (`post.svelte`, `blog/[slug]/+page.svelte`), and so does the page-header pattern (`h1` + `h3.special`, on `/blog`, `/projects`, `/about` and `/contact`). Make them components; this was the old README TODO "move common stuff to components".
 
 ## 9. Content
 

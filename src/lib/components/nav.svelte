@@ -9,7 +9,7 @@
 	<div class="mx-auto max-w-6xl px-4">
 		<div class="flex h-16 items-center justify-between">
 			<a href={resolve('/')}>
-				<img src={logo} class="h-12 w-12 rounded-none" alt="logo" />
+				<img src={logo} class="size-12" alt="logo" />
 			</a>
 			<div class="flex space-x-4">
 				<a href={resolve('/blog')}>Blog</a>

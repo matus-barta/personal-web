@@ -26,7 +26,7 @@ A commit an AI tool helped to make carries an `Assisted-by:` trailer naming the 
 
 **Prettier formats the whole repository, Markdown included** - tabs, single quotes, no trailing commas, 100 columns, with the Svelte and Tailwind plugins, set in [`prettier.config.js`](../prettier.config.js). `pnpm lint` checks it and `pnpm format` fixes it; the lint workflow comments on a failing pull request asking for exactly that.
 
-[`.prettierignore`](../.prettierignore) excludes `static/`, the lockfiles, the vendored `.agents/` tree and `skills-lock.json`. The last two must stay excluded: the vendored skills' Markdown contains deliberately broken code samples - a `$inspect.trace()` in an illegal position, among others - that Prettier's parsers throw on, so `prettier --check .` fails across the whole repository the moment those entries go.
+[`.prettierignore`](../.prettierignore) excludes `static/`, the lockfiles, shadcn-svelte's generated components in `src/lib/components/ui/` - kept as its CLI writes them, see [architecture](architecture.md#styling) - the vendored `.agents/` tree and `skills-lock.json`. The last two must stay excluded: the vendored skills' Markdown contains deliberately broken code samples - a `$inspect.trace()` in an illegal position, among others - that Prettier's parsers throw on, so `prettier --check .` fails across the whole repository the moment those entries go.
 
 ESLint runs alongside it, configured in [`eslint.config.js`](../eslint.config.js) with `eslint-config-prettier` turning off the rules that would fight Prettier.
 

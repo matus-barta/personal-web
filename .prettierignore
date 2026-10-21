@@ -12,3 +12,7 @@ bun.lockb
 # deliberately-broken code samples that Prettier's parsers reject.
 /.agents/
 skills-lock.json
+
+# shadcn-svelte's components, kept exactly as its CLI generates them so that
+# `shadcn-svelte update` can replace them.
+/src/lib/components/ui/

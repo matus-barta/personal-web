@@ -269,7 +269,7 @@ SOFTWARE.
 
 ## shadcn-svelte
 
-Some of the site's source is copied in by the [shadcn-svelte](https://github.com/huntabyte/shadcn-svelte) CLI rather than written for this repository: `src/lib/utils.ts`, and the theme variables, the `@theme inline` block and the `@layer base` rules in `src/routes/layout.css`, which its `init` wrote. They are distributed under the MIT License, with the copyright notices of Hunter Johnston, CokaKoala and shadcn - the license text above, under [vendored agent skills](#vendored-agent-skills), whose `shadcn-svelte` skill comes from the same project. The colour values in the `.dark` block of `layout.css` start from its Mist base colour, with the site's own greens on `--primary`, `--ring`, `--mark`, `--mark-foreground` and `--link-hover`.
+Some of the site's source is copied in by the [shadcn-svelte](https://github.com/huntabyte/shadcn-svelte) CLI rather than written for this repository: the components in `src/lib/components/ui/`, `src/lib/utils.ts`, and the theme variables, the `@theme inline` block and the `@layer base` rules in `src/routes/layout.css`, which its `init` wrote. They are distributed under the MIT License, with the copyright notices of Hunter Johnston, CokaKoala and shadcn - the license text above, under [vendored agent skills](#vendored-agent-skills), whose `shadcn-svelte` skill comes from the same project. The colour values in the `.dark` block of `layout.css` start from its Mist base colour, with the site's own greens on `--primary`, `--ring`, `--mark`, `--mark-foreground` and `--link-hover`.
 
 ## Fonts
 
@@ -281,7 +281,7 @@ The files below reproduce logos and marks owned by other organisations. They ide
 
 | Files                                                                              | Mark and owner                    |
 | ---------------------------------------------------------------------------------- | --------------------------------- |
-| `src/lib/assets/social/gh.svg`, `gh-grey.svg`                                      | GitHub, GitHub, Inc.              |
+| `src/lib/assets/social/gh-grey.svg`                                                | GitHub, GitHub, Inc.              |
 | `src/lib/assets/social/ig-grey.svg`                                                | Instagram, Meta Platforms, Inc.   |
 | `src/lib/assets/social/yt-grey.svg`                                                | YouTube, Google LLC               |
 | `src/lib/assets/projects/nodejs.svg`                                               | Node.js, OpenJS Foundation        |

@@ -36,6 +36,12 @@ export default defineConfig(
 		}
 	},
 	{
+		// shadcn-svelte's generated components stay as its CLI writes them. Button renders the
+		// href its caller passes, so the caller is where resolve() belongs.
+		files: ['src/lib/components/ui/**'],
+		rules: { 'svelte/no-navigation-without-resolve': 'off' }
+	},
+	{
 		// Override or add rule settings here, such as:
 		// 'svelte/button-has-type': 'error'
 		rules: {}
