@@ -4,6 +4,7 @@ date: '2025-08-25'
 description: 'Long due development update for Open-RMM'
 img: ./title.png
 img_transparent: false
+img_crop: top-left
 published: true
 ---
 

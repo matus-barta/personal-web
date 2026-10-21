@@ -4,6 +4,7 @@ date: '2023-04-05'
 description: 'Description of Open RMM project and the concepts behind it.'
 img: ./code.png
 img_transparent: false
+img_crop: top-left
 published: true
 ---
 
