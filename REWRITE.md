@@ -146,6 +146,9 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
 - [ ] Link icons on headings. The headings already have `id`s (`#lib/markdown/heading-ids.ts`).
 - [ ] Previous/next links at the end of a post.
 - [ ] A copy button on code blocks.
+  - [ ] Weigh shadcn-svelte's [Code Block](https://shadcn-svelte.com/docs/components/code-block) against a small copy button of our own, and whether it is viable now or only later. It has a header with a title, actions such as copy, line numbers and highlighted lines.
+  - [ ] Its behaviour goes against the static site: its highlighter, `useHighlightedCode`, runs Shiki's JavaScript engine in the browser and "loads each language on first use" (its docs). Today Shiki runs once, at build time (`vite.config.ts`), and ships no JavaScript. Check where those languages load from - the site's own chunks or elsewhere - and whether a prerendered page shows the code uncoloured until it runs (untested).
+  - [ ] Using it in posts means mdsvex emitting a `CodeBlock` for every code fence rather than Shiki's HTML string, which mdsvex 0.12 may not make easy (untested); mdsvex 1.0's `components` option (see 5) may. Its `CodeBlock.Line` takes already-highlighted tokens, so the build-time highlighting could feed it rather than the hook.
 - [ ] A preview (OG) image per post, for social shares.
 - [ ] Feedback without a contact form: a "Discuss / edit on GitHub" link on each post, which keeps out most spam because readers need a GitHub account.
   - [ ] Optional: [giscus](https://giscus.app), which shows GitHub Discussions comments under each post. Commenters need a GitHub account too.
@@ -164,7 +167,7 @@ Keep the dark background, the green accent, the skewed `@anonymus09` highlight a
 - [ ] **Typography:**
   - [ ] Inter is self-hosted through [Fontsource](https://fontsource.org) since the shadcn-svelte `init`. Add JetBrains Mono (decided) for code the same way, and record its licence in `THIRD-PARTY-NOTICES.md` beside Inter's.
   - [ ] Post text ran about 100 characters per line at 1280 px (measured before `prose`); aim for 65–75. Posts are in `prose` now, but `max-w-none` in `blog-layout.svelte` keeps the old column; set the column, or drop it for prose's own 65ch.
-- [ ] **Code block background:** Shiki writes the `monokai` theme's own `background-color:#272822` inline on every `pre`, a warm olive-grey outside the Mist palette. Change it to match the theme (untested options: replace the colour at build time through Shiki's options in `vite.config.ts`, or pick a theme whose background fits; an inline style beats any class, so CSS alone would need `!important`).
+- [ ] **Code block background:** decide it together with the copy button in 9, as shadcn-svelte's Code Block would change how code blocks are rendered. Shiki writes the `monokai` theme's own `background-color:#272822` inline on every `pre`, a warm olive-grey outside the Mist palette. Change it to match the theme (untested options: replace the colour at build time through Shiki's options in `vite.config.ts`, or pick a theme whose background fits; an inline style beats any class, so CSS alone would need `!important`).
 - [ ] **Links and buttons:** review their colours and hover behaviour, which differ from place to place today.
   - [ ] Now: links in posts and project blurbs (`prose`) are mint, lime on hover and always underlined. The home page's latest posts and the `/blog` card titles are mint and lime on hover, underlined on hover on the home page only. "More on About page" (`Button variant="link"`) stays mint on hover, and the nav links are white, mint on hover.
   - [ ] The lime hover on the `/blog` card titles is too much; the card already shows hover with its green ring.
