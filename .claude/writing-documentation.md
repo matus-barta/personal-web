@@ -8,7 +8,7 @@ The rules for this repository's documentation - the pages in `.claude/` and the 
 
 Documentation is Markdown read on GitHub as it is; there is no documentation site. The pages explaining the project sit in `.claude/` beside [`CLAUDE.md`](CLAUDE.md), because they are where its rules get their reasons, and they are written for people as much as for agents. A new page goes into `.claude/`, and is linked from the section of `CLAUDE.md` whose rules it explains, and from [writing instructions for AI agents](writing-agent-instructions.md#rules-there-reasons-here), which lists them.
 
-**The blog posts are content, not documentation.** `blogposts/*.md` is compiled into the site and rights reserved, and its rules are in [architecture](architecture.md#blog-posts). What this page says applies to a post only where the post makes a claim about this repository's own code.
+**The blog posts are content, not documentation.** `content/blog/*/index.md` is compiled into the site and rights reserved, and its rules are in [architecture](architecture.md#blog-posts). What this page says applies to a post only where the post makes a claim about this repository's own code.
 
 ## How a page is written
 
