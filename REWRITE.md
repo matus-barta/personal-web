@@ -2,7 +2,7 @@
 
 Researched and verified on 2026-10-20. Versions come from the npm registry on that date. Claims about this repository name the file they come from; claims about anything else link their source where they're made.
 
-**Suggested order:** 1 + 10 + 11 (shadcn, mobile and layout refresh, together) → 9 (content). 2 (Vite+) waits for full Svelte support. Items in 8 can land at any point.
+**Suggested order:** 10 (mobile) → 11 (layout refresh) → 9 (content), each its own pull request. Most of 1 - the shadcn-svelte theme and components - landed first, on its own; what's left of it goes with 10, 11 and 9. 2 (Vite+) waits for full Svelte support. Items in 8 can land at any point: the dead nav class and the SVG sizes fit with 10, the `/blog` date with 11.
 
 ## Decisions
 
