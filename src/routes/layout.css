@@ -1,36 +1,155 @@
 @import 'tailwindcss';
-
-@theme {
-	--color-accent-color: #4ff0ba;
-	--color-accent-color-lighter: #bef263;
-	--color-background: #181a1a;
-	--color-window-gray: #2c3441;
-}
-
+@import 'tw-animate-css';
+@import 'shadcn-svelte/tailwind.css';
+@import '@fontsource-variable/inter';
 /*
-  The default border color has changed to `currentcolor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
+  ---break---
+*/
+@custom-variant dark (&:is(.dark *));
 
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
+/* shadcn-svelte's Mist base colour, as init wrote it. Unused until the site has a light mode. */
+:root {
+	--background: oklch(1 0 0);
+	--foreground: oklch(0.148 0.004 228.8);
+	--card: oklch(1 0 0);
+	--card-foreground: oklch(0.148 0.004 228.8);
+	--popover: oklch(1 0 0);
+	--popover-foreground: oklch(0.148 0.004 228.8);
+	--primary: oklch(0.218 0.008 223.9);
+	--primary-foreground: oklch(0.987 0.002 197.1);
+	--secondary: oklch(0.963 0.002 197.1);
+	--secondary-foreground: oklch(0.218 0.008 223.9);
+	--muted: oklch(0.963 0.002 197.1);
+	--muted-foreground: oklch(0.56 0.021 213.5);
+	--accent: oklch(0.963 0.002 197.1);
+	--accent-foreground: oklch(0.218 0.008 223.9);
+	--destructive: oklch(0.577 0.245 27.325);
+	--border: oklch(0.925 0.005 214.3);
+	--input: oklch(0.925 0.005 214.3);
+	--ring: oklch(0.723 0.014 214.4);
+	--chart-1: oklch(0.872 0.007 219.6);
+	--chart-2: oklch(0.56 0.021 213.5);
+	--chart-3: oklch(0.45 0.017 213.2);
+	--chart-4: oklch(0.378 0.015 216);
+	--chart-5: oklch(0.275 0.011 216.9);
+	--radius: 0.625rem;
+	--sidebar: oklch(0.987 0.002 197.1);
+	--sidebar-foreground: oklch(0.148 0.004 228.8);
+	--sidebar-primary: oklch(0.218 0.008 223.9);
+	--sidebar-primary-foreground: oklch(0.987 0.002 197.1);
+	--sidebar-accent: oklch(0.963 0.002 197.1);
+	--sidebar-accent-foreground: oklch(0.218 0.008 223.9);
+	--sidebar-border: oklch(0.925 0.005 214.3);
+	--sidebar-ring: oklch(0.723 0.014 214.4);
+}
+/*
+  ---break---
 */
 /*
+  The site's palette: app.html puts .dark on <html>. Mist's dark values, with the site's
+  greens on --primary and --ring, and the tokens shadcn has no role for: --mark and
+  --mark-foreground, the skewed highlight behind @anonymus09, and --link-hover.
+*/
+.dark {
+	--background: oklch(0.148 0.004 228.8);
+	--foreground: oklch(0.987 0.002 197.1);
+	--card: oklch(0.218 0.008 223.9);
+	--card-foreground: oklch(0.987 0.002 197.1);
+	--popover: oklch(0.218 0.008 223.9);
+	--popover-foreground: oklch(0.987 0.002 197.1);
+	--primary: oklch(0.858 0.154 166.5);
+	--primary-foreground: oklch(0.262 0.051 172.552);
+	--secondary: oklch(0.275 0.011 216.9);
+	--secondary-foreground: oklch(0.987 0.002 197.1);
+	--muted: oklch(0.275 0.011 216.9);
+	--muted-foreground: oklch(0.723 0.014 214.4);
+	--accent: oklch(0.275 0.011 216.9);
+	--accent-foreground: oklch(0.987 0.002 197.1);
+	--destructive: oklch(0.704 0.191 22.216);
+	--border: oklch(1 0 0 / 10%);
+	--input: oklch(1 0 0 / 15%);
+	--ring: oklch(0.858 0.154 166.5);
+	--chart-1: oklch(0.872 0.007 219.6);
+	--chart-2: oklch(0.56 0.021 213.5);
+	--chart-3: oklch(0.45 0.017 213.2);
+	--chart-4: oklch(0.378 0.015 216);
+	--chart-5: oklch(0.275 0.011 216.9);
+	--sidebar: oklch(0.218 0.008 223.9);
+	--sidebar-foreground: oklch(0.987 0.002 197.1);
+	--sidebar-primary: oklch(0.488 0.243 264.376);
+	--sidebar-primary-foreground: oklch(0.987 0.002 197.1);
+	--sidebar-accent: oklch(0.275 0.011 216.9);
+	--sidebar-accent-foreground: oklch(0.987 0.002 197.1);
+	--sidebar-border: oklch(1 0 0 / 10%);
+	--sidebar-ring: oklch(0.56 0.021 213.5);
+	--mark: oklch(0.432 0.095 166.913);
+	--mark-foreground: oklch(0.897 0.179 126.6);
+	--link-hover: var(--mark-foreground);
+}
+/*
+  ---break---
+*/
+@theme inline {
+	--font-sans: 'Inter Variable', sans-serif;
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--color-card: var(--card);
+	--color-card-foreground: var(--card-foreground);
+	--color-popover: var(--popover);
+	--color-popover-foreground: var(--popover-foreground);
+	--color-primary: var(--primary);
+	--color-primary-foreground: var(--primary-foreground);
+	--color-secondary: var(--secondary);
+	--color-secondary-foreground: var(--secondary-foreground);
+	--color-muted: var(--muted);
+	--color-muted-foreground: var(--muted-foreground);
+	--color-accent: var(--accent);
+	--color-accent-foreground: var(--accent-foreground);
+	--color-destructive: var(--destructive);
+	--color-border: var(--border);
+	--color-input: var(--input);
+	--color-ring: var(--ring);
+	--color-chart-1: var(--chart-1);
+	--color-chart-2: var(--chart-2);
+	--color-chart-3: var(--chart-3);
+	--color-chart-4: var(--chart-4);
+	--color-chart-5: var(--chart-5);
+	--color-sidebar: var(--sidebar);
+	--color-sidebar-foreground: var(--sidebar-foreground);
+	--color-sidebar-primary: var(--sidebar-primary);
+	--color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+	--color-sidebar-accent: var(--sidebar-accent);
+	--color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+	--color-sidebar-border: var(--sidebar-border);
+	--color-sidebar-ring: var(--sidebar-ring);
+	--color-mark: var(--mark);
+	--color-mark-foreground: var(--mark-foreground);
+	--color-link-hover: var(--link-hover);
+	--radius-sm: calc(var(--radius) * 0.6);
+	--radius-md: calc(var(--radius) * 0.8);
+	--radius-lg: var(--radius);
+	--radius-xl: calc(var(--radius) * 1.4);
+	--radius-2xl: calc(var(--radius) * 1.8);
+	--radius-3xl: calc(var(--radius) * 2.2);
+	--radius-4xl: calc(var(--radius) * 2.6);
+}
+/*
+  ---break---
+*/
 @layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentcolor);
-  }
+	* {
+		@apply border-border outline-ring/50;
+	}
+	body {
+		@apply bg-background text-foreground;
+	}
+	html {
+		@apply font-sans;
+	}
 }
-*/
-html {
-	@apply bg-background text-slate-100;
-}
+
 a {
-	@apply text-accent-color hover:text-accent-color-lighter;
+	@apply text-primary hover:text-link-hover;
 }
 body {
 	@apply min-w-[450px];
@@ -46,7 +165,7 @@ h3 {
 }
 
 h3.special {
-	@apply m-0 text-sm font-normal text-slate-300;
+	@apply m-0 text-sm font-normal text-muted-foreground;
 }
 
 h4 {
@@ -54,11 +173,11 @@ h4 {
 }
 
 h4.special {
-	@apply m-0 text-slate-300;
+	@apply m-0 text-muted-foreground;
 }
 /* Shiki sets the background and text colour inline; a long line scrolls inside the block. */
 pre {
-	@apply mx-8 overflow-x-auto rounded-xl border-l-4 border-cyan-500 p-4 text-sm;
+	@apply mx-8 overflow-x-auto rounded-xl border-l-4 border-primary p-4 text-sm;
 }
 p {
 	@apply my-2;
@@ -73,22 +192,15 @@ ul {
 }
 
 code {
-	@apply rounded-md bg-slate-600 p-0.5 text-sm;
+	@apply rounded-md bg-muted p-0.5 text-sm;
 }
 
 pre code {
 	@apply rounded-none bg-transparent p-0;
 }
 
-input {
-	@apply mt-1 w-full rounded-md border border-slate-300 bg-gray-600 px-3 py-2 text-sm placeholder-slate-400 shadow-xs invalid:border-pink-500 invalid:text-pink-600 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 focus:outline-hidden focus:invalid:border-pink-500 focus:invalid:ring-pink-500 disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none;
-}
-textarea {
-	@apply mt-1 h-32 w-full rounded-md border border-slate-300 bg-gray-600 px-3 py-2 text-sm placeholder-slate-400 shadow-xs focus:border-sky-500 focus:ring-1 focus:ring-sky-500 focus:outline-hidden disabled:border-slate-200 disabled:bg-slate-50 disabled:text-slate-500 disabled:shadow-none;
-}
-
 button {
-	@apply rounded-full bg-emerald-500 px-6 py-2 text-base hover:bg-emerald-600 focus:outline-hidden active:bg-emerald-700;
+	@apply rounded-full bg-primary px-6 py-2 text-base text-primary-foreground hover:bg-primary/80;
 }
 img {
 	@apply rounded-lg;
@@ -100,5 +212,5 @@ picture {
 }
 
 .window {
-	@apply flex flex-col rounded-xl bg-window-gray;
+	@apply flex flex-col rounded-xl bg-card text-card-foreground;
 }

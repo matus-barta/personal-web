@@ -16,19 +16,24 @@
 
 <div data-testid="post">
 	<div class="flex">
-		<enhanced:img src={img} alt={img_alt} sizes="128px" class="h-32 w-32 rounded-xl bg-white p-2" />
+		<enhanced:img
+			src={img}
+			alt={img_alt}
+			sizes="128px"
+			class="h-32 w-32 rounded-xl bg-foreground p-2"
+		/>
 		<div class="relative h-32 w-full">
 			<h1 class="absolute bottom-0 pb-0 pl-3">{title}</h1>
 		</div>
 	</div>
 	<div
-		class="mt-3 mb-3 h-1 w-full rounded-xl bg-linear-to-r from-emerald-500 via-sky-500 to-blue-700"
+		class="mt-3 mb-3 h-1 w-full rounded-xl bg-linear-to-r from-mark via-primary to-mark-foreground"
 	></div>
 	<div class="flex justify-between">
 		<h3 class="special">{excerpt}</h3>
 
 		<a href={github} aria-label="{title} on GitHub" class="group">
-			<div class="flex space-x-1 hover:text-slate-300 hover:underline">
+			<div class="flex space-x-1 hover:underline">
 				<!-- the two icons cross-fade on hover and keyboard focus alike, so the
 				     state change is not mouse-only -->
 				<span class="relative mr-1 block h-4 w-4">
@@ -49,5 +54,5 @@
 	<div>
 		<Body />
 	</div>
-	<div class="mt-3 mb-10 h-0.5 rounded-xl bg-slate-500"></div>
+	<div class="mt-3 mb-10 h-0.5 rounded-xl bg-border"></div>
 </div>

@@ -21,15 +21,15 @@
 			<h1>
 				Matúš
 				<span
-					class="relative ml-2 inline-block before:absolute before:-inset-1 before:block before:-skew-y-3 before:bg-emerald-500"
+					class="relative ml-2 inline-block before:absolute before:-inset-1 before:block before:-skew-y-3 before:bg-mark"
 				>
-					<span class="relative skew-y-3 text-accent-color-lighter"> @anonymus09 </span>
+					<span class="relative skew-y-3 text-mark-foreground"> @anonymus09 </span>
 				</span>
 				Barta
 			</h1>
 			<p>IT professional, hobby developer, homelab enthusiast, gamer, space nerd.</p>
 			<a
-				class="mt-5 text-sm! text-gray-500! hover:text-gray-400! hover:underline"
+				class="mt-5 text-sm! text-muted-foreground! hover:text-foreground! hover:underline"
 				href={resolve('/about')}>More on About page</a
 			>
 		</div>
@@ -53,8 +53,9 @@
 				</div>
 			{/each}
 		</div>
-		<a class="text-sm! text-gray-500! hover:text-gray-400! hover:underline" href={resolve('/blog')}
-			>See All Posts</a
+		<a
+			class="text-sm! text-muted-foreground! hover:text-foreground! hover:underline"
+			href={resolve('/blog')}>See All Posts</a
 		>
 	</div>
 </div>

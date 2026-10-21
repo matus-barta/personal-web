@@ -27,7 +27,7 @@
 					sizes="(min-width: 768px) 384px, 192px"
 					class={[
 						'mr-4 w-48 rounded-xl object-cover md:mr-8 md:w-96',
-						post.img_transparent && 'bg-slate-100 p-3'
+						post.img_transparent && 'bg-foreground p-3'
 					]}
 				/>
 				<div class="flex w-full flex-col justify-between rounded-xl py-1">

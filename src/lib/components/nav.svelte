@@ -4,7 +4,7 @@
 </script>
 
 <nav
-	class="bg-opacity-30 fixed z-10 w-screen min-w-[450px] border-b border-accent-color backdrop-blur-lg backdrop-filter"
+	class="bg-opacity-30 fixed z-10 w-screen min-w-[450px] border-b border-primary backdrop-blur-lg backdrop-filter"
 >
 	<div class="mx-auto max-w-6xl px-4">
 		<div class="flex h-16 items-center justify-between">
@@ -24,9 +24,9 @@
 <style lang="postcss">
 	@reference "#app.css";
 	a {
-		@apply font-bold text-slate-100;
+		@apply font-bold text-foreground;
 	}
 	a:hover {
-		@apply text-accent-color;
+		@apply text-primary;
 	}
 </style>

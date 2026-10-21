@@ -4,7 +4,7 @@
 	import gh from '#lib/assets/social/gh-grey.svg';
 </script>
 
-<footer class="flex h-10 w-full justify-center gap-1 bg-window-gray p-2 text-slate-400">
+<footer class="flex h-10 w-full justify-center gap-1 bg-card p-2 text-muted-foreground">
 	<p>• Matúš Barta • &copy {new Date().getFullYear()} •</p>
 	<div class="flex space-x-2">
 		<a href="https://www.instagram.com/matus.barta09/">
@@ -26,9 +26,9 @@
 <style lang="postcss">
 	@reference "#app.css";
 	img {
-		@apply h-6 w-6 rounded-none fill-slate-400;
+		@apply h-6 w-6 rounded-none;
 	}
 	p {
-		@apply m-0! text-gray-400!;
+		@apply m-0! text-muted-foreground!;
 	}
 </style>

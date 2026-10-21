@@ -22,7 +22,7 @@
 		src={data.frontmatter.img}
 		alt="blog title"
 		sizes="(min-width: 1024px) 960px, 100vw"
-		class={['cover', data.frontmatter.img_transparent && 'bg-slate-100 px-3']}
+		class={['cover', data.frontmatter.img_transparent && 'bg-foreground px-3']}
 	/>
 	<div class="flex flex-col px-3 pt-2 md:px-6">
 		<div class="flex flex-row items-end justify-between">
@@ -32,7 +32,7 @@
 			</h3>
 		</div>
 		<div
-			class="my-1 h-1 w-full rounded-xl bg-linear-to-r from-emerald-500 via-sky-500 to-blue-700"
+			class="my-1 h-1 w-full rounded-xl bg-linear-to-r from-mark via-primary to-mark-foreground"
 		></div>
 		<div class="my-2 pb-10">
 			<data.component />

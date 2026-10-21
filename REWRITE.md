@@ -6,7 +6,6 @@ Researched and verified on 2026-10-20. Versions come from the npm registry on th
 
 ## Decisions
 
-- **Colours (decided):** shadcn's base palette for the neutrals, and the site's greens as the brand accent, adjusted where that helps. The final values still need your sign-off before they go in, as the conventions require (see 1).
 - **Vite+ (decided):** wait until it fully supports Svelte (see 2).
 - **This file (decided):** it's the plan for the big rewrite, linked from the README's TODOs.
 - **mdsvex (decided):** stay on 0.12.8, and watch 1.0's releases (see 5). The `.md` exclusion from forced runes that this first assumed wasn't needed: `layoutPropForwarding: 'runes'` does the job.
@@ -15,23 +14,7 @@ Researched and verified on 2026-10-20. Versions come from the npm registry on th
 
 Latest versions: [`shadcn-svelte`](https://www.npmjs.com/package/shadcn-svelte) 1.7.0, [`bits-ui`](https://www.npmjs.com/package/bits-ui) 2.19.5, [`@lucide/svelte`](https://www.npmjs.com/package/@lucide/svelte) 1.60.0, [`tw-animate-css`](https://www.npmjs.com/package/tw-animate-css) 1.4.0. shadcn-svelte targets Svelte 5 and Tailwind 4 ([install guide](https://shadcn-svelte.com/docs/installation/sveltekit)), and [since 1.6.0](https://github.com/huntabyte/shadcn-svelte/releases/tag/shadcn-svelte%401.6.0) it auto-detects Kit 3's `#lib` import.
 
-- [ ] Run `pnpm i` (which runs `svelte-kit sync`) **before** `pnpm dlx shadcn-svelte@latest init` and `add`. On Kit 3, skipping it gives `File '$app/tsconfig' not found` ([issue #2849](https://github.com/huntabyte/shadcn-svelte/issues/2849), still being reported on 2026-10-14).
-- [ ] `init` **overwrites** the global CSS file (`src/routes/layout.css`), as its [prompt says](https://shadcn-svelte.com/docs/installation/sveltekit). Save the `@theme` block and the element styles first, then merge them back.
-- [ ] Theme (decided: shadcn's base palette plus the site's greens):
-  - [ ] Pick a [base colour](https://shadcn-svelte.com/docs/theming): Neutral, Stone, Zinc, Gray or Slate. Today's card colour `#2c3441` is a blue-grey, `oklch(0.323 0.026 260)`. That's the same hue as Slate and Gray ([Tailwind colours](https://tailwindcss.com/docs/colors)); Gray's lower chroma makes it a slightly closer match.
-  - [ ] Put the green on `--primary` and `--ring`, **not** on `--accent`. In shadcn's [current styles](https://github.com/huntabyte/shadcn-svelte/blob/main/docs/src/lib/registry/styles/style-vega.css), `--accent` is the highlight background of focused items in menus (dropdown, context menu, combobox).
-  - [ ] The greens are light, so `--primary-foreground` has to be dark.
-  - [ ] Today's greens (`src/routes/layout.css`):
-    - [ ] `#4ff0ba` (`--color-accent-color`) is custom, not a Tailwind palette colour.
-    - [ ] `#bef263` (`--color-accent-color-lighter`) is almost exactly Tailwind v3's `lime-300`, `#bef264` ([v3 palette](https://v3.tailwindcss.com/docs/customizing-colors)).
-    - [ ] There are also `bg-emerald-500` literals (`layout.css`, `+page.svelte`).
-    - [ ] Both theme greens are readable as text and links: at least 8.6:1 contrast on the background and on cards.
-  - [ ] Fix two contrast failures while doing this ([WCAG 1.4.3](https://www.w3.org/TR/WCAG22/#contrast-minimum): 4.5:1 for normal text, 3:1 for large):
-    - [ ] The hero badge (lime text on Tailwind v4's `emerald-500`) is 1.89:1.
-    - [ ] The grey "More on About page" and "See All Posts" links (`text-gray-500`) are 2.59:1 on the card.
-  - [ ] shadcn writes OKLCH values ([theming](https://shadcn-svelte.com/docs/theming)), so convert the chosen colours. Show the final values for sign-off before adding them.
-  - [ ] Replace every Tailwind palette class with theme tokens. That means slate, emerald, sky, cyan, gray, neutral, pink and the rest, in `layout.css` and in the pages. This is the UI refresh that `.claude/conventions.md` points to, carried over from the README's old TODO.
-- [ ] Stop the global element styles from leaking into components. The bare `button`, `input`, `a` and `img` rules in `layout.css` will restyle shadcn's components.
+- [ ] Stop the global element styles from leaking into components. The bare `button`, `a`, `img` and heading rules in `layout.css` will restyle shadcn's components.
   - [ ] Scope blog styling to a wrapper on the post body. [`@tailwindcss/typography`](https://www.npmjs.com/package/@tailwindcss/typography) (0.5.20, `prose`) is one option. It works with Tailwind v4: add `@plugin "@tailwindcss/typography";` after `@import 'tailwindcss';` in `layout.css` ([README](https://github.com/tailwindlabs/tailwindcss-typography)); its peer range is `>=3.0.0 || >=4.0.0`.
   - [ ] Then update the CLAUDE.md rule that says bare selectors style the posts.
 - [ ] Components to use (all in the [component list](https://shadcn-svelte.com/docs/components)):
@@ -127,7 +110,6 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
 - [ ] **Images:** the SVGs still have no `width` or `height` (layout shift): the nav logo, the social icons, the SVG project logos and the one SVG cover. enhanced-img gives the raster images theirs.
 - [ ] **Leftovers:**
   - [ ] `/contact` (with its commented-out form and its dead `@reference "../../app.css"`) and `/success` go; see 9.
-  - [ ] The commented-out border compatibility block in `layout.css`.
 - [ ] **Duplication:** the gradient bar markup appears twice (`post.svelte`, `blog/[slug]/+page.svelte`), and so does the page-header pattern (`h1` + `h3.special`, on `/blog`, `/projects`, `/about` and `/contact`). Make them components; this was the old README TODO "move common stuff to components".
 
 ## 9. Content

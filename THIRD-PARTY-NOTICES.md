@@ -267,6 +267,14 @@ SOFTWARE.
    limitations under the License.
 ```
 
+## shadcn-svelte
+
+Some of the site's source is copied in by the [shadcn-svelte](https://github.com/huntabyte/shadcn-svelte) CLI rather than written for this repository: `src/lib/utils.ts`, and the theme variables, the `@theme inline` block and the `@layer base` rules in `src/routes/layout.css`, which its `init` wrote. They are distributed under the MIT License, with the copyright notices of Hunter Johnston, CokaKoala and shadcn - the license text above, under [vendored agent skills](#vendored-agent-skills), whose `shadcn-svelte` skill comes from the same project. The colour values in the `.dark` block of `layout.css` start from its Mist base colour, with the site's own greens on `--primary`, `--ring`, `--mark`, `--mark-foreground` and `--link-hover`.
+
+## Fonts
+
+The site's text is set in [Inter](https://github.com/rsms/inter), installed from npm as [`@fontsource-variable/inter`](https://www.npmjs.com/package/@fontsource-variable/inter). Its files are not in this repository, but the built site serves them to every visitor. Inter is Copyright 2016 The Inter Project Authors, licensed under the [SIL Open Font License, Version 1.1](https://openfontlicense.org/open-font-license-official-text/); the license text ships in the package's `LICENSE` file.
+
 ## Trademarks and brand assets
 
 The files below reproduce logos and marks owned by other organisations. They identify a linked service, the technology a listed project is built with, or the project a vendored agent skill comes from. They remain the property of their respective owners, are not covered by any license in this repository, and their use is subject to each owner's brand guidelines.
@@ -280,4 +288,4 @@ The files below reproduce logos and marks owned by other organisations. They ide
 | `src/lib/assets/projects/powershell.svg`                                           | PowerShell, Microsoft Corporation |
 | `.agents/skills/shadcn-svelte/assets/shadcn-svelte.png`, `shadcn-svelte-small.png` | shadcn-svelte, its maintainers    |
 
-Dependencies installed from the npm registry are not listed here. They are declared in `package.json`, resolved in `pnpm-lock.yaml`, and are not redistributed in this repository.
+Dependencies installed from the npm registry are not listed here, apart from the fonts above, which the built site serves. They are declared in `package.json`, resolved in `pnpm-lock.yaml`, and are not redistributed in this repository.
