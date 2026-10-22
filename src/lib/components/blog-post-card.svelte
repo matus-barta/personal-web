@@ -3,9 +3,11 @@
 	import { Badge } from '#lib/components/ui/badge/index.js';
 	import { coverFit, coverSize } from '#lib/cover.js';
 	import { CARD_HOVER } from '#lib/config.js';
+	import { glowStyle } from '#lib/glow.js';
 	import { formatDate } from '#lib/utils/format-date.js';
 	import type { Post } from '#lib/types/post.js';
 	import type { Project } from '#lib/types/project.js';
+	import { dev } from '$app/env';
 	import { resolve } from '$app/paths';
 
 	// A post's card in a grid of one column up to md: and two from it, as /blog and the pages
@@ -42,16 +44,18 @@
 
 <!-- The title's link covers the whole card (after:inset-0), so the card is one click target.
      The card's ring shows the hover, so the title keeps its colour, while the cover brightens
-     and a glow spreads from it (CARD_HOVER, and the style below). Cards in a row are as tall
-     as each other, so the text grows to the card's height and keeps the date at its foot. -->
+     and a glow spreads from it (CARD_HOVER; the glow utility, and the style below for where
+     it starts). Cards in a row are as tall as each other, so the text grows to the card's
+     height and keeps the date at its foot. -->
 <Card.Root
 	data-testid="blog_post"
 	data-wide={wide || undefined}
 	data-glow-origin={CARD_HOVER.origin}
-	data-glow-grow={CARD_HOVER.grow || undefined}
-	style="--cover-brightness: {CARD_HOVER.brightness}; --glow-colour: var(--color-{CARD_HOVER.glow}); --glow-strength: {CARD_HOVER.strength}"
+	data-glow-grow={CARD_HOVER.glow.grow || undefined}
+	data-glow-debug={(dev && CARD_HOVER.debug) || undefined}
+	style="--cover-brightness: {CARD_HOVER.brightness}; {glowStyle(CARD_HOVER.glow)}"
 	class={[
-		'blog-card relative transition-shadow hover:ring-primary/50 has-focus-visible:ring-primary/50',
+		'blog-card glow relative transition-shadow hover:ring-primary/50 has-focus-visible:ring-primary/50',
 		wide && 'md:col-span-2'
 	]}
 >
@@ -117,15 +121,14 @@
 	}
 
 	/*
-	  The glow: a radial gradient behind the card's content, which the card's overflow-hidden
-	  keeps inside it. Each layout says where its cover is, by the three places a glow can
-	  start - the cover's edge, its centre, or the card's edge behind it - each with a size that
-	  reaches the text from there. A cover on top is 2:1, so its bottom is at half the card's
-	  width: 50cqw, the card being a size container. One on the left is 192px wide inside the
-	  card's 16px padding at 640-767px, and 384px from the card's edge on a wide card from md:.
+	  Where the glow (the glow utility, layout.css) is anchored. Each layout says where its cover
+	  is, by the three places CARD_HOVER.origin names - the cover's edge, its centre, or the
+	  card's edge behind it - each with a size that reaches the text from there. A cover on top
+	  is 2:1, so its bottom is at half the card's width: 50cqw, the card being a size container.
+	  One on the left is 192px wide inside the card's 16px padding at 640-767px, and 384px from
+	  the card's edge on a wide card from md:.
 	*/
 	:global(.blog-card) {
-		isolation: isolate;
 		container-type: inline-size;
 		--edge-x: 50%;
 		--edge-y: 50cqw;
@@ -175,46 +178,18 @@
 		}
 	}
 	:global(.blog-card[data-glow-origin='edge']) {
-		--glow-at: var(--edge-x) var(--edge-y);
+		--glow-x: var(--edge-x);
+		--glow-y: var(--edge-y);
 		--glow-size: var(--edge-size);
 	}
 	:global(.blog-card[data-glow-origin='centre']) {
-		--glow-at: var(--centre-x) var(--centre-y);
+		--glow-x: var(--centre-x);
+		--glow-y: var(--centre-y);
 		--glow-size: var(--centre-size);
 	}
 	:global(.blog-card[data-glow-origin='far']) {
-		--glow-at: var(--far-x) var(--far-y);
+		--glow-x: var(--far-x);
+		--glow-y: var(--far-y);
 		--glow-size: var(--far-size);
-	}
-
-	:global(.blog-card::before) {
-		content: '';
-		position: absolute;
-		inset: 0;
-		z-index: -1;
-		pointer-events: none;
-		opacity: 0;
-		background: radial-gradient(
-			ellipse var(--glow-size) at var(--glow-at),
-			color-mix(in oklch, var(--glow-colour) var(--glow-strength), transparent),
-			transparent
-		);
-		/* it grows from where it starts */
-		transform-origin: var(--glow-at);
-		transition: opacity 300ms;
-	}
-	:global(.blog-card:hover::before) {
-		opacity: 1;
-	}
-	@media (prefers-reduced-motion: no-preference) {
-		:global(.blog-card[data-glow-grow]::before) {
-			scale: 0.6;
-			transition:
-				opacity 300ms,
-				scale 400ms cubic-bezier(0.22, 1, 0.36, 1);
-		}
-		:global(.blog-card[data-glow-grow]:hover::before) {
-			scale: 1;
-		}
 	}
 </style>

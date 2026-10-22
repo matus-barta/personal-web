@@ -201,6 +201,76 @@
 }
 
 /*
+  A soft light that grows out of a card's image while the card is hovered, kept inside the
+  card by its overflow-hidden. The card says where its image's centre is - --glow-x, --glow-y -
+  and how far the light reaches, --glow-size; --glow-angle and --glow-distance move the light's
+  centre from there, as a light's angle and distance do in an image editor: 0deg to the right,
+  90deg down. Its colour, strength and speed come from the card's settings in #lib/config.ts,
+  through glowStyle() in #lib/glow.ts: --glow-duration is the grow's length, the fade taking
+  three-quarters of it. data-glow-grow lets it grow from its centre as it fades in.
+*/
+@utility glow {
+	isolation: isolate;
+	--glow-cx: calc(var(--glow-x) + cos(var(--glow-angle, 0deg)) * var(--glow-distance, 0px));
+	--glow-cy: calc(var(--glow-y) + sin(var(--glow-angle, 0deg)) * var(--glow-distance, 0px));
+	--glow-fade: calc(var(--glow-duration, 400ms) * 0.75);
+
+	&::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		pointer-events: none;
+		opacity: 0;
+		background: radial-gradient(
+			ellipse var(--glow-size) at var(--glow-cx) var(--glow-cy),
+			color-mix(in oklch, var(--glow-colour) var(--glow-strength), transparent),
+			transparent
+		);
+		transform-origin: var(--glow-cx) var(--glow-cy);
+		transition: opacity var(--glow-fade);
+	}
+	&:hover::before {
+		opacity: 1;
+	}
+	@media (prefers-reduced-motion: no-preference) {
+		&[data-glow-grow]::before {
+			scale: 0.6;
+			transition:
+				opacity var(--glow-fade),
+				scale var(--glow-duration, 400ms) cubic-bezier(0.22, 1, 0.36, 1);
+		}
+		&[data-glow-grow]:hover::before {
+			scale: 1;
+		}
+	}
+	/* For tuning (the settings' debug): a ring where it is anchored, a dot at its centre - red,
+	   outlined in the background colour, so they stand out on light and dark images alike. */
+	&[data-glow-debug]::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: 20;
+		pointer-events: none;
+		background:
+			radial-gradient(
+				circle 7px at var(--glow-cx) var(--glow-cy),
+				var(--color-destructive) 4px,
+				var(--color-background) 5px 6px,
+				transparent 7px
+			),
+			radial-gradient(
+				circle 11px at var(--glow-x) var(--glow-y),
+				transparent 4px,
+				var(--color-background) 5px,
+				var(--color-destructive) 6px 8px,
+				var(--color-background) 9px,
+				transparent 10px
+			);
+	}
+}
+
+/*
   enhanced-img wraps each image in a <picture>; this lays the <img> out as if it weren't.
   Its <source> elements would then be flex or grid items too, empty but still taking a gap,
   so they are hidden; the browser picks a source from its attributes, not its layout.

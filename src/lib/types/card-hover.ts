@@ -1,22 +1,28 @@
-// `| (string & {})` keeps the suggested values in the editor's completions while letting any other
-// value of the type through: without the `& {}`, TypeScript would fold them into plain `string`.
+import type { Glow } from '#lib/types/glow.js';
 
-/** How a post's card answers a hover, as `CARD_HOVER` in `#lib/config.ts` sets it. */
+/**
+ * How a card answers a hover - a post's card, as `CARD_HOVER` in `#lib/config.ts` sets it, and
+ * a project's, as `PROJECT_HOVER` does: its image brightens, and a glow spreads from it.
+ */
 export type CardHover = {
-	/** How much brighter the cover gets; `1` leaves it as it is, about 1.06-1.2 reads as a lift. */
-	brightness: number;
 	/**
-	 * The glow's colour, a theme token's name - drawn as `var(--color-<name>)`, so any colour of
-	 * the theme works: `foreground` is white, `primary` the green.
+	 * How much brighter the image gets, a multiplier: `1` leaves it as it is, and 1.06-1.2 reads
+	 * as a lift. `| (number & {})` keeps these suggested in the editor while taking any number.
 	 */
-	glow: 'foreground' | 'primary' | (string & {});
-	/** How strong the glow is where it starts, as a share of its colour; `0%` turns it off. */
-	strength: '6%' | '10%' | '16%' | (`${number}%` & {});
+	brightness: 1 | 1.06 | 1.12 | 1.2 | (number & {});
 	/**
-	 * Where the glow starts: the cover's `edge`, its `centre`, or the card's edge behind it,
-	 * `far`. Only these three: each has its positions in `blog-post-card.svelte`'s style.
+	 * Where the glow is anchored: the image's `edge` towards the card's text, its `centre`, or
+	 * the card's edge behind it, `far` - before `glow.angle` and `glow.distance` move it. Only
+	 * these three: each has its positions in the card's style.
 	 */
 	origin: 'edge' | 'centre' | 'far';
-	/** Whether the glow grows out from where it starts as it fades in. */
-	grow: boolean;
+	/** The light that grows out of the image. */
+	glow: Glow;
+	/**
+	 * For tuning: `true` marks, on every card, a ring where the glow is anchored and a dot at its
+	 * centre, after `glow.angle` and `glow.distance` move it. Only under `pnpm dev` - the cards
+	 * check `dev` from `$app/env` - so a build, the live site's included, never shows
+	 * them, whatever this says. Off if unset.
+	 */
+	debug?: boolean;
 };

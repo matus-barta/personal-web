@@ -6,6 +6,9 @@
 	import GradientSeparator from '#lib/components/gradient-separator.svelte';
 	import BrandIcon from '#lib/components/brand-icon.svelte';
 	import ArrowButton from '#lib/components/arrow-button.svelte';
+	import { PROJECT_HOVER } from '#lib/config.js';
+	import { glowStyle } from '#lib/glow.js';
+	import { dev } from '$app/env';
 	import { resolve } from '$app/paths';
 	interface Props extends Project {
 		/** How many posts are about the project; with any, the card links to them. */
@@ -34,9 +37,19 @@
 	{/if}
 {/snippet}
 
-<!-- the slug is the card's id, for the home page's featured projects to link to; scroll-mt-24
-     keeps a card it scrolls to clear of the floating nav -->
-<Card.Root id={slug} data-testid="post" class="scroll-mt-24">
+<!-- The slug is the card's id, for the home page's featured projects to link to; scroll-mt-24
+     keeps a card it scrolls to clear of the floating nav. On hover the logo brightens and a glow
+     spreads from it (PROJECT_HOVER; the glow utility, and the style below for where it starts).
+     The card has no ring: it is not one link, as a post's card is. -->
+<Card.Root
+	id={slug}
+	data-testid="post"
+	data-glow-origin={PROJECT_HOVER.origin}
+	data-glow-grow={PROJECT_HOVER.glow.grow || undefined}
+	data-glow-debug={(dev && PROJECT_HOVER.debug) || undefined}
+	style="--logo-brightness: {PROJECT_HOVER.brightness}; {glowStyle(PROJECT_HOVER.glow)}"
+	class="project-card glow relative scroll-mt-24"
+>
 	<!-- A column rather than the header's grid, stretched to the card's width - Card.Header's own
 	     items-start would leave the row beside the logo, and its GitHub button, short of it. -->
 	<Card.Header class="flex flex-col items-stretch gap-0">
@@ -59,7 +72,7 @@
 				width="128"
 				height="128"
 				sizes="(min-width: 640px) 128px, 96px"
-				class="row-span-2 row-start-1 size-24 rounded-xl bg-foreground p-2 sm:row-span-4 sm:size-32"
+				class="project-card-logo row-span-2 row-start-1 size-24 rounded-xl bg-foreground p-2 sm:row-span-4 sm:size-32"
 			/>
 			<div class="col-start-2 row-start-1 flex min-w-0 items-start justify-between gap-2">
 				<Card.Title>
@@ -112,3 +125,54 @@
 		</div>
 	</Card.Content>
 </Card.Root>
+
+<style>
+	/* Global, as Card.Root and the logo are elements of other components, under a class of this
+	   one's. The values come from PROJECT_HOVER in #lib/config.ts, through the card's style. */
+	:global(.project-card .project-card-logo) {
+		transition: filter 200ms;
+	}
+	:global(.project-card:hover .project-card-logo) {
+		filter: brightness(var(--logo-brightness));
+	}
+
+	/*
+	  Where the glow (the glow utility, layout.css) is anchored, by the three places
+	  PROJECT_HOVER.origin names: the logo's right edge, towards the text; its centre; or the
+	  card's left edge behind it - each level with the logo's centre, and with a size that reaches
+	  the text from there. The logo sits in the card's 16px padding: 96px on phones, its centre
+	  64px in; 128px from sm:, its centre 80px in.
+	*/
+	:global(.project-card) {
+		--edge-x: 112px;
+		--edge-size: 300px 240px;
+		--centre-x: 64px;
+		--centre-size: 320px 260px;
+		--far-x: 0px;
+		--far-size: 360px 280px;
+		--glow-y: 64px;
+	}
+	@media (min-width: 40rem) {
+		:global(.project-card) {
+			--edge-x: 144px;
+			--edge-size: 440px 320px;
+			--centre-x: 80px;
+			--centre-size: 480px 340px;
+			--far-x: 0px;
+			--far-size: 540px 380px;
+			--glow-y: 80px;
+		}
+	}
+	:global(.project-card[data-glow-origin='edge']) {
+		--glow-x: var(--edge-x);
+		--glow-size: var(--edge-size);
+	}
+	:global(.project-card[data-glow-origin='centre']) {
+		--glow-x: var(--centre-x);
+		--glow-size: var(--centre-size);
+	}
+	:global(.project-card[data-glow-origin='far']) {
+		--glow-x: var(--far-x);
+		--glow-size: var(--far-size);
+	}
+</style>

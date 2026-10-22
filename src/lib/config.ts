@@ -10,10 +10,25 @@ import type { SocialLink } from '#lib/types/social-link.js';
  */
 export const CARD_HOVER: CardHover = {
 	brightness: 1.12,
-	glow: 'foreground',
-	strength: '6%',
 	origin: 'centre',
-	grow: true
+	glow: { colour: 'foreground', strength: '6%', grow: true, speed: 'normal' }
+};
+
+/**
+ * The hover on a project's card (`post.svelte`): its logo brightens, and a glow spreads from it
+ * into the card, its centre a little below and to the right of the logo's.
+ */
+export const PROJECT_HOVER: CardHover = {
+	brightness: 1.12,
+	origin: 'centre',
+	glow: {
+		colour: 'foreground',
+		strength: '6%',
+		angle: '45deg',
+		distance: '40px',
+		grow: true,
+		speed: 'fast'
+	}
 };
 
 /** How many of the newest posts the home page lists. */
