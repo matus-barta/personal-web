@@ -115,8 +115,6 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
   - [ ] Your interests; the hero tagline already lists them.
   - [ ] What the site is for.
   - [ ] Add Bluesky to "Find me" (`SOCIAL_LINKS` in `src/lib/config.ts`, and `siBluesky` in `brand-icon.svelte`).
-- [ ] **Contact (decided):** no form and no email address. `/contact` and `/success` are gone, and the social links are on About only, not in the footer.
-  - [ ] Check the Netlify dashboard for Netlify Forms settings left over from the old form.
 
 **New pages** ("slash pages", see [slashpages.net](https://slashpages.net)):
 
@@ -159,4 +157,3 @@ Keep the dark background, the green accent, the skewed `@anonymus09` highlight a
 - [ ] **Code block background:** decide it together with the copy button in 9, as shadcn-svelte's Code Block would change how code blocks are rendered. Shiki writes the `monokai` theme's own `background-color:#272822` inline on every `pre`, a warm olive-grey outside the Mist palette. Change it to match the theme (untested options: replace the colour at build time through Shiki's options in `vite.config.ts`, or pick a theme whose background fits; an inline style beats any class, so CSS alone would need `!important`).
 - [ ] **`/blog`:** show reading time and tags on the cards (9).
 - [ ] **Footer:** add an RSS link once the feed (9) exists.
-- [ ] **Motion:** subtle page transitions with `onNavigate` and `document.startViewTransition`, as the [Svelte blog](https://svelte.dev/blog/view-transitions) shows ([MDN](https://developer.mozilla.org/en-US/docs/Web/API/View_Transition_API)). Respect `prefers-reduced-motion`.

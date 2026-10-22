@@ -7,6 +7,8 @@
 	import { Button, buttonVariants } from '#lib/components/ui/button/index.js';
 	import * as NavigationMenu from '#lib/components/ui/navigation-menu/index.js';
 	import NavMenu from '#lib/components/nav-menu.svelte';
+	import { getNavTarget } from '#lib/nav-target.js';
+	import { cn } from '#lib/utils.js';
 	import logo from '#lib/assets/logo-mark.svg';
 
 	// Each link's icon follows Apple's Liquid Glass buttons, measured against the cap height:
@@ -17,13 +19,17 @@
 		{ route: '/about', label: 'About', icon: UserRoundIcon }
 	] as const;
 
+	const navTarget = getNavTarget();
+
 	// A link is the current page on its route and the routes under it - Blog on a post. It
-	// compares route ids, not the hrefs: while prerendering, resolve() gives relative ones.
+	// compares route ids, not the hrefs: while prerendering, resolve() gives relative ones. A link
+	// is the target while the site moves to its route, for its border (#lib/nav-target.ts).
 	const navLinks = $derived(
 		links.map(({ route, ...link }) => ({
 			...link,
 			href: resolve(route),
-			current: page.route.id === route || !!page.route.id?.startsWith(`${route}/`)
+			current: page.route.id === route || !!page.route.id?.startsWith(`${route}/`),
+			target: navTarget() === route
 		}))
 	);
 
@@ -67,23 +73,44 @@
 		<NavigationMenu.List class="hidden h-full sm:flex">
 			{#each navLinks as link (link.href)}
 				<NavigationMenu.Item class="h-full">
-					<!-- a ghost Button's look, so the links match the logo beside them; the current
-					     page keeps the Link's own background and turns its icon green -->
+					<!-- A ghost Button's look, so the links match the logo beside them, but no link
+					     ever changes its own background: hover and focus show the border alone. The
+					     only background is the current page's, a shape of its own behind the icon and
+					     the label, in the Link's active colour, and its view-transition-name is the
+					     same on every page, so moving to another page glides it from the old link to
+					     the new one while the labels stay put. The current page's icon turns green. -->
 					<NavigationMenu.Link
 						href={link.href}
 						active={link.current}
-						class={buttonVariants({
-							variant: 'ghost',
-							class:
-								'h-full gap-[0.35em] rounded-full px-4 py-0 text-base font-bold hover:border-foreground/20 has-data-[icon=inline-start]:pl-3.5'
-						})}
+						class={cn(
+							buttonVariants({
+								variant: 'ghost',
+								class:
+									'relative isolate h-full gap-[0.35em] rounded-full px-4 py-0 text-base font-bold hover:border-foreground/20 hover:bg-transparent focus:bg-transparent has-data-[icon=inline-start]:pl-3.5 dark:hover:bg-transparent data-active:bg-transparent data-active:hover:bg-transparent data-active:focus:bg-transparent'
+							}),
+							link.target && 'border-foreground/20'
+						)}
 					>
-						<link.icon
-							data-icon="inline-start"
-							strokeWidth={2.75}
-							class={['size-[1.05em]', link.current && 'text-primary']}
-						/>
-						{link.label}
+						{#if link.current}
+							<span
+								class="absolute inset-0 -z-10 rounded-full bg-muted/50 [view-transition-name:nav-current]"
+								aria-hidden="true"
+							></span>
+						{/if}
+						<!-- The icon and the label are named too, each link's its own, so the transition
+						     draws them in layers of their own as well - which stay where they are, above
+						     the background as it passes under them (the nav-label class, below). -->
+						<span
+							class="inline-flex items-center gap-[0.35em] [view-transition-class:nav-label]"
+							style:view-transition-name="nav-label-{link.label.toLowerCase()}"
+						>
+							<link.icon
+								data-icon="inline-start"
+								strokeWidth={2.75}
+								class={['size-[1.05em]', link.current && 'text-primary']}
+							/>
+							{link.label}
+						</span>
 					</NavigationMenu.Link>
 				</NavigationMenu.Item>
 			{/each}
@@ -115,5 +142,22 @@
 					var(--narrow)
 			);
 		}
+	}
+
+	/* the current page's highlight gliding to the new link: quick, and slowing as it arrives */
+	:global(::view-transition-group(nav-current)) {
+		animation-duration: 300ms;
+		animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+	}
+	/* the links' icons and labels above it, so it passes under them; they change at once */
+	:global(::view-transition-group(*.nav-label)) {
+		z-index: 1;
+	}
+	:global(::view-transition-old(*.nav-label)) {
+		animation: none;
+		opacity: 0;
+	}
+	:global(::view-transition-new(*.nav-label)) {
+		animation: none;
 	}
 </style>
