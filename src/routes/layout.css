@@ -2,6 +2,9 @@
 @import 'tw-animate-css';
 @import 'shadcn-svelte/tailwind.css';
 @import '@fontsource-variable/inter';
+/* for code, upright and italic: the monokai theme sets some tokens in italics */
+@import '@fontsource-variable/jetbrains-mono/wght.css';
+@import '@fontsource-variable/jetbrains-mono/wght-italic.css';
 @plugin '@tailwindcss/typography';
 /*
   ---break---
@@ -92,6 +95,7 @@
 */
 @theme inline {
 	--font-sans: 'Inter Variable', sans-serif;
+	--font-mono: 'JetBrains Mono Variable', monospace;
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
 	--color-card: var(--card);

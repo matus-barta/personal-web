@@ -11,8 +11,9 @@
 </script>
 
 {#if image}
-	<!-- the post column is at most 960px wide: max-w-5xl less the layout's padding -->
-	<enhanced:img src={image} {alt} sizes="(min-width: 1024px) 960px, 100vw" {...rest} />
+	<!-- The post's text is at most 832px wide: the 960px column less the card's 64px padding on
+	     each side from lg:. The query in #lib/post-images.ts asks for widths to fit the same sizes. -->
+	<enhanced:img src={image} {alt} sizes="(min-width: 1024px) 832px, 100vw" {...rest} />
 {:else}
 	<img {src} {alt} {...rest} />
 {/if}

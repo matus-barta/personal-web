@@ -6,7 +6,7 @@ import type { Picture } from '@sveltejs/enhanced-img';
 // while it renders; what this adds to a page is the URLs, not the images.
 const raster = import.meta.glob<Picture>('/content/blog/*/*.{png,jpg,jpeg,webp}', {
 	eager: true,
-	query: { enhanced: true, imgSizes: '(min-width: 1024px) 960px, 100vw' },
+	query: { enhanced: true, imgSizes: '(min-width: 1024px) 832px, 100vw' },
 	import: 'default'
 });
 const svg = import.meta.glob<string>('/content/blog/*/*.svg', {

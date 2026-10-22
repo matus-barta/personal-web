@@ -273,7 +273,7 @@ Some of the site's source is copied in by the [shadcn-svelte](https://github.com
 
 ## Fonts
 
-The site's text is set in [Inter](https://github.com/rsms/inter), installed from npm as [`@fontsource-variable/inter`](https://www.npmjs.com/package/@fontsource-variable/inter). Its files are not in this repository, but the built site serves them to every visitor. Inter is Copyright 2016 The Inter Project Authors, licensed under the [SIL Open Font License, Version 1.1](https://openfontlicense.org/open-font-license-official-text/); the license text ships in the package's `LICENSE` file.
+The site's text is set in [Inter](https://github.com/rsms/inter) and its code in [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono), installed from npm as [`@fontsource-variable/inter`](https://www.npmjs.com/package/@fontsource-variable/inter) and [`@fontsource-variable/jetbrains-mono`](https://www.npmjs.com/package/@fontsource-variable/jetbrains-mono). Their files are not in this repository, but the built site serves them to every visitor. Both are licensed under the [SIL Open Font License, Version 1.1](https://openfontlicense.org/open-font-license-official-text/): Inter is Copyright 2016 The Inter Project Authors, and JetBrains Mono Copyright 2020 The JetBrains Mono Project Authors. The license text ships in each package's `LICENSE` file.
 
 ## Trademarks and brand assets
 
