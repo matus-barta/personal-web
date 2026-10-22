@@ -1,7 +1,20 @@
 // The site's settings, in one place - the pages and the end-to-end specs read them from here.
 
 // type-only, so a spec, which imports this file by a relative path, never resolves it
+import type { CardHover } from '#lib/types/card-hover.js';
 import type { SocialLink } from '#lib/types/social-link.js';
+
+/**
+ * The hover on a post's card (`blog-post-card.svelte`): its cover brightens, and a glow
+ * spreads from the cover into the card, staying inside it.
+ */
+export const CARD_HOVER: CardHover = {
+	brightness: 1.12,
+	glow: 'foreground',
+	strength: '6%',
+	origin: 'centre',
+	grow: true
+};
 
 /** How many of the newest posts the home page lists. */
 export const LATEST_POSTS_LIMIT = 5;

@@ -2,6 +2,7 @@
 	import * as Card from '#lib/components/ui/card/index.js';
 	import { Badge } from '#lib/components/ui/badge/index.js';
 	import { coverFit, coverSize } from '#lib/cover.js';
+	import { CARD_HOVER } from '#lib/config.js';
 	import { formatDate } from '#lib/utils/format-date.js';
 	import type { Post } from '#lib/types/post.js';
 	import type { Project } from '#lib/types/project.js';
@@ -40,12 +41,17 @@
 </script>
 
 <!-- The title's link covers the whole card (after:inset-0), so the card is one click target.
-     The card's ring shows the hover, so the title keeps its colour. Cards in a row are as tall
+     The card's ring shows the hover, so the title keeps its colour, while the cover brightens
+     and a glow spreads from it (CARD_HOVER, and the style below). Cards in a row are as tall
      as each other, so the text grows to the card's height and keeps the date at its foot. -->
 <Card.Root
 	data-testid="blog_post"
+	data-wide={wide || undefined}
+	data-glow-origin={CARD_HOVER.origin}
+	data-glow-grow={CARD_HOVER.grow || undefined}
+	style="--cover-brightness: {CARD_HOVER.brightness}; --glow-colour: var(--color-{CARD_HOVER.glow}); --glow-strength: {CARD_HOVER.strength}"
 	class={[
-		'relative transition-shadow hover:ring-primary/50 has-focus-visible:ring-primary/50',
+		'blog-card relative transition-shadow hover:ring-primary/50 has-focus-visible:ring-primary/50',
 		wide && 'md:col-span-2'
 	]}
 >
@@ -59,7 +65,7 @@
 			height="216"
 			{sizes}
 			class={[
-				'aspect-2/1 w-full shrink-0 rounded-lg sm:aspect-video sm:w-48',
+				'blog-card-cover aspect-2/1 w-full shrink-0 rounded-lg sm:aspect-video sm:w-48',
 				// out over the card's padding, as the cover on the post page is
 				'max-sm:-mx-(--card-spacing) max-sm:-mt-(--card-spacing) max-sm:w-[calc(100%+2*var(--card-spacing))] max-sm:max-w-none max-sm:rounded-none',
 				// From md:, out over the padding too: a wide card's at its left, and the others'
@@ -99,3 +105,116 @@
 		</div>
 	</Card.Content>
 </Card.Root>
+
+<style>
+	/* Global, as Card.Root and the cover are elements of other components, under a class of this
+	   one's. The values come from CARD_HOVER in #lib/config.ts, through the card's style. */
+	:global(.blog-card .blog-card-cover) {
+		transition: filter 200ms;
+	}
+	:global(.blog-card:hover .blog-card-cover) {
+		filter: brightness(var(--cover-brightness));
+	}
+
+	/*
+	  The glow: a radial gradient behind the card's content, which the card's overflow-hidden
+	  keeps inside it. Each layout says where its cover is, by the three places a glow can
+	  start - the cover's edge, its centre, or the card's edge behind it - each with a size that
+	  reaches the text from there. A cover on top is 2:1, so its bottom is at half the card's
+	  width: 50cqw, the card being a size container. One on the left is 192px wide inside the
+	  card's 16px padding at 640-767px, and 384px from the card's edge on a wide card from md:.
+	*/
+	:global(.blog-card) {
+		isolation: isolate;
+		container-type: inline-size;
+		--edge-x: 50%;
+		--edge-y: 50cqw;
+		--edge-size: 90% 55%;
+		--centre-x: 50%;
+		--centre-y: 25cqw;
+		--centre-size: 100% 75%;
+		--far-x: 50%;
+		--far-y: 0%;
+		--far-size: 120% 95%;
+	}
+	@media (min-width: 40rem) {
+		:global(.blog-card) {
+			--edge-x: 208px;
+			--edge-y: 50%;
+			--edge-size: 260px 140%;
+			--centre-x: 112px;
+			--centre-y: 50%;
+			--centre-size: 340px 150%;
+			--far-x: 0%;
+			--far-y: 50%;
+			--far-size: 75% 150%;
+		}
+	}
+	@media (min-width: 48rem) {
+		:global(.blog-card) {
+			--edge-x: 50%;
+			--edge-y: 50cqw;
+			--edge-size: 90% 55%;
+			--centre-x: 50%;
+			--centre-y: 25cqw;
+			--centre-size: 100% 75%;
+			--far-x: 50%;
+			--far-y: 0%;
+			--far-size: 120% 95%;
+		}
+		:global(.blog-card[data-wide]) {
+			--edge-x: 384px;
+			--edge-y: 50%;
+			--edge-size: 40% 130%;
+			--centre-x: 192px;
+			--centre-y: 50%;
+			--centre-size: 55% 145%;
+			--far-x: 0%;
+			--far-y: 50%;
+			--far-size: 75% 160%;
+		}
+	}
+	:global(.blog-card[data-glow-origin='edge']) {
+		--glow-at: var(--edge-x) var(--edge-y);
+		--glow-size: var(--edge-size);
+	}
+	:global(.blog-card[data-glow-origin='centre']) {
+		--glow-at: var(--centre-x) var(--centre-y);
+		--glow-size: var(--centre-size);
+	}
+	:global(.blog-card[data-glow-origin='far']) {
+		--glow-at: var(--far-x) var(--far-y);
+		--glow-size: var(--far-size);
+	}
+
+	:global(.blog-card::before) {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		pointer-events: none;
+		opacity: 0;
+		background: radial-gradient(
+			ellipse var(--glow-size) at var(--glow-at),
+			color-mix(in oklch, var(--glow-colour) var(--glow-strength), transparent),
+			transparent
+		);
+		/* it grows from where it starts */
+		transform-origin: var(--glow-at);
+		transition: opacity 300ms;
+	}
+	:global(.blog-card:hover::before) {
+		opacity: 1;
+	}
+	@media (prefers-reduced-motion: no-preference) {
+		:global(.blog-card[data-glow-grow]::before) {
+			scale: 0.6;
+			transition:
+				opacity 300ms,
+				scale 400ms cubic-bezier(0.22, 1, 0.36, 1);
+		}
+		:global(.blog-card[data-glow-grow]:hover::before) {
+			scale: 1;
+		}
+	}
+</style>
