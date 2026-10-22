@@ -163,10 +163,7 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
 Keep the dark background, the green accent, the skewed `@anonymus09` highlight and the space avatar. What makes the site look dated (seen in screenshots at 1280 and 375 px) is mostly spacing, image sizes and typography.
 
 - [ ] **Code block background:** decide it together with the copy button in 9, as shadcn-svelte's Code Block would change how code blocks are rendered. Shiki writes the `monokai` theme's own `background-color:#272822` inline on every `pre`, a warm olive-grey outside the Mist palette. Change it to match the theme (untested options: replace the colour at build time through Shiki's options in `vite.config.ts`, or pick a theme whose background fits; an inline style beats any class, so CSS alone would need `!important`).
-- [ ] **Links and buttons:** review their colours and hover behaviour, which differ from place to place today.
-  - [ ] Now: links in posts and project blurbs (`prose`) are mint, lime on hover and always underlined. The home page's latest posts and the `/blog` card titles are mint and lime on hover, underlined on hover on the home page only. "More on About page" (`Button variant="link"`) stays mint on hover, and the nav links are white, mint on hover.
-  - [ ] The lime hover on the `/blog` card titles is too much; the card already shows hover with its green ring.
-  - [ ] Home: "More on About page" should look like "See all posts", an `outline` `Button`.
+- [ ] **Links:** links in posts and project blurbs (`prose`) are mint, lime on hover and always underlined; the home page's latest posts are mint, lime and underlined on hover. Undecided: keep lime for links in running text only, so the latest posts only underline on hover.
   - [ ] Keep links in running text underlined, so they don't rely on colour alone ([WCAG 1.4.1](https://www.w3.org/TR/WCAG22/#use-of-color)).
 - [ ] **`/blog`:**
   - [ ] Cards in two columns on desktop, one on phones.

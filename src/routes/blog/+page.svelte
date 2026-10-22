@@ -34,7 +34,8 @@
 
 <div class="flex flex-col gap-6">
 	{#each data.posts as post (post.slug)}
-		<!-- the title's link covers the whole card (after:inset-0), so the card is one click target -->
+		<!-- The title's link covers the whole card (after:inset-0), so the card is one click target.
+		     The card's ring shows the hover, so the title keeps its colour. -->
 		<Card.Root
 			data-testid="blog_post"
 			class="relative transition-shadow hover:ring-primary/50 has-focus-visible:ring-primary/50"
@@ -57,7 +58,7 @@
 					<div class="flex flex-col gap-2">
 						<h2 class="text-xl font-bold tracking-tight md:text-2xl">
 							<a
-								class="text-primary after:absolute after:inset-0 hover:text-link-hover focus-visible:outline-none"
+								class="text-primary after:absolute after:inset-0 focus-visible:outline-none"
 								href={resolve('/blog/[slug]', { slug: post.slug })}>{post.title}</a
 							>
 						</h2>

@@ -46,8 +46,10 @@
 		<Card.Description class="text-base max-md:mt-3">
 			IT professional, hobby developer, homelab enthusiast, gamer, space nerd.
 		</Card.Description>
-		<Button variant="link" size="sm" class="w-fit px-0" href={resolve('/about')}>
+		<!-- an outline Button, as "See all posts" below is; w-fit, or the header's grid stretches it -->
+		<Button variant="outline" size="sm" class="w-fit" href={resolve('/about')}>
 			More on About page
+			<ArrowRightIcon data-icon="inline-end" />
 		</Button>
 		<Card.Action class="row-span-3 max-sm:row-start-2 max-sm:mt-3">
 			<!-- Not shadcn's Avatar: its image stays display: none until JavaScript has loaded it,
