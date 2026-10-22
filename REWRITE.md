@@ -16,7 +16,6 @@ Installed: [`shadcn-svelte`](https://www.npmjs.com/package/shadcn-svelte) 1.7.0,
 
 - [ ] Components to use (all in the [component list](https://shadcn-svelte.com/docs/components)):
   - [ ] `Badge`: tags (see 9)
-  - [ ] `Navigation Menu`: the desktop links, with the current page marked (see 11).
 - [ ] Skip `form` for now. The registry's `form` [still pins](https://shadcn-svelte.com/registry/form.json) `sveltekit-superforms@^2.28.1`, which rejects Kit 3 ([issue #2915](https://github.com/huntabyte/shadcn-svelte/issues/2915), open). [`sveltekit-superforms`](https://www.npmjs.com/package/sveltekit-superforms) 3.0.0 (2026-10-04) accepts Kit 3, so re-check once the registry moves to it.
 - [ ] Icons: [Lucide v1 removed every brand icon](https://lucide.dev/guide/version-1), GitHub's included. Keep the SVGs in `src/lib/assets/social/`, or use [Simple Icons](https://simpleicons.org), which Lucide recommends.
 
@@ -163,7 +162,6 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
 
 Keep the dark background, the green accent, the skewed `@anonymus09` highlight and the space avatar. What makes the site look dated (seen in screenshots at 1280 and 375 px) is mostly spacing, image sizes and typography.
 
-- [ ] **Nav:** highlight the current page, for example by turning its icon green, as the icons in the phone menu are.
 - [ ] **Typography:**
   - [ ] Inter is self-hosted through [Fontsource](https://fontsource.org) since the shadcn-svelte `init`. Add JetBrains Mono (decided) for code the same way, and record its licence in `THIRD-PARTY-NOTICES.md` beside Inter's.
   - [ ] Post text ran about 100 characters per line at 1280 px (measured before `prose`); aim for 65–75. Posts are in `prose` now, but `max-w-none` in `blog-layout.svelte` keeps the old column; set the column, or drop it for prose's own 65ch.

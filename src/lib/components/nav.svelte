@@ -4,18 +4,30 @@
 	import NotebookPenIcon from '@lucide/svelte/icons/notebook-pen';
 	import UserRoundIcon from '@lucide/svelte/icons/user-round';
 	import { resolve } from '$app/paths';
-	import { Button } from '#lib/components/ui/button/index.js';
+	import { page } from '$app/state';
+	import { Button, buttonVariants } from '#lib/components/ui/button/index.js';
+	import * as NavigationMenu from '#lib/components/ui/navigation-menu/index.js';
 	import NavMenu from '#lib/components/nav-menu.svelte';
 	import logo from '#lib/assets/logo-mark.svg';
 
 	// Each link's icon follows Apple's Liquid Glass buttons, measured against the cap height:
 	// the icon about 1.4 times as tall, a gap of about 2/3, and a stroke as heavy as the text's.
 	const links = [
-		{ href: resolve('/blog'), label: 'Blog', icon: NotebookPenIcon },
-		{ href: resolve('/projects'), label: 'Projects', icon: FolderGit2Icon },
-		{ href: resolve('/about'), label: 'About', icon: UserRoundIcon },
-		{ href: resolve('/contact'), label: 'Contact', icon: MailIcon }
-	];
+		{ route: '/blog', label: 'Blog', icon: NotebookPenIcon },
+		{ route: '/projects', label: 'Projects', icon: FolderGit2Icon },
+		{ route: '/about', label: 'About', icon: UserRoundIcon },
+		{ route: '/contact', label: 'Contact', icon: MailIcon }
+	] as const;
+
+	// A link is the current page on its route and the routes under it - Blog on a post. It
+	// compares route ids, not the hrefs: while prerendering, resolve() gives relative ones.
+	const navLinks = $derived(
+		links.map(({ route, ...link }) => ({
+			...link,
+			href: resolve(route),
+			current: page.route.id === route || !!page.route.id?.startsWith(`${route}/`)
+		}))
+	);
 
 	let scrollY = $state(0);
 
@@ -25,17 +37,22 @@
 
 <svelte:window bind:scrollY />
 
-<nav
+<!-- NavigationMenu.Root is the <nav> itself, so the capsule is one landmark with the home link
+     and the phone menu in it; viewport={false}, as no link opens a panel. -->
+<NavigationMenu.Root
+	viewport={false}
 	class={[
-		'fixed inset-x-0 top-4 z-10 transition-transform duration-300 motion-reduce:transition-none',
+		'fixed inset-x-0 top-4 z-10 max-w-none transition-transform duration-300 motion-reduce:transition-none',
 		scrolled && '-translate-y-2'
 	]}
 >
 	<!-- Like a toolbar in Apple's Liquid Glass: every item is a circle or a capsule the full
-	     height inside the padding, so its corners run parallel to the capsule's. -->
+	     height inside the padding, so its corners run parallel to the capsule's. The items
+	     stretch to that height rather than being centred, as NavigationMenu.List wraps its
+	     <ul> in a <div> of its own, which h-full would not reach through. -->
 	<div
 		class={[
-			'capsule mx-auto flex items-center justify-between gap-2 rounded-full border border-primary bg-background/30 p-1.5 shadow-xl shadow-background backdrop-blur-lg transition-[height,width] duration-300 motion-reduce:transition-none',
+			'capsule mx-auto flex justify-between gap-2 rounded-full border border-primary bg-background/30 p-1.5 shadow-xl shadow-background backdrop-blur-lg transition-[height,width] duration-300 motion-reduce:transition-none',
 			scrolled ? 'scrolled h-14' : 'h-16'
 		]}
 	>
@@ -45,26 +62,37 @@
 			class="aspect-square h-full shrink-0 rounded-full p-0 hover:border-foreground/20"
 			href={resolve('/')}
 			aria-label="Home"
+			aria-current={page.route.id === '/' ? 'page' : undefined}
 		>
 			<img src={logo} width="48" height="48" class="size-[65%]" alt="" />
 		</Button>
-		<ul class="hidden h-full sm:flex">
-			{#each links as link (link.href)}
-				<li class="h-full">
-					<Button
-						variant="ghost"
-						class="h-full gap-[0.35em] rounded-full px-4 text-base font-bold hover:border-foreground/20 has-data-[icon=inline-start]:pl-3.5"
+		<NavigationMenu.List class="hidden h-full sm:flex">
+			{#each navLinks as link (link.href)}
+				<NavigationMenu.Item class="h-full">
+					<!-- a ghost Button's look, so the links match the logo beside them; the current
+					     page keeps the Link's own background and turns its icon green -->
+					<NavigationMenu.Link
 						href={link.href}
+						active={link.current}
+						class={buttonVariants({
+							variant: 'ghost',
+							class:
+								'h-full gap-[0.35em] rounded-full px-4 py-0 text-base font-bold hover:border-foreground/20 has-data-[icon=inline-start]:pl-3.5'
+						})}
 					>
-						<link.icon data-icon="inline-start" strokeWidth={2.75} class="size-[1.05em]" />
+						<link.icon
+							data-icon="inline-start"
+							strokeWidth={2.75}
+							class={['size-[1.05em]', link.current && 'text-primary']}
+						/>
 						{link.label}
-					</Button>
-				</li>
+					</NavigationMenu.Link>
+				</NavigationMenu.Item>
 			{/each}
-		</ul>
-		<NavMenu {links} />
+		</NavigationMenu.List>
+		<NavMenu links={navLinks} />
 	</div>
-</nav>
+</NavigationMenu.Root>
 
 <style lang="postcss">
 	@reference "#app.css";

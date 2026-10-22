@@ -7,7 +7,12 @@
 	import { Button, buttonVariants } from '#lib/components/ui/button/index.js';
 
 	interface Props {
-		links: readonly { href: string; label: string; icon: Component<LucideProps> }[];
+		links: readonly {
+			href: string;
+			label: string;
+			icon: Component<LucideProps>;
+			current: boolean;
+		}[];
 	}
 
 	let { links }: Props = $props();
@@ -36,14 +41,17 @@
 			class="fixed inset-y-2 right-2 z-50 flex w-3/4 max-w-sm flex-col rounded-[2rem] border border-foreground/15 bg-background/40 p-3 shadow-2xl backdrop-blur-xl duration-200 ease-in-out data-open:animate-in data-open:fade-in-0 data-open:slide-in-from-right-10 data-closed:animate-out data-closed:fade-out-0 data-closed:slide-out-to-right-10"
 		>
 			<Sheet.Title class="sr-only">Menu</Sheet.Title>
-			<!-- larger than the capsule's links, for a thumb: 44px rows, as Apple's guidelines ask -->
+			<!-- larger than the capsule's links, for a thumb: 44px rows, as Apple's guidelines ask.
+			     Every icon here is green, so the current page is marked by the background the
+			     capsule's NavigationMenu.Link gives it. -->
 			<ul class="flex flex-col gap-1">
 				{#each links as link (link.href)}
 					<li>
 						<Button
 							variant="ghost"
-							class="h-11 w-full justify-start gap-[0.7em] rounded-full px-3 text-lg font-medium hover:border-foreground/20 has-data-[icon=inline-start]:pl-3"
+							class="h-11 w-full justify-start gap-[0.7em] rounded-full px-3 text-lg font-medium hover:border-foreground/20 has-data-[icon=inline-start]:pl-3 aria-[current=page]:bg-muted/50"
 							href={link.href}
+							aria-current={link.current ? 'page' : undefined}
 							onclick={() => (open = false)}
 						>
 							<link.icon data-icon="inline-start" class="size-[1.2em] text-primary" />
