@@ -1,5 +1,8 @@
 // The site's settings, in one place - the pages and the end-to-end specs read them from here.
 
+// type-only, so a spec, which imports this file by a relative path, never resolves it
+import type { SocialLink } from '#lib/types/social-link.js';
+
 /** How many of the newest posts the home page lists. */
 export const LATEST_POSTS_LIMIT = 5;
 
@@ -15,11 +18,20 @@ export const WIDE_POSTS = 3;
  */
 export const MIN_PAGE_WIDTH = 360;
 
-/** How long /success waits before going back to the home page. */
-export const SUCCESS_REDIRECT_DELAY_MS = 5000;
-
 /** The site's name, which ends every page's title. */
 export const SITE_NAME = 'Matus Barta | Anonymus09';
+
+/** Where to find the author elsewhere, listed on /about. */
+export const SOCIAL_LINKS: readonly SocialLink[] = [
+	{ label: 'GitHub', href: 'https://github.com/matus-barta', brand: 'github' },
+	{ label: 'Instagram', href: 'https://www.instagram.com/matus.barta09/', brand: 'instagram' },
+	{ label: 'YouTube', href: 'https://www.youtube.com/@MatúšBarta', brand: 'youtube' },
+	{
+		label: 'YouTube, second channel',
+		href: 'https://www.youtube.com/channel/UCPWg-Iw7QFAXM-H2WjzPxiA',
+		brand: 'youtube'
+	}
+];
 
 /** The site's source, which the footer links to with its licence. */
 export const SOURCE_URL = 'https://github.com/matus-barta/personal-web';

@@ -281,11 +281,10 @@ The files below reproduce logos and marks owned by other organisations. They ide
 
 | Files                                                                              | Mark and owner                    |
 | ---------------------------------------------------------------------------------- | --------------------------------- |
-| `src/lib/assets/social/gh-grey.svg`                                                | GitHub, GitHub, Inc.              |
-| `src/lib/assets/social/ig-grey.svg`                                                | Instagram, Meta Platforms, Inc.   |
-| `src/lib/assets/social/yt-grey.svg`                                                | YouTube, Google LLC               |
 | `src/lib/assets/projects/nodejs.svg`                                               | Node.js, OpenJS Foundation        |
 | `src/lib/assets/projects/powershell.svg`                                           | PowerShell, Microsoft Corporation |
 | `.agents/skills/shadcn-svelte/assets/shadcn-svelte.png`, `shadcn-svelte-small.png` | shadcn-svelte, its maintainers    |
 
-Dependencies installed from the npm registry are not listed here, apart from the fonts above, which the built site serves. They are declared in `package.json`, resolved in `pnpm-lock.yaml`, and are not redistributed in this repository.
+The brand icons the site draws - GitHub (GitHub, Inc.), Instagram (Meta Platforms, Inc.) and YouTube (Google LLC) - come from [Simple Icons](https://simpleicons.org), installed from npm as [`simple-icons`](https://www.npmjs.com/package/simple-icons) and released under CC0 1.0. `src/lib/components/brand-icon.svelte` draws them - in their brands' own colours from the package's data, or in the site's grey - and the built site inlines them into its pages. The marks remain their owners', and Simple Icons' disclaimer asks its users to follow each brand's guidelines, which it links for each icon.
+
+Dependencies installed from the npm registry are not listed here, apart from the fonts and the brand icons above, which the built site serves. They are declared in `package.json`, resolved in `pnpm-lock.yaml`, and are not redistributed in this repository.

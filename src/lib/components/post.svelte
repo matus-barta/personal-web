@@ -1,17 +1,13 @@
 <script lang="ts">
-	import type { Component } from 'svelte';
-	import type { Picture } from '@sveltejs/enhanced-img';
 	import type { Project } from '#lib/types/project.js';
 	import * as Card from '#lib/components/ui/card/index.js';
 	import { Badge } from '#lib/components/ui/badge/index.js';
 	import { Button } from '#lib/components/ui/button/index.js';
 	import GradientSeparator from '#lib/components/gradient-separator.svelte';
+	import BrandIcon from '#lib/components/brand-icon.svelte';
 	import ArrowRightIcon from '@lucide/svelte/icons/arrow-right';
 	import { resolve } from '$app/paths';
-	interface Props extends Omit<Project, 'order' | 'img'> {
-		slug: string;
-		img: Picture | string;
-		body: Component;
+	interface Props extends Project {
 		/** How many posts are about the project; with any, the card links to them. */
 		related: number;
 	}
@@ -28,8 +24,6 @@
 		stack,
 		related
 	}: Props = $props();
-
-	import gh from '#lib/assets/social/gh-grey.svg';
 </script>
 
 {#snippet relatedPosts()}
@@ -76,8 +70,15 @@
 				<Card.Title>
 					<h2 class="text-xl font-bold tracking-tight md:text-2xl">{title}</h2>
 				</Card.Title>
-				<Button variant="ghost" size="icon-sm" href={github} aria-label="{title} on GitHub">
-					<img src={gh} alt="" class="size-4" />
+				<!-- group: the icon turns white with the button's hover -->
+				<Button
+					variant="ghost"
+					size="icon-sm"
+					class="group"
+					href={github}
+					aria-label="{title} on GitHub"
+				>
+					<BrandIcon brand="github" class="size-4" />
 				</Button>
 			</div>
 			<div

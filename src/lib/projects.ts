@@ -1,8 +1,8 @@
 import type { Component } from 'svelte';
 import type { Picture } from '@sveltejs/enhanced-img';
-import type { Project } from '#lib/types/project.js';
+import type { Project, ProjectFrontmatter } from '#lib/types/project.js';
 
-type ProjectModule = { default: Component; metadata: Project };
+type ProjectModule = { default: Component; metadata: ProjectFrontmatter };
 
 // Eager, unlike the posts: /projects shows every project, so they all ship with it anyway.
 const modules = import.meta.glob<ProjectModule>('/content/projects/*.md', { eager: true });
@@ -25,9 +25,9 @@ const svg = import.meta.glob<string>('/src/lib/assets/projects/*.svg', {
  * Every project with its body and built image, in `order`. Its `slug` is its file's name, which
  * /projects gives its card as an `id`, so a link can point at it.
  */
-export function getProjects() {
+export function getProjects(): Project[] {
 	return Object.entries(modules)
-		.map(([file, { default: body, metadata }]) => {
+		.map(([file, { default: body, metadata }]): Project => {
 			const path = `/src/lib/assets/projects/${metadata.img}`;
 			const img = raster[path] ?? svg[path];
 			if (!img) throw new Error(`No image ${metadata.img} for the project "${metadata.title}"`);

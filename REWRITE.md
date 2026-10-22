@@ -17,7 +17,6 @@ Installed: [`shadcn-svelte`](https://www.npmjs.com/package/shadcn-svelte) 1.7.0,
 - [ ] Components to use (all in the [component list](https://shadcn-svelte.com/docs/components)):
   - [ ] `Badge`: tags (see 9)
 - [ ] Skip `form` for now. The registry's `form` [still pins](https://shadcn-svelte.com/registry/form.json) `sveltekit-superforms@^2.28.1`, which rejects Kit 3 ([issue #2915](https://github.com/huntabyte/shadcn-svelte/issues/2915), open). [`sveltekit-superforms`](https://www.npmjs.com/package/sveltekit-superforms) 3.0.0 (2026-10-04) accepts Kit 3, so re-check once the registry moves to it.
-- [ ] Icons: [Lucide v1 removed every brand icon](https://lucide.dev/guide/version-1), GitHub's included. Keep the SVGs in `src/lib/assets/social/`, or use [Simple Icons](https://simpleicons.org), which Lucide recommends.
 
 ## 2. Vite+ (`vp`): is it viable?
 
@@ -92,8 +91,6 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
 - [ ] **SEO:**
   - [ ] No meta description, Open Graph tags or canonical URL (`app.html` has only `charset`, `viewport` and `text-scale`). `paths.origin` is already `SITE_URL`, so `page.url.href` gives the canonical URL while prerendering.
   - [ ] No `sitemap.xml`, and `robots.txt` has no `Sitemap:` line.
-- [ ] **Leftovers:**
-  - [ ] `/contact` (with its commented-out form and its dead `@reference "../../app.css"`) and `/success` go; see 9.
 
 ## 9. Content
 
@@ -113,16 +110,13 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
 
 **Existing pages:**
 
-- [ ] **About** is empty ("Under construction..."). Fill it within the ground rules:
+- [ ] **About** has its sections, each still a placeholder (`src/routes/about/+page.svelte`), and "Find me" with the social links. Write them within the ground rules:
   - [ ] What you do and the tech you work with.
   - [ ] Your interests; the hero tagline already lists them.
   - [ ] What the site is for.
-  - [ ] "Find me on GitHub / Bluesky" links.
-- [ ] **Contact (decided):** no form and no email address.
-  - [ ] Delete `/contact` and `/success`, and remove Contact from the nav.
-  - [ ] Put the social links in the footer and on About instead.
+  - [ ] Add Bluesky to "Find me" (`SOCIAL_LINKS` in `src/lib/config.ts`, and `siBluesky` in `brand-icon.svelte`).
+- [ ] **Contact (decided):** no form and no email address. `/contact` and `/success` are gone, and the social links are on About only, not in the footer.
   - [ ] Check the Netlify dashboard for Netlify Forms settings left over from the old form.
-- [ ] **Footer:** two YouTube icons with no visible difference. There is no Bluesky or X icon: the unused ones went in step 7, so add an icon with each link (Bluesky is planned on About).
 
 **New pages** ("slash pages", see [slashpages.net](https://slashpages.net)):
 

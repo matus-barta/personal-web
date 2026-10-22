@@ -1,4 +1,8 @@
-export type Project = {
+import type { Component } from 'svelte';
+import type { Picture } from '@sveltejs/enhanced-img';
+
+/** A project's frontmatter, as written in `content/projects/<slug>.md`. */
+export type ProjectFrontmatter = {
 	title: string;
 	excerpt: string;
 	github: string;
@@ -13,4 +17,14 @@ export type Project = {
 	featured?: boolean;
 	/** The technologies it is built with, each shown as a badge. */
 	stack: string[];
+};
+
+/**
+ * A project as the pages use it: its frontmatter and slug - its file's name - with the logo
+ * built and the blurb compiled to a component.
+ */
+export type Project = Omit<ProjectFrontmatter, 'img'> & {
+	slug: string;
+	img: Picture | string;
+	body: Component;
 };

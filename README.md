@@ -37,7 +37,7 @@ How to set up and check the site is in [`.claude/development-setup.md`](.claude/
 | `src/lib/posts.ts`           | Reads the blog posts, for every route that lists or shows them                |
 | `src/lib/projects.ts`        | Reads the project blurbs for `/projects`                                      |
 | `src/lib/markdown/`          | The heading-id plugin, and the layout that builds a post's images             |
-| `src/lib/types/`, `-/utils/` | The `Post` and `Project` types, `formatDate()` and `pageTitle()`              |
+| `src/lib/types/`, `-/utils/` | The post, project and social-link types, `formatDate()` and `pageTitle()`     |
 | `content/blog/`              | One folder per blog post: its Markdown and its images, outside `src/`         |
 | `content/projects/`          | The project blurbs on `/projects`, as Markdown                                |
 | `static/`                    | Served verbatim at a fixed URL: `robots.txt` and one easter-egg image         |

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import FolderGit2Icon from '@lucide/svelte/icons/folder-git-2';
-	import MailIcon from '@lucide/svelte/icons/mail';
 	import NotebookPenIcon from '@lucide/svelte/icons/notebook-pen';
 	import UserRoundIcon from '@lucide/svelte/icons/user-round';
 	import { resolve } from '$app/paths';
@@ -15,8 +14,7 @@
 	const links = [
 		{ route: '/blog', label: 'Blog', icon: NotebookPenIcon },
 		{ route: '/projects', label: 'Projects', icon: FolderGit2Icon },
-		{ route: '/about', label: 'About', icon: UserRoundIcon },
-		{ route: '/contact', label: 'Contact', icon: MailIcon }
+		{ route: '/about', label: 'About', icon: UserRoundIcon }
 	] as const;
 
 	// A link is the current page on its route and the routes under it - Blog on a post. It

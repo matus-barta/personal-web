@@ -4,6 +4,7 @@
 	import { coverFit, coverSize } from '#lib/cover.js';
 	import { formatDate } from '#lib/utils/format-date.js';
 	import type { Post } from '#lib/types/post.js';
+	import type { Project } from '#lib/types/project.js';
 	import { resolve } from '$app/paths';
 
 	// A post's card in a grid of one column up to md: and two from it, as /blog and the pages
@@ -13,7 +14,7 @@
 		post,
 		wide,
 		project
-	}: { post: Post; wide: boolean; project?: { slug: string; title: string } } = $props();
+	}: { post: Post; wide: boolean; project?: Pick<Project, 'slug' | 'title'> } = $props();
 
 	// The cover's frame: on phones 2:1, so the card stays near square, and the card's whole
 	// width, edge to edge at its top - 100vw less the page's 16px on each side; then 16:9 beside
