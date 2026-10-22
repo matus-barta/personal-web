@@ -158,3 +158,5 @@ Keep the dark background, the green accent, the skewed `@anonymus09` highlight a
 - [ ] **`/blog`:** show reading time and tags on the cards (9).
 - [ ] **Footer:** add an RSS link once the feed (9) exists.
 - [ ] **A glow that follows the mouse, for the cards without an image:** the home page's latest posts and the About sections, which have nothing to anchor a glow to. The code is there and off everywhere: `follow` in `CardHover` (`src/lib/types/card-hover.ts`) and `followPointer` in `src/lib/glow.ts`. Such a card needs the `glow` utility, a starting `--glow-x`/`--glow-y` and a `--glow-size` of its own, likely smaller and rounder than the image cards'.
+
+MANUAL NOTE - can images fade in when loaded?, can img:enhance make loading images in stages, like blurred really fast to load then better and better? (progressive image load? idk)
