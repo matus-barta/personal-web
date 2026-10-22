@@ -62,6 +62,7 @@ pnpm test:unit    # Vitest: the *.test.ts beside the code; not run in CI
 
 - **Every tool a script or check needs is listed under "Dev requirements" in the root [`README.md`](../README.md#dev-requirements).** When a change makes a new tool necessary, add it there in the same change.
 - **Never install anything on the machine yourself** - name the tool, say what it is needed for, and let the developer decide. For a one-off or troubleshooting tool, ask before running it any other way too: offer installing it, running it from a container, or doing without, and use what the developer picks. Clean up whatever ran, so nothing is left behind.
+- **Stop only the processes you started, by the PID recorded when starting them** - never by port: [`lsof -i:<port>`](https://man7.org/linux/man-pages/man8/lsof.8.html) also matches every client connected to it, the developer's browser included. A server you did not start - one holding 4173 before `pnpm test`, say - is the developer's to stop: ask.
 - **Dependencies, tools, GitHub Actions and images go in at their latest stable version, checked against the registry** - never recalled. Read a new major version's documentation before writing code against it. Where a compatibility limit holds a version back, say which tool sets it, pin it in `renovate.json` with a `description` saying what lifts the pin, and add it to the TODOs in `README.md`.
 
 ## Conventions
