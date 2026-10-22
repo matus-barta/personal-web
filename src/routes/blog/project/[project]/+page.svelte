@@ -1,8 +1,7 @@
 <script lang="ts">
-	import ArrowRightIcon from '@lucide/svelte/icons/arrow-right';
+	import ArrowButton from '#lib/components/arrow-button.svelte';
 	import BlogPostCard from '#lib/components/blog-post-card.svelte';
 	import PageHeader from '#lib/components/page-header.svelte';
-	import { Button } from '#lib/components/ui/button/index.js';
 	import { pageTitle } from '#lib/utils/page-title.js';
 	import type { PageData } from './$types';
 	import { resolve } from '$app/paths';
@@ -16,15 +15,9 @@
 
 <div class="flex flex-wrap items-end justify-between gap-x-4">
 	<PageHeader title="Posts about {data.project.title}" description={data.project.excerpt} />
-	<Button
-		variant="outline"
-		size="sm"
-		class="mb-5"
-		href="{resolve('/projects')}#{data.project.slug}"
-	>
+	<ArrowButton class="mb-5" href="{resolve('/projects')}#{data.project.slug}">
 		The project
-		<ArrowRightIcon data-icon="inline-end" />
-	</Button>
+	</ArrowButton>
 </div>
 
 <!-- every card wide, cover beside the text: a project has few posts, newest first -->

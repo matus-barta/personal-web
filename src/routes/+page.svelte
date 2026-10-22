@@ -1,9 +1,8 @@
 <script lang="ts">
-	import ArrowRightIcon from '@lucide/svelte/icons/arrow-right';
+	import ArrowButton from '#lib/components/arrow-button.svelte';
 	import * as Card from '#lib/components/ui/card/index.js';
 	import LatestPosts from '#lib/components/latest-posts.svelte';
 	import { Badge } from '#lib/components/ui/badge/index.js';
-	import { Button } from '#lib/components/ui/button/index.js';
 	import { pageTitle } from '#lib/utils/page-title.js';
 	import type { PageData } from './$types';
 	import { resolve } from '$app/paths';
@@ -47,11 +46,8 @@
 		<Card.Description class="text-base max-md:mt-3">
 			IT professional, hobby developer, homelab enthusiast, gamer, space nerd.
 		</Card.Description>
-		<!-- an outline Button, as the sections' below are; w-fit, or the header's grid stretches it -->
-		<Button variant="outline" size="sm" class="w-fit" href={resolve('/about')}>
-			More on About page
-			<ArrowRightIcon data-icon="inline-end" />
-		</Button>
+		<!-- w-fit, or the header's grid stretches it -->
+		<ArrowButton class="w-fit" href={resolve('/about')}>More on About page</ArrowButton>
 		<Card.Action class="row-span-3 max-sm:row-start-2 max-sm:mt-3">
 			<!-- Not shadcn's Avatar: its image stays display: none until JavaScript has loaded it,
 			     and it takes one src, so the prerendered page would lose enhanced-img's picture.
@@ -70,10 +66,7 @@
 {#snippet sectionHeader(title: string, label: string, href: string)}
 	<div class="flex items-baseline justify-between gap-4">
 		<h2 class="text-xl font-bold tracking-tight md:text-2xl">{title}</h2>
-		<Button variant="outline" size="sm" {href}>
-			{label}
-			<ArrowRightIcon data-icon="inline-end" />
-		</Button>
+		<ArrowButton {href}>{label}</ArrowButton>
 	</div>
 {/snippet}
 
@@ -118,15 +111,13 @@
 						</ul>
 						{#if project.related > 0}
 							<!-- relative z-10, above the title's link that covers the card -->
-							<Button
-								variant="outline"
+							<ArrowButton
 								size="xs"
 								class="relative z-10 w-fit"
 								href={resolve('/blog/project/[project]', { project: project.slug })}
 							>
 								{project.related} related {project.related === 1 ? 'post' : 'posts'}
-								<ArrowRightIcon data-icon="inline-end" />
-							</Button>
+							</ArrowButton>
 						{/if}
 					</div>
 				</Card.Content>

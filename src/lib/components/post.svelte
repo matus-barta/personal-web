@@ -5,7 +5,7 @@
 	import { Button } from '#lib/components/ui/button/index.js';
 	import GradientSeparator from '#lib/components/gradient-separator.svelte';
 	import BrandIcon from '#lib/components/brand-icon.svelte';
-	import ArrowRightIcon from '@lucide/svelte/icons/arrow-right';
+	import ArrowButton from '#lib/components/arrow-button.svelte';
 	import { resolve } from '$app/paths';
 	interface Props extends Project {
 		/** How many posts are about the project; with any, the card links to them. */
@@ -28,14 +28,9 @@
 
 {#snippet relatedPosts()}
 	{#if related > 0}
-		<Button
-			variant="outline"
-			size="xs"
-			href={resolve('/blog/project/[project]', { project: slug })}
-		>
+		<ArrowButton size="xs" href={resolve('/blog/project/[project]', { project: slug })}>
 			{related} related {related === 1 ? 'post' : 'posts'}
-			<ArrowRightIcon data-icon="inline-end" />
-		</Button>
+		</ArrowButton>
 	{/if}
 {/snippet}
 
