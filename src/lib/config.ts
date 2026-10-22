@@ -31,6 +31,23 @@ export const PROJECT_HOVER: CardHover = {
 	}
 };
 
+/**
+ * The hover on a featured project's card on the home page (`+page.svelte`): as a project's, but
+ * smaller and fainter, as the card is.
+ */
+export const FEATURED_HOVER: CardHover = {
+	brightness: 1.06,
+	origin: 'centre',
+	glow: {
+		colour: 'foreground',
+		strength: '4%',
+		angle: '45deg',
+		distance: '24px',
+		grow: true,
+		speed: 'fast'
+	}
+};
+
 /** How many of the newest posts the home page lists. */
 export const LATEST_POSTS_LIMIT = 5;
 

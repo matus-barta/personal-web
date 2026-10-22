@@ -4,7 +4,10 @@
 	import LatestPosts from '#lib/components/latest-posts.svelte';
 	import { Badge } from '#lib/components/ui/badge/index.js';
 	import { pageTitle } from '#lib/utils/page-title.js';
+	import { FEATURED_HOVER } from '#lib/config.js';
+	import { followPointer, glowStyle } from '#lib/glow.js';
 	import type { PageData } from './$types';
+	import { dev } from '$app/env';
 	import { resolve } from '$app/paths';
 
 	interface Props {
@@ -81,10 +84,17 @@
 	{@render sectionHeader('Featured Projects', 'See all projects', resolve('/projects'))}
 	<div class="grid gap-6 md:grid-cols-2">
 		{#each data.featured as project (project.slug)}
-			<!-- the title's link covers the whole card, as on /blog, and leads to the project's card
-			     on /projects; the first four of its stack keep the card short -->
+			<!-- The title's link covers the whole card, as on /blog, and leads to the project's card
+			     on /projects; the first four of its stack keep the card short. On hover the logo
+			     brightens and a small glow spreads from it (FEATURED_HOVER; the glow utility, and the
+			     style below for where it starts). -->
 			<Card.Root
-				class="relative transition-shadow hover:ring-primary/50 has-focus-visible:ring-primary/50"
+				data-glow-origin={FEATURED_HOVER.origin}
+				data-glow-grow={FEATURED_HOVER.glow.grow || undefined}
+				data-glow-debug={(dev && FEATURED_HOVER.debug) || undefined}
+				style="--logo-brightness: {FEATURED_HOVER.brightness}; {glowStyle(FEATURED_HOVER.glow)}"
+				class="featured-card glow relative transition-shadow hover:ring-primary/50 has-focus-visible:ring-primary/50"
+				{@attach FEATURED_HOVER.follow && followPointer}
 			>
 				<Card.Content class="flex gap-4">
 					<enhanced:img
@@ -93,7 +103,7 @@
 						width="96"
 						height="96"
 						sizes="96px"
-						class="size-24 shrink-0 rounded-xl bg-foreground p-2"
+						class="featured-card-logo size-24 shrink-0 rounded-xl bg-foreground p-2"
 					/>
 					<div class="flex min-w-0 flex-1 flex-col gap-2">
 						<h3 class="text-xl font-bold tracking-tight">
@@ -125,3 +135,36 @@
 		{/each}
 	</div>
 </section>
+
+<style>
+	/* Global, as Card.Root and the logo are elements of other components, under a class of this
+	   page's. The values come from FEATURED_HOVER in #lib/config.ts, through the card's style. */
+	:global(.featured-card .featured-card-logo) {
+		transition: filter 200ms;
+	}
+	:global(.featured-card:hover .featured-card-logo) {
+		filter: brightness(var(--logo-brightness));
+	}
+
+	/*
+	  Where the glow (the glow utility, layout.css) is anchored, by the three places
+	  FEATURED_HOVER.origin names: the logo's right edge, towards the text; its centre; or the
+	  card's left edge behind it - each level with the logo's centre, and small, as these cards
+	  are. The 96px logo sits in the card's 16px padding, its centre 64px in.
+	*/
+	:global(.featured-card) {
+		--glow-y: 64px;
+	}
+	:global(.featured-card[data-glow-origin='edge']) {
+		--glow-x: 112px;
+		--glow-size: 220px 170px;
+	}
+	:global(.featured-card[data-glow-origin='centre']) {
+		--glow-x: 64px;
+		--glow-size: 240px 180px;
+	}
+	:global(.featured-card[data-glow-origin='far']) {
+		--glow-x: 0px;
+		--glow-size: 280px 200px;
+	}
+</style>

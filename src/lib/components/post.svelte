@@ -7,7 +7,7 @@
 	import BrandIcon from '#lib/components/brand-icon.svelte';
 	import ArrowButton from '#lib/components/arrow-button.svelte';
 	import { PROJECT_HOVER } from '#lib/config.js';
-	import { glowStyle } from '#lib/glow.js';
+	import { followPointer, glowStyle } from '#lib/glow.js';
 	import { dev } from '$app/env';
 	import { resolve } from '$app/paths';
 	interface Props extends Project {
@@ -47,6 +47,7 @@
 	data-glow-origin={PROJECT_HOVER.origin}
 	data-glow-grow={PROJECT_HOVER.glow.grow || undefined}
 	data-glow-debug={(dev && PROJECT_HOVER.debug) || undefined}
+	{@attach PROJECT_HOVER.follow && followPointer}
 	style="--logo-brightness: {PROJECT_HOVER.brightness}; {glowStyle(PROJECT_HOVER.glow)}"
 	class="project-card glow relative scroll-mt-24"
 >

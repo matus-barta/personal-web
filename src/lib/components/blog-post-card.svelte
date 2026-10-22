@@ -3,7 +3,7 @@
 	import { Badge } from '#lib/components/ui/badge/index.js';
 	import { coverFit, coverSize } from '#lib/cover.js';
 	import { CARD_HOVER } from '#lib/config.js';
-	import { glowStyle } from '#lib/glow.js';
+	import { followPointer, glowStyle } from '#lib/glow.js';
 	import { formatDate } from '#lib/utils/format-date.js';
 	import type { Post } from '#lib/types/post.js';
 	import type { Project } from '#lib/types/project.js';
@@ -53,6 +53,7 @@
 	data-glow-origin={CARD_HOVER.origin}
 	data-glow-grow={CARD_HOVER.glow.grow || undefined}
 	data-glow-debug={(dev && CARD_HOVER.debug) || undefined}
+	{@attach CARD_HOVER.follow && followPointer}
 	style="--cover-brightness: {CARD_HOVER.brightness}; {glowStyle(CARD_HOVER.glow)}"
 	class={[
 		'blog-card glow relative transition-shadow hover:ring-primary/50 has-focus-visible:ring-primary/50',

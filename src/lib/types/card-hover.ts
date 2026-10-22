@@ -1,8 +1,9 @@
 import type { Glow } from '#lib/types/glow.js';
 
 /**
- * How a card answers a hover - a post's card, as `CARD_HOVER` in `#lib/config.ts` sets it, and
- * a project's, as `PROJECT_HOVER` does: its image brightens, and a glow spreads from it.
+ * How a card answers a hover - a post's card, as `CARD_HOVER` in `#lib/config.ts` sets it, a
+ * project's, as `PROJECT_HOVER` does, and a featured project's on the home page, as
+ * `FEATURED_HOVER` does: its image brightens, and a glow spreads from it.
  */
 export type CardHover = {
 	/**
@@ -18,6 +19,12 @@ export type CardHover = {
 	origin: 'edge' | 'centre' | 'far';
 	/** The light that grows out of the image. */
 	glow: Glow;
+	/**
+	 * `true` lets the glow's centre follow the mouse across the card once it moves there, rather
+	 * than stay where it is anchored - not on a touch screen, or with reduced motion asked for.
+	 * Off if unset.
+	 */
+	follow?: boolean;
 	/**
 	 * For tuning: `true` marks, on every card, a ring where the glow is anchored and a dot at its
 	 * centre, after `glow.angle` and `glow.distance` move it. Only under `pnpm dev` - the cards
