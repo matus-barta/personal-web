@@ -17,38 +17,44 @@
 </script>
 
 <Card.Root data-testid="post">
-	<Card.Header>
-		<Card.Title class="flex items-end gap-3">
-			<!-- 80px on phones, so the title keeps room beside it; 128px from sm: -->
+	<!-- A column rather than the header's grid, stretched to the card's width - Card.Header's own
+	     items-start would leave the row beside the logo, and its GitHub button, short of it. -->
+	<Card.Header class="flex flex-col items-stretch gap-0">
+		<div class="flex gap-4">
+			<!-- 96px on phones, so the title keeps room beside it; 128px from sm: -->
 			<enhanced:img
 				src={img}
 				alt={img_alt}
 				width="128"
 				height="128"
-				sizes="(min-width: 640px) 128px, 80px"
-				class="size-20 shrink-0 rounded-xl bg-foreground p-2 sm:size-32"
+				sizes="(min-width: 640px) 128px, 96px"
+				class="size-24 shrink-0 rounded-xl bg-foreground p-2 sm:size-32"
 			/>
-			<h2 class="text-2xl font-bold tracking-tight md:text-4xl">{title}</h2>
-		</Card.Title>
-		<Card.Action class="row-span-1 self-end">
-			<Button variant="ghost" size="icon-sm" href={github} aria-label="{title} on GitHub">
-				<img src={gh} alt="" class="size-4" />
-			</Button>
-		</Card.Action>
-		<GradientSeparator class="col-span-full mt-2" />
+			<div class="flex min-w-0 flex-1 flex-col gap-2">
+				<div class="flex items-start justify-between gap-2">
+					<Card.Title>
+						<h2 class="text-xl font-bold tracking-tight md:text-2xl">{title}</h2>
+					</Card.Title>
+					<Button variant="ghost" size="icon-sm" href={github} aria-label="{title} on GitHub">
+						<img src={gh} alt="" class="size-4" />
+					</Button>
+				</div>
+				<Card.Description>{excerpt}</Card.Description>
+				<ul class="flex flex-wrap gap-1.5" aria-label="Status and tech stack">
+					<li>
+						<Badge variant={status === 'active' ? 'default' : 'outline'}>
+							{status === 'active' ? 'Active' : 'Archived'}
+						</Badge>
+					</li>
+					{#each stack as tech (tech)}
+						<li><Badge variant="secondary">{tech}</Badge></li>
+					{/each}
+				</ul>
+			</div>
+		</div>
+		<GradientSeparator class="mt-4" />
 	</Card.Header>
-	<Card.Content class="flex flex-col gap-3">
-		<p class="text-muted-foreground">{excerpt}</p>
-		<ul class="flex flex-wrap gap-1.5" aria-label="Status and tech stack">
-			<li>
-				<Badge variant={status === 'active' ? 'default' : 'outline'}>
-					{status === 'active' ? 'Active' : 'Archived'}
-				</Badge>
-			</li>
-			{#each stack as tech (tech)}
-				<li><Badge variant="secondary">{tech}</Badge></li>
-			{/each}
-		</ul>
+	<Card.Content>
 		<div class="prose max-w-none prose-site">
 			<Body />
 		</div>

@@ -166,9 +166,7 @@ Keep the dark background, the green accent, the skewed `@anonymus09` highlight a
   - [ ] Keep links in running text underlined, so they don't rely on colour alone ([WCAG 1.4.1](https://www.w3.org/TR/WCAG22/#use-of-color)).
 - [ ] **`/blog`:** show reading time and tags on the cards (9).
 - [ ] **Home:** keep the hero section, and add a "Featured projects" row of 2–3 cards under the latest posts.
-- [ ] **`/projects`:** the 128 px logos and very large titles fill most of the page. Make it a grid of compact cards, each with:
-  - [ ] a small logo
-  - [ ] a link to any related blog post
+- [ ] **`/projects`:** a link on each card to any related blog post.
 - [ ] **Footer:**
   - [ ] Compact.
   - [ ] Add an RSS icon, a "source on GitHub" link, and a short licence note: the code is MIT and the content is all rights reserved (`LICENSE`).
