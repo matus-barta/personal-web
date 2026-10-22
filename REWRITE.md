@@ -2,7 +2,7 @@
 
 Researched and verified on 2026-10-20. Versions come from the npm registry on that date. Claims about this repository name the file they come from; claims about anything else link their source where they're made.
 
-**Suggested order:** 11 (layout refresh) → 9 (content), each its own pull request. Most of 1 - the shadcn-svelte theme and components - landed first, on its own; what's left of it goes with 11 and 9. 2 (Vite+) waits for full Svelte support. Items in 8 can land at any point: the `/blog` date fits with 11.
+**Suggested order:** 11 (layout refresh) → 9 (content), each its own pull request. Most of 1 - the shadcn-svelte theme and components - landed first, on its own; what's left of it goes with 11 and 9. 2 (Vite+) waits for full Svelte support. Items in 8 can land at any point.
 
 ## Decisions
 
@@ -89,7 +89,6 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
 
 ## 8. Technical review
 
-- [ ] **`/blog`** shows the raw `post.date`; `/` and the post page use `formatDate()`.
 - [ ] **SEO:**
   - [ ] No meta description, Open Graph tags or canonical URL (`app.html` has only `charset`, `viewport` and `text-scale`). `paths.origin` is already `SITE_URL`, so `page.url.href` gives the canonical URL while prerendering.
   - [ ] No `sitemap.xml`, and `robots.txt` has no `Sitemap:` line.
@@ -165,9 +164,7 @@ Keep the dark background, the green accent, the skewed `@anonymus09` highlight a
 - [ ] **Code block background:** decide it together with the copy button in 9, as shadcn-svelte's Code Block would change how code blocks are rendered. Shiki writes the `monokai` theme's own `background-color:#272822` inline on every `pre`, a warm olive-grey outside the Mist palette. Change it to match the theme (untested options: replace the colour at build time through Shiki's options in `vite.config.ts`, or pick a theme whose background fits; an inline style beats any class, so CSS alone would need `!important`).
 - [ ] **Links:** links in posts and project blurbs (`prose`) are mint, lime on hover and always underlined; the home page's latest posts are mint, lime and underlined on hover. Undecided: keep lime for links in running text only, so the latest posts only underline on hover.
   - [ ] Keep links in running text underlined, so they don't rely on colour alone ([WCAG 1.4.1](https://www.w3.org/TR/WCAG22/#use-of-color)).
-- [ ] **`/blog`:**
-  - [ ] Cards in two columns on desktop, one on phones.
-  - [ ] Show the formatted date (8), with reading time and tags (9).
+- [ ] **`/blog`:** show reading time and tags on the cards (9).
 - [ ] **Home:** keep the hero section, and add a "Featured projects" row of 2–3 cards under the latest posts.
 - [ ] **`/projects`:** the 128 px logos and very large titles fill most of the page. Make it a grid of compact cards, each with:
   - [ ] a small logo
