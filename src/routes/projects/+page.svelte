@@ -3,6 +3,9 @@
 	import { pageTitle } from '#lib/utils/page-title.js';
 	import { getProjects } from '#lib/projects.js';
 	import Post from '#lib/components/post.svelte';
+	import type { PageData } from './$types';
+
+	let { data }: { data: PageData } = $props();
 
 	const projects = getProjects();
 </script>
@@ -15,6 +18,6 @@
 
 <div class="flex flex-col gap-6">
 	{#each projects as project (project.title)}
-		<Post {...project} />
+		<Post {...project} related={data.related[project.slug] ?? 0} />
 	{/each}
 </div>

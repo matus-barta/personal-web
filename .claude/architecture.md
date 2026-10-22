@@ -45,16 +45,18 @@ Every route that reads that directory goes through [`#lib/posts.ts`](../src/lib/
 ```mermaid
 flowchart LR
     md["content/blog/*/index.md"] --> reader["#lib/posts.ts"]
-    reader -- "getPosts():<br/>published frontmatter, newest first" --> list["/, /blog and /api/posts.json"]
+    reader -- "getPosts():<br/>published frontmatter, newest first" --> list["/, /blog, /blog/project/[project],<br/>/projects and /api/posts.json"]
     reader -- "getPost(slug):<br/>one published post and its component" --> post["/blog/[slug]"]
 ```
 
-- `getPosts()` loads every module to read its `metadata` - the frontmatter - keeps the posts marked `published`, and sorts them newest first. Because it loads every post, **only code that runs at build time calls it**: the loads of [`/`](../src/routes/+page.server.ts) and [`/blog`](../src/routes/blog/+page.server.ts) are `+page.server.ts` files, whose data reaches the browser as the prerendered `__data.json` beside each page, plus `/api/posts.json` and the `entries()` of `/blog/[slug]`. Called from a universal `+page.ts`, it would put every post into that page's client bundle.
+- `getPosts()` loads every module to read its `metadata` - the frontmatter - keeps the posts marked `published`, and sorts them newest first. Because it loads every post, **only code that runs at build time calls it**: the loads of [`/`](../src/routes/+page.server.ts), [`/blog`](../src/routes/blog/+page.server.ts), [`/blog/project/[project]`](../src/routes/blog/project/[project]/+page.server.ts) and [`/projects`](../src/routes/projects/+page.server.ts) are `+page.server.ts` files, whose data reaches the browser as the prerendered `__data.json` beside each page, plus `/api/posts.json` and the `entries()` of `/blog/[slug]` and `/blog/project/[project]`. Called from a universal `+page.ts`, it would put every post into that page's client bundle.
 - `getPost(slug)` loads one module and returns its default export - the compiled component - with its frontmatter. `/blog/[slug]` calls it from a universal `+page.ts`, because a component cannot pass through a server load: what one returns must be serializable ([loading data](https://svelte.dev/docs/kit/load#Universal-vs-server-Output)).
 
 The glob is lazy on purpose. An eager glob of the same files beside it would turn every post into a static import, which Vite reports as `INEFFECTIVE_DYNAMIC_IMPORT`, and the bodies would no longer load separately.
 
 **The slug is the folder name**, never a frontmatter field: `toSlug()` derives it from the path and merges it into the metadata, so renaming a post's folder changes its URL.
+
+**A post's `project` names a project by its file's name** - `project: open-rmm` for `content/projects/open-rmm.md` - the same name `/projects` gives that project's card as its `id`. A name, not the title, so rewording a title breaks no link. `toPost()` checks it against a lazy glob of `content/projects/*.md` whose keys alone it reads, so an unknown name fails the build, and the check loads no project: Vite reduces such a glob to the file names. An eager glob there, as `#lib/projects.ts` uses, would bundle every project into every post. Each project a post names gets `/blog/project/<name>`, listing its posts, and its cards on `/projects` and the home page link there, as does the project's badge on the post's card on `/blog`.
 
 **`published: false` keeps a post off the site, not out of the deploy.** The post is not in the list or in `entries()`, so no page is built for it, and `getPost()` returns nothing for it, so a direct link gets the 404. Its compiled body is still a chunk under `build/_app/`, though, because the glob takes every file. Anything that must actually stay private belongs on an unmerged branch.
 

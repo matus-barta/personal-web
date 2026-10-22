@@ -137,7 +137,8 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
 **Blog features:**
 
 - [ ] RSS/Atom feed: a prerendered `+server.ts` at `/rss.xml`, linked from the footer and from `<head>`.
-- [ ] Tags, with a page per tag.
+- [ ] Tags, with a page per tag. A post's `project` already has one, `/blog/project/<name>`: reuse its page, or make a project one tag among others.
+  - [ ] The stack badges on the project cards could become tags too, each linking to its tag's page.
 - [ ] Series: the two Open-RMM posts (`open-rmm.md`, `open-rmm-part-deux.md`) become "part 1/2", with links between them.
 - [ ] Reading time.
 - [ ] A table of contents on long posts.
@@ -165,7 +166,6 @@ Keep the dark background, the green accent, the skewed `@anonymus09` highlight a
 - [ ] **Links:** links in posts and project blurbs (`prose`) are mint, lime on hover and always underlined; the home page's latest posts are mint, lime and underlined on hover. Undecided: keep lime for links in running text only, so the latest posts only underline on hover.
   - [ ] Keep links in running text underlined, so they don't rely on colour alone ([WCAG 1.4.1](https://www.w3.org/TR/WCAG22/#use-of-color)).
 - [ ] **`/blog`:** show reading time and tags on the cards (9).
-- [ ] **`/projects`:** a link on each card to any related blog post.
 - [ ] **Footer:**
   - [ ] Compact.
   - [ ] Add an RSS icon, a "source on GitHub" link, and a short licence note: the code is MIT and the content is all rights reserved (`LICENSE`).

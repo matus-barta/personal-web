@@ -12,6 +12,11 @@ export type PostFrontmatter = {
 	img_transparent?: boolean;
 	/** Which part of the cover stays when it is cropped to its frame; `top` if unset. */
 	img_crop?: CoverCrop;
+	/**
+	 * The project the post is about, by its file's name in `content/projects/` - `open-rmm` for
+	 * `open-rmm.md`. The post is then listed on /blog/project/open-rmm.
+	 */
+	project?: string;
 };
 
 /** The `img_crop` values: a side or corner of the image, or its centre. */

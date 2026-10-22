@@ -81,8 +81,9 @@ test('every post is prerendered', async ({ request }) => {
 // server-only code, whose assets Kit has to copy into the client output.
 test('every image on a built page exists', () => {
 	const pages = ['index.html', 'blog.html', 'projects.html'];
-	for (const file of readdirSync(new URL('../../build/blog', import.meta.url)))
-		if (file.endsWith('.html')) pages.push(`blog/${file}`);
+	for (const folder of ['blog', 'blog/project'])
+		for (const file of readdirSync(new URL(`../../build/${folder}`, import.meta.url)))
+			if (file.endsWith('.html')) pages.push(`${folder}/${file}`);
 
 	for (const page of pages) {
 		const html = readFileSync(new URL(`../../build/${page}`, import.meta.url), 'utf8');

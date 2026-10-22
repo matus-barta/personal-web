@@ -10,6 +10,14 @@ type PostModule = { default: Component; metadata: PostFrontmatter };
 // server loads, +server.ts and entries().
 const modules = import.meta.glob<PostModule>('/content/blog/*/index.md');
 
+// The projects a post can name, by file name. Lazy and only its keys used, so no project is
+// loaded here - eagerly, as #lib/projects.ts does, each would be bundled into every post.
+const projects = new Set(
+	Object.keys(import.meta.glob('/content/projects/*.md')).map((path) =>
+		path.slice('/content/projects/'.length, -'.md'.length)
+	)
+);
+
 // the folder name is the slug
 function toSlug(path: string) {
 	return path.slice('/content/blog/'.length, -'/index.md'.length);
@@ -20,6 +28,11 @@ function toPost(metadata: PostFrontmatter, slug: string): Post {
 	if (!img) throw new Error(`The cover of "${slug}" must be a file beside it, such as ./cover.png`);
 	if (metadata.img_crop !== undefined && !isCoverCrop(metadata.img_crop)) {
 		throw new Error(`"${slug}" has an unknown img_crop: ${metadata.img_crop}`);
+	}
+	if (metadata.project !== undefined && !projects.has(metadata.project)) {
+		throw new Error(
+			`"${slug}" names the project "${metadata.project}", but there is no content/projects/${metadata.project}.md`
+		);
 	}
 	return { ...metadata, slug, img };
 }

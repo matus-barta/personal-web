@@ -116,6 +116,18 @@
 								<li><Badge variant="secondary">{tech}</Badge></li>
 							{/each}
 						</ul>
+						{#if project.related > 0}
+							<!-- relative z-10, above the title's link that covers the card -->
+							<Button
+								variant="outline"
+								size="xs"
+								class="relative z-10 w-fit"
+								href={resolve('/blog/project/[project]', { project: project.slug })}
+							>
+								{project.related} related {project.related === 1 ? 'post' : 'posts'}
+								<ArrowRightIcon data-icon="inline-end" />
+							</Button>
+						{/if}
 					</div>
 				</Card.Content>
 			</Card.Root>

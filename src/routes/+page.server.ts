@@ -4,10 +4,11 @@ import { getProjects } from '#lib/projects.js';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async () => {
+	const posts = await getPosts();
 	return {
-		posts: (await getPosts()).slice(0, LATEST_POSTS_LIMIT),
-		// the projects marked `featured`, with only what their cards show: a page's data can't
-		// carry their Markdown body, a component
+		posts: posts.slice(0, LATEST_POSTS_LIMIT),
+		// the projects marked `featured`, with only what their cards show - a page's data can't
+		// carry their Markdown body, a component - and how many posts are about each
 		featured: getProjects()
 			.filter((project) => project.featured)
 			.map(({ slug, title, excerpt, img, img_alt, stack }) => ({
@@ -16,7 +17,8 @@ export const load: PageServerLoad = async () => {
 				excerpt,
 				img,
 				img_alt,
-				stack
+				stack,
+				related: posts.filter((post) => post.project === slug).length
 			}))
 	};
 };

@@ -5,6 +5,7 @@ description: My development experience and little bit of how-to with SvelteKit a
 img: ./1.png
 img_crop: center
 published: true
+project: personal-web
 ---
 
 ## My choices

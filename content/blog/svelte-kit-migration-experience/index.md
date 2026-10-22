@@ -4,6 +4,7 @@ date: '2022-10-29'
 description: 'How hard it can be? -Jeremy Clarkson'
 img: ./1.jpg
 published: true
+project: personal-web
 ---
 
 ## Svelte Kit experience

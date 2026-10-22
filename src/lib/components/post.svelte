@@ -6,13 +6,28 @@
 	import { Badge } from '#lib/components/ui/badge/index.js';
 	import { Button } from '#lib/components/ui/button/index.js';
 	import GradientSeparator from '#lib/components/gradient-separator.svelte';
+	import ArrowRightIcon from '@lucide/svelte/icons/arrow-right';
+	import { resolve } from '$app/paths';
 	interface Props extends Omit<Project, 'order' | 'img'> {
 		slug: string;
 		img: Picture | string;
 		body: Component;
+		/** How many posts are about the project; with any, the card links to them. */
+		related: number;
 	}
 
-	let { slug, img, img_alt, body: Body, title, excerpt, github, status, stack }: Props = $props();
+	let {
+		slug,
+		img,
+		img_alt,
+		body: Body,
+		title,
+		excerpt,
+		github,
+		status,
+		stack,
+		related
+	}: Props = $props();
 
 	import gh from '#lib/assets/social/gh-grey.svg';
 </script>
@@ -43,9 +58,14 @@
 					</Button>
 				</div>
 				<Card.Description>{excerpt}</Card.Description>
-				<!-- at the foot of the column, as tall as the logo beside it, so the badges sit on
-				     the separator, and more rows of them take the room above before pushing it down -->
-				<ul class="mt-auto flex flex-wrap gap-1.5" aria-label="Status and tech stack">
+				<!-- At the foot of the column, as tall as the logo beside it, so the badges sit on the
+				     separator, and more rows of them take the room above before pushing it down. The
+				     link to the project's posts is the last item, pushed to the right end of the last
+				     row - beside a short row, or on a row of its own after a long one, as on a phone. -->
+				<ul
+					class="mt-auto flex flex-wrap items-center gap-1.5"
+					aria-label="Status, tech stack and posts"
+				>
 					<li>
 						<Badge variant={status === 'active' ? 'default' : 'outline'}>
 							{status === 'active' ? 'Active' : 'Archived'}
@@ -54,6 +74,18 @@
 					{#each stack as tech (tech)}
 						<li><Badge variant="secondary">{tech}</Badge></li>
 					{/each}
+					{#if related > 0}
+						<li class="ml-auto">
+							<Button
+								variant="outline"
+								size="xs"
+								href={resolve('/blog/project/[project]', { project: slug })}
+							>
+								{related} related {related === 1 ? 'post' : 'posts'}
+								<ArrowRightIcon data-icon="inline-end" />
+							</Button>
+						</li>
+					{/if}
 				</ul>
 			</div>
 		</div>
