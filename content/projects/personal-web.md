@@ -6,6 +6,7 @@ img: personalweb.png
 img_alt: Personal Web logo
 order: 1
 status: active
+featured: true
 stack: [SvelteKit, Tailwind, TypeScript]
 ---
 

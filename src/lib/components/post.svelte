@@ -7,16 +7,19 @@
 	import { Button } from '#lib/components/ui/button/index.js';
 	import GradientSeparator from '#lib/components/gradient-separator.svelte';
 	interface Props extends Omit<Project, 'order' | 'img'> {
+		slug: string;
 		img: Picture | string;
 		body: Component;
 	}
 
-	let { img, img_alt, body: Body, title, excerpt, github, status, stack }: Props = $props();
+	let { slug, img, img_alt, body: Body, title, excerpt, github, status, stack }: Props = $props();
 
 	import gh from '#lib/assets/social/gh-grey.svg';
 </script>
 
-<Card.Root data-testid="post">
+<!-- the slug is the card's id, for the home page's featured projects to link to; scroll-mt-24
+     keeps a card it scrolls to clear of the floating nav -->
+<Card.Root id={slug} data-testid="post" class="scroll-mt-24">
 	<!-- A column rather than the header's grid, stretched to the card's width - Card.Header's own
 	     items-start would leave the row beside the logo, and its GitHub button, short of it. -->
 	<Card.Header class="flex flex-col items-stretch gap-0">

@@ -21,14 +21,18 @@ const svg = import.meta.glob<string>('/src/lib/assets/projects/*.svg', {
 	import: 'default'
 });
 
-/** Every project with its body and built image, in `order`. */
+/**
+ * Every project with its body and built image, in `order`. Its `slug` is its file's name, which
+ * /projects gives its card as an `id`, so a link can point at it.
+ */
 export function getProjects() {
-	return Object.values(modules)
-		.map(({ default: body, metadata }) => {
+	return Object.entries(modules)
+		.map(([file, { default: body, metadata }]) => {
 			const path = `/src/lib/assets/projects/${metadata.img}`;
 			const img = raster[path] ?? svg[path];
 			if (!img) throw new Error(`No image ${metadata.img} for the project "${metadata.title}"`);
-			return { ...metadata, img, body };
+			const slug = file.slice('/content/projects/'.length, -'.md'.length);
+			return { ...metadata, slug, img, body };
 		})
 		.sort((first, second) => first.order - second.order);
 }

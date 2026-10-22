@@ -2,6 +2,7 @@
 	import ArrowRightIcon from '@lucide/svelte/icons/arrow-right';
 	import * as Card from '#lib/components/ui/card/index.js';
 	import LatestPosts from '#lib/components/latest-posts.svelte';
+	import { Badge } from '#lib/components/ui/badge/index.js';
 	import { Button } from '#lib/components/ui/button/index.js';
 	import { pageTitle } from '#lib/utils/page-title.js';
 	import type { PageData } from './$types';
@@ -46,7 +47,7 @@
 		<Card.Description class="text-base max-md:mt-3">
 			IT professional, hobby developer, homelab enthusiast, gamer, space nerd.
 		</Card.Description>
-		<!-- an outline Button, as "See all posts" below is; w-fit, or the header's grid stretches it -->
+		<!-- an outline Button, as the sections' below are; w-fit, or the header's grid stretches it -->
 		<Button variant="outline" size="sm" class="w-fit" href={resolve('/about')}>
 			More on About page
 			<ArrowRightIcon data-icon="inline-end" />
@@ -63,16 +64,61 @@
 			/>
 		</Card.Action>
 	</Card.Header>
-	<Card.Content>
-		<section class="flex flex-col gap-2">
-			<h2 class="text-xl font-bold tracking-tight md:text-2xl">Latest Blog Posts</h2>
-			<LatestPosts posts={data.posts} />
-		</section>
-	</Card.Content>
-	<Card.Footer>
-		<Button variant="outline" size="sm" href={resolve('/blog')}>
-			See all posts
+</Card.Root>
+
+<!-- a section's heading, with the button to the page that has all of it on the right -->
+{#snippet sectionHeader(title: string, label: string, href: string)}
+	<div class="flex items-baseline justify-between gap-4">
+		<h2 class="text-xl font-bold tracking-tight md:text-2xl">{title}</h2>
+		<Button variant="outline" size="sm" {href}>
+			{label}
 			<ArrowRightIcon data-icon="inline-end" />
 		</Button>
-	</Card.Footer>
-</Card.Root>
+	</div>
+{/snippet}
+
+<section class="mt-10 flex flex-col gap-4">
+	{@render sectionHeader('Latest Blog Posts', 'See all posts', resolve('/blog'))}
+	<Card.Root>
+		<Card.Content><LatestPosts posts={data.posts} /></Card.Content>
+	</Card.Root>
+</section>
+
+<section class="mt-10 flex flex-col gap-4">
+	{@render sectionHeader('Featured Projects', 'See all projects', resolve('/projects'))}
+	<div class="grid gap-6 md:grid-cols-2">
+		{#each data.featured as project (project.slug)}
+			<!-- the title's link covers the whole card, as on /blog, and leads to the project's card
+			     on /projects; the first four of its stack keep the card short -->
+			<Card.Root
+				class="relative transition-shadow hover:ring-primary/50 has-focus-visible:ring-primary/50"
+			>
+				<Card.Content class="flex gap-4">
+					<enhanced:img
+						src={project.img}
+						alt={project.img_alt}
+						width="96"
+						height="96"
+						sizes="96px"
+						class="size-24 shrink-0 rounded-xl bg-foreground p-2"
+					/>
+					<div class="flex min-w-0 flex-1 flex-col gap-2">
+						<h3 class="text-xl font-bold tracking-tight">
+							<a
+								href="{resolve('/projects')}#{project.slug}"
+								class="text-primary after:absolute after:inset-0 focus-visible:outline-none"
+								>{project.title}</a
+							>
+						</h3>
+						<p class="text-sm text-muted-foreground">{project.excerpt}</p>
+						<ul class="mt-auto flex flex-wrap gap-1.5" aria-label="Tech stack">
+							{#each project.stack.slice(0, 4) as tech (tech)}
+								<li><Badge variant="secondary">{tech}</Badge></li>
+							{/each}
+						</ul>
+					</div>
+				</Card.Content>
+			</Card.Root>
+		{/each}
+	</div>
+</section>

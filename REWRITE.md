@@ -165,7 +165,6 @@ Keep the dark background, the green accent, the skewed `@anonymus09` highlight a
 - [ ] **Links:** links in posts and project blurbs (`prose`) are mint, lime on hover and always underlined; the home page's latest posts are mint, lime and underlined on hover. Undecided: keep lime for links in running text only, so the latest posts only underline on hover.
   - [ ] Keep links in running text underlined, so they don't rely on colour alone ([WCAG 1.4.1](https://www.w3.org/TR/WCAG22/#use-of-color)).
 - [ ] **`/blog`:** show reading time and tags on the cards (9).
-- [ ] **Home:** keep the hero section, and add a "Featured projects" row of 2–3 cards under the latest posts.
 - [ ] **`/projects`:** a link on each card to any related blog post.
 - [ ] **Footer:**
   - [ ] Compact.
