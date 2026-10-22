@@ -40,7 +40,9 @@
 					</Button>
 				</div>
 				<Card.Description>{excerpt}</Card.Description>
-				<ul class="flex flex-wrap gap-1.5" aria-label="Status and tech stack">
+				<!-- at the foot of the column, as tall as the logo beside it, so the badges sit on
+				     the separator, and more rows of them take the room above before pushing it down -->
+				<ul class="mt-auto flex flex-wrap gap-1.5" aria-label="Status and tech stack">
 					<li>
 						<Badge variant={status === 'active' ? 'default' : 'outline'}>
 							{status === 'active' ? 'Active' : 'Archived'}
