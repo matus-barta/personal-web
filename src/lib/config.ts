@@ -21,5 +21,8 @@ export const SUCCESS_REDIRECT_DELAY_MS = 5000;
 /** The site's name, which ends every page's title. */
 export const SITE_NAME = 'Matus Barta | Anonymus09';
 
+/** The site's source, which the footer links to with its licence. */
+export const SOURCE_URL = 'https://github.com/matus-barta/personal-web';
+
 /** Where the site is served. Kit renders every page with this as its `url.origin`. */
 export const SITE_URL = 'https://anonymus09.com';

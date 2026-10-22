@@ -163,10 +163,6 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
 Keep the dark background, the green accent, the skewed `@anonymus09` highlight and the space avatar. What makes the site look dated (seen in screenshots at 1280 and 375 px) is mostly spacing, image sizes and typography.
 
 - [ ] **Code block background:** decide it together with the copy button in 9, as shadcn-svelte's Code Block would change how code blocks are rendered. Shiki writes the `monokai` theme's own `background-color:#272822` inline on every `pre`, a warm olive-grey outside the Mist palette. Change it to match the theme (untested options: replace the colour at build time through Shiki's options in `vite.config.ts`, or pick a theme whose background fits; an inline style beats any class, so CSS alone would need `!important`).
-- [ ] **Links:** links in posts and project blurbs (`prose`) are mint, lime on hover and always underlined; the home page's latest posts are mint, lime and underlined on hover. Undecided: keep lime for links in running text only, so the latest posts only underline on hover.
-  - [ ] Keep links in running text underlined, so they don't rely on colour alone ([WCAG 1.4.1](https://www.w3.org/TR/WCAG22/#use-of-color)).
 - [ ] **`/blog`:** show reading time and tags on the cards (9).
-- [ ] **Footer:**
-  - [ ] Compact.
-  - [ ] Add an RSS icon, a "source on GitHub" link, and a short licence note: the code is MIT and the content is all rights reserved (`LICENSE`).
+- [ ] **Footer:** add an RSS link once the feed (9) exists.
 - [ ] **Motion:** subtle page transitions with `onNavigate` and `document.startViewTransition`, as the [Svelte blog](https://svelte.dev/blog/view-transitions) shows ([MDN](https://developer.mozilla.org/en-US/docs/Web/API/View_Transition_API)). Respect `prefers-reduced-motion`.
