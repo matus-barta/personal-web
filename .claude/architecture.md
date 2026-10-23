@@ -8,11 +8,17 @@ How the site is built and why, for the rules in [`CLAUDE.md`](CLAUDE.md) that fo
 
 The site is a single SvelteKit app. There is no database, no auth and no CMS: a blog post is a Markdown file in git, and content ships by pushing a commit.
 
-It builds with `adapter-static`, configured in [`vite.config.ts`](../vite.config.ts) with `fallback: '404.html'`. Every page, and the one endpoint, is rendered to a file in `build/` during `vite build`, and [`netlify.toml`](../netlify.toml) runs `pnpm run build` and publishes that directory - nothing else is deployed, so Netlify serves files from its CDN and no function runs per view.
+It builds with `adapter-static`, configured in [`vite.config.ts`](../vite.config.ts) with `fallback: '404.html'`. Every page and endpoint is rendered to a file in `build/` during `vite build`, and [`netlify.toml`](../netlify.toml) runs `pnpm run build` and publishes that directory - nothing else is deployed, so Netlify serves files from its CDN and no function runs per view.
 
-Server code still exists - the `+page.server.ts` loads and the `+server.ts` endpoint - but it runs once, in Node, while the site is prerendered. Nothing runs per request, so there are no hooks, form actions, cookies or request headers to read; response headers and redirects go in `netlify.toml` - which is where the year-long cache for the hashed files under `/_app/immutable/` is set, a rule `adapter-netlify` used to write itself - or in Netlify's [`_headers`](https://docs.netlify.com/manage/routing/headers/) and [`_redirects`](https://docs.netlify.com/manage/routing/redirects/overview/) files. For the same reason anything computed while rendering is fixed at build time: the footer's `new Date().getFullYear()` in [`footer.svelte`](../src/lib/components/footer.svelte) is the year of the last build. Per-request rendering would mean going back to `adapter-netlify`.
+Server code still exists - the `+page.server.ts` loads and the `+server.ts` endpoints - but it runs once, in Node, while the site is prerendered. Nothing runs per request, so there are no hooks, form actions, cookies or request headers to read; response headers and redirects go in `netlify.toml` - which is where the year-long cache for the hashed files under `/_app/immutable/` is set, a rule `adapter-netlify` used to write itself - or in Netlify's [`_headers`](https://docs.netlify.com/manage/routing/headers/) and [`_redirects`](https://docs.netlify.com/manage/routing/redirects/overview/) files. For the same reason anything computed while rendering is fixed at build time: the footer's `new Date().getFullYear()` in [`footer.svelte`](../src/lib/components/footer.svelte) is the year of the last build. Per-request rendering would mean going back to `adapter-netlify`.
 
 With no request to take it from, Kit renders every page with `url.origin` set to `paths.origin`, which [`vite.config.ts`](../vite.config.ts) sets to `SITE_URL` from [`src/lib/config.ts`](../src/lib/config.ts). Unset, it would be `http://sveltekit-prerender` ([`prerender.js`](https://github.com/sveltejs/kit/blob/main/packages/kit/src/core/postbuild/prerender.js)), and an absolute URL built from `page.url` would name that instead of the site.
+
+### One site, several domains
+
+Netlify serves the site on `anonymus09.com` and also, as they are rather than redirecting to it, on `matusbarta.sk`, `matusbarta.com` and their `www.` names. Each page names its copy on `anonymus09.com` as the canonical one, through [`page-head.svelte`](../src/lib/components/page-head.svelte), so search engines index one copy rather than four: Google counts `rel="canonical"` a strong signal, a redirect a stronger one ([consolidating duplicate URLs](https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls)).
+
+`page.url.origin` is `SITE_URL` only while prerendering. In the browser `page.url` is "the URL of the current page" ([`$app/state`](https://svelte.dev/docs/kit/$app-state)), so its origin is the domain the page was opened on, and `<svelte:head>` renders again on a client-side navigation, so a canonical URL built from `page.url.href` would name `matusbarta.sk` there. The component builds it, `og:url` and the preview image's URL from `SITE_URL` and the path instead.
 
 An external uptime check requests `/`, which is `index.html`; there is no healthcheck endpoint, since a static file answering is all one could report.
 
@@ -21,6 +27,8 @@ An external uptime check requests `/`, which is `index.html`; there is no health
 `export const prerender = true` in the root [`+layout.ts`](../src/routes/+layout.ts) applies to every page beneath it. Kit starts from its default [`prerender.entries`](https://svelte.dev/docs/kit/configuration#prerender), `['*']` - every route without a required parameter - and crawls the links it finds. `/blog/[slug]` has one, so its [`+page.ts`](../src/routes/blog/[slug]/+page.ts) exports `entries()`, which lists the published slugs rather than relying on whatever the crawler happens to reach.
 
 A layout's options do not reach a `+server.ts`: an endpoint inherits `prerender` only from the pages that fetch it ([page options](https://svelte.dev/docs/kit/page-options#prerender)). No page fetches [`/api/posts.json`](../src/routes/api/posts.json/+server.ts), so it exports its own `prerender = true`, and comes out as `build/api/posts.json`. The extension is in the route's name because the file is served as it is, and the host chooses the `Content-Type` from it - Kit's docs recommend one on every prerendered endpoint. Without it, the file was `build/api/posts`, which `vite preview` served as `text/html`.
+
+[`/sitemap.xml`](../src/routes/sitemap.xml/+server.ts) and [`/robots.txt`](../src/routes/robots.txt/+server.ts) are prerendered endpoints too. The sitemap lists every route folder without a parameter, and the posts and project pages as their `entries()` do, and an end-to-end test compares it with the `.html` files in `build/`. `robots.txt` is an endpoint rather than a file in `static/` so that its `Sitemap:` line comes from `SITE_URL`.
 
 With the default [`trailingSlash`](https://svelte.dev/docs/kit/page-options#trailingSlash), `/about` is written as `about.html`, which Netlify serves at `/about` and redirects `/about/` to ([Netlify support guide](https://answers.netlify.com/t/support-guide-how-can-i-alter-trailing-slash-behaviour-in-my-urls-will-enabling-pretty-urls-help/31191)).
 
@@ -64,7 +72,7 @@ Frontmatter must satisfy the `PostFrontmatter` type in [`src/lib/types/post.ts`]
 
 ## Images
 
-Every image a page shows is imported through Vite and gets a hashed filename; `static/` holds only what needs a fixed URL, such as `robots.txt`.
+Every image a page shows is imported through Vite and gets a hashed filename; `static/` holds only what needs a fixed URL, such as the easter-egg image under `static/media/`.
 
 **Raster images go through [`@sveltejs/enhanced-img`](https://svelte.dev/docs/kit/images)**, registered before `sveltekit()` in [`vite.config.ts`](../vite.config.ts) as its docs require. It builds AVIF, WebP and the original format in several widths, and gives the `<img>` its intrinsic `width` and `height`. It takes SVG only as a static import ([images docs](https://svelte.dev/docs/kit/images)), so the globs import SVGs with `?url` instead, and `<enhanced:img>` renders a plain `<img>` for a string `src`.
 

@@ -3,9 +3,9 @@
 	import * as Card from '#lib/components/ui/card/index.js';
 	import { Skeleton } from '#lib/components/ui/skeleton/index.js';
 	import BrandIcon from '#lib/components/brand-icon.svelte';
+	import PageHead from '#lib/components/page-head.svelte';
 	import PageHeader from '#lib/components/page-header.svelte';
 	import { SOCIAL_LINKS } from '#lib/config.js';
-	import { pageTitle } from '#lib/utils/page-title.js';
 
 	// The page's sections, as the README's "Content" list plans them, and what each is to say -
 	// for whoever writes it, not shown. Until then a section shows still placeholder lines, each
@@ -18,9 +18,7 @@
 	const lines = ['w-full', 'w-11/12', 'w-2/3'];
 </script>
 
-<svelte:head>
-	<title>{pageTitle('About')}</title>
-</svelte:head>
+<PageHead title="About" description="Who I am, what I do and what this site is for." />
 
 <PageHeader
 	title="About Me"

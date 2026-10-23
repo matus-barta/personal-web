@@ -2,17 +2,15 @@
 	import ArrowButton from '#lib/components/arrow-button.svelte';
 	import BlogPostCard from '#lib/components/blog-post-card.svelte';
 	import PageHeader from '#lib/components/page-header.svelte';
+	import PageHead from '#lib/components/page-head.svelte';
 	import { WIDE_POSTS } from '#lib/config.js';
-	import { pageTitle } from '#lib/utils/page-title.js';
 	import type { PageData } from './$types';
 	import { resolve } from '$app/paths';
 
 	let { data }: { data: PageData } = $props();
 </script>
 
-<svelte:head>
-	<title>{pageTitle(`Posts about ${data.project.title}`)}</title>
-</svelte:head>
+<PageHead title="Posts about {data.project.title}" description={data.project.excerpt} />
 
 <div class="flex flex-wrap items-end justify-between gap-x-4">
 	<PageHeader title="Posts about {data.project.title}" description={data.project.excerpt} />
