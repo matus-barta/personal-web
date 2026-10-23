@@ -29,12 +29,13 @@
 	     128px avatar beside it and the gap, 100vw - 196px. Up to md: the text keeps clear of
 	     the name's skewed highlight, which the 160px avatar's taller rows do from md:. Below
 	     sm: the avatar starts level with the text under the name, and spans an empty fourth
-	     row, which takes its extra height. -->
+	     row, which takes its extra height. The name's pt-2 keeps its skewed highlight, which
+	     rises to the right, clear of the card's top edge. -->
 	<Card.Header
 		class="grid-rows-[auto_auto_1fr] max-sm:gap-x-4 max-sm:has-data-[slot=card-description]:grid-rows-[auto_auto_auto_1fr]"
 	>
 		<Card.Title
-			class="text-[clamp(1.375rem,calc((100vw-64px)/14),2.25rem)] font-bold tracking-tight max-sm:col-span-2 sm:text-[clamp(1.375rem,calc((100vw-196px)/14),2.25rem)] md:text-4xl"
+			class="pt-2 text-[clamp(1.375rem,calc((100vw-64px)/14),2.25rem)] font-bold tracking-tight max-sm:col-span-2 sm:text-[clamp(1.375rem,calc((100vw-196px)/14),2.25rem)] md:text-4xl"
 		>
 			<h1>
 				Matúš
