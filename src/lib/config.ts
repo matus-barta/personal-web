@@ -63,6 +63,9 @@ export const WIDE_POSTS = 2;
  */
 export const MIN_PAGE_WIDTH = 360;
 
+/** The size of a post's preview image, `/blog/<slug>/og.png`, which link previews show. */
+export const PREVIEW_IMAGE = { width: 1200, height: 630 } as const;
+
 /** The site's name, which ends every page's title. */
 export const SITE_NAME = 'Matus Barta | Anonymus09';
 

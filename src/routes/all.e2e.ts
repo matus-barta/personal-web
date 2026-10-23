@@ -2,7 +2,13 @@
 // config.ts exists. A type-only import, like Post below, is erased and never resolved.
 // For the same reason a spec can't import a module that itself imports from #lib, such
 // as pageTitle(): it builds the expected titles from SITE_NAME instead.
-import { LATEST_POSTS_LIMIT, MIN_PAGE_WIDTH, SITE_NAME, SITE_URL } from '../lib/config.js';
+import {
+	LATEST_POSTS_LIMIT,
+	MIN_PAGE_WIDTH,
+	PREVIEW_IMAGE,
+	SITE_NAME,
+	SITE_URL
+} from '../lib/config.js';
 import type { Post } from '#lib/types/post.js';
 import { expect, test, type APIRequestContext } from '@playwright/test';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
@@ -150,6 +156,22 @@ test('every page has its description, canonical URL and Open Graph tags', () => 
 		expect(existsSync(new URL(`.${new URL(image).pathname}`, build)), `${path}: ${image}`).toBe(
 			true
 		);
+	}
+});
+
+test('every post has its own preview image', async ({ request }) => {
+	for (const { slug } of await getPublishedPosts(request)) {
+		const html = readFileSync(new URL(`blog/${slug}.html`, build), 'utf8');
+		expect(html, slug).toContain(
+			`<meta property="og:image" content="${SITE_URL}/blog/${slug}/og.png"`
+		);
+
+		// a PNG's width and height, from its IHDR chunk
+		const png = readFileSync(new URL(`blog/${slug}/og.png`, build));
+		expect([png.readUInt32BE(16), png.readUInt32BE(20)], slug).toEqual([
+			PREVIEW_IMAGE.width,
+			PREVIEW_IMAGE.height
+		]);
 	}
 });
 

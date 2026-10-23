@@ -49,7 +49,7 @@ How the pieces fit together - one SvelteKit app prerendered to static files and 
 
 ### Code
 
-- [ ] The rewrite, planned in [`REWRITE.md`](REWRITE.md): blog features, sharing, and the pages for the content below
+- [ ] The rewrite, planned in [`REWRITE.md`](REWRITE.md): blog features, and the pages for the content below
 
 ### Waiting on upstream
 

@@ -35,7 +35,7 @@ function toPost(metadata: PostFrontmatter, slug: string): Post {
 		);
 	}
 	const placeholder = metadata.img_transparent ? undefined : postPlaceholder(slug, metadata.img);
-	return { ...metadata, slug, img, placeholder };
+	return { ...metadata, slug, img, coverPath: metadata.img, placeholder };
 }
 
 function getTime(date: string) {
