@@ -5,6 +5,7 @@ description: 'Description of Open RMM project and the concepts behind it.'
 img: ./code.png
 img_crop: top
 published: true
+project: open-rmm
 ---
 
 _Disclaimer: this post is mostly to dump ideas from my mind and make the project goal more defined._

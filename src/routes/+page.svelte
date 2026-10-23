@@ -1,17 +1,13 @@
 <script lang="ts">
-	import ArrowRightIcon from '@lucide/svelte/icons/arrow-right';
+	import ArrowButton from '#lib/components/arrow-button.svelte';
 	import * as Card from '#lib/components/ui/card/index.js';
+	import FeaturedProjectCard from '#lib/components/featured-project-card.svelte';
 	import LatestPosts from '#lib/components/latest-posts.svelte';
-	import { Button } from '#lib/components/ui/button/index.js';
 	import { pageTitle } from '#lib/utils/page-title.js';
 	import type { PageData } from './$types';
 	import { resolve } from '$app/paths';
 
-	interface Props {
-		data: PageData;
-	}
-
-	let { data }: Props = $props();
+	let { data }: { data: PageData } = $props();
 </script>
 
 <svelte:head>
@@ -26,12 +22,13 @@
 	     128px avatar beside it and the gap, 100vw - 196px. Up to md: the text keeps clear of
 	     the name's skewed highlight, which the 160px avatar's taller rows do from md:. Below
 	     sm: the avatar starts level with the text under the name, and spans an empty fourth
-	     row, which takes its extra height. -->
+	     row, which takes its extra height. The name's pt-2 keeps its skewed highlight, which
+	     rises to the right, clear of the card's top edge. -->
 	<Card.Header
 		class="grid-rows-[auto_auto_1fr] max-sm:gap-x-4 max-sm:has-data-[slot=card-description]:grid-rows-[auto_auto_auto_1fr]"
 	>
 		<Card.Title
-			class="text-[clamp(1.375rem,calc((100vw-64px)/14),2.25rem)] font-bold tracking-tight max-sm:col-span-2 sm:text-[clamp(1.375rem,calc((100vw-196px)/14),2.25rem)] md:text-4xl"
+			class="pt-2 text-[clamp(1.375rem,calc((100vw-64px)/14),2.25rem)] font-bold tracking-tight max-sm:col-span-2 sm:text-[clamp(1.375rem,calc((100vw-196px)/14),2.25rem)] md:text-4xl"
 		>
 			<h1>
 				Matúš
@@ -46,9 +43,8 @@
 		<Card.Description class="text-base max-md:mt-3">
 			IT professional, hobby developer, homelab enthusiast, gamer, space nerd.
 		</Card.Description>
-		<Button variant="link" size="sm" class="w-fit px-0" href={resolve('/about')}>
-			More on About page
-		</Button>
+		<!-- w-fit, or the header's grid stretches it -->
+		<ArrowButton class="w-fit" href={resolve('/about')}>More on About page</ArrowButton>
 		<Card.Action class="row-span-3 max-sm:row-start-2 max-sm:mt-3">
 			<!-- Not shadcn's Avatar: its image stays display: none until JavaScript has loaded it,
 			     and it takes one src, so the prerendered page would lose enhanced-img's picture.
@@ -61,16 +57,28 @@
 			/>
 		</Card.Action>
 	</Card.Header>
-	<Card.Content>
-		<section class="flex flex-col gap-2">
-			<h2 class="text-xl font-bold tracking-tight md:text-2xl">Latest Blog Posts</h2>
-			<LatestPosts posts={data.posts} />
-		</section>
-	</Card.Content>
-	<Card.Footer>
-		<Button variant="outline" size="sm" href={resolve('/blog')}>
-			See all posts
-			<ArrowRightIcon data-icon="inline-end" />
-		</Button>
-	</Card.Footer>
 </Card.Root>
+
+<!-- a section's heading, with the button to the page that has all of it on the right -->
+{#snippet sectionHeader(title: string, label: string, href: string)}
+	<div class="flex items-baseline justify-between gap-4">
+		<h2 class="text-xl font-bold tracking-tight md:text-2xl">{title}</h2>
+		<ArrowButton {href}>{label}</ArrowButton>
+	</div>
+{/snippet}
+
+<section class="mt-10 flex flex-col gap-4">
+	{@render sectionHeader('Latest Blog Posts', 'See all posts', resolve('/blog'))}
+	<Card.Root>
+		<Card.Content><LatestPosts posts={data.posts} /></Card.Content>
+	</Card.Root>
+</section>
+
+<section class="mt-10 flex flex-col gap-4">
+	{@render sectionHeader('Featured Projects', 'See all projects', resolve('/projects'))}
+	<div class="grid gap-6 md:grid-cols-2">
+		{#each data.featured as { related, ...project } (project.slug)}
+			<FeaturedProjectCard {project} {related} />
+		{/each}
+	</div>
+</section>

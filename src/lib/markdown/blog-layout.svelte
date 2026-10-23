@@ -9,7 +9,9 @@
 	let { children }: { children?: Snippet } = $props();
 </script>
 
-<!-- the post body carries no classes, so prose styles it; max-w-none until the layout sets the column -->
-<div class="prose max-w-none prose-site">
+<!-- The post body carries no classes, so prose styles it. The post page's card sets the column,
+     hence max-w-none; from md: the text is 18px, which with the card's wider padding from lg:
+     shortens a line on a wide screen - Inter is narrow, so at 16px one ran past 100 characters. -->
+<div class="prose max-w-none prose-site md:prose-lg">
 	{@render children?.()}
 </div>

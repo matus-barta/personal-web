@@ -8,7 +8,7 @@ This repository contains material owned by third parties. That material is not c
 
 ## Logoipsum
 
-`src/lib/assets/projects/inprogress.svg` is a placeholder logo obtained from [Logoipsum](https://logoipsum.com). It is not original work by the author of this repository, and it carries the Logoipsum wordmark. Its use is governed by Logoipsum's own terms rather than by anything in this repository — check them before reusing or redistributing the file, and replace it outright if you fork this project for your own site.
+`content/projects/inprogress/inprogress.svg` is a placeholder logo obtained from [Logoipsum](https://logoipsum.com). It is not original work by the author of this repository, and it carries the Logoipsum wordmark. Its use is governed by Logoipsum's own terms rather than by anything in this repository — check them before reusing or redistributing the file, and replace it outright if you fork this project for your own site.
 
 ## Blog post images
 
@@ -271,9 +271,13 @@ SOFTWARE.
 
 Some of the site's source is copied in by the [shadcn-svelte](https://github.com/huntabyte/shadcn-svelte) CLI rather than written for this repository: the components in `src/lib/components/ui/`, `src/lib/utils.ts`, and the theme variables, the `@theme inline` block and the `@layer base` rules in `src/routes/layout.css`, which its `init` wrote. They are distributed under the MIT License, with the copyright notices of Hunter Johnston, CokaKoala and shadcn - the license text above, under [vendored agent skills](#vendored-agent-skills), whose `shadcn-svelte` skill comes from the same project. The colour values in the `.dark` block of `layout.css` start from its Mist base colour, with the site's own greens on `--primary`, `--ring`, `--mark`, `--mark-foreground` and `--link-hover`.
 
+## Next.js
+
+The filter that blurs the images' placeholders, in `src/lib/placeholder.ts`, is adapted from [Next.js](https://github.com/vercel/next.js)'s [`image-blur-svg.ts`](https://github.com/vercel/next.js/blob/canary/packages/next/src/shared/lib/image-blur-svg.ts): a Gaussian blur, then a colour matrix and two composites that keep the blurred image's edges opaque. It is distributed under the MIT License, Copyright (c) 2025 Vercel, Inc. - the license text above, under [vendored agent skills](#vendored-agent-skills).
+
 ## Fonts
 
-The site's text is set in [Inter](https://github.com/rsms/inter), installed from npm as [`@fontsource-variable/inter`](https://www.npmjs.com/package/@fontsource-variable/inter). Its files are not in this repository, but the built site serves them to every visitor. Inter is Copyright 2016 The Inter Project Authors, licensed under the [SIL Open Font License, Version 1.1](https://openfontlicense.org/open-font-license-official-text/); the license text ships in the package's `LICENSE` file.
+The site's text is set in [Inter](https://github.com/rsms/inter) and its code in [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono), installed from npm as [`@fontsource-variable/inter`](https://www.npmjs.com/package/@fontsource-variable/inter) and [`@fontsource-variable/jetbrains-mono`](https://www.npmjs.com/package/@fontsource-variable/jetbrains-mono). Their files are not in this repository, but the built site serves them to every visitor. Both are licensed under the [SIL Open Font License, Version 1.1](https://openfontlicense.org/open-font-license-official-text/): Inter is Copyright 2016 The Inter Project Authors, and JetBrains Mono Copyright 2020 The JetBrains Mono Project Authors. The license text ships in each package's `LICENSE` file.
 
 ## Trademarks and brand assets
 
@@ -281,11 +285,10 @@ The files below reproduce logos and marks owned by other organisations. They ide
 
 | Files                                                                              | Mark and owner                    |
 | ---------------------------------------------------------------------------------- | --------------------------------- |
-| `src/lib/assets/social/gh-grey.svg`                                                | GitHub, GitHub, Inc.              |
-| `src/lib/assets/social/ig-grey.svg`                                                | Instagram, Meta Platforms, Inc.   |
-| `src/lib/assets/social/yt-grey.svg`                                                | YouTube, Google LLC               |
-| `src/lib/assets/projects/nodejs.svg`                                               | Node.js, OpenJS Foundation        |
-| `src/lib/assets/projects/powershell.svg`                                           | PowerShell, Microsoft Corporation |
+| `content/projects/images2video/nodejs.svg`                                         | Node.js, OpenJS Foundation        |
+| `content/projects/powershell-batch-video-file-converter/powershell.svg`            | PowerShell, Microsoft Corporation |
 | `.agents/skills/shadcn-svelte/assets/shadcn-svelte.png`, `shadcn-svelte-small.png` | shadcn-svelte, its maintainers    |
 
-Dependencies installed from the npm registry are not listed here, apart from the fonts above, which the built site serves. They are declared in `package.json`, resolved in `pnpm-lock.yaml`, and are not redistributed in this repository.
+The brand icons the site draws - GitHub (GitHub, Inc.), Instagram (Meta Platforms, Inc.) and YouTube (Google LLC) - come from [Simple Icons](https://simpleicons.org), installed from npm as [`simple-icons`](https://www.npmjs.com/package/simple-icons) and released under CC0 1.0. `src/lib/components/brand-icon.svelte` draws them - in their brands' own colours from the package's data, or in the site's grey - and the built site inlines them into its pages. The marks remain their owners', and Simple Icons' disclaimer asks its users to follow each brand's guidelines, which it links for each icon.
+
+Dependencies installed from the npm registry are not listed here, apart from the fonts and the brand icons above, which the built site serves. They are declared in `package.json`, resolved in `pnpm-lock.yaml`, and are not redistributed in this repository.

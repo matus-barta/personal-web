@@ -2,7 +2,7 @@
 
 Researched and verified on 2026-10-20. Versions come from the npm registry on that date. Claims about this repository name the file they come from; claims about anything else link their source where they're made.
 
-**Suggested order:** 11 (layout refresh) → 9 (content), each its own pull request. Most of 1 - the shadcn-svelte theme and components - landed first, on its own; what's left of it goes with 11 and 9. 2 (Vite+) waits for full Svelte support. Items in 8 can land at any point: the `/blog` date fits with 11.
+**Suggested order:** 9 (content) next, its own pull request; the layout refresh is done, and what was left of it waits on 9's features, so it moved there. Most of 1 - the shadcn-svelte theme and components - landed first, on its own; what's left of it goes with 9. 2 (Vite+) waits for full Svelte support. Items in 8 can land at any point.
 
 ## Decisions
 
@@ -16,9 +16,7 @@ Installed: [`shadcn-svelte`](https://www.npmjs.com/package/shadcn-svelte) 1.7.0,
 
 - [ ] Components to use (all in the [component list](https://shadcn-svelte.com/docs/components)):
   - [ ] `Badge`: tags (see 9)
-  - [ ] `Navigation Menu`: the desktop links, with the current page marked (see 11).
 - [ ] Skip `form` for now. The registry's `form` [still pins](https://shadcn-svelte.com/registry/form.json) `sveltekit-superforms@^2.28.1`, which rejects Kit 3 ([issue #2915](https://github.com/huntabyte/shadcn-svelte/issues/2915), open). [`sveltekit-superforms`](https://www.npmjs.com/package/sveltekit-superforms) 3.0.0 (2026-10-04) accepts Kit 3, so re-check once the registry moves to it.
-- [ ] Icons: [Lucide v1 removed every brand icon](https://lucide.dev/guide/version-1), GitHub's included. Keep the SVGs in `src/lib/assets/social/`, or use [Simple Icons](https://simpleicons.org), which Lucide recommends.
 
 ## 2. Vite+ (`vp`): is it viable?
 
@@ -90,12 +88,9 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
 
 ## 8. Technical review
 
-- [ ] **`/blog`** shows the raw `post.date`; `/` and the post page use `formatDate()`.
 - [ ] **SEO:**
   - [ ] No meta description, Open Graph tags or canonical URL (`app.html` has only `charset`, `viewport` and `text-scale`). `paths.origin` is already `SITE_URL`, so `page.url.href` gives the canonical URL while prerendering.
   - [ ] No `sitemap.xml`, and `robots.txt` has no `Sitemap:` line.
-- [ ] **Leftovers:**
-  - [ ] `/contact` (with its commented-out form and its dead `@reference "../../app.css"`) and `/success` go; see 9.
 
 ## 9. Content
 
@@ -107,7 +102,7 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
   - [ ] **[healthcheck](https://github.com/matus-barta/healthcheck)**: the Docker healthcheck API; the post "Simple project for Node.js…" already covers it and links the repo.
   - [ ] **[fileserver](https://github.com/matus-barta/fileserver)**: a Svelte web UI for managing a fileserver. Its README is a single line, so expand it first.
 - [ ] [Open RMM](https://github.com/matus-barta/open-rmm):
-  - [ ] Its blurb (`content/projects/open-rmm.md`), its `stack:` badges and its sentence, still list Express/Prisma, while the 2025 post (`open-rmm-part-deux.md`) describes the move to Rust/Axum and to Supabase. Update it.
+  - [ ] Its blurb (`content/projects/open-rmm/index.md`), its `stack:` badges and its sentence, still list Express/Prisma, while the 2025 post (`open-rmm-part-deux.md`) describes the move to Rust/Axum and to Supabase. Update it.
   - [ ] Its link `Open_RMM` redirects (301) to `open-rmm`.
 - [ ] The 2022 items ([images2video](https://github.com/matus-barta/images2video) fork, [PowerShell converter](https://github.com/matus-barta/Powershell-batch-video-file-coverter)) and InProgress carry an Archived badge now (`status: archived`). Group the archived projects below the active ones too, if the badge isn't enough.
 
@@ -115,16 +110,11 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
 
 **Existing pages:**
 
-- [ ] **About** is empty ("Under construction..."). Fill it within the ground rules:
+- [ ] **About** has its sections, each still a placeholder (`src/routes/about/+page.svelte`), and "Find me" with the social links. Write them within the ground rules:
   - [ ] What you do and the tech you work with.
   - [ ] Your interests; the hero tagline already lists them.
   - [ ] What the site is for.
-  - [ ] "Find me on GitHub / Bluesky" links.
-- [ ] **Contact (decided):** no form and no email address.
-  - [ ] Delete `/contact` and `/success`, and remove Contact from the nav.
-  - [ ] Put the social links in the footer and on About instead.
-  - [ ] Check the Netlify dashboard for Netlify Forms settings left over from the old form.
-- [ ] **Footer:** two YouTube icons with no visible difference. There is no Bluesky or X icon: the unused ones went in step 7, so add an icon with each link (Bluesky is planned on About).
+  - [ ] Add Bluesky to "Find me" (`SOCIAL_LINKS` in `src/lib/config.ts`, and `siBluesky` in `brand-icon.svelte`).
 
 **New pages** ("slash pages", see [slashpages.net](https://slashpages.net)):
 
@@ -139,9 +129,11 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
 **Blog features:**
 
 - [ ] RSS/Atom feed: a prerendered `+server.ts` at `/rss.xml`, linked from the footer and from `<head>`.
-- [ ] Tags, with a page per tag.
+- [ ] Tags, with a page per tag. A post's `project` already has one, `/blog/project/<name>`: reuse its page, or make a project one tag among others.
+  - [ ] The stack badges on the project cards could become tags too, each linking to its tag's page.
+  - [ ] Show a post's tags on its `/blog` card.
 - [ ] Series: the two Open-RMM posts (`open-rmm.md`, `open-rmm-part-deux.md`) become "part 1/2", with links between them.
-- [ ] Reading time.
+- [ ] Reading time, on the post and on its `/blog` card.
 - [ ] A table of contents on long posts.
 - [ ] Link icons on headings. The headings already have `id`s (`#lib/markdown/heading-ids.ts`).
 - [ ] Previous/next links at the end of a post.
@@ -149,6 +141,7 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
   - [ ] Weigh shadcn-svelte's [Code Block](https://shadcn-svelte.com/docs/components/code-block) against a small copy button of our own, and whether it is viable now or only later. It has a header with a title, actions such as copy, line numbers and highlighted lines.
   - [ ] Its behaviour goes against the static site: its highlighter, `useHighlightedCode`, runs Shiki's JavaScript engine in the browser and "loads each language on first use" (its docs). Today Shiki runs once, at build time (`vite.config.ts`), and ships no JavaScript. Check where those languages load from - the site's own chunks or elsewhere - and whether a prerendered page shows the code uncoloured until it runs (untested).
   - [ ] Using it in posts means mdsvex emitting a `CodeBlock` for every code fence rather than Shiki's HTML string, which mdsvex 0.12 may not make easy (untested); mdsvex 1.0's `components` option (see 5) may. Its `CodeBlock.Line` takes already-highlighted tokens, so the build-time highlighting could feed it rather than the hook.
+  - [ ] **The code block background**, decided with it, as the Code Block would change how code blocks are rendered. Shiki writes the `monokai` theme's own `background-color:#272822` inline on every `pre`, a warm olive-grey outside the Mist palette. Change it to match the theme (untested options: replace the colour at build time through Shiki's options in `vite.config.ts`, or pick a theme whose background fits; an inline style beats any class, so CSS alone would need `!important`).
 - [ ] A preview (OG) image per post, for social shares.
 - [ ] Feedback without a contact form: a "Discuss / edit on GitHub" link on each post, which keeps out most spam because readers need a GitHub account.
   - [ ] Optional: [giscus](https://giscus.app), which shows GitHub Discussions comments under each post. Commenters need a GitHub account too.
@@ -158,29 +151,3 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
 
 - [ ] A dark/light toggle; shadcn-svelte's [dark mode docs](https://shadcn-svelte.com/docs/dark-mode/svelte) use `mode-watcher`.
 - [ ] Post ideas are listed in the README's TODOs: Open-RMM updates and the homelab.
-
-## 11. Layout refresh: same base, more modern
-
-Keep the dark background, the green accent, the skewed `@anonymus09` highlight and the space avatar. What makes the site look dated (seen in screenshots at 1280 and 375 px) is mostly spacing, image sizes and typography.
-
-- [ ] **Nav:** highlight the current page, for example by turning its icon green, as the icons in the phone menu are.
-- [ ] **Typography:**
-  - [ ] Inter is self-hosted through [Fontsource](https://fontsource.org) since the shadcn-svelte `init`. Add JetBrains Mono (decided) for code the same way, and record its licence in `THIRD-PARTY-NOTICES.md` beside Inter's.
-  - [ ] Post text ran about 100 characters per line at 1280 px (measured before `prose`); aim for 65–75. Posts are in `prose` now, but `max-w-none` in `blog-layout.svelte` keeps the old column; set the column, or drop it for prose's own 65ch.
-- [ ] **Code block background:** decide it together with the copy button in 9, as shadcn-svelte's Code Block would change how code blocks are rendered. Shiki writes the `monokai` theme's own `background-color:#272822` inline on every `pre`, a warm olive-grey outside the Mist palette. Change it to match the theme (untested options: replace the colour at build time through Shiki's options in `vite.config.ts`, or pick a theme whose background fits; an inline style beats any class, so CSS alone would need `!important`).
-- [ ] **Links and buttons:** review their colours and hover behaviour, which differ from place to place today.
-  - [ ] Now: links in posts and project blurbs (`prose`) are mint, lime on hover and always underlined. The home page's latest posts and the `/blog` card titles are mint and lime on hover, underlined on hover on the home page only. "More on About page" (`Button variant="link"`) stays mint on hover, and the nav links are white, mint on hover.
-  - [ ] The lime hover on the `/blog` card titles is too much; the card already shows hover with its green ring.
-  - [ ] Home: "More on About page" should look like "See all posts", an `outline` `Button`.
-  - [ ] Keep links in running text underlined, so they don't rely on colour alone ([WCAG 1.4.1](https://www.w3.org/TR/WCAG22/#use-of-color)).
-- [ ] **`/blog`:**
-  - [ ] Cards in two columns on desktop, one on phones.
-  - [ ] Show the formatted date (8), with reading time and tags (9).
-- [ ] **Home:** keep the hero section, and add a "Featured projects" row of 2–3 cards under the latest posts.
-- [ ] **`/projects`:** the 128 px logos and very large titles fill most of the page. Make it a grid of compact cards, each with:
-  - [ ] a small logo
-  - [ ] a link to any related blog post
-- [ ] **Footer:**
-  - [ ] Compact.
-  - [ ] Add an RSS icon, a "source on GitHub" link, and a short licence note: the code is MIT and the content is all rights reserved (`LICENSE`).
-- [ ] **Motion:** subtle page transitions with `onNavigate` and `document.startViewTransition`, as the [Svelte blog](https://svelte.dev/blog/view-transitions) shows ([MDN](https://developer.mozilla.org/en-US/docs/Web/API/View_Transition_API)). Respect `prefers-reduced-motion`.

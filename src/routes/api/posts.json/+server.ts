@@ -1,4 +1,4 @@
-import { getPosts } from '#lib/posts.js';
+import { getPosts } from '#lib/content/posts.js';
 import type { RequestHandler } from './$types';
 
 // No page fetches this, so it inherits no prerender option and needs its own. The .json

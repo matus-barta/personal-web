@@ -2,15 +2,13 @@
 	import * as Card from '#lib/components/ui/card/index.js';
 	import GradientSeparator from '#lib/components/gradient-separator.svelte';
 	import { coverFit, coverSize } from '#lib/cover.js';
+	import { placeholderStyle } from '#lib/placeholder.js';
 	import { formatDate } from '#lib/utils/format-date.js';
 	import { pageTitle } from '#lib/utils/page-title.js';
 	import { setPostSlug } from '#lib/markdown/post-slug.js';
 	import type { PageData } from './$types';
-	interface Props {
-		data: PageData;
-	}
 
-	let { data }: Props = $props();
+	let { data }: { data: PageData } = $props();
 
 	setPostSlug(() => data.frontmatter.slug);
 
@@ -39,6 +37,7 @@
 			'100vw',
 			176
 		)}"
+		style={placeholderStyle(cover.placeholder)}
 		class={['cover', coverFit(cover, 960 / 176)]}
 	/>
 	<Card.Header class="md:px-6">
@@ -66,7 +65,9 @@
 		</div>
 		<GradientSeparator class="mt-2" />
 	</Card.Header>
-	<Card.Content class="pb-6 md:px-6">
+	<!-- From lg: the text keeps 64px from the card's sides, which shortens its lines on a wide
+	     screen, while the title and its separator span the card as the cover does (blog-layout.svelte). -->
+	<Card.Content class="pb-6 md:px-6 lg:px-16">
 		<data.component />
 	</Card.Content>
 </Card.Root>

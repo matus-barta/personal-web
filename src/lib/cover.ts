@@ -2,17 +2,18 @@ import type { CoverCrop, Post } from '#lib/types/post.js';
 
 type Cover = Pick<Post, 'img' | 'img_transparent' | 'img_crop'>;
 
-// Written out in full so Tailwind finds each class in the source.
+// Written out in full so Tailwind finds each class in the source. The image's position, and its
+// placeholder's, the background beneath it, in the same place.
 const positions: Record<CoverCrop, string> = {
-	center: 'object-center',
-	top: 'object-top',
-	bottom: 'object-bottom',
-	left: 'object-left',
-	right: 'object-right',
-	'top-left': 'object-top-left',
-	'top-right': 'object-top-right',
-	'bottom-left': 'object-bottom-left',
-	'bottom-right': 'object-bottom-right'
+	center: 'object-center bg-center',
+	top: 'object-top bg-top',
+	bottom: 'object-bottom bg-bottom',
+	left: 'object-left bg-left',
+	right: 'object-right bg-right',
+	'top-left': 'object-top-left bg-top-left',
+	'top-right': 'object-top-right bg-top-right',
+	'bottom-left': 'object-bottom-left bg-bottom-left',
+	'bottom-right': 'object-bottom-right bg-bottom-right'
 };
 
 export function isCoverCrop(value: unknown): value is CoverCrop {
@@ -37,12 +38,13 @@ function isCropped(cover: Cover, ratio: number) {
 /**
  * The classes that fit a cover into a frame of the given width-to-height ratio: cropped
  * to it, keeping the part `img_crop` names - the top unless it says otherwise - or fitted
- * whole, on a light backdrop if it is transparent and the muted one if it is too wide.
+ * whole, on a light backdrop if it is transparent and the muted one if it is too wide. The
+ * placeholder (`placeholderStyle()` in #lib/placeholder.ts) is sized and placed as the cover is.
  */
 export function coverFit(cover: Cover, ratio: number) {
 	if (cover.img_transparent) return 'bg-foreground object-contain p-3';
-	if (!isCropped(cover, ratio)) return 'bg-muted object-contain';
-	return `object-cover ${positions[cover.img_crop ?? 'top']}`;
+	if (!isCropped(cover, ratio)) return 'bg-muted object-contain bg-contain bg-center bg-no-repeat';
+	return `object-cover bg-cover ${positions[cover.img_crop ?? 'top']}`;
 }
 
 /**
