@@ -86,9 +86,11 @@
 				'max-sm:-mx-(--card-spacing) max-sm:-mt-(--card-spacing) max-sm:w-[calc(100%+2*var(--card-spacing))] max-sm:max-w-none max-sm:rounded-none',
 				// From md:, out over the padding too: a wide card's at its left, and the others'
 				// at their top. A wide card's spans the card's height, at least the 216px it had
-				// inside the padding plus that padding, so the card keeps its height.
+				// inside the padding plus that padding, so the card keeps its height. contain-size
+				// keeps the loaded cover's own proportions out of it, or a taller one - 960 by 640
+				// is 256px at this width - would grow the card as it loads.
 				wide
-					? 'md:-my-(--card-spacing) md:-ml-(--card-spacing) md:aspect-auto md:h-auto md:min-h-[calc(13.5rem+2*var(--card-spacing))] md:w-96 md:max-w-none md:self-stretch md:rounded-none'
+					? 'md:-my-(--card-spacing) md:-ml-(--card-spacing) md:aspect-auto md:h-auto md:min-h-[calc(13.5rem+2*var(--card-spacing))] md:w-96 md:max-w-none md:self-stretch md:rounded-none md:contain-size'
 					: 'md:-mx-(--card-spacing) md:-mt-(--card-spacing) md:aspect-2/1 md:w-[calc(100%+2*var(--card-spacing))] md:max-w-none md:rounded-none',
 				coverFit(post, 16 / 9)
 			]}
