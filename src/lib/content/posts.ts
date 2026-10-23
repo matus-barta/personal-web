@@ -1,6 +1,6 @@
 import type { Component } from 'svelte';
 import { isCoverCrop } from '#lib/cover.js';
-import { postImage, postPlaceholder } from '#lib/post-images.js';
+import { postImage, postPlaceholder } from '#lib/content/post-images.js';
 import type { Post, PostFrontmatter } from '#lib/types/post.js';
 
 type PostModule = { default: Component; metadata: PostFrontmatter };
@@ -11,7 +11,7 @@ type PostModule = { default: Component; metadata: PostFrontmatter };
 const modules = import.meta.glob<PostModule>('/content/blog/*/index.md');
 
 // The projects a post can name, by file name. Lazy and only its keys used, so no project is
-// loaded here - eagerly, as #lib/projects.ts does, each would be bundled into every post.
+// loaded here - eagerly, as #lib/content/projects.ts does, each would be bundled into every post.
 const projects = new Set(
 	Object.keys(import.meta.glob('/content/projects/*.md')).map((path) =>
 		path.slice('/content/projects/'.length, -'.md'.length)

@@ -3,13 +3,13 @@
 	import type { Snippet } from 'svelte';
 	import favicon from '#lib/assets/favicon.png';
 	import Footer from '#lib/components/footer.svelte';
-	import Nav from '#lib/components/nav.svelte';
-	import { setNavTarget } from '#lib/nav-target.js';
+	import Nav from '#lib/components/nav/nav.svelte';
+	import { setNavTarget } from '#lib/components/nav/nav-target.js';
 	import { onNavigate } from '$app/navigation';
 
 	let { children }: { children?: Snippet } = $props();
 
-	// where a navigation is going while its transition lasts, for the nav (#lib/nav-target.ts)
+	// where a navigation is going while its transition lasts, for the nav (nav-target.ts)
 	let navTarget = $state<string | null>(null);
 	setNavTarget(() => navTarget);
 

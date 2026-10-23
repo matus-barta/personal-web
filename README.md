@@ -31,15 +31,14 @@ How to set up and check the site is in [`.claude/development-setup.md`](.claude/
 | Path                         | What it is                                                                    |
 | ---------------------------- | ----------------------------------------------------------------------------- |
 | `src/routes/`                | Pages, the `/api/posts.json` endpoint, and the end-to-end specs               |
-| `src/lib/components/`        | Shared components: nav, footer, project card                                  |
-| `src/lib/assets/`            | Images imported through Vite, so they get hashed filenames                    |
+| `src/lib/components/`        | Shared components: the cards, the footer, and the nav in `nav/`               |
+| `src/lib/assets/`            | The site's images - logo, avatar - imported through Vite, with hashed names   |
 | `src/lib/config.ts`          | The site's constants, read by the pages and the tests                         |
-| `src/lib/posts.ts`           | Reads the blog posts, for every route that lists or shows them                |
-| `src/lib/projects.ts`        | Reads the project blurbs for `/projects`                                      |
+| `src/lib/content/`           | Reads `content/`: the blog posts and their images, and the project blurbs     |
 | `src/lib/markdown/`          | The heading-id plugin, and the layout that builds a post's images             |
 | `src/lib/types/`, `-/utils/` | The post, project and social-link types, `formatDate()` and `pageTitle()`     |
 | `content/blog/`              | One folder per blog post: its Markdown and its images, outside `src/`         |
-| `content/projects/`          | The project blurbs on `/projects`, as Markdown                                |
+| `content/projects/`          | The project blurbs on `/projects`, as Markdown, and their logos               |
 | `static/`                    | Served verbatim at a fixed URL: `robots.txt` and one easter-egg image         |
 | `.claude/`                   | Agent instructions, and the pages explaining the architecture and conventions |
 | `.agents/skills/`            | Vendored agent skills, linked into `.claude/skills/`                          |

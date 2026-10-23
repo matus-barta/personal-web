@@ -2,7 +2,7 @@
 title: Open RMM
 excerpt: Open source Remote Machine Management
 github: https://github.com/matus-barta/Open_RMM
-img: openrmm.png
+img: ./openrmm.png
 img_alt: OpenRMM logo
 order: 2
 status: active

@@ -1,5 +1,5 @@
-import { getPosts } from '#lib/posts.js';
-import { getProjects } from '#lib/projects.js';
+import { getPosts } from '#lib/content/posts.js';
+import { getProjects } from '#lib/content/projects.js';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async () => {

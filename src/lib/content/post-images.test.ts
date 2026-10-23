@@ -1,5 +1,5 @@
 import type { Picture } from '@sveltejs/enhanced-img';
-import { postImage, postPlaceholder } from '#lib/post-images.js';
+import { postImage, postPlaceholder } from '#lib/content/post-images.js';
 import { describe, expect, test } from 'vitest';
 
 // Against the real images beside the posts in content/blog/.

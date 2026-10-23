@@ -1,5 +1,5 @@
 import { existsSync } from 'node:fs';
-import { getPost, getPosts, postsPerProject } from '#lib/posts.js';
+import { getPost, getPosts, postsPerProject } from '#lib/content/posts.js';
 import type { Post } from '#lib/types/post.js';
 import { describe, expect, test } from 'vitest';
 

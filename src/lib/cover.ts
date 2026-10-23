@@ -39,7 +39,7 @@ function isCropped(cover: Cover, ratio: number) {
  * The classes that fit a cover into a frame of the given width-to-height ratio: cropped
  * to it, keeping the part `img_crop` names - the top unless it says otherwise - or fitted
  * whole, on a light backdrop if it is transparent and the muted one if it is too wide. The
- * placeholder (`placeholderStyle()` in #lib/post-images.ts) is sized and placed as the cover is.
+ * placeholder (`placeholderStyle()` in #lib/placeholder.ts) is sized and placed as the cover is.
  */
 export function coverFit(cover: Cover, ratio: number) {
 	if (cover.img_transparent) return 'bg-foreground object-contain p-3';

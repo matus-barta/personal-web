@@ -1,6 +1,6 @@
 import { LATEST_POSTS_LIMIT } from '#lib/config.js';
-import { getPosts, postsPerProject } from '#lib/posts.js';
-import { getProjects } from '#lib/projects.js';
+import { getPosts, postsPerProject } from '#lib/content/posts.js';
+import { getProjects } from '#lib/content/projects.js';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async () => {

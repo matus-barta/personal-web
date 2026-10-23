@@ -1,13 +1,14 @@
 import { readdirSync } from 'node:fs';
-import { getProjects } from '#lib/projects.js';
+import { getProjects } from '#lib/content/projects.js';
 import { describe, expect, test } from 'vitest';
 
 // Against the real files in content/projects/, as posts.test.ts does with the posts.
 describe('getProjects', () => {
 	const projects = getProjects();
 
-	test('loads every file', () => {
-		expect(projects).toHaveLength(readdirSync('content/projects').length);
+	test('loads every blurb', () => {
+		const blurbs = readdirSync('content/projects').filter((file) => file.endsWith('.md'));
+		expect(projects).toHaveLength(blurbs.length);
 	});
 
 	test('sorts them by order', () => {

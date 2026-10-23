@@ -7,15 +7,16 @@ type ProjectModule = { default: Component; metadata: ProjectFrontmatter };
 // Eager, unlike the posts: /projects shows every project, so they all ship with it anyway.
 const modules = import.meta.glob<ProjectModule>('/content/projects/*.md', { eager: true });
 
-// The frontmatter names its image by file name; the globs turn that into the built image.
-// The logos show at 128px, hence the two widths. enhanced-img takes SVG only as a static
-// import, so an SVG gets a plain hashed URL.
-const raster = import.meta.glob<Picture>('/src/lib/assets/projects/*.{png,jpg,jpeg,webp}', {
+// The logos beside the blurbs, which the frontmatter names relative to them - `./openrmm.png` -
+// as a post does its images; the globs turn that into the built image. The logos show at
+// 128px, hence the two widths. enhanced-img takes SVG only as a static import, so an SVG gets
+// a plain hashed URL.
+const raster = import.meta.glob<Picture>('/content/projects/*.{png,jpg,jpeg,webp}', {
 	eager: true,
 	query: { enhanced: true, w: '256;128' },
 	import: 'default'
 });
-const svg = import.meta.glob<string>('/src/lib/assets/projects/*.svg', {
+const svg = import.meta.glob<string>('/content/projects/*.svg', {
 	eager: true,
 	query: '?url',
 	import: 'default'
@@ -28,9 +29,13 @@ const svg = import.meta.glob<string>('/src/lib/assets/projects/*.svg', {
 export function getProjects(): Project[] {
 	return Object.entries(modules)
 		.map(([file, { default: body, metadata }]): Project => {
-			const path = `/src/lib/assets/projects/${metadata.img}`;
-			const img = raster[path] ?? svg[path];
-			if (!img) throw new Error(`No image ${metadata.img} for the project "${metadata.title}"`);
+			const path = `/content/projects/${metadata.img.replace(/^\.\//, '')}`;
+			const img = metadata.img.startsWith('./') ? (raster[path] ?? svg[path]) : undefined;
+			if (!img) {
+				throw new Error(
+					`No image ${metadata.img} beside the project "${metadata.title}" - it must be a file in content/projects/, such as ./logo.png`
+				);
+			}
 			const slug = file.slice('/content/projects/'.length, -'.md'.length);
 			return { ...metadata, slug, img, body };
 		})

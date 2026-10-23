@@ -6,8 +6,8 @@
 	import { page } from '$app/state';
 	import { Button, buttonVariants } from '#lib/components/ui/button/index.js';
 	import * as NavigationMenu from '#lib/components/ui/navigation-menu/index.js';
-	import NavMenu from '#lib/components/nav-menu.svelte';
-	import { getNavTarget } from '#lib/nav-target.js';
+	import NavMenu from '#lib/components/nav/nav-menu.svelte';
+	import { getNavTarget } from '#lib/components/nav/nav-target.js';
 	import { cn } from '#lib/utils.js';
 	import logo from '#lib/assets/logo-mark.svg';
 
@@ -23,7 +23,7 @@
 
 	// A link is the current page on its route and the routes under it - Blog on a post. It
 	// compares route ids, not the hrefs: while prerendering, resolve() gives relative ones. A link
-	// is the target while the site moves to its route, for its border (#lib/nav-target.ts).
+	// is the target while the site moves to its route, for its border (nav-target.ts).
 	const navLinks = $derived(
 		links.map(({ route, ...link }) => ({
 			...link,

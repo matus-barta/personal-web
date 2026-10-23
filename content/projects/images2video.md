@@ -2,7 +2,7 @@
 title: Create slideshow from images
 excerpt: Fork of sashee/images2video so you are able to make slideshow from IMGs
 github: https://github.com/matus-barta/images2video
-img: nodejs.svg
+img: ./nodejs.svg
 img_alt: Images 2 Video
 order: 5
 status: archived

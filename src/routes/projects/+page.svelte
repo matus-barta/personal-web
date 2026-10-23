@@ -2,7 +2,7 @@
 	import PageHeader from '#lib/components/page-header.svelte';
 	import ProjectCard from '#lib/components/project-card.svelte';
 	import { pageTitle } from '#lib/utils/page-title.js';
-	import { getProjects } from '#lib/projects.js';
+	import { getProjects } from '#lib/content/projects.js';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();

@@ -1,6 +1,7 @@
 import type { Placeholder } from '#lib/types/placeholder.js';
 
-// The small copy's width, in pixels - the `w` in the query that builds it in #lib/post-images.ts.
+// The small copy's width, in pixels - the `w` in the query that builds it in
+// #lib/content/post-images.ts.
 const SMALL_WIDTH = 48;
 // How far the blur reaches, in the small copy's pixels.
 const BLUR = 1;

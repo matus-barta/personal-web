@@ -1,5 +1,5 @@
-import { getPosts, postsPerProject } from '#lib/posts.js';
-import { getProjects } from '#lib/projects.js';
+import { getPosts, postsPerProject } from '#lib/content/posts.js';
+import { getProjects } from '#lib/content/projects.js';
 import { error } from '@sveltejs/kit';
 import type { EntryGenerator, PageServerLoad } from './$types';
 

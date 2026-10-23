@@ -32,9 +32,11 @@ test('check content of blog', async ({ page, request }) => {
 	await expect(page.getByTestId(`blog_post`)).toHaveCount(posts.length);
 });
 
-// one card per file in content/projects/
+// one card per blurb in content/projects/, beside which are the logos
 test('check content of projects', async ({ page }) => {
-	const projects = readdirSync(new URL('../../content/projects', import.meta.url));
+	const projects = readdirSync(new URL('../../content/projects', import.meta.url)).filter((file) =>
+		file.endsWith('.md')
+	);
 
 	await page.goto('/projects');
 	await expect(page.getByTestId(`project`)).toHaveCount(projects.length);

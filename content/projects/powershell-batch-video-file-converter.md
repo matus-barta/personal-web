@@ -2,7 +2,7 @@
 title: Powershell batch video file converter
 excerpt: Script to batch convert videos to multiple formats (HEVC, Cineform) - may be useful for someone
 github: https://github.com/matus-barta/Powershell-batch-video-file-coverter
-img: powershell.svg
+img: ./powershell.svg
 img_alt: Powershell logo
 order: 4
 status: archived

@@ -6,7 +6,7 @@ export type ProjectFrontmatter = {
 	title: string;
 	excerpt: string;
 	github: string;
-	/** A file name in `src/lib/assets/projects/`. */
+	/** The logo, a file beside the blurb in `content/projects/`: `./openrmm.png`. */
 	img: string;
 	img_alt: string;
 	/** Where the card sits on /projects, lowest first. */
