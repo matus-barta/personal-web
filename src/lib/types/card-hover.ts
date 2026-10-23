@@ -3,7 +3,8 @@ import type { Glow } from '#lib/types/glow.js';
 /**
  * How a card answers a hover - a post's card, as `CARD_HOVER` in `#lib/config.ts` sets it, a
  * project's, as `PROJECT_HOVER` does, and a featured project's on the home page, as
- * `FEATURED_HOVER` does: its image brightens, and a glow spreads from it.
+ * `FEATURED_HOVER` does: its image brightens, and a glow spreads from it. `cardHover()` in
+ * `#lib/glow.ts` turns it into the card's attributes.
  */
 export type CardHover = {
 	/**
@@ -14,7 +15,7 @@ export type CardHover = {
 	/**
 	 * Where the glow is anchored: the image's `edge` towards the card's text, its `centre`, or
 	 * the card's edge behind it, `far` - before `glow.angle` and `glow.distance` move it. Only
-	 * these three: each has its positions in the card's style.
+	 * these three: the card's style sets where each is, `--edge-x` and the rest.
 	 */
 	origin: 'edge' | 'centre' | 'far';
 	/** The light that grows out of the image. */
@@ -28,9 +29,9 @@ export type CardHover = {
 	follow?: boolean;
 	/**
 	 * For tuning: `true` marks, on every card, a ring where the glow is anchored and a dot at its
-	 * centre, after `glow.angle` and `glow.distance` move it. Only under `pnpm dev` - the cards
-	 * check `dev` from `$app/env` - so a build, the live site's included, never shows
-	 * them, whatever this says. Off if unset.
+	 * centre, after `glow.angle` and `glow.distance` move it. Only under `pnpm dev` - cardHover()
+	 * checks `dev` from `$app/env` - so a build, the live site's included, never shows them,
+	 * whatever this says. Off if unset.
 	 */
 	debug?: boolean;
 };

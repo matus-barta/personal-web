@@ -208,9 +208,35 @@
   90deg down. Its colour, strength and speed come from the card's settings in #lib/config.ts,
   through glowStyle() in #lib/glow.ts: --glow-duration is the grow's length, the fade taking
   three-quarters of it. data-glow-grow lets it grow from its centre as it fades in.
+
+  A card's cardHover() settings (#lib/glow.ts) name where it is anchored, data-glow-origin, of
+  the three places the card's CSS sets: --edge-x, --edge-y and --edge-size, at the image's edge
+  towards the text; the same for centre, its centre; and for far, the card's edge behind it. The
+  card's image with the glow-image class brightens with it, by --glow-brightness.
 */
 @utility glow {
 	isolation: isolate;
+	&[data-glow-origin='edge'] {
+		--glow-x: var(--edge-x);
+		--glow-y: var(--edge-y);
+		--glow-size: var(--edge-size);
+	}
+	&[data-glow-origin='centre'] {
+		--glow-x: var(--centre-x);
+		--glow-y: var(--centre-y);
+		--glow-size: var(--centre-size);
+	}
+	&[data-glow-origin='far'] {
+		--glow-x: var(--far-x);
+		--glow-y: var(--far-y);
+		--glow-size: var(--far-size);
+	}
+	& .glow-image {
+		transition: filter 200ms;
+	}
+	&:hover .glow-image {
+		filter: brightness(var(--glow-brightness, 1));
+	}
 	--glow-cx: calc(var(--glow-x) + cos(var(--glow-angle, 0deg)) * var(--glow-distance, 0px));
 	--glow-cy: calc(var(--glow-y) + sin(var(--glow-angle, 0deg)) * var(--glow-distance, 0px));
 	--glow-fade: calc(var(--glow-duration, 400ms) * 0.75);

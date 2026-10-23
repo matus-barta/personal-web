@@ -1,4 +1,4 @@
-import { glowStyle } from '#lib/glow.js';
+import { cardHover, glowStyle } from '#lib/glow.js';
 import { describe, expect, test } from 'vitest';
 
 const white = { colour: 'foreground', strength: '6%', grow: true, speed: 'normal' } as const;
@@ -24,5 +24,29 @@ describe('glowStyle', () => {
 		const style = glowStyle({ ...white, angle: '45deg', distance: '40px' });
 		expect(style).toContain('--glow-angle: 45deg');
 		expect(style).toContain('--glow-distance: 40px');
+	});
+});
+
+describe('cardHover', () => {
+	const hover = { brightness: 1.12, origin: 'centre', glow: white } as const;
+
+	test("gives the anchor, the grow, and the brightness before the glow's settings", () => {
+		expect(cardHover(hover)).toEqual({
+			'data-glow-origin': 'centre',
+			'data-glow-grow': true,
+			'data-glow-debug': undefined,
+			style: `--glow-brightness: 1.12; ${glowStyle(white)}`
+		});
+	});
+
+	test('leaves out the grow when it is off', () => {
+		expect(cardHover({ ...hover, glow: { ...white, grow: false } })['data-glow-grow']).toBe(
+			undefined
+		);
+	});
+
+	test('attaches the mouse-following only when follow is on', () => {
+		expect(Object.getOwnPropertySymbols(cardHover(hover))).toHaveLength(0);
+		expect(Object.getOwnPropertySymbols(cardHover({ ...hover, follow: true }))).toHaveLength(1);
 	});
 });
