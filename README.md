@@ -49,7 +49,7 @@ How the pieces fit together - one SvelteKit app prerendered to static files and 
 
 ### Code
 
-- [ ] The rewrite, planned in [`REWRITE.md`](REWRITE.md): the content - new pages, blog features, the projects - and SEO
+- [ ] The rewrite, planned in [`REWRITE.md`](REWRITE.md): blog features, SEO, and the pages for the content below
 
 ### Waiting on upstream
 
@@ -59,12 +59,32 @@ Not viable yet: each waits for a change in another project. Checked on 2026-10-2
 - [ ] **TypeScript 7**, once SvelteKit, `svelte-check` and `typescript-eslint` accept it; `renovate.json` holds it below 7.
 - [ ] **[mdsvex 1.0](https://github.com/pngwn/MDsveX/releases)**, once it renders the posts as 0.12 does: `1.0.0-next.1` broke bold around links.
 
-### Post ideas
+### Content
 
-Topics to think about writing up; none is scheduled.
+What there is to write. Keep personal information light: no employer, no city and no photo - the avatar stays the Kerbal - and no contact form.
+
+**Posts** - ideas, none scheduled:
 
 - [ ] Open-RMM: a new update whenever the project moves on
 - [ ] The homelab: the hardware and the services it runs
+
+**Projects** - against [GitHub](https://github.com/matus-barta?tab=repositories):
+
+- [ ] Add [car_sensors](https://github.com/matus-barta/car_sensors), [ipscanner](https://github.com/matus-barta/ipscanner), [healthcheck](https://github.com/matus-barta/healthcheck) and [fileserver](https://github.com/matus-barta/fileserver) - the last once its one-line README is expanded
+- [ ] Open RMM: its blurb and stack still say Express/Prisma, not Rust/Axum and Supabase; its GitHub link redirects to `open-rmm`
+
+**About:**
+
+- [ ] Write its sections: what I do and the tech I work with, my interests, what the site is for
+- [ ] Add Bluesky to "Find me" (`SOCIAL_LINKS` in `src/lib/config.ts`)
+
+**New pages:**
+
+- [ ] `/uses`: the dev setup, software and homelab hardware
+- [ ] `/homelab`: the hardware, the services and a diagram of how they fit - no IPs, domains or network layout
+- [ ] `/now`: what I'm focused on, kept vague
+- [ ] `/colophon`: how the site is built - the stack, the hosting, the licence split
+- [ ] Later: `/blogroll`, the sites I read
 
 ## License
 

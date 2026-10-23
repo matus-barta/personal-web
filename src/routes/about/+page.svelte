@@ -7,8 +7,9 @@
 	import { SOCIAL_LINKS } from '#lib/config.js';
 	import { pageTitle } from '#lib/utils/page-title.js';
 
-	// The page's sections, as REWRITE.md step 9 plans them, and what each is to say - for whoever
-	// writes it, not shown. Until then a section shows still placeholder lines, each this wide.
+	// The page's sections, as the README's "Content" list plans them, and what each is to say -
+	// for whoever writes it, not shown. Until then a section shows still placeholder lines, each
+	// this wide.
 	const sections = [
 		{ title: 'What I do', todo: 'what you do and the tech you work with' },
 		{ title: 'Interests', todo: 'your interests, which the tagline on the home page lists' },
