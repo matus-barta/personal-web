@@ -2,7 +2,7 @@
 
 Researched and verified on 2026-10-20. Versions come from the npm registry on that date. Claims about this repository name the file they come from; claims about anything else link their source where they're made.
 
-**Suggested order:** 11 (layout refresh) → 9 (content), each its own pull request. Most of 1 - the shadcn-svelte theme and components - landed first, on its own; what's left of it goes with 11 and 9. 2 (Vite+) waits for full Svelte support. Items in 8 can land at any point.
+**Suggested order:** 9 (content) next, its own pull request; the layout refresh is done, and what was left of it waits on 9's features, so it moved there. Most of 1 - the shadcn-svelte theme and components - landed first, on its own; what's left of it goes with 9. 2 (Vite+) waits for full Svelte support. Items in 8 can land at any point.
 
 ## Decisions
 
@@ -131,8 +131,9 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
 - [ ] RSS/Atom feed: a prerendered `+server.ts` at `/rss.xml`, linked from the footer and from `<head>`.
 - [ ] Tags, with a page per tag. A post's `project` already has one, `/blog/project/<name>`: reuse its page, or make a project one tag among others.
   - [ ] The stack badges on the project cards could become tags too, each linking to its tag's page.
+  - [ ] Show a post's tags on its `/blog` card.
 - [ ] Series: the two Open-RMM posts (`open-rmm.md`, `open-rmm-part-deux.md`) become "part 1/2", with links between them.
-- [ ] Reading time.
+- [ ] Reading time, on the post and on its `/blog` card.
 - [ ] A table of contents on long posts.
 - [ ] Link icons on headings. The headings already have `id`s (`#lib/markdown/heading-ids.ts`).
 - [ ] Previous/next links at the end of a post.
@@ -140,6 +141,7 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
   - [ ] Weigh shadcn-svelte's [Code Block](https://shadcn-svelte.com/docs/components/code-block) against a small copy button of our own, and whether it is viable now or only later. It has a header with a title, actions such as copy, line numbers and highlighted lines.
   - [ ] Its behaviour goes against the static site: its highlighter, `useHighlightedCode`, runs Shiki's JavaScript engine in the browser and "loads each language on first use" (its docs). Today Shiki runs once, at build time (`vite.config.ts`), and ships no JavaScript. Check where those languages load from - the site's own chunks or elsewhere - and whether a prerendered page shows the code uncoloured until it runs (untested).
   - [ ] Using it in posts means mdsvex emitting a `CodeBlock` for every code fence rather than Shiki's HTML string, which mdsvex 0.12 may not make easy (untested); mdsvex 1.0's `components` option (see 5) may. Its `CodeBlock.Line` takes already-highlighted tokens, so the build-time highlighting could feed it rather than the hook.
+  - [ ] **The code block background**, decided with it, as the Code Block would change how code blocks are rendered. Shiki writes the `monokai` theme's own `background-color:#272822` inline on every `pre`, a warm olive-grey outside the Mist palette. Change it to match the theme (untested options: replace the colour at build time through Shiki's options in `vite.config.ts`, or pick a theme whose background fits; an inline style beats any class, so CSS alone would need `!important`).
 - [ ] A preview (OG) image per post, for social shares.
 - [ ] Feedback without a contact form: a "Discuss / edit on GitHub" link on each post, which keeps out most spam because readers need a GitHub account.
   - [ ] Optional: [giscus](https://giscus.app), which shows GitHub Discussions comments under each post. Commenters need a GitHub account too.
@@ -149,11 +151,3 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
 
 - [ ] A dark/light toggle; shadcn-svelte's [dark mode docs](https://shadcn-svelte.com/docs/dark-mode/svelte) use `mode-watcher`.
 - [ ] Post ideas are listed in the README's TODOs: Open-RMM updates and the homelab.
-
-## 11. Layout refresh: same base, more modern
-
-Keep the dark background, the green accent, the skewed `@anonymus09` highlight and the space avatar. What makes the site look dated (seen in screenshots at 1280 and 375 px) is mostly spacing, image sizes and typography.
-
-- [ ] **Code block background:** decide it together with the copy button in 9, as shadcn-svelte's Code Block would change how code blocks are rendered. Shiki writes the `monokai` theme's own `background-color:#272822` inline on every `pre`, a warm olive-grey outside the Mist palette. Change it to match the theme (untested options: replace the colour at build time through Shiki's options in `vite.config.ts`, or pick a theme whose background fits; an inline style beats any class, so CSS alone would need `!important`).
-- [ ] **`/blog`:** show reading time and tags on the cards (9).
-- [ ] **Footer:** add an RSS link once the feed (9) exists.
