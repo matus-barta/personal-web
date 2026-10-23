@@ -25,6 +25,9 @@ export function glowStyle({ colour, strength, angle = '0deg', distance = '0px', 
  * once a frame. Leaving the card keeps the last position, so the glow fades out where the mouse
  * left rather than jumping back. A touch's pointer is left alone, as there is no hover to follow,
  * and nothing follows with reduced motion asked for.
+ *
+ * It works, but is unused for now: the cards attach it only when their settings' `follow` is
+ * true, and none is (`CardHover` in #lib/types/card-hover.ts).
  */
 export function followPointer(node: HTMLElement) {
 	if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;

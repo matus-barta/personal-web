@@ -22,7 +22,8 @@ export type CardHover = {
 	/**
 	 * `true` lets the glow's centre follow the mouse across the card once it moves there, rather
 	 * than stay where it is anchored - not on a touch screen, or with reduced motion asked for.
-	 * Off if unset.
+	 * Off if unset. It works, but no card turns it on: following the mouse was tried, on these
+	 * cards and on the home page's latest posts, and left out as too much.
 	 */
 	follow?: boolean;
 	/**
