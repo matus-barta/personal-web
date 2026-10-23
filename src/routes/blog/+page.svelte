@@ -25,6 +25,7 @@
 		<BlogPostCard
 			{post}
 			wide={index < WIDE_POSTS}
+			eager={index < WIDE_POSTS}
 			project={post.project
 				? { slug: post.project, title: data.projects[post.project] }
 				: undefined}

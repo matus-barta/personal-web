@@ -271,6 +271,10 @@ SOFTWARE.
 
 Some of the site's source is copied in by the [shadcn-svelte](https://github.com/huntabyte/shadcn-svelte) CLI rather than written for this repository: the components in `src/lib/components/ui/`, `src/lib/utils.ts`, and the theme variables, the `@theme inline` block and the `@layer base` rules in `src/routes/layout.css`, which its `init` wrote. They are distributed under the MIT License, with the copyright notices of Hunter Johnston, CokaKoala and shadcn - the license text above, under [vendored agent skills](#vendored-agent-skills), whose `shadcn-svelte` skill comes from the same project. The colour values in the `.dark` block of `layout.css` start from its Mist base colour, with the site's own greens on `--primary`, `--ring`, `--mark`, `--mark-foreground` and `--link-hover`.
 
+## Next.js
+
+The filter that blurs the images' placeholders, in `src/lib/placeholder.ts`, is adapted from [Next.js](https://github.com/vercel/next.js)'s [`image-blur-svg.ts`](https://github.com/vercel/next.js/blob/canary/packages/next/src/shared/lib/image-blur-svg.ts): a Gaussian blur, then a colour matrix and two composites that keep the blurred image's edges opaque. It is distributed under the MIT License, Copyright (c) 2025 Vercel, Inc. - the license text above, under [vendored agent skills](#vendored-agent-skills).
+
 ## Fonts
 
 The site's text is set in [Inter](https://github.com/rsms/inter) and its code in [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono), installed from npm as [`@fontsource-variable/inter`](https://www.npmjs.com/package/@fontsource-variable/inter) and [`@fontsource-variable/jetbrains-mono`](https://www.npmjs.com/package/@fontsource-variable/jetbrains-mono). Their files are not in this repository, but the built site serves them to every visitor. Both are licensed under the [SIL Open Font License, Version 1.1](https://openfontlicense.org/open-font-license-official-text/): Inter is Copyright 2016 The Inter Project Authors, and JetBrains Mono Copyright 2020 The JetBrains Mono Project Authors. The license text ships in each package's `LICENSE` file.

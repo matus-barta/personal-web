@@ -157,5 +157,3 @@ Keep the dark background, the green accent, the skewed `@anonymus09` highlight a
 - [ ] **Code block background:** decide it together with the copy button in 9, as shadcn-svelte's Code Block would change how code blocks are rendered. Shiki writes the `monokai` theme's own `background-color:#272822` inline on every `pre`, a warm olive-grey outside the Mist palette. Change it to match the theme (untested options: replace the colour at build time through Shiki's options in `vite.config.ts`, or pick a theme whose background fits; an inline style beats any class, so CSS alone would need `!important`).
 - [ ] **`/blog`:** show reading time and tags on the cards (9).
 - [ ] **Footer:** add an RSS link once the feed (9) exists.
-
-MANUAL NOTE - can images fade in when loaded?, can img:enhance make loading images in stages, like blurred really fast to load then better and better? (progressive image load? idk)

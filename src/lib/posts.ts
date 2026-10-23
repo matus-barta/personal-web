@@ -1,6 +1,6 @@
 import type { Component } from 'svelte';
 import { isCoverCrop } from '#lib/cover.js';
-import { postImage } from '#lib/post-images.js';
+import { postImage, postPlaceholder } from '#lib/post-images.js';
 import type { Post, PostFrontmatter } from '#lib/types/post.js';
 
 type PostModule = { default: Component; metadata: PostFrontmatter };
@@ -34,7 +34,8 @@ function toPost(metadata: PostFrontmatter, slug: string): Post {
 			`"${slug}" names the project "${metadata.project}", but there is no content/projects/${metadata.project}.md`
 		);
 	}
-	return { ...metadata, slug, img };
+	const placeholder = metadata.img_transparent ? undefined : postPlaceholder(slug, metadata.img);
+	return { ...metadata, slug, img, placeholder };
 }
 
 function getTime(date: string) {

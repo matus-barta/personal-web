@@ -2,6 +2,7 @@
 	import * as Card from '#lib/components/ui/card/index.js';
 	import GradientSeparator from '#lib/components/gradient-separator.svelte';
 	import { coverFit, coverSize } from '#lib/cover.js';
+	import { placeholderStyle } from '#lib/placeholder.js';
 	import { formatDate } from '#lib/utils/format-date.js';
 	import { pageTitle } from '#lib/utils/page-title.js';
 	import { setPostSlug } from '#lib/markdown/post-slug.js';
@@ -39,6 +40,7 @@
 			'100vw',
 			176
 		)}"
+		style={placeholderStyle(cover.placeholder)}
 		class={['cover', coverFit(cover, 960 / 176)]}
 	/>
 	<Card.Header class="md:px-6">

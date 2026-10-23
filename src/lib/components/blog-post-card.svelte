@@ -4,6 +4,7 @@
 	import { coverFit, coverSize } from '#lib/cover.js';
 	import { CARD_HOVER } from '#lib/config.js';
 	import { followPointer, glowStyle } from '#lib/glow.js';
+	import { placeholderStyle } from '#lib/placeholder.js';
 	import { formatDate } from '#lib/utils/format-date.js';
 	import type { Post } from '#lib/types/post.js';
 	import type { Project } from '#lib/types/project.js';
@@ -12,12 +13,20 @@
 
 	// A post's card in a grid of one column up to md: and two from it, as /blog and the pages
 	// of a project's posts lay them out. A wide card spans both columns. Given the project the
-	// post is about, the card links to that project's posts with a badge.
+	// post is about, the card links to that project's posts with a badge. The cover loads lazily
+	// unless the card is `eager`, as the first cards of a page are, and its blurred placeholder
+	// fills the frame until it does.
 	let {
 		post,
 		wide,
+		eager = false,
 		project
-	}: { post: Post; wide: boolean; project?: Pick<Project, 'slug' | 'title'> } = $props();
+	}: {
+		post: Post;
+		wide: boolean;
+		eager?: boolean;
+		project?: Pick<Project, 'slug' | 'title'>;
+	} = $props();
 
 	// The cover's frame: on phones 2:1, so the card stays near square, and the card's whole
 	// width, edge to edge at its top - 100vw less the page's 16px on each side; then 16:9 beside
@@ -69,6 +78,8 @@
 			width="384"
 			height="216"
 			{sizes}
+			loading={eager ? 'eager' : 'lazy'}
+			style={placeholderStyle(post.placeholder)}
 			class={[
 				'blog-card-cover aspect-2/1 w-full shrink-0 rounded-lg sm:aspect-video sm:w-48',
 				// out over the card's padding, as the cover on the post page is

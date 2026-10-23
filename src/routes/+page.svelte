@@ -103,6 +103,7 @@
 						width="96"
 						height="96"
 						sizes="96px"
+						loading="lazy"
 						class="featured-card-logo size-24 shrink-0 rounded-xl bg-foreground p-2"
 					/>
 					<div class="flex min-w-0 flex-1 flex-col gap-2">

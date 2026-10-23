@@ -66,13 +66,15 @@
 		<div
 			class="grid grid-cols-[auto_1fr] grid-rows-[auto_1fr_auto_auto] gap-x-4 gap-y-2 sm:grid-rows-[auto_auto_1fr_auto]"
 		>
-			<!-- 96px on phones, so the title keeps room beside it; 128px from sm: -->
+			<!-- 96px on phones, so the title keeps room beside it; 128px from sm:. Lazy, as most
+			     of the cards are further down the page. -->
 			<enhanced:img
 				src={img}
 				alt={img_alt}
 				width="128"
 				height="128"
 				sizes="(min-width: 640px) 128px, 96px"
+				loading="lazy"
 				class="project-card-logo row-span-2 row-start-1 size-24 rounded-xl bg-foreground p-2 sm:row-span-4 sm:size-32"
 			/>
 			<div class="col-start-2 row-start-1 flex min-w-0 items-start justify-between gap-2">

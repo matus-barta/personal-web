@@ -1,4 +1,5 @@
-import { postImage } from '#lib/post-images.js';
+import type { Picture } from '@sveltejs/enhanced-img';
+import { postImage, postPlaceholder } from '#lib/post-images.js';
 import { describe, expect, test } from 'vitest';
 
 // Against the real images beside the posts in content/blog/.
@@ -19,5 +20,21 @@ describe('postImage', () => {
 
 	test('throws for a relative path with no file', () => {
 		expect(() => postImage('open-rmm', './no-such-image.png')).toThrow('no-such-image.png');
+	});
+});
+
+describe('postPlaceholder', () => {
+	test('gives a raster image beside the post a small copy, with its own size', () => {
+		const { img } = postImage('open-rmm', './code.png') as Picture;
+		expect(postPlaceholder('open-rmm', './code.png')).toEqual({
+			src: expect.stringMatching(/^data:image\/webp;base64,/),
+			w: img.w,
+			h: img.h
+		});
+	});
+
+	test('gives none to an SVG or any other path', () => {
+		expect(postPlaceholder('best-way-to-manage-nodejs', './nodejs-logo-flat.svg')).toBeUndefined();
+		expect(postPlaceholder('open-rmm', 'https://example.com/x.png')).toBeUndefined();
 	});
 });

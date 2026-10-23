@@ -11,20 +11,24 @@ const wide = { img: picture(1919, 472) };
 
 describe('coverFit', () => {
 	test('crops a cover no wider than the frame, keeping its top', () => {
-		expect(coverFit(narrow, 16 / 9)).toBe('object-cover object-top');
+		expect(coverFit(narrow, 16 / 9)).toBe('object-cover bg-cover object-top bg-top');
 	});
 
 	test('keeps the part img_crop names', () => {
-		expect(coverFit({ ...narrow, img_crop: 'center' }, 16 / 9)).toBe('object-cover object-center');
+		expect(coverFit({ ...narrow, img_crop: 'center' }, 16 / 9)).toBe(
+			'object-cover bg-cover object-center bg-center'
+		);
 	});
 
 	test('fits a wider cover whole rather than cut off its sides', () => {
-		expect(coverFit(wide, 16 / 9)).toBe('bg-muted object-contain');
+		expect(coverFit(wide, 16 / 9)).toBe(
+			'bg-muted object-contain bg-contain bg-center bg-no-repeat'
+		);
 	});
 
 	test('crops a wide cover too when img_crop says where', () => {
 		expect(coverFit({ ...wide, img_crop: 'top-left' }, 16 / 9)).toBe(
-			'object-cover object-top-left'
+			'object-cover bg-cover object-top-left bg-top-left'
 		);
 	});
 

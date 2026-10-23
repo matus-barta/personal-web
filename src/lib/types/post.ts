@@ -1,4 +1,5 @@
 import type { Picture } from '@sveltejs/enhanced-img';
+import type { Placeholder } from '#lib/types/placeholder.js';
 
 /** A post's frontmatter, as written in `content/blog/<slug>/index.md`. */
 export type PostFrontmatter = {
@@ -35,4 +36,9 @@ export type CoverCrop =
 export type Post = Omit<PostFrontmatter, 'img'> & {
 	slug: string;
 	img: Picture | string;
+	/**
+	 * The cover's blurred placeholder - none for an SVG, or for a transparent cover, which would
+	 * show it through.
+	 */
+	placeholder?: Placeholder;
 };
