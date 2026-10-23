@@ -4,7 +4,7 @@ This repository contains material owned by third parties. That material is not c
 
 ## Kerbal Space Program
 
-`src/lib/assets/ksp.jpg` is artwork from the video game Kerbal Space Program, cropped and used as the site author's avatar. It is not original work by the author of this repository, and no ownership of it is claimed here. Kerbal Space Program, its artwork and its name belong to their rights holders — the game was developed by Squad and published by Private Division (Take-Two Interactive). Reuse or redistribution is subject to those rights holders' terms; replace this file if you fork this repository for your own site.
+`src/lib/assets/ksp.jpg` is artwork from the video game Kerbal Space Program, cropped and used as the site author's avatar. `src/lib/assets/ksp-wallpaper.jpg` is the same artwork whole, at 1920×1080, kept as the source for the 404 page: the official artwork of Bob Kerman, as the [Kerbal Space Program wiki](https://wiki.kerbalspaceprogram.com/wiki/File:Bob.jpg) describes it, downloaded from there unchanged. It is not original work by the author of this repository, and no ownership of it is claimed here. Kerbal Space Program, its artwork and its name belong to their rights holders — the game was developed by Squad and published by Private Division (Take-Two Interactive). Reuse or redistribution is subject to those rights holders' terms; replace this file if you fork this repository for your own site.
 
 ## Logoipsum
 
