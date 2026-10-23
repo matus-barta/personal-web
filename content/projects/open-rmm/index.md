@@ -4,7 +4,6 @@ excerpt: Open source Remote Machine Management
 github: https://github.com/matus-barta/Open_RMM
 img: ./openrmm.png
 img_alt: OpenRMM logo
-order: 2
 status: active
 featured: true
 stack: [TypeScript, Postgres, Node, Express, Prisma, Zod, SvelteKit, Tailwind, Rust]

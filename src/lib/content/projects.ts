@@ -24,8 +24,18 @@ const svg = import.meta.glob<string>('/content/projects/*/*.svg', {
 });
 
 /**
- * Every project with its body and built image, in `order`. Its `slug` is its folder's name,
- * which /projects gives its card as an `id`, so a link can point at it.
+ * Which group a project sorts into: the featured first (0), then the other active ones (1),
+ * then the archived (2).
+ */
+export function projectGroup(project: Pick<ProjectFrontmatter, 'featured' | 'status'>) {
+	if (project.featured) return 0;
+	return project.status === 'active' ? 1 : 2;
+}
+
+/**
+ * Every project with its body and built image, sorted by `projectGroup()` and then by title. Its
+ * `slug` is its folder's name, which /projects gives its card as an `id`, so a link can point
+ * at it.
  */
 export function getProjects(): Project[] {
 	return Object.entries(modules)
@@ -40,5 +50,8 @@ export function getProjects(): Project[] {
 			}
 			return { ...metadata, slug, img, body };
 		})
-		.sort((first, second) => first.order - second.order);
+		.sort(
+			(first, second) =>
+				projectGroup(first) - projectGroup(second) || first.title.localeCompare(second.title, 'en')
+		);
 }

@@ -4,7 +4,6 @@ excerpt: Inventory and work in progress tracking web app
 github: https://github.com/matus-barta/InProgress
 img: ./inprogress.svg
 img_alt: InProgress logo
-order: 3
 status: archived
 stack: [SvelteKit, Tailwind, TypeScript, Prisma, Postgres]
 ---
