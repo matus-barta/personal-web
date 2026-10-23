@@ -26,6 +26,8 @@ Not every image beside the posts in `content/blog/` is the author's work. The fi
 
 The remaining images in `content/blog/` are the author's own work and are reserved under `LICENSE`: the Open-RMM dashboard captures and the screenshot of his own source code under `open-rmm/` and `open-rmm-part-deux/`.
 
+Each post's preview image, `/blog/<slug>/og.png`, is drawn at build time from its cover, so the one of a post whose cover is listed above reproduces that cover, under the same terms.
+
 ## Vendored agent skills
 
 The agent skills in `.agents/skills/` are third-party tools that AI coding agents load while working on this repository. They are not part of the site and not the author's work, and they are kept unchanged: the [`skills` CLI](https://github.com/vercel-labs/skills) installs and updates them, and [`skills-lock.json`](skills-lock.json) records where each came from. They are redistributed here under the licenses of their source repositories.
@@ -277,7 +279,7 @@ The filter that blurs the images' placeholders, in `src/lib/placeholder.ts`, is 
 
 ## Fonts
 
-The site's text is set in [Inter](https://github.com/rsms/inter) and its code in [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono), installed from npm as [`@fontsource-variable/inter`](https://www.npmjs.com/package/@fontsource-variable/inter) and [`@fontsource-variable/jetbrains-mono`](https://www.npmjs.com/package/@fontsource-variable/jetbrains-mono). Their files are not in this repository, but the built site serves them to every visitor. Both are licensed under the [SIL Open Font License, Version 1.1](https://openfontlicense.org/open-font-license-official-text/): Inter is Copyright 2016 The Inter Project Authors, and JetBrains Mono Copyright 2020 The JetBrains Mono Project Authors. The license text ships in each package's `LICENSE` file.
+The site's text is set in [Inter](https://github.com/rsms/inter) and its code in [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono), installed from npm as [`@fontsource-variable/inter`](https://www.npmjs.com/package/@fontsource-variable/inter) and [`@fontsource-variable/jetbrains-mono`](https://www.npmjs.com/package/@fontsource-variable/jetbrains-mono). The posts' preview images are set in Inter's static weights, from [`@fontsource/inter`](https://www.npmjs.com/package/@fontsource/inter), drawn into each image as shapes. Their files are not in this repository, but the built site serves them to every visitor. Both are licensed under the [SIL Open Font License, Version 1.1](https://openfontlicense.org/open-font-license-official-text/): Inter is Copyright 2016 The Inter Project Authors, and JetBrains Mono Copyright 2020 The JetBrains Mono Project Authors. The license text ships in each package's `LICENSE` file.
 
 ## Trademarks and brand assets
 

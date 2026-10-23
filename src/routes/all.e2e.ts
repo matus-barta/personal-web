@@ -2,7 +2,13 @@
 // config.ts exists. A type-only import, like Post below, is erased and never resolved.
 // For the same reason a spec can't import a module that itself imports from #lib, such
 // as pageTitle(): it builds the expected titles from SITE_NAME instead.
-import { LATEST_POSTS_LIMIT, MIN_PAGE_WIDTH, SITE_NAME, SITE_URL } from '../lib/config.js';
+import {
+	LATEST_POSTS_LIMIT,
+	MIN_PAGE_WIDTH,
+	PREVIEW_IMAGE,
+	SITE_NAME,
+	SITE_URL
+} from '../lib/config.js';
 import type { Post } from '#lib/types/post.js';
 import { expect, test, type APIRequestContext } from '@playwright/test';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
@@ -153,6 +159,22 @@ test('every page has its description, canonical URL and Open Graph tags', () => 
 	}
 });
 
+test('every post has its own preview image', async ({ request }) => {
+	for (const { slug } of await getPublishedPosts(request)) {
+		const html = readFileSync(new URL(`blog/${slug}.html`, build), 'utf8');
+		expect(html, slug).toContain(
+			`<meta property="og:image" content="${SITE_URL}/blog/${slug}/og.png"`
+		);
+
+		// a PNG's width and height, from its IHDR chunk
+		const png = readFileSync(new URL(`blog/${slug}/og.png`, build));
+		expect([png.readUInt32BE(16), png.readUInt32BE(20)], slug).toEqual([
+			PREVIEW_IMAGE.width,
+			PREVIEW_IMAGE.height
+		]);
+	}
+});
+
 test('the sitemap lists every page', async ({ request }) => {
 	const response = await request.get('/sitemap.xml');
 	expect(response.headers()['content-type']).toContain('xml');
@@ -160,6 +182,22 @@ test('the sitemap lists every page', async ({ request }) => {
 	const urls = [...(await response.text()).matchAll(/<loc>([^<]*)<\/loc>/g)].map(([, url]) => url);
 	const pages = builtPages().map(({ path }) => new URL(path, SITE_URL).href);
 	expect(urls.toSorted()).toEqual(pages.toSorted());
+});
+
+test('the RSS feed lists every post, and every page links to it', async ({ request }) => {
+	const posts = await getPublishedPosts(request);
+	const response = await request.get('/rss.xml');
+	expect(response.headers()['content-type']).toContain('xml');
+
+	const links = [...(await response.text()).matchAll(/<item>[^]*?<link>([^<]*)<\/link>/g)].map(
+		([, url]) => url
+	);
+	expect(links).toEqual(posts.map(({ slug }) => `${SITE_URL}/blog/${slug}`));
+
+	for (const { path, file } of builtPages()) {
+		const html = readFileSync(new URL(file, build), 'utf8');
+		expect(html, path).toContain('<link rel="alternate" type="application/rss+xml"');
+	}
 });
 
 test('robots.txt points to the sitemap', async ({ request }) => {

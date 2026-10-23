@@ -22,7 +22,7 @@
 <PageHead
 	title={data.frontmatter.title}
 	description={data.frontmatter.description}
-	image={data.frontmatter.img}
+	image="/blog/{data.frontmatter.slug}/og.png"
 	published={data.frontmatter.date}
 />
 

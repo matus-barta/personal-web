@@ -36,6 +36,8 @@ export type CoverCrop =
 export type Post = Omit<PostFrontmatter, 'img'> & {
 	slug: string;
 	img: Picture | string;
+	/** The cover's path as the frontmatter gives it, `./cover.png`, which the preview image reads. */
+	coverPath: string;
 	/**
 	 * The cover's blurred placeholder - none for an SVG, or for a transparent cover, which would
 	 * show it through.
