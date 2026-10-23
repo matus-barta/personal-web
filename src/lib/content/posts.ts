@@ -10,11 +10,11 @@ type PostModule = { default: Component; metadata: PostFrontmatter };
 // server loads, +server.ts and entries().
 const modules = import.meta.glob<PostModule>('/content/blog/*/index.md');
 
-// The projects a post can name, by file name. Lazy and only its keys used, so no project is
+// The projects a post can name, by folder name. Lazy and only its keys used, so no project is
 // loaded here - eagerly, as #lib/content/projects.ts does, each would be bundled into every post.
 const projects = new Set(
-	Object.keys(import.meta.glob('/content/projects/*.md')).map((path) =>
-		path.slice('/content/projects/'.length, -'.md'.length)
+	Object.keys(import.meta.glob('/content/projects/*/index.md')).map((path) =>
+		path.slice('/content/projects/'.length, -'/index.md'.length)
 	)
 );
 
@@ -31,7 +31,7 @@ function toPost(metadata: PostFrontmatter, slug: string): Post {
 	}
 	if (metadata.project !== undefined && !projects.has(metadata.project)) {
 		throw new Error(
-			`"${slug}" names the project "${metadata.project}", but there is no content/projects/${metadata.project}.md`
+			`"${slug}" names the project "${metadata.project}", but there is no content/projects/${metadata.project}/index.md`
 		);
 	}
 	const placeholder = metadata.img_transparent ? undefined : postPlaceholder(slug, metadata.img);

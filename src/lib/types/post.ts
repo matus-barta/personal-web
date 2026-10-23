@@ -14,8 +14,8 @@ export type PostFrontmatter = {
 	/** Which part of the cover stays when it is cropped to its frame; `top` if unset. */
 	img_crop?: CoverCrop;
 	/**
-	 * The project the post is about, by its file's name in `content/projects/` - `open-rmm` for
-	 * `open-rmm.md`. The post is then listed on /blog/project/open-rmm.
+	 * The project the post is about, by its folder's name in `content/projects/` - `open-rmm` for
+	 * `open-rmm/index.md`. The post is then listed on /blog/project/open-rmm.
 	 */
 	project?: string;
 };

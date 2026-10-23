@@ -13,14 +13,15 @@ One SvelteKit app, deployed to Netlify. There is no database, no auth and no CMS
 - **A page's `<title>` is `pageTitle('Name')`** from `#lib/utils/page-title.js`, which appends `SITE_NAME` - a blog post's included, with its frontmatter `title`.
 - **There is no `svelte.config.js`, and Kit 3 stops with an error if one exists.** The adapter, compiler options, mdsvex and `extensions` all live in the `sveltekit()` call in `vite.config.ts`, with Kit's keys flat beside the plugin's. Where a skill or the Svelte docs say to set an option in `svelte.config.js` - `experimental.async`, for one - it goes in that call instead, compiler options under `compilerOptions`.
 
-## Blog posts
+## Blog posts and projects
 
 - **A post is a folder, `content/blog/<slug>/`, holding `index.md` and its images, and the folder name is the slug** - renaming it changes the post's URL. Frontmatter must satisfy `PostFrontmatter` in `#lib/types/post.js`.
 - **Every read of that directory goes through `#lib/content/posts.ts`**: `getPosts()` for the list, `getPost(slug)` for one post. Call `getPosts()` only from code that runs at build time - a `+page.server.ts`, a `+server.ts`, `entries()` - since in a universal load it bundles every post into that page.
-- **A post's `project:` is a project's file name in `content/projects/`, without `.md`** - `project: open-rmm` - and a name with no file fails the build. The post is then listed on `/blog/project/<name>`, which the project's cards link to; a project marked `featured: true` shows on the home page.
+- **A post's `project:` is a project's folder name in `content/projects/`** - `project: open-rmm` - and a name with no folder fails the build. The post is then listed on `/blog/project/<name>`, which the project's cards link to; a project marked `featured: true` shows on the home page.
 - **`published: false` keeps a post off the site, not out of the deploy**: no page and no list entry, but its compiled body still ships as a chunk under `build/_app/`. A post that must stay private belongs on an unmerged branch.
 - **A post refers to its images relative to its folder - `img: ./cover.png` in the frontmatter, `![…](./x.png)` in the body** - and a path with no file behind it fails the build. They are built by enhanced-img through `#lib/content/post-images.ts`, the in-post ones swapped in by the layout in `#lib/markdown/`, so no post image goes in `static/`.
-- **All Markdown is compiled by mdsvex at build time** - the posts, and the project blurbs in `content/projects/*.md`, which `#lib/content/projects.ts` reads and whose `img` is a logo beside them, `img: ./openrmm.png`, a path with no file behind it failing the build. Frontmatter must satisfy `ProjectFrontmatter` in `#lib/types/project.js`.
+- **A project is a folder too, `content/projects/<slug>/`, its blurb in `index.md` and its logo beside it** - `img: ./openrmm.png`, a path with no file behind it failing the build - and the folder name is the slug. `#lib/content/projects.ts` reads them. Frontmatter must satisfy `ProjectFrontmatter` in `#lib/types/project.js`.
+- **All Markdown is compiled by mdsvex at build time** - the posts and the project blurbs.
 - **Shiki highlights code blocks at build time, in the languages `vite.config.ts` loads** - a block in any other fails the build until it's added there. Its colours are inline, from the `monokai` theme, so no stylesheet ships.
 
 ## Styling
@@ -51,7 +52,7 @@ pnpm test:unit    # Vitest: the *.test.ts beside the code; not run in CI
 - **`pnpm test` builds and previews the site itself** on port 4173, so it is slow and can fail for build reasons rather than test reasons, and stops at once if something already listens there. `pnpm test:unit` keeps watching in a terminal; `pnpm test:unit run` runs once.
 - **Screenshots and layout checks use the test container's browsers** - Chromium, Firefox and WebKit, through `scripts/with-browsers.ts` - and anything aligned to text is checked in all three, as their text metrics differ. A branch is compared with `master` built in a worktree, its preview on port 4174. If a class does nothing under `pnpm dev`, `touch src/routes/layout.css` before debugging it. [`development-setup.md`](development-setup.md#looking-at-the-site-in-a-browser) has the steps.
 - **The tests' browsers run in Docker**, in Playwright's image, through `scripts/with-browsers.ts`, so Docker must be running. `PLAYWRIGHT_LOCAL_BROWSERS=1` uses browsers installed on the machine instead, for anything headed.
-- **End-to-end specs sit beside the routes** as `*.e2e.ts` - all in `src/routes/all.e2e.ts` today - and there is no `tests/` directory. The blog counts derive from `/api/posts.json`, and the project count from the files in `content/projects/`.
+- **End-to-end specs sit beside the routes** as `*.e2e.ts` - all in `src/routes/all.e2e.ts` today - and there is no `tests/` directory. The blog counts derive from `/api/posts.json`, and the project count from the folders in `content/projects/`.
 - **The site's constants live in `src/lib/config.ts`**, not in the file that uses them, and are never copied. The app imports it as `#lib/config.js`; a spec needs a relative path, since Playwright does not map that `.js` to `.ts`.
 - **`vite preview` server-renders whatever wasn't prerendered**, so an end-to-end check on the static output reads `build/` rather than requesting the page.
 - **Unit tests sit beside the code as `*.test.ts`**: `*.svelte.test.ts` runs in Chromium, any other in Node, and every test must assert. Unlike a spec, a unit test can import from `#lib`.
@@ -82,7 +83,7 @@ The reasons are in [`conventions.md`](conventions.md):
 [`LICENSE`](../LICENSE) and [`THIRD-PARTY-NOTICES.md`](../THIRD-PARTY-NOTICES.md) are the sources:
 
 - **The MIT License covers the source code only.** The blog posts and their images, the page copy in `src/routes/` and the author's own logos are all rights reserved. Never call the repository "MIT licensed" without that qualification, and never move content under the code licence - relicensing is the author's decision alone.
-- **Do not assume an image under `src/lib/assets/` or `content/` is the author's own.** `ksp.jpg` is Kerbal Space Program artwork, `content/projects/inprogress.svg` a Logoipsum placeholder, and most blog images are third-party; check `THIRD-PARTY-NOTICES.md` first.
+- **Do not assume an image under `src/lib/assets/` or `content/` is the author's own.** `ksp.jpg` is Kerbal Space Program artwork, `content/projects/inprogress/inprogress.svg` a Logoipsum placeholder, and most blog images are third-party; check `THIRD-PARTY-NOTICES.md` first.
 - **Third-party material is recorded in `THIRD-PARTY-NOTICES.md` in the change that adds it.** A vendored library or a brand icon without an entry is a licensing defect, not housekeeping.
 
 ## Documentation

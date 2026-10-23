@@ -102,7 +102,7 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
   - [ ] **[healthcheck](https://github.com/matus-barta/healthcheck)**: the Docker healthcheck API; the post "Simple project for Node.js…" already covers it and links the repo.
   - [ ] **[fileserver](https://github.com/matus-barta/fileserver)**: a Svelte web UI for managing a fileserver. Its README is a single line, so expand it first.
 - [ ] [Open RMM](https://github.com/matus-barta/open-rmm):
-  - [ ] Its blurb (`content/projects/open-rmm.md`), its `stack:` badges and its sentence, still list Express/Prisma, while the 2025 post (`open-rmm-part-deux.md`) describes the move to Rust/Axum and to Supabase. Update it.
+  - [ ] Its blurb (`content/projects/open-rmm/index.md`), its `stack:` badges and its sentence, still list Express/Prisma, while the 2025 post (`open-rmm-part-deux.md`) describes the move to Rust/Axum and to Supabase. Update it.
   - [ ] Its link `Open_RMM` redirects (301) to `open-rmm`.
 - [ ] The 2022 items ([images2video](https://github.com/matus-barta/images2video) fork, [PowerShell converter](https://github.com/matus-barta/Powershell-batch-video-file-coverter)) and InProgress carry an Archived badge now (`status: archived`). Group the archived projects below the active ones too, if the badge isn't enough.
 

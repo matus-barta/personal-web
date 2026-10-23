@@ -8,7 +8,7 @@ This repository contains material owned by third parties. That material is not c
 
 ## Logoipsum
 
-`content/projects/inprogress.svg` is a placeholder logo obtained from [Logoipsum](https://logoipsum.com). It is not original work by the author of this repository, and it carries the Logoipsum wordmark. Its use is governed by Logoipsum's own terms rather than by anything in this repository — check them before reusing or redistributing the file, and replace it outright if you fork this project for your own site.
+`content/projects/inprogress/inprogress.svg` is a placeholder logo obtained from [Logoipsum](https://logoipsum.com). It is not original work by the author of this repository, and it carries the Logoipsum wordmark. Its use is governed by Logoipsum's own terms rather than by anything in this repository — check them before reusing or redistributing the file, and replace it outright if you fork this project for your own site.
 
 ## Blog post images
 
@@ -285,8 +285,8 @@ The files below reproduce logos and marks owned by other organisations. They ide
 
 | Files                                                                              | Mark and owner                    |
 | ---------------------------------------------------------------------------------- | --------------------------------- |
-| `content/projects/nodejs.svg`                                                      | Node.js, OpenJS Foundation        |
-| `content/projects/powershell.svg`                                                  | PowerShell, Microsoft Corporation |
+| `content/projects/images2video/nodejs.svg`                                         | Node.js, OpenJS Foundation        |
+| `content/projects/powershell-batch-video-file-converter/powershell.svg`            | PowerShell, Microsoft Corporation |
 | `.agents/skills/shadcn-svelte/assets/shadcn-svelte.png`, `shadcn-svelte-small.png` | shadcn-svelte, its maintainers    |
 
 The brand icons the site draws - GitHub (GitHub, Inc.), Instagram (Meta Platforms, Inc.) and YouTube (Google LLC) - come from [Simple Icons](https://simpleicons.org), installed from npm as [`simple-icons`](https://www.npmjs.com/package/simple-icons) and released under CC0 1.0. `src/lib/components/brand-icon.svelte` draws them - in their brands' own colours from the package's data, or in the site's grey - and the built site inlines them into its pages. The marks remain their owners', and Simple Icons' disclaimer asks its users to follow each brand's guidelines, which it links for each icon.

@@ -1,4 +1,4 @@
-import { readdirSync } from 'node:fs';
+import { existsSync, readdirSync } from 'node:fs';
 import { getProjects } from '#lib/content/projects.js';
 import { describe, expect, test } from 'vitest';
 
@@ -6,9 +6,13 @@ import { describe, expect, test } from 'vitest';
 describe('getProjects', () => {
 	const projects = getProjects();
 
-	test('loads every blurb', () => {
-		const blurbs = readdirSync('content/projects').filter((file) => file.endsWith('.md'));
-		expect(projects).toHaveLength(blurbs.length);
+	test('loads every folder', () => {
+		expect(projects).toHaveLength(readdirSync('content/projects').length);
+	});
+
+	test('takes each slug from its folder name', () => {
+		for (const project of projects)
+			expect(existsSync(`content/projects/${project.slug}/index.md`), project.slug).toBe(true);
 	});
 
 	test('sorts them by order', () => {

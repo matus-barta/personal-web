@@ -38,7 +38,7 @@ How to set up and check the site is in [`.claude/development-setup.md`](.claude/
 | `src/lib/markdown/`          | The heading-id plugin, and the layout that builds a post's images             |
 | `src/lib/types/`, `-/utils/` | The post, project and social-link types, `formatDate()` and `pageTitle()`     |
 | `content/blog/`              | One folder per blog post: its Markdown and its images, outside `src/`         |
-| `content/projects/`          | The project blurbs on `/projects`, as Markdown, and their logos               |
+| `content/projects/`          | One folder per project on `/projects`: its blurb in Markdown and its logo     |
 | `static/`                    | Served verbatim at a fixed URL: `robots.txt` and one easter-egg image         |
 | `.claude/`                   | Agent instructions, and the pages explaining the architecture and conventions |
 | `.agents/skills/`            | Vendored agent skills, linked into `.claude/skills/`                          |
