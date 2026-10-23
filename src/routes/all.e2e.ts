@@ -2,15 +2,26 @@
 // config.ts exists. A type-only import, like Post below, is erased and never resolved.
 // For the same reason a spec can't import a module that itself imports from #lib, such
 // as pageTitle(): it builds the expected titles from SITE_NAME instead.
-import { LATEST_POSTS_LIMIT, MIN_PAGE_WIDTH, SITE_NAME } from '../lib/config.js';
+import { LATEST_POSTS_LIMIT, MIN_PAGE_WIDTH, SITE_NAME, SITE_URL } from '../lib/config.js';
 import type { Post } from '#lib/types/post.js';
 import { expect, test, type APIRequestContext } from '@playwright/test';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
+
+const build = new URL('../../build/', import.meta.url);
 
 async function getPublishedPosts(request: APIRequestContext): Promise<Post[]> {
 	const response = await request.get('/api/posts.json');
 	expect(response.ok()).toBeTruthy();
 	return await response.json();
+}
+
+// Every prerendered page, as its path and its file in build/, so a new route is covered without
+// being listed here; 404.html is the fallback shell, not a page of its own. Called inside a test,
+// as the web server builds only after the spec loads.
+function builtPages() {
+	return readdirSync(build, { recursive: true, encoding: 'utf8' })
+		.filter((file) => file.endsWith('.html') && file !== '404.html')
+		.map((file) => ({ path: '/' + file.replace(/(index)?\.html$/, ''), file }));
 }
 
 test('check content of index', async ({ page, request }) => {
@@ -99,14 +110,8 @@ test('every image on a built page exists', () => {
 	}
 });
 
-// Every prerendered page, from the HTML files in build/, so a new route is covered without
-// being listed here; 404.html is the fallback shell, not a page of its own. Read inside the
-// test, as the existing build/ checks are: the web server builds only after the spec loads.
 test(`no page scrolls sideways at ${MIN_PAGE_WIDTH}px`, async ({ page }) => {
-	const build = new URL('../../build/', import.meta.url);
-	const paths = readdirSync(build, { recursive: true, encoding: 'utf8' })
-		.filter((file) => file.endsWith('.html') && file !== '404.html')
-		.map((file) => '/' + file.replace(/(index)?\.html$/, ''));
+	const paths = builtPages().map(({ path }) => path);
 	expect(paths).toContain('/blog');
 
 	await page.setViewportSize({ width: MIN_PAGE_WIDTH, height: 800 });
@@ -115,6 +120,51 @@ test(`no page scrolls sideways at ${MIN_PAGE_WIDTH}px`, async ({ page }) => {
 		const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);
 		expect.soft(scrollWidth, path).toBeLessThanOrEqual(MIN_PAGE_WIDTH);
 	}
+});
+
+// The canonical URL and og:url name SITE_URL whichever domain the build is served from, and
+// the preview image is a file in build/.
+test('every page has its description, canonical URL and Open Graph tags', () => {
+	for (const { path, file } of builtPages()) {
+		const html = readFileSync(new URL(file, build), 'utf8');
+		const content = (attribute: string) =>
+			[...html.matchAll(new RegExp(`<meta ${attribute} content="([^"]*)"`, 'g'))].map(
+				([, value]) => value
+			);
+		const canonical = new URL(path, SITE_URL).href;
+
+		expect(
+			[...html.matchAll(/<link rel="canonical" href="([^"]*)"/g)].map(([, href]) => href),
+			path
+		).toEqual([canonical]);
+		expect(content('name="description"'), path).toEqual([expect.stringMatching(/\S/)]);
+		expect(content('property="og:url"'), path).toEqual([canonical]);
+		expect(content('property="og:title"'), path).toEqual([expect.stringMatching(/\S/)]);
+		expect(content('property="og:type"'), path).toEqual([
+			path.startsWith('/blog/') && !path.startsWith('/blog/project/') ? 'article' : 'website'
+		]);
+
+		const [image, ...others] = content('property="og:image"');
+		expect(others, path).toEqual([]);
+		expect(image?.startsWith(`${SITE_URL}/`), `${path}: ${image}`).toBe(true);
+		expect(existsSync(new URL(`.${new URL(image).pathname}`, build)), `${path}: ${image}`).toBe(
+			true
+		);
+	}
+});
+
+test('the sitemap lists every page', async ({ request }) => {
+	const response = await request.get('/sitemap.xml');
+	expect(response.headers()['content-type']).toContain('xml');
+
+	const urls = [...(await response.text()).matchAll(/<loc>([^<]*)<\/loc>/g)].map(([, url]) => url);
+	const pages = builtPages().map(({ path }) => new URL(path, SITE_URL).href);
+	expect(urls.toSorted()).toEqual(pages.toSorted());
+});
+
+test('robots.txt points to the sitemap', async ({ request }) => {
+	const response = await request.get('/robots.txt');
+	expect(await response.text()).toContain(`Sitemap: ${SITE_URL}/sitemap.xml\n`);
 });
 
 test('the 404 fallback is built', () => {

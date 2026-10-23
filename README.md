@@ -30,8 +30,8 @@ How to set up and check the site is in [`.claude/development-setup.md`](.claude/
 
 | Path                         | What it is                                                                    |
 | ---------------------------- | ----------------------------------------------------------------------------- |
-| `src/routes/`                | Pages, the `/api/posts.json` endpoint, and the end-to-end specs               |
-| `src/lib/components/`        | Shared components: the cards, the footer, and the nav in `nav/`               |
+| `src/routes/`                | Pages, endpoints - posts as JSON, sitemap, `robots.txt` - and the e2e specs   |
+| `src/lib/components/`        | Shared components: cards, the page head, the footer, the nav in `nav/`        |
 | `src/lib/assets/`            | The site's images - logo, avatar - imported through Vite, with hashed names   |
 | `src/lib/config.ts`          | The site's constants, read by the pages and the tests                         |
 | `src/lib/content/`           | Reads `content/`: the blog posts and their images, and the project blurbs     |
@@ -39,7 +39,7 @@ How to set up and check the site is in [`.claude/development-setup.md`](.claude/
 | `src/lib/types/`, `-/utils/` | The post, project and social-link types, `formatDate()` and `pageTitle()`     |
 | `content/blog/`              | One folder per blog post: its Markdown and its images, outside `src/`         |
 | `content/projects/`          | One folder per project on `/projects`: its blurb in Markdown and its logo     |
-| `static/`                    | Served verbatim at a fixed URL: `robots.txt` and one easter-egg image         |
+| `static/`                    | Served verbatim at a fixed URL: one easter-egg image                          |
 | `.claude/`                   | Agent instructions, and the pages explaining the architecture and conventions |
 | `.agents/skills/`            | Vendored agent skills, linked into `.claude/skills/`                          |
 
@@ -49,7 +49,7 @@ How the pieces fit together - one SvelteKit app prerendered to static files and 
 
 ### Code
 
-- [ ] The rewrite, planned in [`REWRITE.md`](REWRITE.md): blog features, SEO, and the pages for the content below
+- [ ] The rewrite, planned in [`REWRITE.md`](REWRITE.md): blog features, sharing, and the pages for the content below
 
 ### Waiting on upstream
 

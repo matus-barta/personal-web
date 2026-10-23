@@ -3,8 +3,8 @@
 	import GradientSeparator from '#lib/components/gradient-separator.svelte';
 	import { coverFit, coverSize } from '#lib/cover.js';
 	import { placeholderStyle } from '#lib/placeholder.js';
+	import PageHead from '#lib/components/page-head.svelte';
 	import { formatDate } from '#lib/utils/format-date.js';
-	import { pageTitle } from '#lib/utils/page-title.js';
 	import { setPostSlug } from '#lib/markdown/post-slug.js';
 	import type { PageData } from './$types';
 
@@ -19,9 +19,12 @@
 	const titleEnd = $derived(data.frontmatter.title.split(' ').at(-1));
 </script>
 
-<svelte:head>
-	<title>{pageTitle(data.frontmatter.title)}</title>
-</svelte:head>
+<PageHead
+	title={data.frontmatter.title}
+	description={data.frontmatter.description}
+	image={data.frontmatter.img}
+	published={data.frontmatter.date}
+/>
 
 <!-- pt-0: the cover is a <picture>, which Card's own has-[>img:first-child]:pt-0 misses -->
 <Card.Root data-testid="blog_post" class="pt-0">

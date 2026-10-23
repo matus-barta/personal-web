@@ -1,7 +1,7 @@
 <script lang="ts">
+	import PageHead from '#lib/components/page-head.svelte';
 	import PageHeader from '#lib/components/page-header.svelte';
 	import ProjectCard from '#lib/components/project-card.svelte';
-	import { pageTitle } from '#lib/utils/page-title.js';
 	import { getProjects } from '#lib/content/projects.js';
 	import type { PageData } from './$types';
 
@@ -10,9 +10,10 @@
 	const projects = getProjects();
 </script>
 
-<svelte:head>
-	<title>{pageTitle('Projects')}</title>
-</svelte:head>
+<PageHead
+	title="Projects"
+	description="My personal projects, what each project is built with, and a link to its repository."
+/>
 
 <PageHeader title="Projects" description="Some of my personal projects" />
 

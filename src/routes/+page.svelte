@@ -3,16 +3,16 @@
 	import * as Card from '#lib/components/ui/card/index.js';
 	import FeaturedProjectCard from '#lib/components/featured-project-card.svelte';
 	import LatestPosts from '#lib/components/latest-posts.svelte';
-	import { pageTitle } from '#lib/utils/page-title.js';
+	import PageHead from '#lib/components/page-head.svelte';
 	import type { PageData } from './$types';
 	import { resolve } from '$app/paths';
 
 	let { data }: { data: PageData } = $props();
+
+	const tagline = 'IT professional, hobby developer, homelab enthusiast, gamer, space nerd.';
 </script>
 
-<svelte:head>
-	<title>{pageTitle()}</title>
-</svelte:head>
+<PageHead description={tagline} />
 
 <Card.Root class="mt-6 md:mt-10">
 	<!-- A third row takes the avatar's extra height, so the text stays together at the top.
@@ -40,9 +40,7 @@
 				Barta
 			</h1>
 		</Card.Title>
-		<Card.Description class="text-base max-md:mt-3">
-			IT professional, hobby developer, homelab enthusiast, gamer, space nerd.
-		</Card.Description>
+		<Card.Description class="text-base max-md:mt-3">{tagline}</Card.Description>
 		<!-- w-fit, or the header's grid stretches it -->
 		<ArrowButton class="w-fit" href={resolve('/about')}>More on About page</ArrowButton>
 		<Card.Action class="row-span-3 max-sm:row-start-2 max-sm:mt-3">
