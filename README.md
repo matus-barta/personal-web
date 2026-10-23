@@ -49,7 +49,15 @@ How the pieces fit together - one SvelteKit app prerendered to static files and 
 
 ### Code
 
-- [ ] The rewrite, planned in [`REWRITE.md`](REWRITE.md): shadcn-svelte's components and a layout refresh
+- [ ] The rewrite, planned in [`REWRITE.md`](REWRITE.md): the content - new pages, blog features, the projects - and SEO
+
+### Waiting on upstream
+
+Not viable yet: each waits for a change in another project. Checked on 2026-10-23.
+
+- [ ] **Vite+ (`vp`)**, once [Oxlint lints Svelte templates](https://oxc.rs/compatibility.html); until then it would replace little, as ESLint has to stay.
+- [ ] **TypeScript 7**, once SvelteKit, `svelte-check` and `typescript-eslint` accept it; `renovate.json` holds it below 7.
+- [ ] **[mdsvex 1.0](https://github.com/pngwn/MDsveX/releases)**, once it renders the posts as 0.12 does: `1.0.0-next.1` broke bold around links.
 
 ### Post ideas
 

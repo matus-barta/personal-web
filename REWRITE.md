@@ -2,89 +2,11 @@
 
 Researched and verified on 2026-10-20. Versions come from the npm registry on that date. Claims about this repository name the file they come from; claims about anything else link their source where they're made.
 
-**Suggested order:** 9 (content) next, its own pull request; the layout refresh is done, and what was left of it waits on 9's features, so it moved there. Most of 1 - the shadcn-svelte theme and components - landed first, on its own; what's left of it goes with 9. 2 (Vite+) waits for full Svelte support. Items in 8 can land at any point.
+**Suggested order:** 9 (content) next, its own pull request. Items in 8 can land at any point. The steps that are done are gone from this file; what waits for another project - Vite+, TypeScript 7 and mdsvex 1.0 - is under "Waiting on upstream" in the README's TODOs.
 
 ## Decisions
 
-- **Vite+ (decided):** wait until it fully supports Svelte (see 2).
 - **This file (decided):** it's the plan for the big rewrite, linked from the README's TODOs.
-- **mdsvex (decided):** stay on 0.12.8, and watch 1.0's releases (see 5). The `.md` exclusion from forced runes that this first assumed wasn't needed: `layoutPropForwarding: 'runes'` does the job.
-
-## 1. Switch to shadcn-svelte
-
-Installed: [`shadcn-svelte`](https://www.npmjs.com/package/shadcn-svelte) 1.7.0, [`bits-ui`](https://www.npmjs.com/package/bits-ui) 2.19.5, [`@lucide/svelte`](https://www.npmjs.com/package/@lucide/svelte) 1.60.0, [`tw-animate-css`](https://www.npmjs.com/package/tw-animate-css) 1.4.0. bits-ui 2.20.0 and Lucide 1.61.0 came out on 2026-10-20 and 2026-10-21, younger than pnpm's `minimumReleaseAge`, so Renovate brings them after its wait. shadcn-svelte targets Svelte 5 and Tailwind 4 ([install guide](https://shadcn-svelte.com/docs/installation/sveltekit)), and [since 1.6.0](https://github.com/huntabyte/shadcn-svelte/releases/tag/shadcn-svelte%401.6.0) it auto-detects Kit 3's `#lib` import.
-
-- [ ] Components to use (all in the [component list](https://shadcn-svelte.com/docs/components)):
-  - [ ] `Badge`: tags (see 9)
-- [ ] Skip `form` for now. The registry's `form` [still pins](https://shadcn-svelte.com/registry/form.json) `sveltekit-superforms@^2.28.1`, which rejects Kit 3 ([issue #2915](https://github.com/huntabyte/shadcn-svelte/issues/2915), open). [`sveltekit-superforms`](https://www.npmjs.com/package/sveltekit-superforms) 3.0.0 (2026-10-04) accepts Kit 3, so re-check once the registry moves to it.
-
-## 2. Vite+ (`vp`): is it viable?
-
-Status: [1.0 is stable and MIT-licensed](https://voidzero.dev/posts/announcing-vite-plus-1-0), and the latest is [1.3.0](https://www.npmjs.com/package/vite-plus). It bundles Vite (as `@voidzero-dev/vite-plus-core`), Vitest 5.0.5, Oxlint, Oxfmt, Node version management (`vp env`) and `vp install`, which uses the `packageManager` field (pnpm; see the [migrate guide](https://viteplus.dev/guide/migrate)). Its `engines` field allows Node `^22.18 || ^24.11 || >=26`.
-
-| Area                        | Fit for this repo                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| dev / build / test          | Likely works. The [original announcement](https://voidzero.dev/posts/announcing-vite-plus) names SvelteKit among compatible frameworks; the [1.0 post](https://voidzero.dev/posts/announcing-vite-plus-1-0) doesn't mention Svelte. Check that Kit 3's peer `vite ^8.0.12` resolves.                                                                                                                                                                                                                |
-| Format (replaces Prettier)  | Oxfmt formats `.svelte` as a ["Prettier-backed" format](https://oxc.rs/docs/guide/usage/formatter/language-support.html) that needs `svelte` installed. It was added as experimental in [0.49.0](https://github.com/oxc-project/oxc/blob/main/apps/oxfmt/CHANGELOG.md) (2026-05-11); the docs no longer call it experimental. It sorts Tailwind classes ([`sortTailwindcss.stylesheet`](https://oxc.rs/docs/guide/usage/formatter/config-file-reference)) and formats Markdown natively. Plausible. |
-| Lint (replaces ESLint)      | **No.** Oxlint has [no Svelte template linting](https://oxc.rs/compatibility.html), so `svelte/no-navigation-without-resolve`, a template rule this repo relies on, would be lost. Keep ESLint for Svelte.                                                                                                                                                                                                                                                                                          |
-| Type-check                  | `svelte-check` is still needed for `.svelte` files.                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| Vitest browser (Playwright) | `vp migrate` adds the Playwright provider; imports move to `vite-plus/test*` ([migrate guide](https://viteplus.dev/guide/migrate)).                                                                                                                                                                                                                                                                                                                                                                 |
-
-**Verdict:** only partly viable today. You would swap Prettier for Oxfmt and Vite/Vitest for Vite+, but ESLint and svelte-check stay, so the toolchain doesn't shrink much.
-
-**Decided:** wait for full support. Neither pilot nor adopt until Oxlint lints Svelte templates.
-
-- [ ] Pilot: `pnpm dlx --package=vite-plus@1.3.0 vp migrate` on a branch (the command the [migrate guide](https://viteplus.dev/guide/migrate) gives). Diff Oxfmt's output against Prettier's, and keep `.agents/` and `skills-lock.json` ignored.
-- [ ] If adopted, update in the same change:
-  - [ ] CI workflows
-  - [ ] Renovate rules
-  - [ ] README "Dev requirements"
-  - [ ] `.claude/` pages
-- [ ] Re-check when Oxlint ships Svelte template linting ([compatibility page](https://oxc.rs/compatibility.html)).
-
-## 4. Update to latest
-
-SvelteKit 3, Node 26 and the packages they needed are done. What's left:
-
-| Package                                                  | Range now | Latest      | Note                                                                                                                                                                               |
-| -------------------------------------------------------- | --------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`typescript`](https://www.npmjs.com/package/typescript) | ^6.0.2    | 7.0.2       | **Stay on 6.** The peer ranges rule out 7: Kit 3 `^6.0.0`, svelte-check `^5.0.0 \|\| ^6.0.0`, typescript-eslint `>=4.8.4 <6.1.0`. Keep the Renovate pin (`allowedVersions: "<7"`). |
-| eslint, vitest, playwright, prettier…                    | caret     | minor/patch | Renovate already covers these                                                                                                                                                      |
-
-## 5. mdsvex: layouts and 1.0
-
-The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.12.8 now, with Shiki highlighting the code blocks, `#lib/markdown/heading-ids.ts` giving headings their ids, and a layout swapping in the posts' images. With `layoutPropForwarding: 'runes'` the layout gets `$props()` instead of `$$props`, so the posts compile in forced runes mode too.
-
-- [ ] mdsvex 0.12.8 still bundles `remark-parse` 8 / `unified` 8–9 ([its `package.json`](https://unpkg.com/mdsvex@0.12.8/package.json) and bundled sources), older than today's remark/rehype plugins expect, so add plugins only after testing them.
-- [ ] **Why 0.12 behaves like this, and mdsvex 1.0:** 0.12 is maintained but old in design. It still gets fixes (0.12.8 came out 2026-07-19). Its code generation predates Svelte 5 runes, which is where the `$$props` comes from, and so does its unified pipeline. The fix is a rewrite, now in prerelease: [`1.0.0-next.1`](https://github.com/pngwn/MDsveX/releases) (2026-10-05, npm tag `next`).
-  - [ ] It has its own parser and renderer instead of unified, and it ships as a Vite plugin (peer `vite >=5`) rather than a Svelte preprocessor.
-  - [ ] It emits `let … = $props();` and no `$$props`, so it works with forced runes without `layoutPropForwarding` (tested, see below).
-  - [ ] Layouts become "templates", and replacing elements moves to a `components` option.
-  - [ ] It has a built-in highlighter with every language the posts use, plus PowerShell. That could replace Shiki.
-  - [ ] There's a migration tool, [`@mdsvex/migrate`](https://www.npmjs.com/package/@mdsvex/migrate).
-  - [ ] **How far along 1.0 is** (checked 2026-10-20): an early prerelease, not a release candidate.
-    - [ ] The versions are tagged `next` (`next.0` on 2026-09-20, `next.1` on 2026-10-05). There's no alpha, beta or `rc` line.
-    - [ ] `next.1` still renamed things, such as the frontmatter key `layout` → `template`.
-    - [ ] The [1.0 milestone](https://github.com/pngwn/MDsveX/milestone/1) has 15 issues open and 127 closed. The [1.0 docs milestone](https://github.com/pngwn/MDsveX/milestone/2) has 11 open and 14 closed, and the published docs still describe 0.12.
-    - [ ] Neither milestone has a due date, and the [roadmap issue](https://github.com/pngwn/MDsveX/issues/771) gives no timeline.
-  - [ ] **Tested against all six posts** (2026-10-20, Kit 2.55, in a throwaway container). Three builds: 0.12.8 as today, `1.0.0-next.1` with forced runes left on, and 1.0 with a runes template and a `components` replacement.
-    - [ ] Setup: `mdsvex({ extensions: ['.md'] })` goes in `plugins` before `sveltekit()`, and the `preprocess` line is removed. 1.0 checks that `.md` is in `sveltekit()`'s `extensions`, and it is.
-    - [ ] All three builds pass and every page returns 200. `/api/posts.json` (the frontmatter) is identical, and code-block text is identical in all 22 blocks.
-    - [ ] Templates and `components` work under forced runes: a runes template (`let { children, ...frontmatter } = $props()`) wrapped every post, and an `img` export from `components` replaced the posts' images.
-    - [ ] 0.12.8 prints a Svelte 5 deprecation warning for every post (`context="module"` is deprecated); 1.0 doesn't.
-    - [ ] **Bug in 1.0:** bold around a link (`**[TailwindCSS](…)**`, `**_… [here](…)._**`) renders as `*<strong>…</strong>*`, with a stray literal `*` on each side. That's 6 places, in `open-rmm-part-deux` and `simple-nodejs-project`. Inline-delimiter fixes merged after `next.1` (for example [#931](https://github.com/pngwn/MDsveX/issues/931), [#970](https://github.com/pngwn/MDsveX/issues/970)) may already fix it.
-    - [ ] Differences that are arguably fine:
-      - [ ] No typographic quotes: 0.12 turns `'`, `"` and `...` into `’`, `“ ”` and `…`; 1.0 leaves them as typed.
-      - [ ] No `rel="nofollow"` added to links.
-      - [ ] Code blocks get `twinkleplop`/`tok` classes, which need a theme stylesheet from npm, such as [`@twinkleplop/theme-github`](https://www.npmjs.com/package/@twinkleplop/theme-github).
-  - [ ] **Decided:** stay on 0.12.8, and monitor 1.0. The bold-link bug visibly breaks two published posts, and the repo takes the latest _stable_ release.
-    - [ ] **Stable 1.0.0 needs no extra setup.** Renovate's `ignoreUnstable` defaults to `true` ([option source](https://github.com/renovatebot/renovate/blob/main/lib/config/options/index.ts)), so it skips the `next` prereleases. It will open a PR for 1.0.0 when that's out, and `renovate.json` automerges only minor and patch updates, so that PR waits for review. Until then, 0.12.x patches keep automerging.
-    - [ ] **Prereleases (`next.2` and on):** watch the repo's releases on GitHub: _Watch → Custom → Releases_ on [pngwn/MDsveX](https://github.com/pngwn/MDsveX). Renovate won't report them.
-    - [ ] On each new prerelease, re-run the comparison: build the six posts on 0.12.8 and on 1.0 and diff the rendered post bodies. Check the bold-link bug first.
-    - [ ] Switch when the posts match apart from quotes (or at stable 1.0.0).
-      - [ ] On a prerelease: pin it exactly, turn off automerge for it in `renovate.json` (with a `description`), and list it in the README TODOs.
-      - [ ] Then drop the 0.12-only work: `layoutPropForwarding`, Shiki through `highlight.highlighter`, and the layout's `img` export. 1.0 replaces them with templates, `components` and its built-in highlighter.
-      - [ ] Check that headings still get their `id`s, and the same ones (untested): 1.0 has no unified pipeline, so the rehype plugin in `#lib/markdown/heading-ids.ts` won't run on it. A post's `#heading` link fails the build if the id is missing.
 
 ## 8. Technical review
 
@@ -123,13 +45,13 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
   - [ ] Leave out IPs, domain names and network layout. Publishing those is a security risk, not just a privacy one.
 - [ ] `/now`: what you're focused on currently ([nownownow.com](https://nownownow.com/about)). It can stay vague: "working on Open-RMM, playing X".
 - [ ] `/colophon`: how the site is built, with the stack, hosting and the licence split.
-- [ ] A 404 page with some character, for example "lost in space". This is the `fallback: '404.html'` page from 3. The KSP artwork is third-party, so check `THIRD-PARTY-NOTICES.md` before reusing it.
+- [ ] A 404 page with some character, for example "lost in space". This is the `fallback: '404.html'` page `adapter-static` builds. The KSP artwork is third-party, so check `THIRD-PARTY-NOTICES.md` before reusing it.
 - [ ] Later: `/blogroll` (sites you read).
 
 **Blog features:**
 
 - [ ] RSS/Atom feed: a prerendered `+server.ts` at `/rss.xml`, linked from the footer and from `<head>`.
-- [ ] Tags, with a page per tag. A post's `project` already has one, `/blog/project/<name>`: reuse its page, or make a project one tag among others.
+- [ ] Tags, with a page per tag, each tag shown as shadcn-svelte's `Badge`. A post's `project` already has one, `/blog/project/<name>`: reuse its page, or make a project one tag among others.
   - [ ] The stack badges on the project cards could become tags too, each linking to its tag's page.
   - [ ] Show a post's tags on its `/blog` card.
 - [ ] Series: the two Open-RMM posts (`open-rmm.md`, `open-rmm-part-deux.md`) become "part 1/2", with links between them.
@@ -140,7 +62,7 @@ The posts and the project blurbs (`content/projects/`) all go through mdsvex 0.1
 - [ ] A copy button on code blocks.
   - [ ] Weigh shadcn-svelte's [Code Block](https://shadcn-svelte.com/docs/components/code-block) against a small copy button of our own, and whether it is viable now or only later. It has a header with a title, actions such as copy, line numbers and highlighted lines.
   - [ ] Its behaviour goes against the static site: its highlighter, `useHighlightedCode`, runs Shiki's JavaScript engine in the browser and "loads each language on first use" (its docs). Today Shiki runs once, at build time (`vite.config.ts`), and ships no JavaScript. Check where those languages load from - the site's own chunks or elsewhere - and whether a prerendered page shows the code uncoloured until it runs (untested).
-  - [ ] Using it in posts means mdsvex emitting a `CodeBlock` for every code fence rather than Shiki's HTML string, which mdsvex 0.12 may not make easy (untested); mdsvex 1.0's `components` option (see 5) may. Its `CodeBlock.Line` takes already-highlighted tokens, so the build-time highlighting could feed it rather than the hook.
+  - [ ] Using it in posts means mdsvex emitting a `CodeBlock` for every code fence rather than Shiki's HTML string, which mdsvex 0.12 may not make easy (untested); mdsvex 1.0's `components` option (in the README's "Waiting on upstream") may. Its `CodeBlock.Line` takes already-highlighted tokens, so the build-time highlighting could feed it rather than the hook.
   - [ ] **The code block background**, decided with it, as the Code Block would change how code blocks are rendered. Shiki writes the `monokai` theme's own `background-color:#272822` inline on every `pre`, a warm olive-grey outside the Mist palette. Change it to match the theme (untested options: replace the colour at build time through Shiki's options in `vite.config.ts`, or pick a theme whose background fits; an inline style beats any class, so CSS alone would need `!important`).
 - [ ] A preview (OG) image per post, for social shares.
 - [ ] Feedback without a contact form: a "Discuss / edit on GitHub" link on each post, which keeps out most spam because readers need a GitHub account.
