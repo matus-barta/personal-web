@@ -28,20 +28,20 @@ How to set up and check the site is in [`.claude/development-setup.md`](.claude/
 
 ## Repository layout
 
-| Path                         | What it is                                                                    |
-| ---------------------------- | ----------------------------------------------------------------------------- |
-| `src/routes/`                | Pages, endpoints - posts as JSON, sitemap, `robots.txt` - and the e2e specs   |
-| `src/lib/components/`        | Shared components: cards, the page head, the footer, the nav in `nav/`        |
-| `src/lib/assets/`            | The site's images - logo, avatar - imported through Vite, with hashed names   |
-| `src/lib/config.ts`          | The site's constants, read by the pages and the tests                         |
-| `src/lib/content/`           | Reads `content/`: the blog posts and their images, and the project blurbs     |
-| `src/lib/markdown/`          | The heading-id plugin, and the layout that builds a post's images             |
-| `src/lib/types/`, `-/utils/` | The post, project and social-link types, `formatDate()` and `pageTitle()`     |
-| `content/blog/`              | One folder per blog post: its Markdown and its images, outside `src/`         |
-| `content/projects/`          | One folder per project on `/projects`: its blurb in Markdown and its logo     |
-| `static/`                    | Served verbatim at a fixed URL: one easter-egg image                          |
-| `.claude/`                   | Agent instructions, and the pages explaining the architecture and conventions |
-| `.agents/skills/`            | Vendored agent skills, linked into `.claude/skills/`                          |
+| Path                         | What it is                                                                                               |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `src/routes/`                | Pages, endpoints - posts as JSON, sitemap, `robots.txt` - and the e2e specs                              |
+| `src/lib/components/`        | Shared components: cards, the page head, the footer, the nav in `nav/`, the 404 page in `lost-in-space/` |
+| `src/lib/assets/`            | The site's images - logo, avatar - imported through Vite, with hashed names                              |
+| `src/lib/config.ts`          | The site's constants, read by the pages and the tests                                                    |
+| `src/lib/content/`           | Reads `content/`: the blog posts and their images, and the project blurbs                                |
+| `src/lib/markdown/`          | The heading-id plugin, and the layout that builds a post's images                                        |
+| `src/lib/types/`, `-/utils/` | The post, project and social-link types, `formatDate()` and `pageTitle()`                                |
+| `content/blog/`              | One folder per blog post: its Markdown and its images, outside `src/`                                    |
+| `content/projects/`          | One folder per project on `/projects`: its blurb in Markdown and its logo                                |
+| `static/`                    | Served verbatim at a fixed URL: one easter-egg image                                                     |
+| `.claude/`                   | Agent instructions, and the pages explaining the architecture and conventions                            |
+| `.agents/skills/`            | Vendored agent skills, linked into `.claude/skills/`                                                     |
 
 How the pieces fit together - one SvelteKit app prerendered to static files and served by Netlify, with the blog posts as Markdown in git - is in [`.claude/architecture.md`](.claude/architecture.md).
 
@@ -87,10 +87,6 @@ What there is to write. Keep personal information light: no employer, no city an
 - [ ] `/now`: what I'm focused on, kept vague
 - [ ] `/colophon`: how the site is built - the stack, the hosting, the licence split
 - [ ] Later: `/blogroll`, the sites I read
-
-**404 page:**
-
-- [ ] A spacey "not found" message, beside the floating Kerbal ([`REWRITE.md`](REWRITE.md))
 
 ## License
 
