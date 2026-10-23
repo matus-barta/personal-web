@@ -55,7 +55,7 @@ export const LATEST_POSTS_LIMIT = 5;
  * How many of the newest posts /blog shows across both its columns on wider screens, before the
  * older ones go two to a row.
  */
-export const WIDE_POSTS = 3;
+export const WIDE_POSTS = 2;
 
 /**
  * The narrowest screen the layout fits without scrolling sideways: the smallest common phones.
