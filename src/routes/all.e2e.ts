@@ -10,7 +10,7 @@ import {
 	SITE_URL
 } from '../lib/config.js';
 import type { Post } from '#lib/types/post.js';
-import { expect, test, type APIRequestContext } from '@playwright/test';
+import { expect, test, type APIRequestContext, type Page } from '@playwright/test';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 
 const build = new URL('../../build/', import.meta.url);
@@ -209,15 +209,33 @@ test('the 404 fallback is built', () => {
 	expect(existsSync(new URL('../../build/404.html', import.meta.url))).toBe(true);
 });
 
+// The lost-in-space page (+error.svelte): its heading, Bob, and a link home beside the message -
+// the nav's logo links home too, so it is looked for in the page's own section.
+async function expectLostInSpace(page: Page) {
+	await expect(page.getByRole('heading', { name: '404' })).toBeVisible();
+	await expect(page.getByRole('img', { name: /Bob Kerman/ })).toBeVisible();
+	await expect(page.locator('section a[href="/"]')).toBeVisible();
+}
+
 // vite preview renders these server-side rather than serving 404.html, so this checks the
-// error and its status, not the fallback; Netlify's handling is checked on a deploy preview.
+// error and its status, not the fallback - the test after it does that.
 for (const path of ['/no-such-page', '/blog/no-such-post']) {
 	test(`unknown URL ${path} is a 404`, async ({ page }) => {
 		const response = await page.goto(path);
 		expect(response?.status()).toBe(404);
-		await expect(page.getByRole('heading', { name: '404' })).toBeVisible();
+		await expectLostInSpace(page);
 	});
 }
+
+// What Netlify does for a path that wasn't built: it serves 404.html, with a 404, and the shell
+// renders the error page in the browser.
+test('the 404 fallback shows the lost-in-space page', async ({ page }) => {
+	await page.route('**/no-such-page', (route) =>
+		route.fulfill({ status: 404, path: new URL('404.html', build).pathname })
+	);
+	await page.goto('/no-such-page');
+	await expectLostInSpace(page);
+});
 
 // vite preview, like Netlify, picks the type from the extension - without one, text/html
 test('API is served as JSON', async ({ request }) => {
