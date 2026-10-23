@@ -66,6 +66,10 @@ export const MIN_PAGE_WIDTH = 360;
 /** The site's name, which ends every page's title. */
 export const SITE_NAME = 'Matus Barta | Anonymus09';
 
+/** What the blog is about: /blog's description, and its RSS feed's. */
+export const BLOG_DESCRIPTION =
+	"Writing about what I tinker with, what I learn, and what I'm curious about.";
+
 /** Where to find the author elsewhere, listed on /about. */
 export const SOCIAL_LINKS: readonly SocialLink[] = [
 	{ label: 'GitHub', href: 'https://github.com/matus-barta', brand: 'github' },

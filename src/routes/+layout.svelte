@@ -5,7 +5,9 @@
 	import Footer from '#lib/components/footer.svelte';
 	import Nav from '#lib/components/nav/nav.svelte';
 	import { setNavTarget } from '#lib/components/nav/nav-target.js';
+	import { SITE_NAME } from '#lib/config.js';
 	import { onNavigate } from '$app/navigation';
+	import { resolve } from '$app/paths';
 
 	let { children }: { children?: Snippet } = $props();
 
@@ -31,7 +33,11 @@
 	});
 </script>
 
-<svelte:head><link rel="icon" href={favicon} /></svelte:head>
+<svelte:head>
+	<link rel="icon" href={favicon} />
+	<!-- so a feed reader given any page's URL finds the feed -->
+	<link rel="alternate" type="application/rss+xml" title={SITE_NAME} href={resolve('/rss.xml')} />
+</svelte:head>
 
 <div class="flex min-h-dvh flex-col justify-between">
 	<Nav />

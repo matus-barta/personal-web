@@ -1,6 +1,6 @@
 <script lang="ts">
 	import BlogPostCard from '#lib/components/blog-post-card.svelte';
-	import { WIDE_POSTS } from '#lib/config.js';
+	import { BLOG_DESCRIPTION, WIDE_POSTS } from '#lib/config.js';
 	import PageHead from '#lib/components/page-head.svelte';
 	import PageHeader from '#lib/components/page-header.svelte';
 	import type { PageData } from './$types';
@@ -8,10 +8,7 @@
 	let { data }: { data: PageData } = $props();
 </script>
 
-<PageHead
-	title="Blog"
-	description="Writing about what I tinker with, what I learn, and what I'm curious about."
-/>
+<PageHead title="Blog" description={BLOG_DESCRIPTION} />
 
 <PageHeader title="Personal Blog" description="Here are all the blog posts" />
 

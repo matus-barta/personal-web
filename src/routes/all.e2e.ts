@@ -162,6 +162,22 @@ test('the sitemap lists every page', async ({ request }) => {
 	expect(urls.toSorted()).toEqual(pages.toSorted());
 });
 
+test('the RSS feed lists every post, and every page links to it', async ({ request }) => {
+	const posts = await getPublishedPosts(request);
+	const response = await request.get('/rss.xml');
+	expect(response.headers()['content-type']).toContain('xml');
+
+	const links = [...(await response.text()).matchAll(/<item>[^]*?<link>([^<]*)<\/link>/g)].map(
+		([, url]) => url
+	);
+	expect(links).toEqual(posts.map(({ slug }) => `${SITE_URL}/blog/${slug}`));
+
+	for (const { path, file } of builtPages()) {
+		const html = readFileSync(new URL(file, build), 'utf8');
+		expect(html, path).toContain('<link rel="alternate" type="application/rss+xml"');
+	}
+});
+
 test('robots.txt points to the sitemap', async ({ request }) => {
 	const response = await request.get('/robots.txt');
 	expect(await response.text()).toContain(`Sitemap: ${SITE_URL}/sitemap.xml\n`);
