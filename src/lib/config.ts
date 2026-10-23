@@ -15,7 +15,7 @@ export const CARD_HOVER: CardHover = {
 };
 
 /**
- * The hover on a project's card (`post.svelte`): its logo brightens, and a glow spreads from it
+ * The hover on a project's card (`project-card.svelte`): its logo brightens, and a glow spreads from it
  * into the card, its centre a little below and to the right of the logo's.
  */
 export const PROJECT_HOVER: CardHover = {

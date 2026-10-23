@@ -7,11 +7,8 @@
 	import { pageTitle } from '#lib/utils/page-title.js';
 	import { setPostSlug } from '#lib/markdown/post-slug.js';
 	import type { PageData } from './$types';
-	interface Props {
-		data: PageData;
-	}
 
-	let { data }: Props = $props();
+	let { data }: { data: PageData } = $props();
 
 	setPostSlug(() => data.frontmatter.slug);
 

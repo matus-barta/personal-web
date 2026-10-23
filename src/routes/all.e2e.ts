@@ -37,7 +37,7 @@ test('check content of projects', async ({ page }) => {
 	const projects = readdirSync(new URL('../../content/projects', import.meta.url));
 
 	await page.goto('/projects');
-	await expect(page.getByTestId(`post`)).toHaveCount(projects.length);
+	await expect(page.getByTestId(`project`)).toHaveCount(projects.length);
 });
 
 test('check content of blogpost open-rmm', async ({ page }) => {

@@ -10,11 +10,7 @@
 	import { dev } from '$app/env';
 	import { resolve } from '$app/paths';
 
-	interface Props {
-		data: PageData;
-	}
-
-	let { data }: Props = $props();
+	let { data }: { data: PageData } = $props();
 </script>
 
 <svelte:head>

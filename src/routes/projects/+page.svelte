@@ -1,8 +1,8 @@
 <script lang="ts">
 	import PageHeader from '#lib/components/page-header.svelte';
+	import ProjectCard from '#lib/components/project-card.svelte';
 	import { pageTitle } from '#lib/utils/page-title.js';
 	import { getProjects } from '#lib/projects.js';
-	import Post from '#lib/components/post.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -17,7 +17,7 @@
 <PageHeader title="Projects" description="Some of my personal projects" />
 
 <div class="flex flex-col gap-6">
-	{#each projects as project (project.title)}
-		<Post {...project} related={data.related[project.slug] ?? 0} />
+	{#each projects as project (project.slug)}
+		<ProjectCard {...project} related={data.related[project.slug] ?? 0} />
 	{/each}
 </div>

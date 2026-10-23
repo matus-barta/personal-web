@@ -1,16 +1,13 @@
 <script lang="ts">
 	import './layout.css';
+	import type { Snippet } from 'svelte';
 	import favicon from '#lib/assets/favicon.png';
-
 	import Footer from '#lib/components/footer.svelte';
 	import Nav from '#lib/components/nav.svelte';
-	import { onNavigate } from '$app/navigation';
 	import { setNavTarget } from '#lib/nav-target.js';
-	interface Props {
-		children?: import('svelte').Snippet;
-	}
+	import { onNavigate } from '$app/navigation';
 
-	let { children }: Props = $props();
+	let { children }: { children?: Snippet } = $props();
 
 	// where a navigation is going while its transition lasts, for the nav (#lib/nav-target.ts)
 	let navTarget = $state<string | null>(null);

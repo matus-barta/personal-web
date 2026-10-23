@@ -43,7 +43,7 @@
      The card has no ring: it is not one link, as a post's card is. -->
 <Card.Root
 	id={slug}
-	data-testid="post"
+	data-testid="project"
 	data-glow-origin={PROJECT_HOVER.origin}
 	data-glow-grow={PROJECT_HOVER.glow.grow || undefined}
 	data-glow-debug={(dev && PROJECT_HOVER.debug) || undefined}
