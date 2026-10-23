@@ -55,6 +55,18 @@ export async function getPosts(): Promise<Post[]> {
 		.sort((first, second) => getTime(second.date) - getTime(first.date));
 }
 
+/**
+ * How many of the posts are about each project, by the project's slug; a project no post names
+ * is left out. For the cards' links to a project's posts, and for which projects get a page.
+ */
+export function postsPerProject(posts: Post[]): Record<string, number> {
+	const counts: Record<string, number> = {};
+	for (const { project } of posts) {
+		if (project) counts[project] = (counts[project] ?? 0) + 1;
+	}
+	return counts;
+}
+
 /** One published post and its body, or `undefined` if there is none by that slug. */
 export async function getPost(slug: string) {
 	const load = modules[`/content/blog/${slug}/index.md`];

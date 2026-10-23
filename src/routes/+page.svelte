@@ -1,11 +1,9 @@
 <script lang="ts">
 	import ArrowButton from '#lib/components/arrow-button.svelte';
 	import * as Card from '#lib/components/ui/card/index.js';
+	import FeaturedProjectCard from '#lib/components/featured-project-card.svelte';
 	import LatestPosts from '#lib/components/latest-posts.svelte';
-	import { Badge } from '#lib/components/ui/badge/index.js';
 	import { pageTitle } from '#lib/utils/page-title.js';
-	import { FEATURED_HOVER } from '#lib/config.js';
-	import { cardHover } from '#lib/glow.js';
 	import type { PageData } from './$types';
 	import { resolve } from '$app/paths';
 
@@ -79,73 +77,8 @@
 <section class="mt-10 flex flex-col gap-4">
 	{@render sectionHeader('Featured Projects', 'See all projects', resolve('/projects'))}
 	<div class="grid gap-6 md:grid-cols-2">
-		{#each data.featured as project (project.slug)}
-			<!-- The title's link covers the whole card, as on /blog, and leads to the project's card
-			     on /projects; the first four of its stack keep the card short. On hover the logo
-			     brightens and a small glow spreads from it (FEATURED_HOVER, through cardHover(); the
-			     glow utility, and the style below for where it starts). -->
-			<Card.Root
-				{...cardHover(FEATURED_HOVER)}
-				class="featured-card glow relative transition-shadow hover:ring-primary/50 has-focus-visible:ring-primary/50"
-			>
-				<Card.Content class="flex gap-4">
-					<enhanced:img
-						src={project.img}
-						alt={project.img_alt}
-						width="96"
-						height="96"
-						sizes="96px"
-						loading="lazy"
-						class="glow-image size-24 shrink-0 rounded-xl bg-foreground p-2"
-					/>
-					<div class="flex min-w-0 flex-1 flex-col gap-2">
-						<h3 class="text-xl font-bold tracking-tight">
-							<a
-								href="{resolve('/projects')}#{project.slug}"
-								class="text-primary after:absolute after:inset-0 focus-visible:outline-none"
-								>{project.title}</a
-							>
-						</h3>
-						<p class="text-sm text-muted-foreground">{project.excerpt}</p>
-						<ul class="mt-auto flex flex-wrap gap-1.5" aria-label="Tech stack">
-							{#each project.stack.slice(0, 4) as tech (tech)}
-								<li><Badge variant="secondary">{tech}</Badge></li>
-							{/each}
-						</ul>
-						{#if project.related > 0}
-							<!-- relative z-10, above the title's link that covers the card -->
-							<ArrowButton
-								size="xs"
-								class="relative z-10 w-fit"
-								href={resolve('/blog/project/[project]', { project: project.slug })}
-							>
-								{project.related} related {project.related === 1 ? 'post' : 'posts'}
-							</ArrowButton>
-						{/if}
-					</div>
-				</Card.Content>
-			</Card.Root>
+		{#each data.featured as { related, ...project } (project.slug)}
+			<FeaturedProjectCard {project} {related} />
 		{/each}
 	</div>
 </section>
-
-<style>
-	/*
-	  Where the glow (the glow utility, layout.css) is anchored: the three places
-	  FEATURED_HOVER.origin can name - the logo's right edge, towards the text; its centre; or the
-	  card's left edge behind it - each level with the logo's centre, and small, as these cards
-	  are. The 96px logo sits in the card's 16px padding, its centre 64px in. Global, as Card.Root
-	  is another component's element, under a class of this page's.
-	*/
-	:global(.featured-card) {
-		--edge-x: 112px;
-		--edge-y: 64px;
-		--edge-size: 220px 170px;
-		--centre-x: 64px;
-		--centre-y: 64px;
-		--centre-size: 240px 180px;
-		--far-x: 0px;
-		--far-y: 64px;
-		--far-size: 280px 200px;
-	}
-</style>

@@ -5,10 +5,9 @@
 	import { Button } from '#lib/components/ui/button/index.js';
 	import GradientSeparator from '#lib/components/gradient-separator.svelte';
 	import BrandIcon from '#lib/components/brand-icon.svelte';
-	import ArrowButton from '#lib/components/arrow-button.svelte';
+	import RelatedPostsButton from '#lib/components/related-posts-button.svelte';
 	import { PROJECT_HOVER } from '#lib/config.js';
 	import { cardHover } from '#lib/glow.js';
-	import { resolve } from '$app/paths';
 
 	interface Props extends Project {
 		/** How many posts are about the project; with any, the card links to them. */
@@ -28,14 +27,6 @@
 		related
 	}: Props = $props();
 </script>
-
-{#snippet relatedPosts()}
-	{#if related > 0}
-		<ArrowButton size="xs" href={resolve('/blog/project/[project]', { project: slug })}>
-			{related} related {related === 1 ? 'post' : 'posts'}
-		</ArrowButton>
-	{/if}
-{/snippet}
 
 <!-- The slug is the card's id, for the home page's featured projects to link to; scroll-mt-24
      keeps a card it scrolls to clear of the floating nav. On hover the logo brightens and a glow
@@ -94,7 +85,7 @@
 				<Badge variant={status === 'active' ? 'default' : 'outline'}>
 					{status === 'active' ? 'Active' : 'Archived'}
 				</Badge>
-				<span class="sm:hidden">{@render relatedPosts()}</span>
+				<span class="sm:hidden"><RelatedPostsButton project={slug} count={related} /></span>
 			</div>
 			<Card.Description
 				class="row-start-3 max-sm:col-span-2 max-sm:mt-2 sm:col-start-2 sm:row-start-2"
@@ -112,7 +103,9 @@
 					<li><Badge variant="secondary">{tech}</Badge></li>
 				{/each}
 				{#if related > 0}
-					<li class="ml-auto max-sm:hidden">{@render relatedPosts()}</li>
+					<li class="ml-auto max-sm:hidden">
+						<RelatedPostsButton project={slug} count={related} />
+					</li>
 				{/if}
 			</ul>
 		</div>

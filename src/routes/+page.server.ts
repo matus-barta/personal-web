@@ -1,10 +1,11 @@
 import { LATEST_POSTS_LIMIT } from '#lib/config.js';
-import { getPosts } from '#lib/posts.js';
+import { getPosts, postsPerProject } from '#lib/posts.js';
 import { getProjects } from '#lib/projects.js';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async () => {
 	const posts = await getPosts();
+	const related = postsPerProject(posts);
 	return {
 		posts: posts.slice(0, LATEST_POSTS_LIMIT),
 		// the projects marked `featured`, with only what their cards show - a page's data can't
@@ -18,7 +19,7 @@ export const load: PageServerLoad = async () => {
 				img,
 				img_alt,
 				stack,
-				related: posts.filter((post) => post.project === slug).length
+				related: related[slug] ?? 0
 			}))
 	};
 };
