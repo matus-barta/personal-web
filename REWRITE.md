@@ -1,6 +1,6 @@
 # Rewrite plan
 
-What is left of the site's rewrite: the features and the pages. The text they show - the posts, the projects, About and the new pages - is the README's "Content" list, and what waits for another project is its "Waiting on upstream".
+What is left of the site's rewrite: the features and the pages. The text they show - the posts, the projects and About - is the README's "Content" list - the new pages too, each built once its text is written - and what waits for another project is its "Waiting on upstream".
 
 Each group below is one pull request, in this order; a big one can split. A checkbox is a task. **Decide** marks a choice to make before the tasks that depend on it. Facts were checked on 2026-10-20: claims about this repository name the file they come from, and claims about anything else link their source.
 
@@ -12,30 +12,33 @@ Each group below is one pull request, in this order; a big one can split. A chec
   - **Decide:** its design - at the start of the post, or floating beside it - from a few live demos and a look at how other blogs do it.
 - [ ] A series: the two Open-RMM posts (`open-rmm`, `open-rmm-part-deux`) linked to each other - a link to the previous post at the top of a post, to the next at the bottom. Their titles stay as they are, with no "part 1/2": the order shows in the titles, and the posts read on their own rather than as a story to follow.
 
-## 2. Tags
+## 2. Code blocks
 
-- **Decide:** what a post's `project` becomes. It already has a page, `/blog/project/<name>`: reuse that page for tags, or make a project one tag among others.
-- **Decide:** whether the stack badges on the project cards become tags too, each linking to its tag's page.
-- [ ] Tags in a post's frontmatter, with a page per tag, each tag shown as shadcn-svelte's `Badge`.
-- [ ] A post's tags on its `/blog` card.
+- [ ] Every code block in a post is shadcn-svelte's [Code Block](https://shadcn-svelte.com/docs/components/code-block): copy, a title header, line numbers that copying skips, wrapping, highlighted, added and removed lines. Chosen over a copy button of our own, as using it needs no hack:
+  - **Wiring:** the highlighter in `vite.config.ts` returns Svelte code, and mdsvex imports the layout's exports as `Components`, as it does for `<Components.img>`. So it can emit `<Components.code …>` with the build-time tokens, given that export from `blog-layout.svelte`; a compile with a stand-in component on 2026-10-23 passed it through unchanged. Shiki stays at build time - the Code Block can take tokens as they are, and its docs say `highlightCode` runs in a `load` too - so no highlighter ships.
+  - **To check first:** the token shape `CodeBlock.Line` takes, which the build's Shiki must produce - read in the component once added; whether mdsvex 0.12 hands the highlighter a fence's text after the language, for a title or highlighted lines (` ```js title="x" {2} `); and what a post's chunk grows by. `add code-block` also brings `use-highlighted-code`, unused here.
+- [ ] The code block background, which today is `monokai`'s own olive-grey, `#272822`, written inline on every `pre`: done with the light mode in step 4, through Shiki's `defaultColor: false`, which writes every colour as a CSS variable for the page to choose - both themes and the background, without `!important`. The Code Block may set its own background meanwhile.
 
-## 3. Code blocks
+## 3. Pages
 
-- **Decide:** shadcn-svelte's [Code Block](https://shadcn-svelte.com/docs/components/code-block) or a small copy button of our own. The Code Block has a header with a title, actions such as copy, line numbers and highlighted lines, but:
-  - its highlighter, `useHighlightedCode`, runs Shiki's JavaScript engine in the browser and "loads each language on first use" (its docs), while Shiki runs once today, at build time (`vite.config.ts`), and ships no JavaScript. Where those languages load from, and whether a prerendered page shows the code uncoloured until it runs, is untested;
-  - using it in posts means mdsvex emitting a `CodeBlock` for every code fence rather than Shiki's HTML string, which 0.12 may not make easy (untested) and 1.0's `components` option may. Its `CodeBlock.Line` takes already-highlighted tokens, so the build-time highlighting could feed it rather than the hook.
-- [ ] A copy button on every code block.
-- [ ] A background that fits the theme. Shiki writes the `monokai` theme's own `background-color:#272822` inline on every `pre`, a warm olive-grey outside the Mist palette. Untested options: replace the colour at build time through Shiki's options in `vite.config.ts`, or pick a theme whose background fits. An inline style beats any class, so CSS alone would need `!important`.
+- [ ] A "lost in space" 404 page, after GitHub's: the message on the left, and on the right the avatar's Kerbal, cut out of its picture, floating slowly over the starfield it came from. It becomes a root `+error.svelte`, which the `fallback: '404.html'` shell renders in the browser in place of Kit's default error page; on a phone the two stack, through breakpoints. Steps:
+  - **Source:** `src/lib/assets/ksp-wallpaper.jpg`, the whole scene at 1920×1080, which the avatar is a square crop of: the official artwork of Bob Kerman, from the [KSP wiki](https://wiki.kerbalspaceprogram.com/wiki/File:Bob.jpg). A PNG copy the developer had matched it pixel for pixel, within re-saving noise, so this JPEG is the original as far as is known.
+  - **Cut-out:** the Kerbal as a PNG with transparency. That needs a background-removal model, which Claude can't stand in for by hand: [`rembg`](https://github.com/danielgatis/rembg) run once from a container, if the developer agrees, or the remove-background tool of an image editor. The white suit on a black sky should cut cleanly (untested).
+  - **Patch:** the hole the Kerbal leaves in the background, filled so it doesn't show - the Kerbal floats away from it. Claude can't generate pixels as a generative fill does; the first try is OpenCV's inpainting, then real starfield cloned from elsewhere in the picture over it, feathered, and judged by eye. The Milky Way band runs behind the Kerbal and is the hard part. If it shows, the developer runs a generative fill in an image editor.
+  - **Fade:** the background fades to transparent on all four sides, into the page's own background, so it needs no more than its size on a wide screen. Done with CSS `mask-image` rather than baked into the file: enhanced-img's fallback for a JPEG is a JPEG, which has no transparency, and the fade stays adjustable.
+  - **Float:** the Kerbal drifts and bounces inside an invisible box, in CSS alone: its left-right and up-down movements are two animations of different lengths, each reversing at the box's edges, so the path takes long to repeat, with a slow turn on top. Still, as a picture, with reduced motion asked for.
+  - **Text:** a spacey "not found" message and a link home - its words go in the README's "Content" list.
+  - **Notices:** the KSP entry in `THIRD-PARTY-NOTICES.md` grows to cover the 404 page and the edited copies.
+- [ ] Projects sorted by group, not by hand: the featured first, then the other active ones, then the archived, each group by title - which puts Open RMM before Personal Web. The `order` field leaves the projects' frontmatter.
 
-## 4. Pages
+## 4. Later
 
-- [ ] A route for each new page in the README's "Content" list - `/uses`, `/homelab` with its diagram in Mermaid, `/now`, `/colophon` - once its text is ready; the "slash pages" of [slashpages.net](https://slashpages.net).
-- [ ] A 404 page with some character, such as "lost in space": the `fallback: '404.html'` page `adapter-static` builds.
-  - **Decide:** its artwork. The KSP art is third-party, so check `THIRD-PARTY-NOTICES.md` before reusing it.
-- **Decide:** whether the archived projects go below the active ones on `/projects`, if their Archived badge isn't enough.
-
-## 5. Later
-
-- [ ] A dark/light toggle; shadcn-svelte's [dark mode docs](https://shadcn-svelte.com/docs/dark-mode/svelte) use `mode-watcher`.
-  - **Decide:** the light theme's colours. The site is dark only; `layout.css` keeps Mist's light values, unused, without the site's greens or its own tokens - `--mark`, `--mark-foreground`, `--link-hover`.
-- [ ] Site search with [Pagefind](https://pagefind.app), which indexes the static build - overkill for six posts.
+- [ ] A light mode, through `mode-watcher`, as shadcn-svelte's [dark mode docs](https://shadcn-svelte.com/docs/dark-mode/svelte) use. Dark stays the default for everyone, whatever their system asks for; light is an option for accessibility or a strong preference, chosen with a toggle.
+  - **Design phase**, from live demos to compare:
+    - **Colours:** the dark theme's reused where they read well on light, and the ones that don't - the lime `--mark-foreground` on white, for one - adapted. Chosen by colour harmony and checked by contrast:
+      - **Choosing:** the greens keep their hue and change their lightness and chroma, which [`oklch()`](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/oklch), the format `layout.css` already uses, holds as separate numbers - so the light theme stays the same family of colours. A colour the light theme needs that the dark one has no counterpart for comes from the colour wheel's harmonies with the greens - complementary, analogous or split-complementary - as demos to compare.
+      - **Checking:** each pair of text and background against [WCAG's contrast minimum](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html), 4.5:1 for text and 3:1 for large text. It rules colours out; it doesn't pick them. `layout.css` keeps Mist's light values, unused, which have no greens (`--primary` is grey) and none of the site's own tokens - `--mark`, `--mark-foreground`, `--link-hover`.
+    - **The toggle's place**, decided with the colours.
+    - **Code blocks** get a light theme. Shiki 4.5.0 bundles no light Monokai - `monokai` is its only one - so either a pair it bundles, dark and light (`github`, `one-dark-pro` and `one-light`, `catppuccin`, `vitesse`, `rose-pine`, `gruvbox`, `kanagawa`, `everforest`, `ayu`, `night-owl`), or `monokai` kept for dark beside a light theme chosen to suit it. Shiki can write both into the HTML, to switch in CSS, and the code block background comes with it (step 2).
+    - **Transparent covers** keep a light backdrop, in a different shade from the light page's: today it is `bg-foreground`, which turns dark in light mode.
+    - **The hover glows:** tried on light with other colours of the theme, or darker; if none looks right, they are off in light mode.

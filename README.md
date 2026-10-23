@@ -50,6 +50,8 @@ How the pieces fit together - one SvelteKit app prerendered to static files and 
 ### Code
 
 - [ ] The rewrite, planned in [`REWRITE.md`](REWRITE.md): blog features, and the pages for the content below
+- [ ] Tags on posts, with a page per tag - and whether `project:` and the project cards' stack badges become tags
+- [ ] Site search with [Pagefind](https://pagefind.app), which indexes the static build - once there are more posts
 
 ### Waiting on upstream
 
@@ -78,13 +80,17 @@ What there is to write. Keep personal information light: no employer, no city an
 - [ ] Write its sections: what I do and the tech I work with, my interests, what the site is for
 - [ ] Add Bluesky to "Find me" (`SOCIAL_LINKS` in `src/lib/config.ts`)
 
-**New pages:**
+**New pages** - the "slash pages" of [slashpages.net](https://slashpages.net), each built as a route once its text is ready:
 
 - [ ] `/uses`: the dev setup, software and homelab hardware
-- [ ] `/homelab`: the hardware, the services and a diagram of how they fit - no IPs, domains or network layout
+- [ ] `/homelab`: the hardware, the services and a diagram of how they fit, in Mermaid, which the site doesn't render yet - no IPs, domains or network layout
 - [ ] `/now`: what I'm focused on, kept vague
 - [ ] `/colophon`: how the site is built - the stack, the hosting, the licence split
 - [ ] Later: `/blogroll`, the sites I read
+
+**404 page:**
+
+- [ ] A spacey "not found" message, beside the floating Kerbal ([`REWRITE.md`](REWRITE.md))
 
 ## License
 
