@@ -24,6 +24,7 @@ One SvelteKit app, deployed to Netlify. There is no database, no auth and no CMS
 - **A project is a folder too, `content/projects/<slug>/`, its blurb in `index.md` and its logo beside it** - `img: ./openrmm.png`, a path with no file behind it failing the build - and the folder name is the slug. `#lib/content/projects.ts` reads them. Frontmatter must satisfy `ProjectFrontmatter` in `#lib/types/project.js`.
 - **All Markdown is compiled by mdsvex at build time** - the posts and the project blurbs.
 - **Shiki highlights code blocks at build time, in the languages `vite.config.ts` loads** - a block in any other fails the build until it's added there. Its colours are inline, from the `monokai` theme, so no stylesheet ships.
+- **A post's code block is shadcn-svelte's Code Block**, given Shiki's tokens by `#lib/markdown/highlight.ts` through the blog layout's `CodeBlock` export, so a project blurb can't have one. The fence takes Expressive Code's options - ` ```ts title="x" {2} ins={3} del={4} ` - and an unknown one fails the build - [`architecture.md`](architecture.md#one-markdown-renderer).
 
 ## Styling
 
