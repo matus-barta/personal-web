@@ -111,6 +111,29 @@ test.describe('a heading link', () => {
 	});
 });
 
+test.describe('the table of contents', () => {
+	test('stands beside the post on a wide screen', async ({ page }) => {
+		await page.setViewportSize({ width: 1280, height: 800 });
+		await page.goto('/blog/open-rmm');
+		const contents = page.getByRole('navigation', { name: 'Contents' });
+		await expect(contents).toBeVisible();
+		await contents.getByRole('link', { name: 'Why so many rewrites?' }).click();
+		await expect(page).toHaveURL(/#why-so-many-rewrites$/);
+		await expect(contents.locator('[aria-current=location]')).toHaveText('Why so many rewrites?');
+	});
+
+	test('opens from a button below it', async ({ page }) => {
+		await page.setViewportSize({ width: 390, height: 844 });
+		await page.goto('/blog/open-rmm', { waitUntil: 'networkidle' });
+		await expect(page.getByRole('navigation', { name: 'Contents' })).toBeHidden();
+		await page.getByRole('button', { name: 'Contents' }).click();
+		await page.getByRole('dialog').getByRole('link', { name: 'Why so many rewrites?' }).click();
+		await expect(page).toHaveURL(/#why-so-many-rewrites$/);
+		await expect(page.getByRole('dialog')).toBeHidden();
+		await expect(page.locator('#why-so-many-rewrites')).toBeInViewport();
+	});
+});
+
 test('Check API', async ({ request }) => {
 	const posts = await getPublishedPosts(request);
 

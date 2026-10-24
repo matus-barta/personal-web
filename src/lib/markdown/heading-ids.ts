@@ -1,7 +1,7 @@
 import { slug } from 'github-slugger';
 
 // The part of a hast node this plugin reads; mdsvex 0.12 hands rehype plugins this tree.
-type Node = {
+export type Node = {
 	type: string;
 	tagName?: string;
 	value?: string;
@@ -15,7 +15,8 @@ const HEADING = /^h[1-6]$/;
 // An alternation, not a [class]: no-misleading-character-class rejects joiners in one.
 const EMOJI = /\p{Extended_Pictographic}|\p{Emoji_Modifier}|\u{FE0F}|\u{200D}|\u{20E3}/gu;
 
-function textOf(node: Node): string {
+/** The text of a node and everything inside it. */
+export function textOf(node: Node): string {
 	return node.type === 'text' ? (node.value ?? '') : (node.children ?? []).map(textOf).join('');
 }
 

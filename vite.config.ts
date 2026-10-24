@@ -10,6 +10,7 @@ import { createHighlighter } from 'shiki';
 import { SITE_URL } from './src/lib/config.js';
 import { rehypeHeadingIds } from './src/lib/markdown/heading-ids.js';
 import { remarkReadingTime } from './src/lib/markdown/reading-time.js';
+import { rehypeToc } from './src/lib/markdown/toc.js';
 
 // One instance for the whole build, as Shiki recommends. Only the languages the posts use
 // are loaded, so a code block in any other fails the build until it is added here.
@@ -57,7 +58,7 @@ export default defineConfig({
 					layoutPropForwarding: 'runes',
 					highlight: { highlighter: highlight },
 					remarkPlugins: [remarkReadingTime],
-					rehypePlugins: [rehypeHeadingIds]
+					rehypePlugins: [rehypeHeadingIds, rehypeToc]
 				})
 			],
 			extensions: ['.svelte', '.svx', '.md']
