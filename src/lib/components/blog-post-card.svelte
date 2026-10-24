@@ -5,7 +5,7 @@
 	import { CARD_HOVER } from '#lib/config.js';
 	import { cardHover } from '#lib/glow.js';
 	import { placeholderStyle } from '#lib/placeholder.js';
-	import { formatDate } from '#lib/utils/format-date.js';
+	import PostByline from '#lib/components/post-byline.svelte';
 	import type { Post } from '#lib/types/post.js';
 	import type { Project } from '#lib/types/project.js';
 	import { resolve } from '$app/paths';
@@ -101,9 +101,9 @@
 				<p class="text-muted-foreground">{post.description}</p>
 			</div>
 			<div class="flex items-center justify-between gap-2">
-				<time class="text-sm text-muted-foreground" datetime={post.date}>
-					{formatDate(post.date)}
-				</time>
+				<p class="text-sm text-muted-foreground">
+					<PostByline date={post.date} minutes={post.reading_time} />
+				</p>
 				{#if project}
 					<!-- relative z-10, above the title's link that covers the card -->
 					<Badge

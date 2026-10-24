@@ -1,10 +1,10 @@
 <script lang="ts">
 	import * as Card from '#lib/components/ui/card/index.js';
 	import GradientSeparator from '#lib/components/gradient-separator.svelte';
+	import PostByline from '#lib/components/post-byline.svelte';
 	import { coverFit, coverSize } from '#lib/cover.js';
 	import { placeholderStyle } from '#lib/placeholder.js';
 	import PageHead from '#lib/components/page-head.svelte';
-	import { formatDate } from '#lib/utils/format-date.js';
 	import { setPostSlug } from '#lib/markdown/post-slug.js';
 	import type { PageData } from './$types';
 
@@ -13,8 +13,7 @@
 	setPostSlug(() => data.frontmatter.slug);
 
 	const cover = $derived(data.frontmatter);
-	const date = $derived(formatDate(data.frontmatter.date));
-	// the title's last word, kept apart so it and the room for the date wrap together
+	// the title's last word, kept apart so it and the room for the byline wrap together
 	const titleStart = $derived(data.frontmatter.title.split(' ').slice(0, -1).join(' '));
 	const titleEnd = $derived(data.frontmatter.title.split(' ').at(-1));
 </script>
@@ -44,26 +43,33 @@
 		class={['cover', coverFit(cover, 960 / 176)]}
 	/>
 	<Card.Header class="md:px-6">
-		<!-- The date sits at the right end of the title's last line: both share one grid cell, and
-		     last-baseline alignment puts the date on that line's baseline. An invisible copy of
-		     it, glued to the title's last word, keeps the line room for it, so a long title wraps a
-		     word earlier rather than run under the date. -->
+		<!-- The byline - the date and reading time - sits at the right end of the title's last
+		     line: both share one grid cell, and last-baseline alignment puts the byline on that
+		     line's baseline. An invisible copy of it, glued to the title's last word, keeps the
+		     line room for it, so a long title wraps a word earlier rather than run under the
+		     byline. On a phone the word and the byline can be wider than the line together, so
+		     there the space before the copy can break, and the copy, and with it the byline,
+		     drop to a line of its own. A space rather than a <wbr>: Chromium breaks at a <wbr>
+		     inside nowrap too. -->
 		<div class="grid">
 			<Card.Title
 				class="col-start-1 row-start-1 self-baseline-last text-2xl font-bold tracking-tight md:text-4xl"
 			>
 				<h1>
 					{titleStart}
-					<span class="whitespace-nowrap"
-						>{titleEnd}<span
-							class="invisible ml-4 text-sm font-normal tracking-normal"
-							aria-hidden="true">{date}</span
+					<span class="sm:whitespace-nowrap"
+						><span class="whitespace-nowrap">{titleEnd}</span>
+						<span class="invisible ml-2 text-sm font-normal tracking-normal" aria-hidden="true"
+							><PostByline
+								date={data.frontmatter.date}
+								minutes={data.frontmatter.reading_time}
+							/></span
 						></span
 					>
 				</h1>
 			</Card.Title>
 			<Card.Description class="col-start-1 row-start-1 self-baseline-last justify-self-end">
-				<time datetime={data.frontmatter.date}>{date}</time>
+				<PostByline date={data.frontmatter.date} minutes={data.frontmatter.reading_time} />
 			</Card.Description>
 		</div>
 		<GradientSeparator class="mt-2" />

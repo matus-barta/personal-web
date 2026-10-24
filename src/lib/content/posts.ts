@@ -1,9 +1,9 @@
 import type { Component } from 'svelte';
 import { isCoverCrop } from '#lib/cover.js';
 import { postImage, postPlaceholder } from '#lib/content/post-images.js';
-import type { Post, PostFrontmatter } from '#lib/types/post.js';
+import type { Post, PostMetadata } from '#lib/types/post.js';
 
-type PostModule = { default: Component; metadata: PostFrontmatter };
+type PostModule = { default: Component; metadata: PostMetadata };
 
 // Lazy, so each post is its own chunk: the client loads only the post it shows.
 // The list is built from every module, which is why only build-time code calls getPosts():
@@ -23,7 +23,7 @@ function toSlug(path: string) {
 	return path.slice('/content/blog/'.length, -'/index.md'.length);
 }
 
-function toPost(metadata: PostFrontmatter, slug: string): Post {
+function toPost(metadata: PostMetadata, slug: string): Post {
 	const img = postImage(slug, metadata.img);
 	if (!img) throw new Error(`The cover of "${slug}" must be a file beside it, such as ./cover.png`);
 	if (metadata.img_crop !== undefined && !isCoverCrop(metadata.img_crop)) {

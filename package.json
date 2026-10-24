@@ -48,6 +48,7 @@
 		"prettier": "^3.8.1",
 		"prettier-plugin-svelte": "^4.1.1",
 		"prettier-plugin-tailwindcss": "^0.8.0",
+		"reading-time": "1.5.0",
 		"satori": "^0.63.2",
 		"shadcn-svelte": "^1.7.0",
 		"sharp": "^0.35.5",

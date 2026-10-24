@@ -20,6 +20,12 @@ export type PostFrontmatter = {
 	project?: string;
 };
 
+/** A post's frontmatter as its compiled module exports it: as written, with what the build adds. */
+export type PostMetadata = PostFrontmatter & {
+	/** How many minutes the post takes to read, which `#lib/markdown/reading-time.ts` counts. */
+	reading_time: number;
+};
+
 /** The `img_crop` values: a side or corner of the image, or its centre. */
 export type CoverCrop =
 	| 'center'
@@ -33,7 +39,7 @@ export type CoverCrop =
 	| 'bottom-right';
 
 /** A post as the pages use it: its frontmatter and slug, with the cover built. */
-export type Post = Omit<PostFrontmatter, 'img'> & {
+export type Post = Omit<PostMetadata, 'img'> & {
 	slug: string;
 	img: Picture | string;
 	/** The cover's path as the frontmatter gives it, `./cover.png`, which the preview image reads. */
