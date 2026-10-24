@@ -55,9 +55,10 @@
 	--mark: oklch(0.432 0.095 166.913);
 	--mark-foreground: oklch(0.897 0.179 126.6);
 	--link-hover: oklch(0.515 0.132 126.6);
-	/* behind a transparent cover or a project's logo: the card's own white, outlined by a ring
-	   where it is used (cover.ts, project-card.svelte, featured-project-card.svelte) */
+	/* behind a transparent cover or a project's logo (the image-backdrop utility): the card's own
+	   white, outlined so it doesn't melt into the card */
 	--backdrop: var(--card);
+	--backdrop-edge: var(--border);
 	/* the cards' hover glow (#lib/config.ts) twice as strong as in dark, where a dark haze on a
 	   white card barely showed at the same strength */
 	--glow-boost: 2;
@@ -110,8 +111,10 @@
 	--mark: oklch(0.432 0.095 166.913);
 	--mark-foreground: oklch(0.897 0.179 126.6);
 	--link-hover: var(--mark-foreground);
-	/* behind a transparent cover or a project's logo: light in both modes */
+	/* behind a transparent cover or a project's logo (the image-backdrop utility): light in both
+	   modes, which on a dark card needs no outline */
 	--backdrop: var(--foreground);
+	--backdrop-edge: transparent;
 	/* the nav's capsule: a glass lifted a little by the text colour, so it shows over the bare
 	   page as well as over content, its shadow, and the current page's pill, a step above it */
 	--nav-glass: color-mix(in oklab, var(--foreground) 4%, transparent);
@@ -158,7 +161,6 @@
 	--color-mark: var(--mark);
 	--color-mark-foreground: var(--mark-foreground);
 	--color-link-hover: var(--link-hover);
-	--color-backdrop: var(--backdrop);
 	--color-nav-glass: var(--nav-glass);
 	--color-nav-shadow: var(--nav-shadow);
 	--color-nav-current: var(--nav-current);
@@ -190,6 +192,16 @@
   is styled by the typography plugin's prose class, in the theme's colours. Unlike bare
   element rules, it reaches nothing outside the element that carries it.
 */
+/*
+  The light backdrop a transparent cover or a project's logo sits on (#lib/cover.ts,
+  project-card.svelte, featured-project-card.svelte), with a 1px edge inside it - drawn as a
+  shadow, so nothing moves - which only light mode colours: there the backdrop is the card's white.
+*/
+@utility image-backdrop {
+	background-color: var(--backdrop);
+	box-shadow: inset 0 0 0 1px var(--backdrop-edge);
+}
+
 @utility prose-site {
 	--tw-prose-body: var(--color-foreground);
 	--tw-prose-headings: var(--color-foreground);
@@ -246,6 +258,9 @@
 
   An element with data-glow-sourced glows only while the part of it with data-glow-source is
   hovered, not the whole of it: the nav's capsule, which glows from its logo.
+
+  Only on a screen with hover: on a touch screen a tap leaves :hover on until the next tap
+  elsewhere, which kept the nav glowing on the page its logo led to.
 */
 @utility glow {
 	isolation: isolate;
@@ -267,9 +282,18 @@
 	& .glow-image {
 		transition: filter 200ms;
 	}
-	&:not([data-glow-sourced]):hover .glow-image,
-	&[data-glow-sourced]:has([data-glow-source]:hover) .glow-image {
-		filter: brightness(var(--glow-lift));
+	@media (hover: hover) {
+		&:is(:not([data-glow-sourced]):hover, [data-glow-sourced]:has([data-glow-source]:hover)) {
+			& .glow-image {
+				filter: brightness(var(--glow-lift));
+			}
+			&::before {
+				opacity: 1;
+			}
+			&[data-glow-grow]::before {
+				scale: 1;
+			}
+		}
 	}
 	--glow-cx: calc(var(--glow-x) + cos(var(--glow-angle, 0deg)) * var(--glow-distance, 0px));
 	--glow-cy: calc(var(--glow-y) + sin(var(--glow-angle, 0deg)) * var(--glow-distance, 0px));
@@ -298,20 +322,12 @@
 		transform-origin: var(--glow-cx) var(--glow-cy);
 		transition: opacity var(--glow-fade);
 	}
-	&:not([data-glow-sourced]):hover::before,
-	&[data-glow-sourced]:has([data-glow-source]:hover)::before {
-		opacity: 1;
-	}
 	@media (prefers-reduced-motion: no-preference) {
 		&[data-glow-grow]::before {
 			scale: 0.6;
 			transition:
 				opacity var(--glow-fade),
 				scale var(--glow-duration, 400ms) cubic-bezier(0.22, 1, 0.36, 1);
-		}
-		&[data-glow-grow]:not([data-glow-sourced]):hover::before,
-		&[data-glow-grow][data-glow-sourced]:has([data-glow-source]:hover)::before {
-			scale: 1;
 		}
 	}
 	/* For tuning (the settings' debug): a ring where it is anchored, a dot at its centre - red,
@@ -342,7 +358,7 @@
 
 /*
   How far below the top of the screen content starts, clear of the floating nav: the capsule's
-  16px from the top (top-4) and its 64px height (h-16), then 16px of air. The page's top
+  16px from the top (top-4) and its 64px height (--height in nav.svelte), then 16px of air. The page's top
   padding, the scroll margin of anything a link scrolls to, and the sticky and fixed things
   that keep below the nav - a post's contents, the phone menu - all use it.
 */

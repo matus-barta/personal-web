@@ -62,7 +62,7 @@
 				height="128"
 				sizes="(min-width: 640px) 128px, 96px"
 				loading="lazy"
-				class="glow-image row-span-2 row-start-1 size-24 rounded-xl bg-backdrop p-2 ring-1 ring-border ring-inset sm:row-span-4 sm:size-32 dark:ring-0"
+				class="glow-image row-span-2 row-start-1 size-24 rounded-xl image-backdrop p-2 sm:row-span-4 sm:size-32"
 			/>
 			<div class="col-start-2 row-start-1 flex min-w-0 items-start justify-between gap-2">
 				<Card.Title>

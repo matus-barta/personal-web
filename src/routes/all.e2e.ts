@@ -196,6 +196,19 @@ test.describe('light mode', () => {
 		await expect(html(page)).not.toHaveClass(/\bdark\b/);
 	});
 
+	test.describe('on a phone', () => {
+		test.use({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+
+		test("is a row of the nav's menu, saying what a tap does", async ({ page }) => {
+			await page.goto('/', { waitUntil: 'networkidle' });
+			await page.getByRole('button', { name: 'Open the menu' }).tap();
+			const menu = page.getByRole('dialog');
+			await menu.getByRole('button', { name: 'Switch to light mode' }).tap();
+			await expect(html(page)).not.toHaveClass(/\bdark\b/);
+			await expect(menu.getByRole('button', { name: 'Switch to dark mode' })).toBeVisible();
+		});
+	});
+
 	test('leaves the 404 page dark', async ({ page }) => {
 		await page.addInitScript(() => localStorage.setItem('mode-watcher-mode', 'light'));
 		await page.goto('/no-such-page');

@@ -65,7 +65,7 @@
 		data-glow-sourced
 		class={[
 			'capsule glow relative mx-auto flex justify-between gap-2 overflow-hidden rounded-full border border-primary bg-nav-glass p-1.5 shadow-xl shadow-nav-shadow backdrop-blur-lg transition-[height,width] duration-300 motion-reduce:transition-none',
-			scrolled ? 'scrolled h-14' : 'h-16'
+			scrolled && 'scrolled'
 		]}
 	>
 		<!-- the mark alone, without the logo's white square, so the capsule's glass shows behind it;
@@ -158,15 +158,18 @@
 	  Scrolled, it narrows a little too, from md: - on a phone it spans nearly the whole screen.
 	*/
 	.capsule {
-		/* The logo's glow, centred on it - the padding and half the logo, which is as wide as the
-		   capsule is tall inside its padding - and reaching past the capsule's height, which cuts
-		   it off at the top and the bottom. */
-		--centre-x: calc(--spacing(1.5) + (var(--spacing) * 16 - --spacing(3) - 2px) / 2);
+		/* 64px, slimmed to 56px once the page moves (--nav-clearance in layout.css leaves room) */
+		--height: --spacing(16);
+		height: var(--height);
+		&.scrolled {
+			--height: --spacing(14);
+		}
+		/* The logo's glow, centred on it - the logo is a square as tall as the capsule inside its
+		   padding, so its centre is half the capsule's height in, less the 1px border the glow is
+		   placed inside - and reaching past the capsule's height, which cuts it off. */
+		--centre-x: calc(var(--height) / 2 - 1px);
 		--centre-y: 50%;
 		--centre-size: 56px 56px;
-		&.scrolled {
-			--centre-x: calc(--spacing(1.5) + (var(--spacing) * 14 - --spacing(3) - 2px) / 2);
-		}
 		--narrow: 1;
 		width: calc(100% - --spacing(4));
 		@variant md {

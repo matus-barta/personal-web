@@ -34,7 +34,7 @@
 			height="96"
 			sizes="96px"
 			loading="lazy"
-			class="glow-image size-24 shrink-0 rounded-xl bg-backdrop p-2 ring-1 ring-border ring-inset dark:ring-0"
+			class="glow-image size-24 shrink-0 rounded-xl image-backdrop p-2"
 		/>
 		<div class="flex min-w-0 flex-1 flex-col gap-2">
 			<h3 class="text-xl font-bold tracking-tight">
