@@ -62,6 +62,55 @@ test('check content of blogpost open-rmm', async ({ page }) => {
 	await expect(page.getByTestId(`blog_post`)).toBeVisible();
 });
 
+test.describe('a heading link', () => {
+	const heading = '#what-is-open-rmm';
+
+	test('on a desktop changes the URL', async ({ page }) => {
+		await page.goto('/blog/open-rmm');
+		await page.locator(heading).hover();
+		await page.locator(`${heading} a`).click();
+		await expect(page).toHaveURL(/\/blog\/open-rmm#what-is-open-rmm$/);
+	});
+
+	test.describe('on a phone', () => {
+		// a touch screen, which (hover: none) matches
+		test.use({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+
+		test('opens the share sheet with the heading URL', async ({ page }) => {
+			// navigator.share stood in for, as headless Chromium has none
+			await page.addInitScript(() => {
+				Object.defineProperty(navigator, 'share', {
+					value: async (data: ShareData) => {
+						(window as unknown as { shared: ShareData }).shared = data;
+					}
+				});
+			});
+			// networkidle, so the page has hydrated: tapped before, the link only changes the URL
+			await page.goto('/blog/open-rmm', { waitUntil: 'networkidle' });
+			await page.locator(`${heading} a`).tap();
+
+			const shared = await page.waitForFunction(
+				() => (window as unknown as { shared?: ShareData }).shared
+			);
+			expect(await shared.jsonValue()).toMatchObject({
+				url: expect.stringMatching(/\/blog\/open-rmm#what-is-open-rmm$/)
+			});
+			await expect(page).toHaveURL(/\/blog\/open-rmm$/);
+		});
+
+		test('is shown, with a target a thumb can hit', async ({ page }) => {
+			await page.goto('/blog/open-rmm');
+			for (const link of await page.locator('h2 > a, h3 > a, h4 > a').all()) {
+				await expect(link).toBeVisible();
+				await expect(link).toHaveCSS('opacity', '1');
+				const box = await link.boundingBox();
+				expect(box?.width).toBeGreaterThanOrEqual(44);
+				expect(box?.height).toBeGreaterThanOrEqual(44);
+			}
+		});
+	});
+});
+
 test('Check API', async ({ request }) => {
 	const posts = await getPublishedPosts(request);
 

@@ -1,6 +1,9 @@
 <script module lang="ts">
 	// mdsvex swaps the elements a layout exports for these components in every post it wraps.
 	export { default as img } from './image.svelte';
+	export { default as h2 } from './h2.svelte';
+	export { default as h3 } from './h3.svelte';
+	export { default as h4 } from './h4.svelte';
 </script>
 
 <script lang="ts">
