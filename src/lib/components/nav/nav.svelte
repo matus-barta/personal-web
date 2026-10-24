@@ -63,10 +63,11 @@
 	>
 		<!-- the mark alone, without the logo's white square, so the capsule's glass shows behind it;
 		     its swoosh is white, so light mode shows a copy with a dark one, chosen by the dark
-		     class, as the mode is unknown until the page hydrates -->
+		     class, as the mode is unknown until the page hydrates. On the home page it has the
+		     current page's pill, as the links have on theirs. -->
 		<Button
 			variant="ghost"
-			class="aspect-square h-full shrink-0 rounded-full p-0 hover:border-foreground/20"
+			class="aspect-square h-full shrink-0 rounded-full p-0 hover:border-foreground/20 aria-[current=page]:bg-nav-current"
 			href={resolve('/')}
 			aria-label="Home"
 			aria-current={page.route.id === '/' ? 'page' : undefined}

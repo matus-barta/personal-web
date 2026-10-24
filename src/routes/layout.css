@@ -112,10 +112,11 @@
 	--link-hover: var(--mark-foreground);
 	/* behind a transparent cover or a project's logo: light in both modes */
 	--backdrop: var(--foreground);
-	/* the nav's capsule: a dark-tinted glass, its shadow, and the current page's pill */
-	--nav-glass: color-mix(in oklab, var(--background) 30%, transparent);
+	/* the nav's capsule: a glass lifted a little by the text colour, so it shows over the bare
+	   page as well as over content, its shadow, and the current page's pill, a step above it */
+	--nav-glass: color-mix(in oklab, var(--foreground) 4%, transparent);
 	--nav-shadow: var(--background);
-	--nav-current: color-mix(in oklab, var(--muted) 50%, transparent);
+	--nav-current: color-mix(in oklab, var(--foreground) 8%, transparent);
 }
 /*
   ---break---
