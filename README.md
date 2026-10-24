@@ -51,6 +51,7 @@ How the pieces fit together - one SvelteKit app prerendered to static files and 
 
 - [ ] Tags on posts, with a page per tag - and whether `project:` and the project cards' stack badges become tags
 - [ ] Site search with [Pagefind](https://pagefind.app), which indexes the static build - once there are more posts
+- [ ] Test light mode on the 404 page's footer and nav, which stay dark inside the light page
 - [ ] An image viewer: an image in a post opens larger when clicked
 - [ ] Review how text is set inside the posts - the spacing between paragraphs and at line breaks, and the rest of their formatting
 - [ ] Layout debts the Posts step left, each of which couples one file to numbers set in another:

@@ -10,6 +10,11 @@
   ---break---
 */
 @custom-variant dark (&:is(.dark *));
+/*
+  The visitor's mode, which mode-watcher sets on <html> - unlike dark:, which a wrapper with the
+  dark class turns on too, as the 404 page's is in either mode. The dark/light toggle shows it.
+*/
+@custom-variant mode-dark (&:is(:root.dark *));
 
 /*
   The light mode, chosen with the toggle: shadcn-svelte's Mist base colour as init wrote it, with
@@ -119,6 +124,9 @@
 	   page as well as over content, its shadow, and the current page's pill, a step above it */
 	--nav-glass: color-mix(in oklab, var(--foreground) 4%, transparent);
 	--nav-shadow: var(--background);
+	/* the hover glow at its own strength - set here too, so a dark wrapper inside the light
+	   page (the 404 page's) doesn't keep light's */
+	--glow-boost: 1;
 	--nav-current: color-mix(in oklab, var(--foreground) 8%, transparent);
 }
 /*
@@ -299,7 +307,8 @@
 	--glow-cy: calc(var(--glow-y) + sin(var(--glow-angle, 0deg)) * var(--glow-distance, 0px));
 	--glow-fade: calc(var(--glow-duration, 400ms) * 0.75);
 	--glow-lift: var(--glow-brightness, 1);
-	:root:not(.dark) & {
+	/* light mode: no dark class above it, on <html> or a dark wrapper such as the 404 page's */
+	&:not(.dark *) {
 		--glow-lift: var(--glow-brightness-light, var(--glow-brightness, 1));
 	}
 

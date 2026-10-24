@@ -14,7 +14,9 @@ const speeds = { normal: 400, fast: 250, faster: 150 };
 export function glowStyle({ colour, strength, angle = '0deg', distance = '0px', speed }: Glow) {
 	const duration = typeof speed === 'number' ? speed : speeds[speed];
 	return [
-		`--glow-colour: var(--color-${colour})`,
+		// the token itself, not Tailwind's --color-* for it, which resolves once on <html>: so the
+		// glow takes a dark wrapper's colours inside the light page, as on the 404 page
+		`--glow-colour: var(--${colour})`,
 		`--glow-strength: ${strength}`,
 		`--glow-angle: ${angle}`,
 		`--glow-distance: ${distance}`,
