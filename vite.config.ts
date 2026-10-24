@@ -5,10 +5,11 @@ import { playwright } from '@vitest/browser-playwright';
 import adapter from '@sveltejs/adapter-static';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { enhancedImages } from '@sveltejs/enhanced-img';
-import { escapeSvelte, mdsvex } from 'mdsvex';
-import { createHighlighter } from 'shiki';
+import { mdsvex } from 'mdsvex';
+import { createHighlighter, type BundledLanguage } from 'shiki';
 import { SITE_URL } from './src/lib/config.js';
 import { rehypeHeadingIds } from './src/lib/markdown/heading-ids.js';
+import { codeBlockMarkup } from './src/lib/markdown/highlight.js';
 import { remarkReadingTime } from './src/lib/markdown/reading-time.js';
 import { rehypeToc } from './src/lib/markdown/toc.js';
 
@@ -19,12 +20,21 @@ const highlighter = createHighlighter({
 	langs: ['bash', 'dockerfile', 'html', 'js', 'ts', 'markdown', 'yaml']
 });
 
-// Highlights at build time; the output carries its colours inline, so no theme ships.
-// The HTML goes through {@html `…`}, hence escaping the braces and backticks Svelte would
-// read, and every backslash, which the template literal would otherwise swallow.
-async function highlight(code: string, lang: string | null | undefined) {
-	const html = (await highlighter).codeToHtml(code, { lang: lang ?? 'text', theme: 'monokai' });
-	return `{@html \`${escapeSvelte(html.replaceAll('\\', '&#92;'))}\`}`;
+// Highlights at build time and hands the tokens, their colours inline, to the blog layout's
+// code block, so neither a theme nor a highlighter ships. mdsvex passes the fence's meta - its
+// text after the language - and the file's name.
+async function highlight(
+	code: string,
+	lang: string | null | undefined,
+	meta: string | null | undefined,
+	filename: string | undefined
+) {
+	const { tokens } = (await highlighter).codeToTokens(code, {
+		// a fence's language is any string; one not loaded above throws, failing the build
+		lang: (lang ?? 'text') as BundledLanguage,
+		theme: 'monokai'
+	});
+	return codeBlockMarkup(code, lang ?? 'text', meta, tokens, filename);
 }
 
 export default defineConfig({

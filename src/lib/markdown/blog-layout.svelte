@@ -4,6 +4,9 @@
 	export { default as h2 } from './h2.svelte';
 	export { default as h3 } from './h3.svelte';
 	export { default as h4 } from './h4.svelte';
+	// Named for no HTML element, so mdsvex swaps none for it: a code block's markup, from
+	// #lib/markdown/highlight.ts, names it as Components.CodeBlock itself.
+	export { default as CodeBlock } from './code-block.svelte';
 </script>
 
 <script lang="ts">

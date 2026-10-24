@@ -26,11 +26,16 @@ export function textOf(node: HastNode): string {
 	return node.type === 'text' ? (node.value ?? '') : (node.children ?? []).map(textOf).join('');
 }
 
+/** Whether a Markdown file is a blog post - wrapped in the blog layout - not a project's blurb. */
+export function isPost(filename: string | undefined) {
+	return /[/\\]content[/\\]blog[/\\]/.test(filename ?? '');
+}
+
 /**
  * The frontmatter of a blog post, which the plugins that add to it write into - `undefined`
  * for any other Markdown file, a project's blurb, which shows none of it, or for a post
  * without frontmatter.
  */
 export function postFrontmatter(file: MdsvexFile) {
-	return /[/\\]content[/\\]blog[/\\]/.test(file.filename ?? '') ? file.data.fm : undefined;
+	return isPost(file.filename) ? file.data.fm : undefined;
 }

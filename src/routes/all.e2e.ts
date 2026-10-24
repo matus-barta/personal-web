@@ -134,6 +134,44 @@ test.describe('the table of contents', () => {
 	});
 });
 
+test.describe('a code block', () => {
+	const post = new URL('../../content/blog/simple-nodejs-project/index.md', import.meta.url);
+
+	test('copies its code, as the post has it', async ({ page }) => {
+		// the clipboard stood in for, as a headless browser may not grant it
+		await page.addInitScript(() => {
+			Object.defineProperty(navigator, 'clipboard', {
+				value: {
+					writeText: async (text: string) => {
+						(window as unknown as { copied: string }).copied = text;
+					}
+				}
+			});
+		});
+		await page.goto('/blog/simple-nodejs-project', { waitUntil: 'networkidle' });
+		const block = page.locator('[data-slot=code-block]').first();
+		await expect(block).toContainText('ts');
+		await block.getByRole('button', { name: 'Copy' }).click();
+		await expect(block.getByRole('button', { name: 'Copied' })).toBeVisible();
+
+		const fence = /```ts\n([\s\S]*?)\n```/.exec(readFileSync(post, 'utf8'))![1];
+		const copied = await page.waitForFunction(
+			() => (window as unknown as { copied?: string }).copied
+		);
+		expect(await copied.jsonValue()).toBe(fence);
+	});
+
+	test('wraps its lines on request', async ({ page }) => {
+		await page.goto('/blog/simple-nodejs-project', { waitUntil: 'networkidle' });
+		const block = page.locator('[data-slot=code-block]').first();
+		const wrap = block.getByRole('button', { name: 'Wrap lines' });
+		await expect(block.locator('pre')).not.toHaveAttribute('data-wrap');
+		await wrap.click();
+		await expect(wrap).toHaveAttribute('aria-pressed', 'true');
+		await expect(block.locator('pre')).toHaveAttribute('data-wrap');
+	});
+});
+
 test('Check API', async ({ request }) => {
 	const posts = await getPublishedPosts(request);
 
