@@ -101,24 +101,38 @@
 				</h2>
 				<p class="text-muted-foreground">{post.description}</p>
 			</div>
-			<div class="flex items-center justify-between gap-2">
-				<p class="text-sm text-muted-foreground">
-					<PostByline date={post.date} minutes={post.reading_time} />
+			<!-- On a phone the date, the reading time and the project's badge are three columns,
+			     edge to edge: the date at the text's left edge, the badge at its right, the reading
+			     time in the middle, the same place on every card. The side columns are as wide as
+			     each other, and a rule stands halfway along the space between each pair. A post with
+			     no project keeps the columns, with the one rule. From sm: the date and reading time on
+			     the left, the badge on the right. -->
+			<div
+				class="grid grid-cols-[1fr_auto_1fr] items-center text-sm text-muted-foreground sm:flex sm:justify-between sm:gap-2"
+			>
+				<p class="max-sm:contents">
+					<PostByline date={post.date} minutes={post.reading_time} cells />
 				</p>
 				{#if project}
 					<!-- relative z-10, above the title's link that covers the card. The nav's icon for
 					     Projects says the badge is the post's project; the label says what it leads to.
 					     The icon is 14px rather than the Badge's 12px, set under the Badge's own
 					     [&>svg]: variant, so cn() replaces its size rather than keeping both. -->
-					<Badge
-						variant="secondary"
-						class="relative z-10 [&>svg]:size-3.5!"
-						href={resolve('/blog/project/[project]', { project: project.slug })}
-						aria-label="Posts about the project {project.title}"
-					>
-						<FolderGit2Icon data-icon="inline-start" />
-						{project.title}
-					</Badge>
+					<div class="flex items-center">
+						<!-- as in PostByline: the rest of the cell, the rule in its middle -->
+						<span class="flex flex-1 justify-center px-1.5 sm:hidden" aria-hidden="true"
+							><span class="block h-3.5 w-px bg-border"></span></span
+						>
+						<Badge
+							variant="secondary"
+							class="relative z-10 [&>svg]:size-3.5!"
+							href={resolve('/blog/project/[project]', { project: project.slug })}
+							aria-label="Posts about the project {project.title}"
+						>
+							<FolderGit2Icon data-icon="inline-start" />
+							{project.title}
+						</Badge>
+					</div>
 				{/if}
 			</div>
 		</div>
