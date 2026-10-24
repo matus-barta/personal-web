@@ -5,6 +5,7 @@
 	import { CARD_HOVER } from '#lib/config.js';
 	import { cardHover } from '#lib/glow.js';
 	import { placeholderStyle } from '#lib/placeholder.js';
+	import FolderGit2Icon from '@lucide/svelte/icons/folder-git-2';
 	import PostByline from '#lib/components/post-byline.svelte';
 	import type { Post } from '#lib/types/post.js';
 	import type { Project } from '#lib/types/project.js';
@@ -105,12 +106,17 @@
 					<PostByline date={post.date} minutes={post.reading_time} />
 				</p>
 				{#if project}
-					<!-- relative z-10, above the title's link that covers the card -->
+					<!-- relative z-10, above the title's link that covers the card. The nav's icon for
+					     Projects says the badge is the post's project; the label says what it leads to.
+					     The icon is 14px rather than the Badge's 12px, set under the Badge's own
+					     [&>svg]: variant, so cn() replaces its size rather than keeping both. -->
 					<Badge
 						variant="secondary"
-						class="relative z-10"
+						class="relative z-10 [&>svg]:size-3.5!"
 						href={resolve('/blog/project/[project]', { project: project.slug })}
+						aria-label="Posts about the project {project.title}"
 					>
+						<FolderGit2Icon data-icon="inline-start" />
 						{project.title}
 					</Badge>
 				{/if}
