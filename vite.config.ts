@@ -44,8 +44,8 @@ export default defineConfig({
 			// url.origin while prerendering, which is otherwise http://sveltekit-prerender
 			paths: { origin: SITE_URL },
 			// Blog posts and project blurbs are authored as markdown and compiled to components.
-			// Every heading gets an id, so a post can link to #its-heading, and every file's
-			// frontmatter its reading time - the project blurbs' too, which don't show it.
+			// Every heading gets an id, so a post can link to #its-heading, and a post's
+			// frontmatter its reading time and table of contents.
 			preprocess: [
 				mdsvex({
 					extensions: ['.svx', '.md'],

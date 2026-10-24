@@ -21,8 +21,12 @@ describe('remarkReadingTime', () => {
 		children: [{ type: 'text', value: words(count) }]
 	});
 
-	function run(children: { type: string }[], fm?: Record<string, unknown>) {
-		const file = { data: { fm } };
+	function run(
+		children: { type: string }[],
+		fm?: Record<string, unknown>,
+		filename = '/site/content/blog/post/index.md'
+	) {
+		const file = { filename, data: { fm } };
 		remarkReadingTime()({ type: 'root', children }, file);
 		return file.data.fm;
 	}
@@ -43,5 +47,10 @@ describe('remarkReadingTime', () => {
 
 	test('leaves a file without frontmatter alone', () => {
 		expect(run([paragraph(300)])).toBeUndefined();
+	});
+
+	test('leaves a file that is not a post alone', () => {
+		const blurb = '/site/content/projects/open-rmm/index.md';
+		expect(run([paragraph(300)], { title: 'Project' }, blurb)).toEqual({ title: 'Project' });
 	});
 });

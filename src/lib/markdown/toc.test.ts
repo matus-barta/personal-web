@@ -9,8 +9,12 @@ describe('rehypeToc', () => {
 		children: [{ type: 'text', value: text }]
 	});
 
-	function run(children: object[], fm?: Record<string, unknown>) {
-		const file = { data: { fm } };
+	function run(
+		children: object[],
+		fm?: Record<string, unknown>,
+		filename = '/site/content/blog/post/index.md'
+	) {
+		const file = { filename, data: { fm } };
 		rehypeToc()({ type: 'root', children } as never, file);
 		return file.data.fm;
 	}
@@ -41,5 +45,10 @@ describe('rehypeToc', () => {
 
 	test('leaves a file without frontmatter alone', () => {
 		expect(run([heading('h2', 'Setup', 'setup')])).toBeUndefined();
+	});
+
+	test('leaves a file that is not a post alone', () => {
+		const blurb = '/site/content/projects/open-rmm/index.md';
+		expect(run([heading('h2', 'Setup', 'setup')], {}, blurb)).toEqual({});
 	});
 });
