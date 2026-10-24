@@ -8,7 +8,6 @@ Each group below is one pull request, in this order; a big one can split. A chec
 
 - [ ] A table of contents on every post, compact.
   - **Decide:** its design - at the start of the post, or floating beside it - from a few live demos and a look at how other blogs do it.
-- [ ] A series: the two Open-RMM posts (`open-rmm`, `open-rmm-part-deux`) linked to each other - a link to the previous post at the top of a post, to the next at the bottom. Their titles stay as they are, with no "part 1/2": the order shows in the titles, and the posts read on their own rather than as a story to follow.
 
 ## 2. Code blocks
 

@@ -67,6 +67,19 @@ export function postsPerProject(posts: Post[]): Record<string, number> {
 	return counts;
 }
 
+/**
+ * The posts before and after one in its series, from the list getPosts() returns, newest first;
+ * neither for a post in no series, or not in the list.
+ */
+export function seriesNeighbours(posts: Post[], slug: string) {
+	const series = posts.find((post) => post.slug === slug)?.series;
+	const inSeries = series ? posts.filter((post) => post.series === series) : [];
+	const index = inSeries.findIndex((post) => post.slug === slug);
+	const link = (post?: Post) => post && { slug: post.slug, title: post.title };
+
+	return { previous: link(inSeries[index + 1]), next: link(inSeries[index - 1]) };
+}
+
 /** One published post and its body, or `undefined` if there is none by that slug. */
 export async function getPost(slug: string) {
 	const load = modules[`/content/blog/${slug}/index.md`];

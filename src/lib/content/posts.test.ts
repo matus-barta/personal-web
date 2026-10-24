@@ -1,5 +1,5 @@
 import { existsSync } from 'node:fs';
-import { getPost, getPosts, postsPerProject } from '#lib/content/posts.js';
+import { getPost, getPosts, postsPerProject, seriesNeighbours } from '#lib/content/posts.js';
 import type { Post } from '#lib/types/post.js';
 import { describe, expect, test } from 'vitest';
 
@@ -40,6 +40,40 @@ describe('postsPerProject', () => {
 
 	test('leaves out the posts naming none', () => {
 		expect(postsPerProject([post(), post('a')])).toEqual({ a: 1 });
+	});
+});
+
+describe('seriesNeighbours', () => {
+	// newest first, as getPosts() lists them
+	const posts = [
+		{ slug: 'c', title: 'C', series: 's' },
+		{ slug: 'other', title: 'Other' },
+		{ slug: 'b', title: 'B', series: 's' },
+		{ slug: 'a', title: 'A', series: 's' }
+	] as Post[];
+
+	test('links the older post as previous and the newer as next', () => {
+		expect(seriesNeighbours(posts, 'b')).toEqual({
+			previous: { slug: 'a', title: 'A' },
+			next: { slug: 'c', title: 'C' }
+		});
+	});
+
+	test('gives the first and last only one side', () => {
+		expect(seriesNeighbours(posts, 'a')).toEqual({
+			previous: undefined,
+			next: { slug: 'b', title: 'B' }
+		});
+		expect(seriesNeighbours(posts, 'c')).toEqual({
+			previous: { slug: 'b', title: 'B' },
+			next: undefined
+		});
+	});
+
+	test('gives a post in no series, or not listed, neither', () => {
+		const none = { previous: undefined, next: undefined };
+		expect(seriesNeighbours(posts, 'other')).toEqual(none);
+		expect(seriesNeighbours(posts, 'missing')).toEqual(none);
 	});
 });
 

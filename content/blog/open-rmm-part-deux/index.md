@@ -6,6 +6,7 @@ img: ./title.png
 img_crop: top-left
 published: true
 project: open-rmm
+series: open-rmm
 ---
 
 **The original disclaimer is still valid:** _this post is mostly to dump ideas from my mind and make the project goal more defined for me._

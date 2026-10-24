@@ -2,6 +2,7 @@
 	import * as Card from '#lib/components/ui/card/index.js';
 	import GradientSeparator from '#lib/components/gradient-separator.svelte';
 	import PostByline from '#lib/components/post-byline.svelte';
+	import SeriesLink from '#lib/components/series-link.svelte';
 	import { coverFit, coverSize } from '#lib/cover.js';
 	import { placeholderStyle } from '#lib/placeholder.js';
 	import PageHead from '#lib/components/page-head.svelte';
@@ -77,7 +78,13 @@
 	<!-- From lg: the text keeps 64px from the card's sides, which shortens its lines on a wide
 	     screen, while the title and its separator span the card as the cover does (blog-layout.svelte). -->
 	<Card.Content class="pb-6 md:px-6 lg:px-16">
+		{#if data.series.previous}
+			<SeriesLink post={data.series.previous} direction="previous" class="mb-6" />
+		{/if}
 		<data.component />
+		{#if data.series.next}
+			<SeriesLink post={data.series.next} direction="next" class="mt-8 border-t pt-6" />
+		{/if}
 	</Card.Content>
 </Card.Root>
 

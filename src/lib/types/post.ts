@@ -18,6 +18,11 @@ export type PostFrontmatter = {
 	 * `open-rmm/index.md`. The post is then listed on /blog/project/open-rmm.
 	 */
 	project?: string;
+	/**
+	 * The series the post is part of, a name its posts share - `open-rmm`. Each links to the one
+	 * before it, at its top, and to the one after it, at its foot, in the order of their dates.
+	 */
+	series?: string;
 };
 
 /** A post's frontmatter as its compiled module exports it: as written, with what the build adds. */
