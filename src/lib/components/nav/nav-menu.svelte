@@ -4,6 +4,8 @@
 	import * as Sheet from '#lib/components/ui/sheet/index.js';
 	import { Button, buttonVariants } from '#lib/components/ui/button/index.js';
 	import GlassSheetContent from '#lib/components/glass-sheet-content.svelte';
+	import ThemeToggle from '#lib/components/theme-toggle.svelte';
+	import { Separator } from '#lib/components/ui/separator/index.js';
 
 	interface Props {
 		links: readonly {
@@ -92,5 +94,13 @@
 				</li>
 			{/each}
 		</ul>
+		<!-- the dark/light toggle on phones, a row like the links, below them, saying what a tap
+		     does; from sm: it is in the footer -->
+		<Separator class="my-2" />
+		<ThemeToggle
+			labelled
+			class="h-11 w-full justify-start gap-[0.7em] rounded-full px-3 text-lg font-medium hover:border-foreground/20"
+			iconClass="size-[1.2em] text-primary"
+		/>
 	</GlassSheetContent>
 </Sheet.Root>

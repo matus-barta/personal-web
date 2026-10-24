@@ -35,21 +35,23 @@
      is left at the end of a line - except RSS and Source, short enough to share a row there, a
      rule between them; from sm: their row dissolves into the line (sm:contents).
 
-     On the home page it stays at the foot of the screen, the page scrolling behind it, until it
-     reaches its own place at the end (sticky). -->
+     From sm:, on the home page, it stays at the foot of the screen, the page scrolling behind it,
+     until it reaches its own place at the end (sticky); on a phone it ends the page there as on
+     every other, as stacked it is three rows tall. -->
 <footer
 	class={[
 		'relative flex w-full flex-col items-center justify-center gap-x-3 gap-y-1 border-t border-border bg-card px-4 py-3 text-sm text-muted-foreground sm:flex-row',
-		page.route.id === '/' && 'sticky bottom-0 z-10'
+		page.route.id === '/' && 'sm:sticky sm:bottom-0 sm:z-10'
 	]}
 >
-	<!-- the dark/light toggle at the page's right edge, apart from the centred line; its target
-	     reaches 10px past it on every side, 44px square, as Apple's guidelines ask. Centred by
-	     its auto margins, not a translate: the Button moves 1px down while pressed with a
-	     translate of its own, which would replace a centring one and drop it by half its height. -->
+	<!-- the dark/light toggle at the page's right edge, apart from the centred line, from sm: - on
+	     a phone it is in the nav's menu (nav-menu.svelte). Its target reaches 10px past it on
+	     every side, 44px square, as Apple's guidelines ask. Centred by its auto margins, not a
+	     translate: the Button moves 1px down while pressed with a translate of its own, which
+	     would replace a centring one and drop it by half its height. -->
 	<ThemeToggle
 		size="icon-xs"
-		class="absolute inset-y-0 right-4 my-auto after:absolute after:-inset-2.5 hover:text-foreground"
+		class="absolute inset-y-0 right-4 my-auto after:absolute after:-inset-2.5 hover:text-foreground max-sm:hidden"
 	/>
 	<p>&copy; {year} Matúš Barta</p>
 	{@render separator()}
