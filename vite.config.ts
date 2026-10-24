@@ -13,16 +13,20 @@ import { codeBlockMarkup } from './src/lib/markdown/highlight.js';
 import { remarkReadingTime } from './src/lib/markdown/reading-time.js';
 import { rehypeToc } from './src/lib/markdown/toc.js';
 
+// The code's themes, one for each mode: written into every token as --shiki-dark and
+// --shiki-light, which the post's code block picks from by the dark class.
+const CODE_THEMES = { dark: 'monokai', light: 'one-light' } as const;
+
 // One instance for the whole build, as Shiki recommends. Only the languages the posts use
 // are loaded, so a code block in any other fails the build until it is added here.
 const highlighter = createHighlighter({
-	themes: ['monokai'],
+	themes: Object.values(CODE_THEMES),
 	langs: ['bash', 'dockerfile', 'html', 'js', 'ts', 'markdown', 'yaml']
 });
 
-// Highlights at build time and hands the tokens, their colours inline, to the blog layout's
-// code block, so neither a theme nor a highlighter ships. mdsvex passes the fence's meta - its
-// text after the language - and the file's name.
+// Highlights at build time and hands the tokens, both themes' colours inline, to the blog
+// layout's code block, so neither a theme nor a highlighter ships. mdsvex passes the fence's
+// meta - its text after the language - and the file's name.
 async function highlight(
 	code: string,
 	lang: string | null | undefined,
@@ -32,7 +36,8 @@ async function highlight(
 	const { tokens } = (await highlighter).codeToTokens(code, {
 		// a fence's language is any string; one not loaded above throws, failing the build
 		lang: (lang ?? 'text') as BundledLanguage,
-		theme: 'monokai'
+		themes: CODE_THEMES,
+		defaultColor: false
 	});
 	return codeBlockMarkup(code, lang ?? 'text', meta, tokens, filename);
 }

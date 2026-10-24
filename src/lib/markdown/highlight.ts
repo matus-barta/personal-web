@@ -85,7 +85,8 @@ export function codeBlockMarkup(
 		lines: tokens.map((line) =>
 			line.map((token) => ({
 				content: token.content,
-				style: stringifyTokenStyle(getTokenStyleObject(token))
+				// given several themes, each theme's colour as a CSS variable, for the page to choose
+				style: stringifyTokenStyle(token.htmlStyle ?? getTokenStyleObject(token))
 			}))
 		)
 	};

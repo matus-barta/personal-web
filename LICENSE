@@ -50,6 +50,7 @@ granted by this file:
     src/lib/assets/logo.svg                   personal logo
     src/lib/assets/logo-mark.svg              the personal logo's mark alone, for
                                               the nav
+    src/lib/assets/logo-mark-light.svg        the same mark for light mode
     content/projects/open-rmm/openrmm.png     the author's project logo
     content/projects/personal-web/personalweb.png
                                               the author's project logo

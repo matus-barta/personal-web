@@ -11,26 +11,32 @@
 */
 @custom-variant dark (&:is(.dark *));
 
-/* shadcn-svelte's Mist base colour, as init wrote it. Unused until the site has a light mode. */
+/*
+  The light mode, chosen with the toggle: shadcn-svelte's Mist base colour as init wrote it, with
+  a grey page and white cards, and the dark theme's greens at their hue, darkened until every text
+  colour clears 4.5:1 on the page, the cards and muted - the lime of --link-hover an olive.
+*/
 :root {
-	--background: oklch(1 0 0);
+	--background: oklch(0.955 0.004 214.3);
 	--foreground: oklch(0.148 0.004 228.8);
 	--card: oklch(1 0 0);
 	--card-foreground: oklch(0.148 0.004 228.8);
 	--popover: oklch(1 0 0);
 	--popover-foreground: oklch(0.148 0.004 228.8);
-	--primary: oklch(0.218 0.008 223.9);
-	--primary-foreground: oklch(0.987 0.002 197.1);
-	--secondary: oklch(0.963 0.002 197.1);
+	--primary: oklch(0.51 0.104 166.5);
+	--primary-foreground: oklch(1 0 0);
+	--secondary: oklch(0.94 0.005 214.3);
 	--secondary-foreground: oklch(0.218 0.008 223.9);
-	--muted: oklch(0.963 0.002 197.1);
-	--muted-foreground: oklch(0.56 0.021 213.5);
-	--accent: oklch(0.963 0.002 197.1);
+	--muted: oklch(0.94 0.005 214.3);
+	--muted-foreground: oklch(0.52 0.028 214.4);
+	--accent: oklch(0.94 0.005 214.3);
 	--accent-foreground: oklch(0.218 0.008 223.9);
 	--destructive: oklch(0.577 0.245 27.325);
-	--border: oklch(0.925 0.005 214.3);
-	--input: oklch(0.925 0.005 214.3);
-	--ring: oklch(0.723 0.014 214.4);
+	--border: oklch(0.9 0.006 214.3);
+	--input: oklch(0.9 0.006 214.3);
+	/* the primary's hue, far darker: the components draw it at half opacity, where the primary
+	   itself fell to 2.1:1 against the 3:1 a focus outline needs */
+	--ring: oklch(0.27 0.054 166.5);
 	--chart-1: oklch(0.872 0.007 219.6);
 	--chart-2: oklch(0.56 0.021 213.5);
 	--chart-3: oklch(0.45 0.017 213.2);
@@ -45,14 +51,29 @@
 	--sidebar-accent-foreground: oklch(0.218 0.008 223.9);
 	--sidebar-border: oklch(0.925 0.005 214.3);
 	--sidebar-ring: oklch(0.723 0.014 214.4);
+	/* the mark kept as in dark, which stands out on the light page too */
+	--mark: oklch(0.432 0.095 166.913);
+	--mark-foreground: oklch(0.897 0.179 126.6);
+	--link-hover: oklch(0.515 0.132 126.6);
+	/* behind a transparent cover or a project's logo: the card's own white, outlined by a ring
+	   where it is used (cover.ts, project-card.svelte, featured-project-card.svelte) */
+	--backdrop: var(--card);
+	/* the cards' hover glow (#lib/config.ts) twice as strong as in dark, where a dark haze on a
+	   white card barely showed at the same strength */
+	--glow-boost: 2;
+	/* the nav's glass as in dark, but lighter: the text colour at a low strength */
+	--nav-glass: color-mix(in oklab, var(--foreground) 8%, transparent);
+	--nav-shadow: color-mix(in oklab, var(--foreground) 15%, transparent);
+	--nav-current: color-mix(in oklab, var(--foreground) 10%, transparent);
 }
 /*
   ---break---
 */
 /*
-  The site's palette: app.html puts .dark on <html>. Mist's dark values, with the site's
-  greens on --primary and --ring, and the tokens shadcn has no role for: --mark and
-  --mark-foreground, the skewed highlight behind @anonymus09, and --link-hover.
+  The dark mode, everyone's default: mode-watcher puts .dark on <html> (+layout.svelte), and
+  app.html has it for anyone without JavaScript. Mist's dark values, with the site's greens on
+  --primary and --ring, and the tokens shadcn has no role for: --mark and --mark-foreground,
+  the skewed highlight behind @anonymus09, --link-hover, and --backdrop.
 */
 .dark {
 	--background: oklch(0.148 0.004 228.8);
@@ -89,6 +110,12 @@
 	--mark: oklch(0.432 0.095 166.913);
 	--mark-foreground: oklch(0.897 0.179 126.6);
 	--link-hover: var(--mark-foreground);
+	/* behind a transparent cover or a project's logo: light in both modes */
+	--backdrop: var(--foreground);
+	/* the nav's capsule: a dark-tinted glass, its shadow, and the current page's pill */
+	--nav-glass: color-mix(in oklab, var(--background) 30%, transparent);
+	--nav-shadow: var(--background);
+	--nav-current: color-mix(in oklab, var(--muted) 50%, transparent);
 }
 /*
   ---break---
@@ -130,6 +157,10 @@
 	--color-mark: var(--mark);
 	--color-mark-foreground: var(--mark-foreground);
 	--color-link-hover: var(--link-hover);
+	--color-backdrop: var(--backdrop);
+	--color-nav-glass: var(--nav-glass);
+	--color-nav-shadow: var(--nav-shadow);
+	--color-nav-current: var(--nav-current);
 	--radius-sm: calc(var(--radius) * 0.6);
 	--radius-md: calc(var(--radius) * 0.8);
 	--radius-lg: var(--radius);
@@ -203,7 +234,8 @@
   centre from there, as a light's angle and distance do in an image editor: 0deg to the right,
   90deg down. Its colour, strength and speed come from the card's settings in #lib/config.ts,
   through glowStyle() in #lib/glow.ts: --glow-duration is the grow's length, the fade taking
-  three-quarters of it. data-glow-grow lets it grow from its centre as it fades in.
+  three-quarters of it. data-glow-grow lets it grow from its centre as it fades in. The theme
+  multiplies the strength by --glow-boost: 1 in dark, 2 in light.
 
   A card's cardHover() settings (#lib/glow.ts) name where it is anchored, data-glow-origin, of
   the three places the card's CSS sets: --edge-x, --edge-y and --edge-size, at the image's edge
@@ -246,7 +278,11 @@
 		opacity: 0;
 		background: radial-gradient(
 			ellipse var(--glow-size) at var(--glow-cx) var(--glow-cy),
-			color-mix(in oklch, var(--glow-colour) var(--glow-strength), transparent),
+			color-mix(
+				in oklch,
+				var(--glow-colour) calc(var(--glow-strength) * var(--glow-boost, 1)),
+				transparent
+			),
 			transparent
 		);
 		transform-origin: var(--glow-cx) var(--glow-cy);

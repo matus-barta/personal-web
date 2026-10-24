@@ -81,7 +81,7 @@
 				<li>
 					<Button
 						variant="ghost"
-						class="h-11 w-full justify-start gap-[0.7em] rounded-full px-3 text-lg font-medium hover:border-foreground/20 has-data-[icon=inline-start]:pl-3 aria-[current=page]:bg-muted/50"
+						class="h-11 w-full justify-start gap-[0.7em] rounded-full px-3 text-lg font-medium hover:border-foreground/20 has-data-[icon=inline-start]:pl-3 aria-[current=page]:bg-nav-current"
 						href={link.href}
 						aria-current={link.current ? 'page' : undefined}
 						onclick={() => (open = false)}

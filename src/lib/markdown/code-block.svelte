@@ -36,7 +36,7 @@
 </script>
 
 <!-- not-prose, as the component styles its own pre and code. A single line needs no number. -->
-<CodeBlock.Root class="not-prose my-6">
+<CodeBlock.Root class="post-code not-prose my-6">
 	<CodeBlock.Header>
 		<CodeBlock.Title>{title ?? lang}</CodeBlock.Title>
 		<CodeBlock.Actions>
@@ -59,3 +59,19 @@
 		{/each}
 	</CodeBlock.Content>
 </CodeBlock.Root>
+
+<style>
+	/* Every token carries both themes' colours as variables (vite.config.ts) - One Light's, and
+	   Monokai's in dark mode - with their italics and underlines. Global, as the tokens are
+	   CodeBlock.Line's spans, which this component's scoped styles can't reach. */
+	:global(.post-code [data-slot='code-block-line-content'] > span) {
+		color: var(--shiki-light);
+		font-style: var(--shiki-light-font-style, normal);
+		text-decoration: var(--shiki-light-text-decoration, none);
+	}
+	:global(.dark .post-code [data-slot='code-block-line-content'] > span) {
+		color: var(--shiki-dark);
+		font-style: var(--shiki-dark-font-style, normal);
+		text-decoration: var(--shiki-dark-text-decoration, none);
+	}
+</style>

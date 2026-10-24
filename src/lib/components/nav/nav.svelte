@@ -10,6 +10,7 @@
 	import { getNavTarget } from '#lib/components/nav/nav-target.js';
 	import { cn } from '#lib/utils.js';
 	import logo from '#lib/assets/logo-mark.svg';
+	import logoLight from '#lib/assets/logo-mark-light.svg';
 
 	// Each link's icon follows Apple's Liquid Glass buttons, measured against the cap height:
 	// the icon about 1.4 times as tall, a gap of about 2/3, and a stroke as heavy as the text's.
@@ -56,11 +57,13 @@
 	     <ul> in a <div> of its own, which h-full would not reach through. -->
 	<div
 		class={[
-			'capsule mx-auto flex justify-between gap-2 rounded-full border border-primary bg-background/30 p-1.5 shadow-xl shadow-background backdrop-blur-lg transition-[height,width] duration-300 motion-reduce:transition-none',
+			'capsule mx-auto flex justify-between gap-2 rounded-full border border-primary bg-nav-glass p-1.5 shadow-xl shadow-nav-shadow backdrop-blur-lg transition-[height,width] duration-300 motion-reduce:transition-none',
 			scrolled ? 'scrolled h-14' : 'h-16'
 		]}
 	>
-		<!-- the mark alone, without the logo's white square, so the capsule's glass shows behind it -->
+		<!-- the mark alone, without the logo's white square, so the capsule's glass shows behind it;
+		     its swoosh is white, so light mode shows a copy with a dark one, chosen by the dark
+		     class, as the mode is unknown until the page hydrates -->
 		<Button
 			variant="ghost"
 			class="aspect-square h-full shrink-0 rounded-full p-0 hover:border-foreground/20"
@@ -68,7 +71,8 @@
 			aria-label="Home"
 			aria-current={page.route.id === '/' ? 'page' : undefined}
 		>
-			<img src={logo} width="48" height="48" class="size-[65%]" alt="" />
+			<img src={logo} width="48" height="48" class="hidden size-[65%] dark:block" alt="" />
+			<img src={logoLight} width="48" height="48" class="size-[65%] dark:hidden" alt="" />
 		</Button>
 		<NavigationMenu.List class="hidden h-full sm:flex">
 			{#each navLinks as link (link.href)}
@@ -93,7 +97,7 @@
 					>
 						{#if link.current}
 							<span
-								class="absolute inset-0 -z-10 rounded-full bg-muted/50 [view-transition-name:nav-current]"
+								class="absolute inset-0 -z-10 rounded-full bg-nav-current [view-transition-name:nav-current]"
 								aria-hidden="true"
 							></span>
 						{/if}
