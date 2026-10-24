@@ -6,7 +6,7 @@
 	import { cardHover } from '#lib/glow.js';
 	import { placeholderStyle } from '#lib/placeholder.js';
 	import FolderGit2Icon from '@lucide/svelte/icons/folder-git-2';
-	import PostByline from '#lib/components/post-byline.svelte';
+	import { date, readingTime, rule } from '#lib/components/post/post-byline.svelte';
 	import type { Post } from '#lib/types/post.js';
 	import type { Project } from '#lib/types/project.js';
 	import { resolve } from '$app/paths';
@@ -101,28 +101,31 @@
 				</h2>
 				<p class="text-muted-foreground">{post.description}</p>
 			</div>
-			<!-- On a phone the date, the reading time and the project's badge are three columns,
-			     edge to edge: the date at the text's left edge, the badge at its right, the reading
-			     time in the middle, the same place on every card. The side columns are as wide as
-			     each other, and a rule stands halfway along the space between each pair. A post with
-			     no project keeps the columns, with the one rule. From sm: the date and reading time on
-			     the left, the badge on the right. -->
+			<!-- The byline's parts, laid out here. On a phone the date, the reading time and the
+			     project's badge are three columns, edge to edge: the date at the text's left edge,
+			     the badge at its right, the reading time in the middle, the same place on every card.
+			     The side columns are as wide as each other, and a rule stands halfway along the
+			     space between each pair, at least 6px from either. A post with no project keeps the
+			     columns, with the one rule. From sm: the byline on the left, as on the post's page,
+			     and the badge on the right. -->
+			{#snippet ruleCell(fromSm: string)}
+				<span class={['flex flex-1 justify-center px-1.5', fromSm]}>{@render rule()}</span>
+			{/snippet}
 			<div
-				class="grid grid-cols-[1fr_auto_1fr] items-center text-sm text-muted-foreground sm:flex sm:justify-between sm:gap-2"
+				class="grid grid-cols-[1fr_auto_1fr] items-center text-sm text-muted-foreground sm:flex sm:gap-3"
 			>
-				<p class="max-sm:contents">
-					<PostByline date={post.date} minutes={post.reading_time} cells />
-				</p>
+				<span class="flex items-center sm:contents">
+					{@render date(post.date)}
+					{@render ruleCell('sm:flex-none sm:px-0')}
+				</span>
+				{@render readingTime(post.reading_time, true)}
 				{#if project}
 					<!-- relative z-10, above the title's link that covers the card. The nav's icon for
 					     Projects says the badge is the post's project; the label says what it leads to.
 					     The icon is 14px rather than the Badge's 12px, set under the Badge's own
 					     [&>svg]: variant, so cn() replaces its size rather than keeping both. -->
-					<div class="flex items-center">
-						<!-- as in PostByline: the rest of the cell, the rule in its middle -->
-						<span class="flex flex-1 justify-center px-1.5 sm:hidden" aria-hidden="true"
-							><span class="block h-3.5 w-px bg-border"></span></span
-						>
+					<span class="flex items-center sm:ml-auto">
+						{@render ruleCell('sm:hidden')}
 						<Badge
 							variant="secondary"
 							class="relative z-10 [&>svg]:size-3.5!"
@@ -132,7 +135,7 @@
 							<FolderGit2Icon data-icon="inline-start" />
 							{project.title}
 						</Badge>
-					</div>
+					</span>
 				{/if}
 			</div>
 		</div>

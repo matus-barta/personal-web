@@ -28,15 +28,15 @@
 	}: Props = $props();
 </script>
 
-<!-- The slug is the card's id, for the home page's featured projects to link to; scroll-mt-24
-     keeps a card it scrolls to clear of the floating nav. On hover the logo brightens and a glow
+<!-- The slug is the card's id, for the home page's featured projects to link to; its scroll
+     margin keeps a card it scrolls to clear of the floating nav. On hover the logo brightens and a glow
      spreads from it (PROJECT_HOVER, through cardHover(); the glow utility, and the style below
      for where it starts). The card has no ring: it is not one link, as a post's card is. -->
 <Card.Root
 	id={slug}
 	data-testid="project"
 	{...cardHover(PROJECT_HOVER)}
-	class="project-card glow relative scroll-mt-24"
+	class="project-card glow relative scroll-mt-(--nav-clearance)"
 >
 	<!-- A column rather than the header's grid, stretched to the card's width - Card.Header's own
 	     items-start would leave the row beside the logo, and its GitHub button, short of it. -->

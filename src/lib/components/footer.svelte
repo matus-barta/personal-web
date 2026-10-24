@@ -18,31 +18,29 @@
 	/>
 {/snippet}
 
+<!-- On a phone the link's target reaches 8px past it on every side, a 32px-tall area drawn by a
+     pseudo-element, so it takes no room in the layout. -->
+{#snippet iconLink(href: string, Icon: typeof RssIcon, label: string)}
+	<a
+		{href}
+		class="inline-flex items-center gap-1 text-xs hover:text-foreground max-sm:relative max-sm:after:absolute max-sm:after:-inset-2"
+	>
+		<Icon class="size-3.5" />{label}
+	</a>
+{/snippet}
+
 <!-- One centred line, its parts apart by short rules; stacked on phones, without them, so none
      is left at the end of a line - except RSS and Source, short enough to share a row there, a
-     rule between them. On a phone each of the two is a 32px-tall target, 8px either side,
-     reaching 8px into the space above and below it with negative margins, so the row stays as
-     compact as the lines around it; from sm: their row dissolves into the line (sm:contents)
-     and they are plain links again. -->
+     rule between them; from sm: their row dissolves into the line (sm:contents). -->
 <footer
 	class="flex w-full flex-col items-center justify-center gap-x-3 gap-y-1 border-t border-border bg-card px-4 py-3 text-sm text-muted-foreground sm:flex-row"
 >
 	<p>&copy; {year} Matúš Barta</p>
 	{@render separator()}
-	<div class="flex items-center gap-x-3 sm:contents">
-		<a
-			href={resolve('/rss.xml')}
-			class="inline-flex items-center gap-1 text-xs hover:text-foreground max-sm:-my-2 max-sm:px-2 max-sm:py-2"
-		>
-			<RssIcon class="size-3.5" />RSS
-		</a>
+	<div class="flex items-center gap-x-5 sm:contents">
+		{@render iconLink(resolve('/rss.xml'), RssIcon, 'RSS')}
 		{@render separator(true)}
-		<a
-			href={SOURCE_URL}
-			class="inline-flex items-center gap-1 text-xs hover:text-foreground max-sm:-my-2 max-sm:px-2 max-sm:py-2"
-		>
-			<CodeIcon class="size-3.5" />Source
-		</a>
+		{@render iconLink(SOURCE_URL, CodeIcon, 'Source')}
 	</div>
 	{@render separator()}
 	<a href="{SOURCE_URL}/blob/master/LICENSE" class="text-xs hover:text-foreground">

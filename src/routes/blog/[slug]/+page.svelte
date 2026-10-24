@@ -1,10 +1,11 @@
 <script lang="ts">
 	import * as Card from '#lib/components/ui/card/index.js';
 	import GradientSeparator from '#lib/components/gradient-separator.svelte';
-	import PostByline from '#lib/components/post-byline.svelte';
-	import SeriesLink from '#lib/components/series-link.svelte';
-	import TocSheet from '#lib/components/toc/toc-sheet.svelte';
-	import TocSidebar from '#lib/components/toc/toc-sidebar.svelte';
+	import PostByline from '#lib/components/post/post-byline.svelte';
+	import SeriesLink from '#lib/components/post/series-link.svelte';
+	import TocSheet from '#lib/components/post/toc/toc-sheet.svelte';
+	import TocSidebar from '#lib/components/post/toc/toc-sidebar.svelte';
+	import { ActiveHeading } from '#lib/components/post/toc/active-heading.svelte.js';
 	import { coverFit, coverSize } from '#lib/cover.js';
 	import { placeholderStyle } from '#lib/placeholder.js';
 	import PageHead from '#lib/components/page-head.svelte';
@@ -21,6 +22,9 @@
 	const titleEnd = $derived(data.frontmatter.title.split(' ').at(-1));
 	// a post with a single heading has nothing to find its way around
 	const hasToc = $derived(data.toc.length > 1);
+	// One for the page, which the contents beside the post and the button below it share: both
+	// are always there, one of them hidden by a breakpoint.
+	const active = new ActiveHeading(() => data.toc.map((entry) => entry.id));
 </script>
 
 <PageHead
@@ -103,12 +107,16 @@
 		<aside
 			class="absolute top-0 left-full ml-6 hidden h-full w-[calc((100vw-100%)/2-3rem)] max-w-64 xl:block"
 		>
-			<TocSidebar entries={data.toc} />
+			<TocSidebar entries={data.toc} active={active.id} />
 		</aside>
 	{/if}
 </div>
 {#if hasToc}
-	<TocSheet entries={data.toc} class="xl:hidden" />
+	<!-- Where the button stops, at the end of the post, it straddles the card's bottom edge:
+	     -mt-5.5, half its 44px, over the card's empty 24px of bottom padding (pb-6 above), so it
+	     covers no text; -mb-5 gives back most of the layout's 32px bottom padding, so the footer
+	     starts 12px below it, and the card ends about as far above the footer as without it. -->
+	<TocSheet entries={data.toc} active={active.id} class="-mt-5.5 -mb-5 xl:hidden" />
 {/if}
 
 <style lang="postcss">

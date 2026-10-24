@@ -10,7 +10,7 @@
 	// rest muted.
 	interface Props {
 		entries: TocEntry[];
-		/** The id of the heading the reader is in, from ActiveHeading. */
+		/** The id of the heading the reader is in, from the page's ActiveHeading. */
 		active?: string;
 		/**
 		 * For a narrow column: 13px rather than 14, and only the h3s of the section being read,
@@ -32,7 +32,9 @@
 	});
 	const current = $derived(sections[entries.findIndex((entry) => entry.id === active)]);
 	const shown = $derived(
-		entries.filter((entry, index) => !compact || entry.level === 2 || sections[index] === current)
+		compact
+			? entries.filter((entry, index) => entry.level === 2 || sections[index] === current)
+			: entries
 	);
 
 	// A section's h3s slide open as it is reached and closed as it is left, both at once when

@@ -297,6 +297,16 @@
 }
 
 /*
+  How far below the top of the screen content starts, clear of the floating nav: the capsule's
+  16px from the top (top-4) and its 64px height (h-16), then 16px of air. The page's top
+  padding, the scroll margin of anything a link scrolls to, and the sticky and fixed things
+  that keep below the nav - a post's contents, the phone menu - all use it.
+*/
+:root {
+	--nav-clearance: --spacing(24);
+}
+
+/*
   enhanced-img wraps each image in a <picture>; this lays the <img> out as if it weren't.
   Its <source> elements would then be flex or grid items too, empty but still taking a gap,
   so they are hidden; the browser picks a source from its attributes, not its layout.

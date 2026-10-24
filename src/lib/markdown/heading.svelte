@@ -27,23 +27,23 @@
 	}
 </script>
 
-<!-- scroll-mt-24 keeps a heading the page scrolls to clear of the floating nav. The link comes
-     after the text, so a screen reader reads the heading first.
+<!-- The scroll margin keeps a heading the page scrolls to clear of the floating nav. The link
+     comes after the text, so a screen reader reads the heading first.
 
      Below md: it sits at the right end of the heading's first line, as the card's 16px padding
      to the left is too narrow to tap; pr-7 keeps the text from running under it. Its target is
      44px square, as Apple's guidelines ask of a touch target
      (https://developer.apple.com/design/human-interface-guidelines/accessibility), centred on
-     the first line and reaching into the card's padding on the right - placed at the end of the
-     text instead, it wrapped onto a line of its own after a heading that filled its line. From
-     md: it moves into the card's padding to the heading's left, level with its first line.
+     the first line and reaching into the card's padding on the right - at the end of the text,
+     it would wrap onto a line of its own after a heading that fills its line. From md: it moves
+     into the card's padding to the heading's left, level with its first line.
 
      Where there is hover it shows on hovering the heading, or on focus; on a touch screen it is
      always there, in the muted text colour (the style below). -->
 <svelte:element
 	this={`h${level}`}
 	{id}
-	class="heading relative scroll-mt-24 pr-7 md:pr-0"
+	class="heading relative scroll-mt-(--nav-clearance) pr-7 md:pr-0"
 	{...rest}
 >
 	{@render children?.()}
