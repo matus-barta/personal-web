@@ -241,7 +241,11 @@
   A card's cardHover() settings (#lib/glow.ts) name where it is anchored, data-glow-origin, of
   the three places the card's CSS sets: --edge-x, --edge-y and --edge-size, at the image's edge
   towards the text; the same for centre, its centre; and for far, the card's edge behind it. The
-  card's image with the glow-image class brightens with it, by --glow-brightness.
+  card's image with the glow-image class brightens with it, by --glow-brightness, or in light mode
+  by --glow-brightness-light where the settings give one.
+
+  An element with data-glow-sourced glows only while the part of it with data-glow-source is
+  hovered, not the whole of it: the nav's capsule, which glows from its logo.
 */
 @utility glow {
 	isolation: isolate;
@@ -263,12 +267,17 @@
 	& .glow-image {
 		transition: filter 200ms;
 	}
-	&:hover .glow-image {
-		filter: brightness(var(--glow-brightness, 1));
+	&:not([data-glow-sourced]):hover .glow-image,
+	&[data-glow-sourced]:has([data-glow-source]:hover) .glow-image {
+		filter: brightness(var(--glow-lift));
 	}
 	--glow-cx: calc(var(--glow-x) + cos(var(--glow-angle, 0deg)) * var(--glow-distance, 0px));
 	--glow-cy: calc(var(--glow-y) + sin(var(--glow-angle, 0deg)) * var(--glow-distance, 0px));
 	--glow-fade: calc(var(--glow-duration, 400ms) * 0.75);
+	--glow-lift: var(--glow-brightness, 1);
+	:root:not(.dark) & {
+		--glow-lift: var(--glow-brightness-light, var(--glow-brightness, 1));
+	}
 
 	&::before {
 		content: '';
@@ -289,7 +298,8 @@
 		transform-origin: var(--glow-cx) var(--glow-cy);
 		transition: opacity var(--glow-fade);
 	}
-	&:hover::before {
+	&:not([data-glow-sourced]):hover::before,
+	&[data-glow-sourced]:has([data-glow-source]:hover)::before {
 		opacity: 1;
 	}
 	@media (prefers-reduced-motion: no-preference) {
@@ -299,7 +309,8 @@
 				opacity var(--glow-fade),
 				scale var(--glow-duration, 400ms) cubic-bezier(0.22, 1, 0.36, 1);
 		}
-		&[data-glow-grow]:hover::before {
+		&[data-glow-grow]:not([data-glow-sourced]):hover::before,
+		&[data-glow-grow][data-glow-sourced]:has([data-glow-source]:hover)::before {
 			scale: 1;
 		}
 	}

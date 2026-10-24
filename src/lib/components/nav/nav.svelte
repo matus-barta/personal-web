@@ -9,6 +9,8 @@
 	import NavMenu from '#lib/components/nav/nav-menu.svelte';
 	import { getNavTarget } from '#lib/components/nav/nav-target.js';
 	import { cn } from '#lib/utils.js';
+	import { NAV_LOGO_HOVER } from '#lib/config.js';
+	import { cardHover } from '#lib/glow.js';
 	import logo from '#lib/assets/logo-mark.svg';
 	import logoLight from '#lib/assets/logo-mark-light.svg';
 
@@ -55,25 +57,48 @@
 	     height inside the padding, so its corners run parallel to the capsule's. The items
 	     stretch to that height rather than being centred, as NavigationMenu.List wraps its
 	     <ul> in a <div> of its own, which h-full would not reach through. -->
+	<!-- The capsule glows from its logo while the logo is hovered, as a post's card glows from its
+	     cover (NAV_LOGO_HOVER, through cardHover(); the glow utility, data-glow-sourced): the
+	     light reaches past the capsule's height and its rounded edge cuts it off. -->
 	<div
+		{...cardHover(NAV_LOGO_HOVER)}
+		data-glow-sourced
 		class={[
-			'capsule mx-auto flex justify-between gap-2 rounded-full border border-primary bg-nav-glass p-1.5 shadow-xl shadow-nav-shadow backdrop-blur-lg transition-[height,width] duration-300 motion-reduce:transition-none',
+			'capsule glow relative mx-auto flex justify-between gap-2 overflow-hidden rounded-full border border-primary bg-nav-glass p-1.5 shadow-xl shadow-nav-shadow backdrop-blur-lg transition-[height,width] duration-300 motion-reduce:transition-none',
 			scrolled ? 'scrolled h-14' : 'h-16'
 		]}
 	>
 		<!-- the mark alone, without the logo's white square, so the capsule's glass shows behind it;
 		     its swoosh is white, so light mode shows a copy with a dark one, chosen by the dark
-		     class, as the mode is unknown until the page hydrates. On the home page it has the
-		     current page's pill, as the links have on theirs. -->
+		     class, as the mode is unknown until the page hydrates. It has no background of its own,
+		     not even the current page's pill on the home page, so the glow a hover lights in the
+		     capsule shows under it too, while the logo brightens. With no shape of the button to
+		     see, the logo fills most of it, 80%, and its target reaches through the capsule's
+		     padding to its border, by an ::after past it on every side by the padding's 6px and the
+		     button's own 1px border, which it is placed inside - following the button as the
+		     capsule slims on scroll. -->
 		<Button
 			variant="ghost"
-			class="aspect-square h-full shrink-0 rounded-full p-0 hover:border-foreground/20 aria-[current=page]:bg-nav-current"
+			class="relative aspect-square h-full shrink-0 rounded-full p-0 after:absolute after:-inset-[calc(var(--spacing)*1.5+1px)] after:rounded-full hover:bg-transparent dark:hover:bg-transparent"
 			href={resolve('/')}
 			aria-label="Home"
 			aria-current={page.route.id === '/' ? 'page' : undefined}
+			data-glow-source
 		>
-			<img src={logo} width="48" height="48" class="hidden size-[65%] dark:block" alt="" />
-			<img src={logoLight} width="48" height="48" class="size-[65%] dark:hidden" alt="" />
+			<img
+				src={logo}
+				width="48"
+				height="48"
+				class="glow-image hidden size-[80%] dark:block"
+				alt=""
+			/>
+			<img
+				src={logoLight}
+				width="48"
+				height="48"
+				class="glow-image size-[80%] dark:hidden"
+				alt=""
+			/>
 		</Button>
 		<NavigationMenu.List class="hidden h-full sm:flex">
 			{#each navLinks as link (link.href)}
@@ -133,6 +158,15 @@
 	  Scrolled, it narrows a little too, from md: - on a phone it spans nearly the whole screen.
 	*/
 	.capsule {
+		/* The logo's glow, centred on it - the padding and half the logo, which is as wide as the
+		   capsule is tall inside its padding - and reaching past the capsule's height, which cuts
+		   it off at the top and the bottom. */
+		--centre-x: calc(--spacing(1.5) + (var(--spacing) * 16 - --spacing(3) - 2px) / 2);
+		--centre-y: 50%;
+		--centre-size: 56px 56px;
+		&.scrolled {
+			--centre-x: calc(--spacing(1.5) + (var(--spacing) * 14 - --spacing(3) - 2px) / 2);
+		}
 		--narrow: 1;
 		width: calc(100% - --spacing(4));
 		@variant md {

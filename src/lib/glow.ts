@@ -34,7 +34,13 @@ export function cardHover(hover: CardHover) {
 		'data-glow-origin': hover.origin,
 		'data-glow-grow': hover.glow.grow || undefined,
 		'data-glow-debug': (dev && hover.debug) || undefined,
-		style: `--glow-brightness: ${hover.brightness}; ${glowStyle(hover.glow)}`,
+		style: [
+			`--glow-brightness: ${hover.brightness}`,
+			hover.lightBrightness && `--glow-brightness-light: ${hover.lightBrightness}`,
+			glowStyle(hover.glow)
+		]
+			.filter(Boolean)
+			.join('; '),
 		...(hover.follow && { [createAttachmentKey()]: followPointer })
 	};
 }

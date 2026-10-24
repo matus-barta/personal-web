@@ -12,6 +12,8 @@ export type CardHover = {
 	 * as a lift. `| (number & {})` keeps these suggested in the editor while taking any number.
 	 */
 	brightness: 1 | 1.06 | 1.12 | 1.2 | (number & {});
+	/** The brightening in light mode, where it differs; `brightness` in both modes if unset. */
+	lightBrightness?: CardHover['brightness'];
 	/**
 	 * Where the glow is anchored: the image's `edge` towards the card's text, its `centre`, or
 	 * the card's edge behind it, `far` - before `glow.angle` and `glow.distance` move it. Only

@@ -48,6 +48,19 @@ export const FEATURED_HOVER: CardHover = {
 	}
 };
 
+/**
+ * The hover on the nav's logo (`nav.svelte`): the logo brightens and a glow spreads from it, as
+ * a post's card does, and the capsule's edge cuts the glow off.
+ */
+export const NAV_LOGO_HOVER: CardHover = {
+	// more than a card's cover in dark mode, as the logo is small and its white swoosh can't
+	// brighten; in light mode as a card's
+	brightness: 1.2,
+	lightBrightness: CARD_HOVER.brightness,
+	origin: 'centre',
+	glow: { colour: 'foreground', strength: '6%', grow: true, speed: 'fast' }
+};
+
 /** How many of the newest posts the home page lists. */
 export const LATEST_POSTS_LIMIT = 5;
 
