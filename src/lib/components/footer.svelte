@@ -10,31 +10,38 @@
 	const year = new Date().getFullYear();
 </script>
 
-{#snippet separator()}
+{#snippet separator(onPhones = false)}
 	<!-- data-vertical: repeated, as the Separator's own self-stretch is under that variant -->
 	<Separator
 		orientation="vertical"
-		class="max-sm:hidden data-vertical:h-4 data-vertical:self-center"
+		class={[!onPhones && 'max-sm:hidden', 'data-vertical:h-4 data-vertical:self-center']}
 	/>
 {/snippet}
 
+<!-- On a phone the link's target reaches 8px past it on every side, a 32px-tall area drawn by a
+     pseudo-element, so it takes no room in the layout. -->
+{#snippet iconLink(href: string, Icon: typeof RssIcon, label: string)}
+	<a
+		{href}
+		class="inline-flex items-center gap-1 text-xs hover:text-foreground max-sm:relative max-sm:after:absolute max-sm:after:-inset-2"
+	>
+		<Icon class="size-3.5" />{label}
+	</a>
+{/snippet}
+
 <!-- One centred line, its parts apart by short rules; stacked on phones, without them, so none
-     is left at the end of a line. -->
+     is left at the end of a line - except RSS and Source, short enough to share a row there, a
+     rule between them; from sm: their row dissolves into the line (sm:contents). -->
 <footer
 	class="flex w-full flex-col items-center justify-center gap-x-3 gap-y-1 border-t border-border bg-card px-4 py-3 text-sm text-muted-foreground sm:flex-row"
 >
 	<p>&copy; {year} Matúš Barta</p>
 	{@render separator()}
-	<a
-		href={resolve('/rss.xml')}
-		class="inline-flex items-center gap-1 text-xs hover:text-foreground"
-	>
-		<RssIcon class="size-3.5" />RSS
-	</a>
-	{@render separator()}
-	<a href={SOURCE_URL} class="inline-flex items-center gap-1 text-xs hover:text-foreground">
-		<CodeIcon class="size-3.5" />Source
-	</a>
+	<div class="flex items-center gap-x-5 sm:contents">
+		{@render iconLink(resolve('/rss.xml'), RssIcon, 'RSS')}
+		{@render separator(true)}
+		{@render iconLink(SOURCE_URL, CodeIcon, 'Source')}
+	</div>
 	{@render separator()}
 	<a href="{SOURCE_URL}/blob/master/LICENSE" class="text-xs hover:text-foreground">
 		Code MIT, content all rights reserved

@@ -14,6 +14,12 @@ If a component seems to need a colour the theme does not offer, **say so and ask
 
 **The rule covers the site's own design, not colours that belong to something else.** A brand icon in its brand's colour shows that brand, not the site's palette: [`brand-icon.svelte`](../src/lib/components/brand-icon.svelte) takes the colour from Simple Icons' data rather than writing it, and none of it is designed here. The same icon drawn in the site's colours - its `mono` and `hover` tones' grey - is design again, and takes them from the theme.
 
+## Units and formats are European, the language British
+
+**Measurements and formats follow European conventions**: metric units, the 24-hour clock, the week starting on Monday. **Where the language is part of the format, British English decides it**: a date is written day, month, year - `5 Apr 2023` on the cards, `5 April 2023` on a post's preview image - which [`formatDate()`](../src/lib/utils/format-date.ts) gets by formatting in the `en-GB` locale. The site is in English and its author in Europe, and British English writes a date in the European order, where American English puts the month first.
+
+Until 2025 the site showed a post's date as written in its frontmatter, `2023-04-05`; the move to Svelte 5 began formatting it in the `en` locale, which gives the American `Apr 5, 2023`, and that stayed until 2026-10-24.
+
 ## Commits
 
 **A commit's subject opens with a topic tag**, then a space, a colon and a space, then a short lowercase imperative: `blog : add the homelab post`, `ci : cache the Playwright browsers`. The topic is the part of the site the change is about - `blog`, `projects`, `styles`, `tests`, `ci`, `skills` and `docs` cover most of it - and it makes the log quick to scan between Renovate's dependency commits. It is strongly recommended rather than a hard rule: a commit can have a real reason to go without one, and that is worth a moment's thought when it seems to.

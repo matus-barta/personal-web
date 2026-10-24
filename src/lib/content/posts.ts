@@ -1,9 +1,9 @@
 import type { Component } from 'svelte';
 import { isCoverCrop } from '#lib/cover.js';
 import { postImage, postPlaceholder } from '#lib/content/post-images.js';
-import type { Post, PostFrontmatter } from '#lib/types/post.js';
+import type { Post, PostMetadata, TocEntry } from '#lib/types/post.js';
 
-type PostModule = { default: Component; metadata: PostFrontmatter };
+type PostModule = { default: Component; metadata: PostMetadata };
 
 // Lazy, so each post is its own chunk: the client loads only the post it shows.
 // The list is built from every module, which is why only build-time code calls getPosts():
@@ -23,7 +23,9 @@ function toSlug(path: string) {
 	return path.slice('/content/blog/'.length, -'/index.md'.length);
 }
 
-function toPost(metadata: PostFrontmatter, slug: string): Post {
+// The table of contents is kept apart from the post: only the post's own page shows it, so it
+// stays out of every list of posts - /blog's data, /api/posts.json.
+function toPost({ toc, ...metadata }: PostMetadata, slug: string): { post: Post; toc: TocEntry[] } {
 	const img = postImage(slug, metadata.img);
 	if (!img) throw new Error(`The cover of "${slug}" must be a file beside it, such as ./cover.png`);
 	if (metadata.img_crop !== undefined && !isCoverCrop(metadata.img_crop)) {
@@ -35,7 +37,7 @@ function toPost(metadata: PostFrontmatter, slug: string): Post {
 		);
 	}
 	const placeholder = metadata.img_transparent ? undefined : postPlaceholder(slug, metadata.img);
-	return { ...metadata, slug, img, coverPath: metadata.img, placeholder };
+	return { post: { ...metadata, slug, img, coverPath: metadata.img, placeholder }, toc };
 }
 
 function getTime(date: string) {
@@ -45,8 +47,8 @@ function getTime(date: string) {
 /** The published posts, newest first. */
 export async function getPosts(): Promise<Post[]> {
 	const posts = await Promise.all(
-		Object.entries(modules).map(async ([path, load]) =>
-			toPost((await load()).metadata, toSlug(path))
+		Object.entries(modules).map(
+			async ([path, load]) => toPost((await load()).metadata, toSlug(path)).post
 		)
 	);
 
@@ -67,7 +69,23 @@ export function postsPerProject(posts: Post[]): Record<string, number> {
 	return counts;
 }
 
-/** One published post and its body, or `undefined` if there is none by that slug. */
+/**
+ * The posts before and after one in its series, from the list getPosts() returns, newest first;
+ * neither for a post in no series, or not in the list.
+ */
+export function seriesNeighbours(posts: Post[], slug: string) {
+	const series = posts.find((post) => post.slug === slug)?.series;
+	const inSeries = series ? posts.filter((post) => post.series === series) : [];
+	const index = inSeries.findIndex((post) => post.slug === slug);
+	const link = (post?: Post) => post && { slug: post.slug, title: post.title };
+
+	return { previous: link(inSeries[index + 1]), next: link(inSeries[index - 1]) };
+}
+
+/**
+ * One published post, its body and its table of contents, or `undefined` if there is none by
+ * that slug.
+ */
 export async function getPost(slug: string) {
 	const load = modules[`/content/blog/${slug}/index.md`];
 	if (!load) return undefined;
@@ -75,5 +93,5 @@ export async function getPost(slug: string) {
 	const { default: component, metadata } = await load();
 	if (!metadata.published) return undefined;
 
-	return { post: toPost(metadata, slug), component };
+	return { ...toPost(metadata, slug), component };
 }

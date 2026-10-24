@@ -31,11 +31,11 @@ How to set up and check the site is in [`.claude/development-setup.md`](.claude/
 | Path                         | What it is                                                                                               |
 | ---------------------------- | -------------------------------------------------------------------------------------------------------- |
 | `src/routes/`                | Pages, endpoints - posts as JSON, sitemap, `robots.txt` - and the e2e specs                              |
-| `src/lib/components/`        | Shared components: cards, the page head, the footer, the nav in `nav/`, the 404 page in `lost-in-space/` |
+| `src/lib/components/`        | Components: cards, the footer, the nav in `nav/`, a post's parts in `post/`, the 404 in `lost-in-space/` |
 | `src/lib/assets/`            | The site's images - logo, avatar - imported through Vite, with hashed names                              |
 | `src/lib/config.ts`          | The site's constants, read by the pages and the tests                                                    |
 | `src/lib/content/`           | Reads `content/`: the blog posts and their images, and the project blurbs                                |
-| `src/lib/markdown/`          | The heading-id plugin, and the layout that builds a post's images                                        |
+| `src/lib/markdown/`          | The plugins for heading ids, reading time and contents, and the layout that builds a post's images       |
 | `src/lib/types/`, `-/utils/` | The post, project and social-link types, `formatDate()` and `pageTitle()`                                |
 | `content/blog/`              | One folder per blog post: its Markdown and its images, outside `src/`                                    |
 | `content/projects/`          | One folder per project on `/projects`: its blurb in Markdown and its logo                                |
@@ -52,6 +52,10 @@ How the pieces fit together - one SvelteKit app prerendered to static files and 
 - [ ] The rewrite, planned in [`REWRITE.md`](REWRITE.md): blog features, and the pages for the content below
 - [ ] Tags on posts, with a page per tag - and whether `project:` and the project cards' stack badges become tags
 - [ ] Site search with [Pagefind](https://pagefind.app), which indexes the static build - once there are more posts
+- [ ] Layout debts the Posts step left, each of which couples one file to numbers set in another:
+  - The root layout gives a page with contents beside it a wider column of its own, a centred grid with a track for the contents, so `/blog/[slug]` stops overriding the layout's width with `100vw` arithmetic and placing the contents absolutely.
+  - One glass utility in `layout.css` - background opacity, blur, saturation, border - for the nav capsule, the phone menu, a post's contents button and panel, which each set their glass by hand today.
+  - The post card's text padding as a CSS variable, which the heading link's icon reads instead of matching the card's padding by hand at each breakpoint (`-mr-4`, `md:w-6`, `lg:w-10` in `heading.svelte`).
 
 ### Waiting on upstream
 

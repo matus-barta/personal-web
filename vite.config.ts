@@ -9,6 +9,8 @@ import { escapeSvelte, mdsvex } from 'mdsvex';
 import { createHighlighter } from 'shiki';
 import { SITE_URL } from './src/lib/config.js';
 import { rehypeHeadingIds } from './src/lib/markdown/heading-ids.js';
+import { remarkReadingTime } from './src/lib/markdown/reading-time.js';
+import { rehypeToc } from './src/lib/markdown/toc.js';
 
 // One instance for the whole build, as Shiki recommends. Only the languages the posts use
 // are loaded, so a code block in any other fails the build until it is added here.
@@ -42,7 +44,8 @@ export default defineConfig({
 			// url.origin while prerendering, which is otherwise http://sveltekit-prerender
 			paths: { origin: SITE_URL },
 			// Blog posts and project blurbs are authored as markdown and compiled to components.
-			// Every heading gets an id, so a post can link to #its-heading.
+			// Every heading gets an id, so a post can link to #its-heading, and a post's
+			// frontmatter its reading time and table of contents.
 			preprocess: [
 				mdsvex({
 					extensions: ['.svx', '.md'],
@@ -54,7 +57,8 @@ export default defineConfig({
 					// forced runes mode above rejects.
 					layoutPropForwarding: 'runes',
 					highlight: { highlighter: highlight },
-					rehypePlugins: [rehypeHeadingIds]
+					remarkPlugins: [remarkReadingTime],
+					rehypePlugins: [rehypeHeadingIds, rehypeToc]
 				})
 			],
 			extensions: ['.svelte', '.svx', '.md']

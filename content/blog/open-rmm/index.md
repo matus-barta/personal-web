@@ -6,6 +6,7 @@ img: ./code.png
 img_crop: top
 published: true
 project: open-rmm
+series: open-rmm
 ---
 
 _Disclaimer: this post is mostly to dump ideas from my mind and make the project goal more defined._

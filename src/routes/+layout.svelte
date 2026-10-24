@@ -41,7 +41,7 @@
 
 <div class="flex min-h-dvh flex-col justify-between">
 	<Nav />
-	<div class="mx-auto mb-auto w-full max-w-5xl px-4 pt-24 pb-8 md:px-8 lg:w-3/4">
+	<div class="mx-auto mb-auto w-full max-w-5xl px-4 pt-(--nav-clearance) pb-8 md:px-8 lg:w-3/4">
 		{@render children?.()}
 	</div>
 	<Footer />
