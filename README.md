@@ -49,7 +49,6 @@ How the pieces fit together - one SvelteKit app prerendered to static files and 
 
 ### Code
 
-- [ ] The rewrite, planned in [`REWRITE.md`](REWRITE.md): blog features, and the pages for the content below
 - [ ] Tags on posts, with a page per tag - and whether `project:` and the project cards' stack badges become tags
 - [ ] Site search with [Pagefind](https://pagefind.app), which indexes the static build - once there are more posts
 - [ ] Layout debts the Posts step left, each of which couples one file to numbers set in another:
