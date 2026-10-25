@@ -80,7 +80,7 @@ What there is to write. Keep personal information light: no employer, no city an
 **Projects** - against [GitHub](https://github.com/matus-barta?tab=repositories):
 
 - [ ] Add [car_sensors](https://github.com/matus-barta/car_sensors), [ipscanner](https://github.com/matus-barta/ipscanner), [healthcheck](https://github.com/matus-barta/healthcheck) and [fileserver](https://github.com/matus-barta/fileserver) - the last once its one-line README is expanded
-- [ ] Open RMM: its blurb and stack still say Express/Prisma, not Rust/Axum and Supabase; its GitHub link redirects to `open-rmm`
+- [ ] Open RMM: its blurb and stack still say Express/Prisma, not Rust/Axum and Supabase
 
 **About:**
 
