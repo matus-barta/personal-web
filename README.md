@@ -57,7 +57,6 @@ How the pieces fit together - one SvelteKit app prerendered to static files and 
 - [ ] Layout debts the Posts step left, each of which couples one file to numbers set in another:
   - The root layout gives a page with contents beside it a wider column of its own, a centred grid with a track for the contents, so `/blog/[slug]` stops overriding the layout's width with `100vw` arithmetic and placing the contents absolutely.
   - One glass utility in `layout.css` - background opacity, blur, saturation, border - for the nav capsule, the phone menu, a post's contents button and panel, which each set their glass by hand today.
-  - The post card's text padding as a CSS variable, which the heading link's icon reads instead of matching the card's padding by hand at each breakpoint (`-mr-4`, `md:w-6`, `lg:w-10` in `heading.svelte`).
 - [ ] Polish the nav's grow back to full size after a click on another of its links while the page is scrolled down: the new page starts at the top, so the slimmed capsule (`h-14`) grows back to `h-16`, and its links' grow lags behind the capsule's own. A likely cause, not yet checked: the links' backgrounds and labels are named layers of the navigation's view transition (`nav.svelte`), which move on the transition's timing, while the capsule grows by its own 300ms CSS transition.
 
 ### Waiting on upstream

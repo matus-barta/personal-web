@@ -30,13 +30,15 @@
 <!-- The scroll margin keeps a heading the page scrolls to clear of the floating nav. The link
      comes after the text, so a screen reader reads the heading first.
 
+     The card's padding is --post-padding, set by the post page (/blog/[slug]/+page.svelte).
      Below md: it sits at the right end of the heading's first line, as the card's 16px padding
      to the left is too narrow to tap; pr-7 keeps the text from running under it. Its target is
      44px square, as Apple's guidelines ask of a touch target
      (https://developer.apple.com/design/human-interface-guidelines/accessibility), centred on
      the first line and reaching into the card's padding on the right - at the end of the text,
      it would wrap onto a line of its own after a heading that fills its line. From md: it moves
-     into the card's padding to the heading's left, level with its first line.
+     into the card's padding to the heading's left, level with its first line, as wide as the
+     padding up to 40px, so on a wide card the icon stays near the text.
 
      Where there is hover it shows on hovering the heading, or on focus; on a touch screen it is
      always there, in the muted text colour (the style below). -->
@@ -52,7 +54,7 @@
 			href="#{id}"
 			onclick={share}
 			aria-label="Link to this section"
-			class="heading-link not-prose absolute top-[calc((1lh-2.75rem)/2)] right-0 -mr-4 flex size-11 items-center justify-center text-muted-foreground transition-opacity md:top-0 md:right-full md:mr-0 md:h-lh md:w-6 lg:w-10"
+			class="heading-link not-prose absolute top-[calc((1lh-2.75rem)/2)] right-0 -mr-(--post-padding) flex size-11 items-center justify-center text-muted-foreground transition-opacity md:top-0 md:right-full md:mr-0 md:h-lh md:w-[min(var(--post-padding),--spacing(10))]"
 		>
 			<LinkIcon class="size-5" aria-hidden="true" />
 		</a>
