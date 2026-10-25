@@ -53,8 +53,6 @@ How the pieces fit together - one SvelteKit app prerendered to static files and 
 - [ ] Site search with [Pagefind](https://pagefind.app), which indexes the static build - once there are more posts
 - [ ] An image viewer: an image in a post opens larger when clicked
 - [ ] Review how text is set inside the posts - the spacing between paragraphs and at line breaks, and the rest of their formatting
-- [ ] Layout debts the Posts step left, each of which couples one file to numbers set in another:
-  - The root layout gives a page with contents beside it a wider column of its own, a centred grid with a track for the contents, so `/blog/[slug]` stops overriding the layout's width with `100vw` arithmetic and placing the contents absolutely.
 - [ ] Polish the nav's grow back to full size after a click on another of its links while the page is scrolled down: the new page starts at the top, so the slimmed capsule (`h-14`) grows back to `h-16`, and its links' grow lags behind the capsule's own. A likely cause, not yet checked: the links' backgrounds and labels are named layers of the navigation's view transition (`nav.svelte`), which move on the transition's timing, while the capsule grows by its own 300ms CSS transition.
 
 ### Waiting on upstream
