@@ -38,8 +38,16 @@
 
 	let scrollY = $state(0);
 
-	// once the page moves, the capsule tucks up and slims down a little
-	const scrolled = $derived(scrollY > 16);
+	// Once the page moves, the capsule tucks up and slims down a little. A navigation's view
+	// transition keeps it as it was until the transition ends: the transition draws the links'
+	// labels and the current page's background in layers of their own, at the size they had when
+	// it began, which a capsule growing back to full size meanwhile - the new page starts at the
+	// top - would leave behind. Afterwards the capsule and its links grow back together.
+	let held = false;
+	const scrolled = $derived.by(() => {
+		if (navTarget() === null) held = scrollY > 16;
+		return held;
+	});
 </script>
 
 <svelte:window bind:scrollY />
