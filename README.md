@@ -85,7 +85,6 @@ What there is to write. Keep personal information light: no employer, no city an
 **About:**
 
 - [ ] Write its sections: what I do and the tech I work with, my interests, what the site is for
-- [ ] Add Bluesky to "Find me" (`SOCIAL_LINKS` in `src/lib/config.ts`)
 
 **New pages** - the "slash pages" of [slashpages.net](https://slashpages.net), each built as a route once its text is ready:
 

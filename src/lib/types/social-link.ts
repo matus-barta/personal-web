@@ -1,5 +1,5 @@
 /** The brands `brand-icon.svelte` can draw, by their name in its list of Simple Icons. */
-export type Brand = 'github' | 'instagram' | 'youtube';
+export type Brand = 'bluesky' | 'github' | 'instagram' | 'youtube';
 
 /** A link to the author elsewhere, as `SOCIAL_LINKS` in `#lib/config.ts` lists them. */
 export type SocialLink = {
