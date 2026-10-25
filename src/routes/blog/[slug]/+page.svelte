@@ -89,8 +89,11 @@
 			<GradientSeparator class="mt-2" />
 		</Card.Header>
 		<!-- From lg: the text keeps 64px from the card's sides, which shortens its lines on a wide
-		     screen, while the title and its separator span the card as the cover does (blog-layout.svelte). -->
-		<Card.Content class="pb-6 md:px-6 lg:px-16">
+		     screen, while the title and its separator span the card as the cover does (blog-layout.svelte).
+		     The padding is --post-padding, which a heading's link reads to sit inside it (heading.svelte). -->
+		<Card.Content
+			class="px-(--post-padding) pb-6 [--post-padding:var(--card-spacing)] md:[--post-padding:--spacing(6)] lg:[--post-padding:--spacing(16)]"
+		>
 			{#if data.series.previous}
 				<SeriesLink post={data.series.previous} direction="previous" class="mb-6" />
 			{/if}

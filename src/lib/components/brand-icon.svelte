@@ -1,10 +1,11 @@
 <script lang="ts" module>
-	import { siGithub, siInstagram, siYoutube, type SimpleIcon } from 'simple-icons';
+	import { siBluesky, siGithub, siInstagram, siYoutube, type SimpleIcon } from 'simple-icons';
 	import type { Brand } from '#lib/types/social-link.js';
 
 	// The brands the site links to, from Simple Icons - imported by name, so only these ship. A
 	// new one goes in `Brand` and in THIRD-PARTY-NOTICES.md with it.
 	const icons: Record<Brand, SimpleIcon> = {
+		bluesky: siBluesky,
 		github: siGithub,
 		instagram: siInstagram,
 		youtube: siYoutube

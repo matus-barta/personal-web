@@ -90,6 +90,7 @@ export const BLOG_DESCRIPTION =
 export const SOCIAL_LINKS: readonly SocialLink[] = [
 	{ label: 'GitHub', href: 'https://github.com/matus-barta', brand: 'github' },
 	{ label: 'Instagram', href: 'https://www.instagram.com/matus.barta09/', brand: 'instagram' },
+	{ label: 'Bluesky', href: 'https://bsky.app/profile/anonymus09.bsky.social', brand: 'bluesky' },
 	{ label: 'YouTube', href: 'https://www.youtube.com/@MatúšBarta', brand: 'youtube' },
 	{
 		label: 'YouTube, second channel',
