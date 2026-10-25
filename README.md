@@ -49,9 +49,11 @@ How the pieces fit together - one SvelteKit app prerendered to static files and 
 
 ### Code
 
-- [ ] The rewrite, planned in [`REWRITE.md`](REWRITE.md): blog features, and the pages for the content below
 - [ ] Tags on posts, with a page per tag - and whether `project:` and the project cards' stack badges become tags
 - [ ] Site search with [Pagefind](https://pagefind.app), which indexes the static build - once there are more posts
+- [ ] Test light mode on the 404 page's footer and nav, which stay dark inside the light page
+- [ ] An image viewer: an image in a post opens larger when clicked
+- [ ] Review how text is set inside the posts - the spacing between paragraphs and at line breaks, and the rest of their formatting
 - [ ] Layout debts the Posts step left, each of which couples one file to numbers set in another:
   - The root layout gives a page with contents beside it a wider column of its own, a centred grid with a track for the contents, so `/blog/[slug]` stops overriding the layout's width with `100vw` arithmetic and placing the contents absolutely.
   - One glass utility in `layout.css` - background opacity, blur, saturation, border - for the nav capsule, the phone menu, a post's contents button and panel, which each set their glass by hand today.

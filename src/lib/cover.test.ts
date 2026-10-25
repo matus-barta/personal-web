@@ -34,7 +34,7 @@ describe('coverFit', () => {
 
 	test('fits a transparent cover on a backdrop, whatever its crop', () => {
 		const post = { img: 'logo.svg', img_transparent: true, img_crop: 'top' as const };
-		expect(coverFit(post, 16 / 9)).toBe('bg-foreground object-contain p-3');
+		expect(coverFit(post, 16 / 9)).toBe('image-backdrop object-contain p-3');
 	});
 });
 

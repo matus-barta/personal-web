@@ -60,9 +60,11 @@
 
 <section class="grid items-center gap-4 sm:min-h-[calc(100dvh-14rem)] sm:grid-cols-2 sm:gap-8">
 	<!-- Set off from the Milky Way behind it: a faint oval of the page's background under the
-	     block, and a soft shadow of it around the letters. -->
+	     block, and a soft shadow of it around the letters - the token itself, not Tailwind's
+	     --color-background, which resolves on <html> to the light page's in light mode, where
+	     this page stays dark. -->
 	<div
-		class="relative isolate flex flex-col items-start gap-4 [text-shadow:0_0_1rem_var(--color-background)]"
+		class="relative isolate flex flex-col items-start gap-4 [text-shadow:0_0_1rem_var(--background)]"
 	>
 		<div
 			class="absolute -inset-x-4 -inset-y-14 -z-10 bg-radial-[closest-side] from-background/55 to-transparent sm:-inset-x-16"

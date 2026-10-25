@@ -14,7 +14,9 @@ const speeds = { normal: 400, fast: 250, faster: 150 };
 export function glowStyle({ colour, strength, angle = '0deg', distance = '0px', speed }: Glow) {
 	const duration = typeof speed === 'number' ? speed : speeds[speed];
 	return [
-		`--glow-colour: var(--color-${colour})`,
+		// the token itself, not Tailwind's --color-* for it, which resolves once on <html>: so the
+		// glow takes a dark wrapper's colours inside the light page, as on the 404 page
+		`--glow-colour: var(--${colour})`,
 		`--glow-strength: ${strength}`,
 		`--glow-angle: ${angle}`,
 		`--glow-distance: ${distance}`,
@@ -34,7 +36,13 @@ export function cardHover(hover: CardHover) {
 		'data-glow-origin': hover.origin,
 		'data-glow-grow': hover.glow.grow || undefined,
 		'data-glow-debug': (dev && hover.debug) || undefined,
-		style: `--glow-brightness: ${hover.brightness}; ${glowStyle(hover.glow)}`,
+		style: [
+			`--glow-brightness: ${hover.brightness}`,
+			hover.lightBrightness && `--glow-brightness-light: ${hover.lightBrightness}`,
+			glowStyle(hover.glow)
+		]
+			.filter(Boolean)
+			.join('; '),
 		...(hover.follow && { [createAttachmentKey()]: followPointer })
 	};
 }

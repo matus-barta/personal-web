@@ -4,6 +4,8 @@
 	import * as Sheet from '#lib/components/ui/sheet/index.js';
 	import { Button, buttonVariants } from '#lib/components/ui/button/index.js';
 	import GlassSheetContent from '#lib/components/glass-sheet-content.svelte';
+	import ThemeToggle from '#lib/components/theme-toggle.svelte';
+	import { Separator } from '#lib/components/ui/separator/index.js';
 
 	interface Props {
 		links: readonly {
@@ -21,6 +23,10 @@
 	// the menu icon's outer lines, which turn into an X
 	const line =
 		'origin-[12px_12px] transition-transform duration-300 ease-out motion-reduce:transition-none';
+
+	// a row of the menu - a link, or the dark/light toggle
+	const row =
+		'h-11 w-full justify-start gap-[0.7em] rounded-full px-3 text-lg font-medium hover:border-foreground/20';
 </script>
 
 <!-- The phone menu: a glass Sheet that opens just below the nav, as everything that clears the
@@ -81,7 +87,7 @@
 				<li>
 					<Button
 						variant="ghost"
-						class="h-11 w-full justify-start gap-[0.7em] rounded-full px-3 text-lg font-medium hover:border-foreground/20 has-data-[icon=inline-start]:pl-3 aria-[current=page]:bg-muted/50"
+						class={[row, 'has-data-[icon=inline-start]:pl-3 aria-[current=page]:bg-nav-current']}
 						href={link.href}
 						aria-current={link.current ? 'page' : undefined}
 						onclick={() => (open = false)}
@@ -92,5 +98,9 @@
 				</li>
 			{/each}
 		</ul>
+		<!-- the dark/light toggle on phones, a row like the links, below them, saying what a tap
+		     does; from sm: it is in the footer -->
+		<Separator class="my-2" />
+		<ThemeToggle labelled class={row} iconClass="size-[1.2em] text-primary" />
 	</GlassSheetContent>
 </Sheet.Root>

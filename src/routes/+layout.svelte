@@ -6,8 +6,10 @@
 	import Nav from '#lib/components/nav/nav.svelte';
 	import { setNavTarget } from '#lib/components/nav/nav-target.js';
 	import { SITE_NAME } from '#lib/config.js';
+	import { ModeWatcher } from 'mode-watcher';
 	import { onNavigate } from '$app/navigation';
 	import { resolve } from '$app/paths';
+	import { page } from '$app/state';
 
 	let { children }: { children?: Snippet } = $props();
 
@@ -39,7 +41,19 @@
 	<link rel="alternate" type="application/rss+xml" title={SITE_NAME} href={resolve('/rss.xml')} />
 </svelte:head>
 
-<div class="flex min-h-dvh flex-col justify-between">
+<!-- Dark for everyone until they choose light: ModeWatcher's script in the head sets the dark
+     class from their choice before the first paint, and app.html has it for anyone without
+     JavaScript. The 404 page stays dark in light mode too - its starfield is screen-blended
+     with the page behind it (lost-in-space.svelte) - by the dark class on the page's wrapper,
+     isolated so the starfield blends with the wrapper's own background. -->
+<ModeWatcher defaultMode="dark" />
+
+<div
+	class={[
+		'flex min-h-dvh flex-col justify-between',
+		page.status === 404 && 'dark isolate bg-background text-foreground'
+	]}
+>
 	<Nav />
 	<div class="mx-auto mb-auto w-full max-w-5xl px-4 pt-(--nav-clearance) pb-8 md:px-8 lg:w-3/4">
 		{@render children?.()}

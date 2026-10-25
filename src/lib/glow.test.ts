@@ -6,7 +6,7 @@ const white = { colour: 'foreground', strength: '6%', grow: true, speed: 'normal
 describe('glowStyle', () => {
 	test('a colour is a theme token, normal is 400ms, and an unset angle and distance are 0', () => {
 		expect(glowStyle(white)).toBe(
-			'--glow-colour: var(--color-foreground); --glow-strength: 6%; --glow-angle: 0deg; ' +
+			'--glow-colour: var(--foreground); --glow-strength: 6%; --glow-angle: 0deg; ' +
 				'--glow-distance: 0px; --glow-duration: 400ms'
 		);
 	});

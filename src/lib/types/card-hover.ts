@@ -3,8 +3,9 @@ import type { Glow } from '#lib/types/glow.js';
 /**
  * How a card answers a hover - a post's card, as `CARD_HOVER` in `#lib/config.ts` sets it, a
  * project's, as `PROJECT_HOVER` does, and a featured project's on the home page, as
- * `FEATURED_HOVER` does: its image brightens, and a glow spreads from it. `cardHover()` in
- * `#lib/glow.ts` turns it into the card's attributes.
+ * `FEATURED_HOVER` does: its image brightens, and a glow spreads from it. The nav's logo, as
+ * `NAV_LOGO_HOVER` does, answers its hover the same way. `cardHover()` in `#lib/glow.ts` turns
+ * it into the attributes of the element that glows.
  */
 export type CardHover = {
 	/**
@@ -12,6 +13,8 @@ export type CardHover = {
 	 * as a lift. `| (number & {})` keeps these suggested in the editor while taking any number.
 	 */
 	brightness: 1 | 1.06 | 1.12 | 1.2 | (number & {});
+	/** The brightening in light mode, where it differs; `brightness` in both modes if unset. */
+	lightBrightness?: CardHover['brightness'];
 	/**
 	 * Where the glow is anchored: the image's `edge` towards the card's text, its `centre`, or
 	 * the card's edge behind it, `far` - before `glow.angle` and `glow.distance` move it. Only

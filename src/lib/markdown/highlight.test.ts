@@ -55,6 +55,32 @@ describe('codeBlockMarkup', () => {
 		});
 	});
 
+	test("passes both themes' colours as variables, as the build's highlighter gives them", () => {
+		const twoThemes = [
+			[
+				{
+					content: 'const',
+					offset: 0,
+					htmlStyle: {
+						'--shiki-dark': '#66D9EF',
+						'--shiki-dark-font-style': 'italic',
+						'--shiki-light': '#A626A4'
+					}
+				}
+			]
+		] as ThemedToken[][];
+		const markup = codeBlockMarkup('const', 'ts', '', twoThemes, post);
+		const props = JSON.parse(/^<Components\.CodeBlock \{\.\.\.(.*)\} \/>$/.exec(markup)![1]);
+		expect(props.lines).toEqual([
+			[
+				{
+					content: 'const',
+					style: '--shiki-dark:#66D9EF;--shiki-dark-font-style:italic;--shiki-light:#A626A4'
+				}
+			]
+		]);
+	});
+
 	test('fails on a line past the end of the block', () => {
 		expect(() => codeBlockMarkup('a\nb', 'ts', 'del={3}', tokens, post)).toThrow('line 3');
 	});

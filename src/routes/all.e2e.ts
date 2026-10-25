@@ -172,6 +172,51 @@ test.describe('a code block', () => {
 	});
 });
 
+test.describe('light mode', () => {
+	const html = (page: Page) => page.locator('html');
+
+	test.describe('with the system asking for light', () => {
+		test.use({ colorScheme: 'light' });
+
+		test('a page opens dark all the same', async ({ page }) => {
+			await page.goto('/');
+			await expect(html(page)).toHaveClass(/\bdark\b/);
+		});
+	});
+
+	test("is the footer toggle's choice, kept across a reload", async ({ page }) => {
+		// networkidle, so the page has hydrated: clicked before, the toggle does nothing
+		await page.goto('/', { waitUntil: 'networkidle' });
+		const toggle = page.getByRole('button', { name: 'Light mode', exact: true });
+		await toggle.click();
+		await expect(html(page)).not.toHaveClass(/\bdark\b/);
+		await expect(toggle).toHaveAttribute('aria-pressed', 'true');
+
+		await page.reload();
+		await expect(html(page)).not.toHaveClass(/\bdark\b/);
+	});
+
+	test.describe('on a phone', () => {
+		test.use({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
+
+		test("is a row of the nav's menu, saying what a tap does", async ({ page }) => {
+			await page.goto('/', { waitUntil: 'networkidle' });
+			await page.getByRole('button', { name: 'Open the menu' }).tap();
+			const menu = page.getByRole('dialog');
+			await menu.getByRole('button', { name: 'Switch to light mode' }).tap();
+			await expect(html(page)).not.toHaveClass(/\bdark\b/);
+			await expect(menu.getByRole('button', { name: 'Switch to dark mode' })).toBeVisible();
+		});
+	});
+
+	test('leaves the 404 page dark', async ({ page }) => {
+		await page.addInitScript(() => localStorage.setItem('mode-watcher-mode', 'light'));
+		await page.goto('/no-such-page');
+		await expect(html(page)).not.toHaveClass(/\bdark\b/);
+		await expect(page.locator('div.dark').filter({ has: page.locator('footer') })).toBeVisible();
+	});
+});
+
 test('Check API', async ({ request }) => {
 	const posts = await getPublishedPosts(request);
 

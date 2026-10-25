@@ -9,7 +9,10 @@
 	import NavMenu from '#lib/components/nav/nav-menu.svelte';
 	import { getNavTarget } from '#lib/components/nav/nav-target.js';
 	import { cn } from '#lib/utils.js';
+	import { NAV_LOGO_HOVER } from '#lib/config.js';
+	import { cardHover } from '#lib/glow.js';
 	import logo from '#lib/assets/logo-mark.svg';
+	import logoLight from '#lib/assets/logo-mark-light.svg';
 
 	// Each link's icon follows Apple's Liquid Glass buttons, measured against the cap height:
 	// the icon about 1.4 times as tall, a gap of about 2/3, and a stroke as heavy as the text's.
@@ -54,21 +57,48 @@
 	     height inside the padding, so its corners run parallel to the capsule's. The items
 	     stretch to that height rather than being centred, as NavigationMenu.List wraps its
 	     <ul> in a <div> of its own, which h-full would not reach through. -->
+	<!-- The capsule glows from its logo while the logo is hovered, as a post's card glows from its
+	     cover (NAV_LOGO_HOVER, through cardHover(); the glow utility, data-glow-sourced): the
+	     light reaches past the capsule's height and its rounded edge cuts it off. -->
 	<div
+		{...cardHover(NAV_LOGO_HOVER)}
+		data-glow-sourced
 		class={[
-			'capsule mx-auto flex justify-between gap-2 rounded-full border border-primary bg-background/30 p-1.5 shadow-xl shadow-background backdrop-blur-lg transition-[height,width] duration-300 motion-reduce:transition-none',
-			scrolled ? 'scrolled h-14' : 'h-16'
+			'capsule glow relative mx-auto flex justify-between gap-2 overflow-hidden rounded-full border border-primary bg-nav-glass p-1.5 shadow-xl shadow-nav-shadow backdrop-blur-lg transition-[height,width] duration-300 motion-reduce:transition-none',
+			scrolled && 'scrolled'
 		]}
 	>
-		<!-- the mark alone, without the logo's white square, so the capsule's glass shows behind it -->
+		<!-- the mark alone, without the logo's white square, so the capsule's glass shows behind it;
+		     its swoosh is white, so light mode shows a copy with a dark one, chosen by the dark
+		     class, as the mode is unknown until the page hydrates. It has no background of its own,
+		     not even the current page's pill on the home page, so the glow a hover lights in the
+		     capsule shows under it too, while the logo brightens. With no shape of the button to
+		     see, the logo fills most of it, 80%, and its target reaches through the capsule's
+		     padding to its border, by an ::after past it on every side by the padding's 6px and the
+		     button's own 1px border, which it is placed inside - following the button as the
+		     capsule slims on scroll. -->
 		<Button
 			variant="ghost"
-			class="aspect-square h-full shrink-0 rounded-full p-0 hover:border-foreground/20"
+			class="relative aspect-square h-full shrink-0 rounded-full p-0 after:absolute after:-inset-[calc(var(--spacing)*1.5+1px)] after:rounded-full hover:bg-transparent dark:hover:bg-transparent"
 			href={resolve('/')}
 			aria-label="Home"
 			aria-current={page.route.id === '/' ? 'page' : undefined}
+			data-glow-source
 		>
-			<img src={logo} width="48" height="48" class="size-[65%]" alt="" />
+			<img
+				src={logo}
+				width="48"
+				height="48"
+				class="glow-image hidden size-[80%] dark:block"
+				alt=""
+			/>
+			<img
+				src={logoLight}
+				width="48"
+				height="48"
+				class="glow-image size-[80%] dark:hidden"
+				alt=""
+			/>
 		</Button>
 		<NavigationMenu.List class="hidden h-full sm:flex">
 			{#each navLinks as link (link.href)}
@@ -93,7 +123,7 @@
 					>
 						{#if link.current}
 							<span
-								class="absolute inset-0 -z-10 rounded-full bg-muted/50 [view-transition-name:nav-current]"
+								class="absolute inset-0 -z-10 rounded-full bg-nav-current [view-transition-name:nav-current]"
 								aria-hidden="true"
 							></span>
 						{/if}
@@ -128,6 +158,18 @@
 	  Scrolled, it narrows a little too, from md: - on a phone it spans nearly the whole screen.
 	*/
 	.capsule {
+		/* 64px, slimmed to 56px once the page moves (--nav-clearance in layout.css leaves room) */
+		--height: --spacing(16);
+		height: var(--height);
+		&.scrolled {
+			--height: --spacing(14);
+		}
+		/* The logo's glow, centred on it - the logo is a square as tall as the capsule inside its
+		   padding, so its centre is half the capsule's height in, less the 1px border the glow is
+		   placed inside - and reaching past the capsule's height, which cuts it off. */
+		--centre-x: calc(var(--height) / 2 - 1px);
+		--centre-y: 50%;
+		--centre-size: 56px 56px;
 		--narrow: 1;
 		width: calc(100% - --spacing(4));
 		@variant md {

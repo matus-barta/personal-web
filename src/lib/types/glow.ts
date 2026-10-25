@@ -9,8 +9,8 @@
  */
 export type Glow = {
 	/**
-	 * The light's colour, a theme token's name - drawn as `var(--color-<name>)`, so any colour of
-	 * the theme works: `foreground` is white, `primary` the green.
+	 * The light's colour, a theme token's name - drawn as `var(--<name>)`, so any colour of the
+	 * theme works: `foreground` is white in dark mode, `primary` the green.
 	 */
 	colour: 'foreground' | 'primary' | (string & {});
 	/** How strong the light is at its centre, as a share of its colour; `0%` turns it off. */
