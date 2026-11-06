@@ -55,7 +55,17 @@
 	]}
 >
 	<Nav />
-	<div class="mx-auto mb-auto w-full max-w-5xl px-4 pt-(--nav-clearance) pb-8 md:px-8 lg:w-3/4">
+	<!-- A page with its contents beside it (page.data.contents) gets, from xl:, the full width as
+	     three tracks: itself in the middle, at most 60rem - the column's 960px - and its contents
+	     in the right, each side at least 15rem, so the contents have room however narrow the
+	     screen. The page places its parts in them. -->
+	<div
+		class={[
+			'mx-auto mb-auto w-full max-w-5xl px-4 pt-(--nav-clearance) pb-8 md:px-8 lg:w-3/4',
+			page.data.contents &&
+				'xl:grid xl:w-full xl:max-w-none xl:grid-cols-[minmax(15rem,1fr)_minmax(0,60rem)_minmax(15rem,1fr)] xl:px-0'
+		]}
+	>
 		{@render children?.()}
 	</div>
 	<Footer />

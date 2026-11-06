@@ -11,5 +11,12 @@ export const load: PageLoad = async ({ params: { slug }, data }) => {
 	const found = await getPost(slug);
 	if (!found) error(404, 'Blog post not found.');
 
-	return { ...data, component: found.component, frontmatter: found.post, toc: found.toc };
+	return {
+		...data,
+		component: found.component,
+		frontmatter: found.post,
+		toc: found.toc,
+		// a post with a single heading has nothing to find its way around
+		contents: found.toc.length > 1
+	};
 };
