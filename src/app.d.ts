@@ -4,7 +4,10 @@ declare global {
 	namespace App {
 		// interface Error {}
 		// interface Locals {}
-		// interface PageData {}
+		interface PageData {
+			/** The page has its contents beside it from xl:, in a track of the root layout's grid. */
+			contents?: boolean;
+		}
 		// interface PageState {}
 		// interface Platform {}
 	}
