@@ -267,7 +267,7 @@ importers:
         version: 4.6.0
       simple-icons:
         specifier: ^16.35.0
-        version: 16.36.0
+        version: 16.37.0
       svelte:
         specifier: ^5.57.2
         version: 5.57.3(@typescript-eslint/types@8.72.1)
@@ -2017,8 +2017,8 @@ packages:
     resolution: {integrity: sha512-imjLsVHgPuWhvpU3P+zOekvMYqnel7QmKsFC4Sn0fCuAvaaalBsxwKEsrU8Ko5BdFnZA6Go/8a0RzahS634UgA==}
     engines: {node: '>=20'}
 
-  simple-icons@16.36.0:
-    resolution: {integrity: sha512-+VNPPkqSOLidFeSgBKUWX4n50WPpDC09hav+BgS26anIF1oQOlGBb8LvwGR+6fYRjo+B6CiKzNBceMPkSVXANQ==}
+  simple-icons@16.37.0:
+    resolution: {integrity: sha512-8mCJIhpMYOL9g13GW59EiL3sVXJnTEKGCTZFaekl9UQ3Qo0SwVjnLaJ82QiaH8BKBdouEDzrHMXIWh8cBIy48A==}
     engines: {node: '>=0.12.18'}
 
   sirv@3.0.2:
@@ -3863,7 +3863,7 @@ snapshots:
       '@shikijs/vscode-textmate': 10.1.0
       '@types/hast': 3.0.5
 
-  simple-icons@16.36.0: {}
+  simple-icons@16.37.0: {}
 
   sirv@3.0.2:
     dependencies:
