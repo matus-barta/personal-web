@@ -201,7 +201,7 @@ importers:
         version: 4.0.1(@sveltejs/kit@3.1.1(@sveltejs/vite-plugin-svelte@7.3.1(svelte@5.57.3(@typescript-eslint/types@8.72.2))(vite@8.3.7(@types/node@26.6.6)(esbuild@0.27.7)(jiti@2.7.0)(yaml@2.8.0)))(svelte@5.57.3(@typescript-eslint/types@8.72.2))(typescript@6.0.3)(vite@8.3.7(@types/node@26.6.6)(esbuild@0.27.7)(jiti@2.7.0)(yaml@2.8.0)))
       '@sveltejs/enhanced-img':
         specifier: ^1.0.0
-        version: 1.0.0(@sveltejs/vite-plugin-svelte@7.3.1(svelte@5.57.3(@typescript-eslint/types@8.72.2))(vite@8.3.7(@types/node@26.6.6)(esbuild@0.27.7)(jiti@2.7.0)(yaml@2.8.0)))(@types/node@26.6.6)(svelte@5.57.3(@typescript-eslint/types@8.72.2))(vite@8.3.7(@types/node@26.6.6)(esbuild@0.27.7)(jiti@2.7.0)(yaml@2.8.0))
+        version: 1.0.1(@sveltejs/vite-plugin-svelte@7.3.1(svelte@5.57.3(@typescript-eslint/types@8.72.2))(vite@8.3.7(@types/node@26.6.6)(esbuild@0.27.7)(jiti@2.7.0)(yaml@2.8.0)))(@types/node@26.6.6)(svelte@5.57.3(@typescript-eslint/types@8.72.2))(vite@8.3.7(@types/node@26.6.6)(esbuild@0.27.7)(jiti@2.7.0)(yaml@2.8.0))
       '@sveltejs/kit':
         specifier: ^3.1.0
         version: 3.1.1(@sveltejs/vite-plugin-svelte@7.3.1(svelte@5.57.3(@typescript-eslint/types@8.72.2))(vite@8.3.7(@types/node@26.6.6)(esbuild@0.27.7)(jiti@2.7.0)(yaml@2.8.0)))(svelte@5.57.3(@typescript-eslint/types@8.72.2))(typescript@6.0.3)(vite@8.3.7(@types/node@26.6.6)(esbuild@0.27.7)(jiti@2.7.0)(yaml@2.8.0))
@@ -918,8 +918,8 @@ packages:
     peerDependencies:
       '@sveltejs/kit': ^3.0.0-next.0
 
-  '@sveltejs/enhanced-img@1.0.0':
-    resolution: {integrity: sha512-MVY2SNj1NE/DW7yrAePFfOeEnj/PfkHPQvWfeL23h/a0i7r1qEF5qj3iIyxqCF5Vu+akskQ/h5eEEM7hjvFmrQ==}
+  '@sveltejs/enhanced-img@1.0.1':
+    resolution: {integrity: sha512-BWCjkVq+uUQlNDu5+ZOPaSoH45Tlt4dD/G+7eXxi3TVLYx0+q1T+4BtKQrZfU5ry1mCtcyamI7EN0ekZp9C3mA==}
     engines: {node: '>=22'}
     peerDependencies:
       '@sveltejs/vite-plugin-svelte': ^7.0.0
@@ -2782,7 +2782,7 @@ snapshots:
     dependencies:
       '@sveltejs/kit': 3.1.1(@sveltejs/vite-plugin-svelte@7.3.1(svelte@5.57.3(@typescript-eslint/types@8.72.2))(vite@8.3.7(@types/node@26.6.6)(esbuild@0.27.7)(jiti@2.7.0)(yaml@2.8.0)))(svelte@5.57.3(@typescript-eslint/types@8.72.2))(typescript@6.0.3)(vite@8.3.7(@types/node@26.6.6)(esbuild@0.27.7)(jiti@2.7.0)(yaml@2.8.0))
 
-  '@sveltejs/enhanced-img@1.0.0(@sveltejs/vite-plugin-svelte@7.3.1(svelte@5.57.3(@typescript-eslint/types@8.72.2))(vite@8.3.7(@types/node@26.6.6)(esbuild@0.27.7)(jiti@2.7.0)(yaml@2.8.0)))(@types/node@26.6.6)(svelte@5.57.3(@typescript-eslint/types@8.72.2))(vite@8.3.7(@types/node@26.6.6)(esbuild@0.27.7)(jiti@2.7.0)(yaml@2.8.0))':
+  '@sveltejs/enhanced-img@1.0.1(@sveltejs/vite-plugin-svelte@7.3.1(svelte@5.57.3(@typescript-eslint/types@8.72.2))(vite@8.3.7(@types/node@26.6.6)(esbuild@0.27.7)(jiti@2.7.0)(yaml@2.8.0)))(@types/node@26.6.6)(svelte@5.57.3(@typescript-eslint/types@8.72.2))(vite@8.3.7(@types/node@26.6.6)(esbuild@0.27.7)(jiti@2.7.0)(yaml@2.8.0))':
     dependencies:
       '@sveltejs/vite-plugin-svelte': 7.3.1(svelte@5.57.3(@typescript-eslint/types@8.72.2))(vite@8.3.7(@types/node@26.6.6)(esbuild@0.27.7)(jiti@2.7.0)(yaml@2.8.0))
       magic-string: 1.4.3
