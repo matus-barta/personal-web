@@ -222,7 +222,7 @@ importers:
         version: 5.1.0(playwright@1.65.0)(vite@8.3.8(@types/node@26.6.6)(esbuild@0.27.7)(jiti@2.7.0)(yaml@2.8.0))(vitest@5.1.0)
       bits-ui:
         specifier: ^2.19.5
-        version: 2.20.6(@internationalized/date@3.12.4)(@sveltejs/kit@3.2.0(@sveltejs/vite-plugin-svelte@7.3.1(svelte@5.57.3(@typescript-eslint/types@8.72.2))(vite@8.3.8(@types/node@26.6.6)(esbuild@0.27.7)(jiti@2.7.0)(yaml@2.8.0)))(svelte@5.57.3(@typescript-eslint/types@8.72.2))(typescript@6.0.3)(vite@8.3.8(@types/node@26.6.6)(esbuild@0.27.7)(jiti@2.7.0)(yaml@2.8.0)))(svelte@5.57.3(@typescript-eslint/types@8.72.2))
+        version: 2.21.0(@internationalized/date@3.12.4)(@sveltejs/kit@3.2.0(@sveltejs/vite-plugin-svelte@7.3.1(svelte@5.57.3(@typescript-eslint/types@8.72.2))(vite@8.3.8(@types/node@26.6.6)(esbuild@0.27.7)(jiti@2.7.0)(yaml@2.8.0)))(svelte@5.57.3(@typescript-eslint/types@8.72.2))(typescript@6.0.3)(vite@8.3.8(@types/node@26.6.6)(esbuild@0.27.7)(jiti@2.7.0)(yaml@2.8.0)))(svelte@5.57.3(@typescript-eslint/types@8.72.2))
       cn:
         specifier: ^0.5.0
         version: 0.5.2
@@ -1221,8 +1221,8 @@ packages:
     resolution: {integrity: sha512-3XSA2cR/h/73EzlXXdU6YNycmYI7+kicTxks4eJg2g39biHR84slg2+des+p7iHYhbRg/udIS4TD53WabcOUkw==}
     engines: {node: '>= 0.4'}
 
-  bits-ui@2.20.6:
-    resolution: {integrity: sha512-V4fgaFAtw+d8xS+3SBuLqouDsAo06991oJnW3hdEx0O1O/sl+BGLKKdZ0i4ZI1mgqT0JXJJ+6avI750OkvgZrA==}
+  bits-ui@2.21.0:
+    resolution: {integrity: sha512-kfJonux4r+XOnqGCBQaqFfhRUvDbuZQgyjXADfk0/QJGc8LlQchkrGc6rCd+ldo1EixCJEXlM7znKVIUtuf7OQ==}
     engines: {node: '>=20'}
     peerDependencies:
       '@internationalized/date': ^3.8.1
@@ -3107,7 +3107,7 @@ snapshots:
 
   base64-js@0.0.8: {}
 
-  bits-ui@2.20.6(@internationalized/date@3.12.4)(@sveltejs/kit@3.2.0(@sveltejs/vite-plugin-svelte@7.3.1(svelte@5.57.3(@typescript-eslint/types@8.72.2))(vite@8.3.8(@types/node@26.6.6)(esbuild@0.27.7)(jiti@2.7.0)(yaml@2.8.0)))(svelte@5.57.3(@typescript-eslint/types@8.72.2))(typescript@6.0.3)(vite@8.3.8(@types/node@26.6.6)(esbuild@0.27.7)(jiti@2.7.0)(yaml@2.8.0)))(svelte@5.57.3(@typescript-eslint/types@8.72.2)):
+  bits-ui@2.21.0(@internationalized/date@3.12.4)(@sveltejs/kit@3.2.0(@sveltejs/vite-plugin-svelte@7.3.1(svelte@5.57.3(@typescript-eslint/types@8.72.2))(vite@8.3.8(@types/node@26.6.6)(esbuild@0.27.7)(jiti@2.7.0)(yaml@2.8.0)))(svelte@5.57.3(@typescript-eslint/types@8.72.2))(typescript@6.0.3)(vite@8.3.8(@types/node@26.6.6)(esbuild@0.27.7)(jiti@2.7.0)(yaml@2.8.0)))(svelte@5.57.3(@typescript-eslint/types@8.72.2)):
     dependencies:
       '@floating-ui/core': 1.8.0
       '@floating-ui/dom': 1.8.0
